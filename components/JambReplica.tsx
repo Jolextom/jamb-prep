@@ -243,9 +243,26 @@ export default function JambReplica() {
           throw new Error(`Could not load local data for ${subjectName}`);
         }
 
-        const allQuestions: any[] = await res.json();
+        let allQuestions: any[] = await res.json();
+
+        // 1. Filter out questions with passages for English (too long/time consuming)
+        // 2. Filter out novel-based questions (prescribed texts)
+        if (metadata.slug === "english" || metadata.slug === "englishlit") {
+          const novelKeywords = [
+            "novel", "the life changer", "khadijat abubakar jalli", 
+            "the potter's wheel", "chukwuemeka ike", 
+            "the last days at forcados high school", "a.h. mohammed",
+            "independence", "sweet sixteen", "umuchukwu"
+          ];
+          
+          allQuestions = allQuestions.filter(q => {
+            if (q.hasPassage === 1) return false;
+            const text = (q.question + " " + q.section).toLowerCase();
+            return !novelKeywords.some(kw => text.includes(kw));
+          });
+        }
         
-        // 2. TRUE RANDOMIZATION with Fisher-Yates
+        // 3. TRUE RANDOMIZATION with Fisher-Yates
         const shuffled = fisherYatesShuffle(allQuestions);
         const picked = shuffled.slice(0, Math.min(config.count, shuffled.length));
 
@@ -297,6 +314,7 @@ export default function JambReplica() {
   const submitExam = useCallback(() => {
     setTimerRunning(false);
     setEndModalOpen(false);
+    setResultModalOpen(false); // Ensure modal doesn't open
 
     let total = 0;
     let correct = 0;
