@@ -344,7 +344,12 @@ export default function JambReplica() {
   const submitExam = useCallback(() => {
     setTimerRunning(false);
     setEndModalOpen(false);
-    setResultModalOpen(false); // Ensure modal doesn't open
+    setResultModalOpen(false);
+
+    if (sessionMode === 'PRACTICE') {
+      window.location.reload();
+      return;
+    }
 
     let total = 0;
     let correct = 0;

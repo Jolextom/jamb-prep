@@ -90,14 +90,17 @@ export default function Modals({
       {/* End Exam Confirmation */}
       <div className={`modal-bg ${endModalOpen ? "open" : ""}`}>
         <div className="modal-box">
-          <h3>Confirm Submission</h3>
+          <h3>{sessionMode === 'EXAM' ? "Confirm Submission" : "Confirm Exit"}</h3>
           <p>
-            You have answered <strong>{totalAnswered}</strong> out of <strong>{totalQuestions}</strong> questions.
-            Are you sure you want to end the {sessionMode === 'EXAM' ? "examination" : "practice session"}?
+            {sessionMode === 'EXAM' ? (
+              <>You have answered <strong>{totalAnswered}</strong> out of <strong>{totalQuestions}</strong> questions. Are you sure you want to end the examination?</>
+            ) : (
+              <>Are you sure you want to exit this practice session? Your progress will be cleared.</>
+            )}
           </p>
           <div className="modal-btns">
             <button className="modal-cancel" onClick={closeEndModal}>Go Back</button>
-            <button className="modal-confirm" onClick={submitExam}>Submit</button>
+            <button className="modal-confirm" onClick={submitExam}>{sessionMode === 'EXAM' ? "Submit" : "Confirm"}</button>
           </div>
         </div>
       </div>

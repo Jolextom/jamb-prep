@@ -192,7 +192,11 @@ export default function ExamInterface({
               </div>
             </div>
           )}
-          {!isReview && <button className="end-btn" onClick={openEndModal}>End Exam</button>}
+          {!isReview && (
+            <button className="end-btn" onClick={openEndModal}>
+              {isExamMode ? "End Exam" : "Exit Session"}
+            </button>
+          )}
         </div>
       </div>
 
@@ -359,7 +363,9 @@ export default function ExamInterface({
               className="nav-btn primary"
               onClick={() => navigate(1)}
             >
-              {curSubIdx === activeSubjects.length - 1 && curQIdx === currentQuestions.length - 1 ? "Finish" : "Next"}
+              {curSubIdx === activeSubjects.length - 1 && curQIdx === currentQuestions.length - 1 
+                ? (isExamMode ? "Finish" : "Exit Session") 
+                : "Next"}
             </button>
             <button className="calc-btn" onClick={toggleCalc}>Calculator</button>
           </div>
