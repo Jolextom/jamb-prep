@@ -6,8 +6,8 @@ import { SUBJECT_METADATA, SubjectConfigs } from "./types";
 interface SetupScreenProps {
   configs: SubjectConfigs;
   setConfigs: React.Dispatch<React.SetStateAction<SubjectConfigs>>;
-  sessionMode: 'MOCK' | 'MASTERY';
-  setSessionMode: (v: 'MOCK' | 'MASTERY') => void;
+  sessionMode: 'EXAM' | 'PRACTICE';
+  setSessionMode: (v: 'EXAM' | 'PRACTICE') => void;
   startExam: () => void;
   resumeExam: () => void;
   enterReview: () => void;
@@ -38,16 +38,6 @@ export default function SetupScreen({
   const toggleSubject = (name: string) => {
     setConfigs((prev) => {
       const isSelected = prev[name].selected;
-      
-      // Mastery Mode Enforced: Only 1 can be selected
-      if (sessionMode === 'MASTERY' && !isSelected) {
-        const next = { ...prev };
-        // Deselect all others
-        Object.keys(next).forEach(k => next[k] = { ...next[k], selected: false });
-        next[name] = { ...next[name], selected: true };
-        return next;
-      }
-      
       return {
         ...prev,
         [name]: { ...prev[name], selected: !isSelected },
@@ -157,29 +147,18 @@ export default function SetupScreen({
                 <h3 style={{ fontSize: "14px", textTransform: "uppercase", color: "#666", marginBottom: "15px" }}>Session Mode</h3>
                 <div style={{ display: "flex", gap: "10px" }}>
                   <button 
-                    className={`nav-btn ${sessionMode === 'MOCK' ? 'primary' : ''}`}
-                    onClick={() => setSessionMode('MOCK')}
+                    className={`nav-btn ${sessionMode === 'EXAM' ? 'primary' : ''}`}
+                    onClick={() => setSessionMode('EXAM')}
                     style={{ flex: 1, fontSize: "12px", padding: "10px" }}
                   >
-                    MOCK (MULTI)
+                    ⏱ EXAM MODE
                   </button>
                   <button 
-                    className={`nav-btn ${sessionMode === 'MASTERY' ? 'primary' : ''}`}
-                    onClick={() => {
-                        setSessionMode('MASTERY');
-                        // Ensure only 1 or 0 subjects selected when switching to Mastery
-                        const selected = Object.keys(configs).filter(k => configs[k].selected);
-                        if (selected.length > 1) {
-                            setConfigs(prev => {
-                                const next = { ...prev };
-                                selected.slice(1).forEach(k => next[k].selected = false);
-                                return next;
-                            });
-                        }
-                    }}
+                    className={`nav-btn ${sessionMode === 'PRACTICE' ? 'primary' : ''}`}
+                    onClick={() => setSessionMode('PRACTICE')}
                     style={{ flex: 1, fontSize: "12px", padding: "10px" }}
                   >
-                    MASTERY (SINGLE)
+                    📖 PRACTICE MODE
                   </button>
                 </div>
               </div>
@@ -206,9 +185,11 @@ export default function SetupScreen({
                 </div>
               </div>
               
-              {!isDataReady && (
-                <p style={{ fontSize: "12px", color: "#888", textAlign: "center" }}>Initializing data engine...</p>
-              )}
+              <div style={{ fontSize: "12px", color: "#555", background: "#f9f9f9", padding: "10px", borderRadius: "6px", border: "1px dashed #ccc" }}>
+                {sessionMode === 'EXAM'
+                  ? "⏱ Timed. Answers and solutions shown after you submit."
+                  : "📖 Untimed. See if your answer is correct immediately after each question."}
+              </div>
             </div>
 
           </div>

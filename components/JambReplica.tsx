@@ -31,7 +31,7 @@ export default function JambReplica() {
     });
     return initial;
   });
-  const [sessionMode, setSessionMode] = useState<'MOCK' | 'MASTERY'>('MASTERY');
+  const [sessionMode, setSessionMode] = useState<'EXAM' | 'PRACTICE'>('PRACTICE');
 
   // Exam States
   const [activeSubjects, setActiveSubjects] = useState<string[]>([]);
@@ -81,6 +81,7 @@ export default function JambReplica() {
   const [availableCounts, setAvailableCounts] = useState<Record<string, number>>({});
   const [isDataReady, setIsDataReady] = useState(false);
   const [hasSavedSession, setHasSavedSession] = useState(false);
+  const [resumePromptOpen, setResumePromptOpen] = useState(false);
   // Sync state to localStorage
   useEffect(() => {
     if (examStarted && !isFinished) {
@@ -89,16 +90,18 @@ export default function JambReplica() {
         activeSubjects,
         answers,
         totalSecs,
+        curSubIdx,
+        curQIdx,
         sessionMode,
         configs
       };
       localStorage.setItem("jamb_prep_session", JSON.stringify(session));
     }
-  }, [examStarted, isFinished, qbState, activeSubjects, answers, totalSecs, sessionMode, configs]);
+  }, [examStarted, isFinished, qbState, activeSubjects, answers, totalSecs, curSubIdx, curQIdx, sessionMode, configs]);
 
   // Load Full Pool for context injection (Mastery Mode)
   useEffect(() => {
-    if (activeSubjects.length === 1 && sessionMode === 'MASTERY') {
+    if (activeSubjects.length === 1 && sessionMode === 'PRACTICE') {
       const sub = activeSubjects[0];
       const metadata = SUBJECT_METADATA.find(m => m.name === sub);
       if (metadata) {
@@ -127,6 +130,7 @@ export default function JambReplica() {
     const saved = localStorage.getItem("jamb_prep_session");
     if (saved) {
       setHasSavedSession(true);
+      setResumePromptOpen(true);
     }
   }, []);
 
@@ -139,16 +143,25 @@ export default function JambReplica() {
         setActiveSubjects(session.activeSubjects);
         setAnswers(session.answers);
         setTotalSecs(session.totalSecs);
-        setSessionMode(session.sessionMode || (session.isExamMode ? 'MOCK' : 'MASTERY'));
+        setSessionMode(session.sessionMode || (session.isExamMode ? 'EXAM' : 'PRACTICE'));
         setConfigs(session.configs);
-        setCurSubIdx(0);
-        setCurQIdx(0);
+        setCurSubIdx(session.curSubIdx ?? 0);
+        setCurQIdx(session.curQIdx ?? 0);
         setExamStarted(true);
+        setResumePromptOpen(false);
+        setView('EXAM');
       } catch (e) {
         console.error("Failed to resume session:", e);
         localStorage.removeItem("jamb_prep_session");
+        setResumePromptOpen(false);
       }
     }
+  };
+
+  const clearSession = () => {
+    localStorage.removeItem("jamb_prep_session");
+    setHasSavedSession(false);
+    setResumePromptOpen(false);
   };
 
   // Check available subjects from manifest
@@ -243,11 +256,11 @@ export default function JambReplica() {
       setQbState(newQB);
       setActiveSubjects(selected);
       
-      if (sessionMode === 'MOCK') {
-        setTotalSecs(totalQuestionsTotal * 40); // 40s per question for Mock
+      if (sessionMode === 'EXAM') {
+        setTotalSecs(totalQuestionsTotal * 40); // 40s per question for Exam
         setTimerRunning(true);
       } else {
-        setTotalSecs(0); // Unlimited time for Mastery
+        setTotalSecs(0); // Unlimited time for Practice
         setTimerRunning(false);
       }
 
@@ -316,7 +329,7 @@ export default function JambReplica() {
       interval = setInterval(() => {
         setTotalSecs((prev) => prev - 1);
       }, 1000);
-    } else if (sessionMode === 'MOCK' && totalSecs <= 0 && timerRunning) {
+    } else if (sessionMode === 'EXAM' && totalSecs <= 0 && timerRunning) {
       submitExam();
     }
     return () => clearInterval(interval);
@@ -523,7 +536,7 @@ ${JSON.stringify(sessionData, null, 2)}`;
         <ExamInterface
           activeSubjects={activeSubjects}
           totalQuestionsCount={Object.keys(qbState).length > 0 ? Object.values(qbState).reduce((acc, qs) => acc + qs.length, 0) : totalQuestionsTotal}
-          isExamMode={sessionMode === 'MOCK'}
+          isExamMode={sessionMode === 'EXAM'}
           curSubIdx={curSubIdx}
           curQIdx={curQIdx}
           setCurSubIdx={setCurSubIdx}
@@ -546,7 +559,8 @@ ${JSON.stringify(sessionData, null, 2)}`;
           qbState={qbState}
           isReview={isReview}
           reviewAnswers={reviewAnswers}
-          showSolutions={isReview}
+          showSolutions={isReview || sessionMode === 'PRACTICE'}
+          isPracticeMode={sessionMode === 'PRACTICE'}
           hacks={reviewHacks}
         />
       )}
@@ -574,6 +588,9 @@ ${JSON.stringify(sessionData, null, 2)}`;
         jambScore={jambScore}
         breakdown={breakdown}
         copyDiagnosticData={copyDiagnosticData}
+        resumePromptOpen={resumePromptOpen}
+        onResumeSession={resumeExam}
+        onClearSession={clearSession}
         onReview={onReviewPerformance}
         importAIReview={importAIReview}
         aiModalOpen={aiModalOpen}

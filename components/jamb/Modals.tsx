@@ -4,7 +4,7 @@ import React from "react";
 import { Question } from "./types";
 
 interface ModalsProps {
-  sessionMode: 'MOCK' | 'MASTERY';
+  sessionMode: 'EXAM' | 'PRACTICE';
   qbState: Record<string, Question[]>;
   activeSubjects: string[];
   answers: Record<string, string>;
@@ -21,7 +21,12 @@ interface ModalsProps {
   breakdown: string[];
   copyDiagnosticData: () => void;
 
-  // New Review Props
+  // Resume Session Props
+  resumePromptOpen: boolean;
+  onResumeSession: () => void;
+  onClearSession: () => void;
+
+  // Review Props
   onReview: () => void;
   importAIReview: (json: string) => void;
   aiModalOpen: boolean;
@@ -43,6 +48,9 @@ export default function Modals({
   jambScore,
   breakdown,
   copyDiagnosticData,
+  resumePromptOpen,
+  onResumeSession,
+  onClearSession,
   onReview,
   importAIReview,
   aiModalOpen,
@@ -66,13 +74,27 @@ export default function Modals({
 
   return (
     <>
+      {/* Resume Session Prompt */}
+      <div className={`modal-bg ${resumePromptOpen ? 'open' : ''}`}>
+        <div className="modal-box" style={{ maxWidth: '420px', textAlign: 'center' }}>
+          <div style={{ fontSize: '36px', marginBottom: '10px' }}>⏸️</div>
+          <h3 style={{ color: '#003366', fontWeight: '800', marginBottom: '10px' }}>Session in Progress</h3>
+          <p style={{ fontSize: '14px', color: '#555', marginBottom: '24px' }}>
+            You have an unfinished exam session. Would you like to continue where you left off, or start a new session?
+          </p>
+          <div className="modal-btns">
+            <button className="modal-cancel" onClick={onClearSession} style={{ background: '#f3f4f6', color: '#333' }}>Start Fresh</button>
+            <button className="modal-confirm" onClick={onResumeSession} style={{ background: '#003366' }}>▶ Continue</button>
+          </div>
+        </div>
+      </div>
       {/* End Exam Confirmation */}
       <div className={`modal-bg ${endModalOpen ? "open" : ""}`}>
         <div className="modal-box">
           <h3>Confirm Submission</h3>
           <p>
             You have answered <strong>{totalAnswered}</strong> out of <strong>{totalQuestions}</strong> questions.
-            Are you sure you want to end the {sessionMode === 'MOCK' ? "examination" : "mastery session"}?
+            Are you sure you want to end the {sessionMode === 'EXAM' ? "examination" : "practice session"}?
           </p>
           <div className="modal-btns">
             <button className="modal-cancel" onClick={closeEndModal}>Go Back</button>
@@ -85,7 +107,7 @@ export default function Modals({
       <div className={`modal-bg ${resultModalOpen ? "open" : ""}`}>
         <div className="modal-box" style={{ maxWidth: "450px", width: "95%" }}>
           <h3 style={{ color: "#003366", fontSize: "18px", fontWeight: "800", textTransform: "uppercase", marginBottom: "20px" }}>
-            {sessionMode === 'MOCK' ? "Mock Examination Result" : "Mastery Summary"}
+            {sessionMode === 'EXAM' ? "Exam Result" : "Practice Summary"}
           </h3>
           
           <div style={{ display: "flex", flexDirection: "column", gap: "20px", alignItems: "start" }}>

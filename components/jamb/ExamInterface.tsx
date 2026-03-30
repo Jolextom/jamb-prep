@@ -44,6 +44,7 @@ interface ExamInterfaceProps {
   reviewAnswers?: Record<string, string>;
   showSolutions?: boolean;
   hacks?: Record<number, string>;
+  isPracticeMode?: boolean;
 }
 
 export default function ExamInterface({
@@ -73,7 +74,8 @@ export default function ExamInterface({
   isReview = false,
   reviewAnswers = {},
   showSolutions = false,
-  hacks = {}
+  hacks = {},
+  isPracticeMode = false
 }: ExamInterfaceProps) {
   
   // Derived Stats
@@ -87,17 +89,13 @@ export default function ExamInterface({
 
   // In review mode, use reviewAnswers if provided
   const effectiveAnswers = isReview ? reviewAnswers : answers;
+  const hasAnsweredCurrent = !!answers[currentKey];
   
-  // Interactive Reveal Logic
-  const isOriginalReview = currentQuestion.isReviewable;
-  const isChallengeAttempt = currentQuestion.isChallenge;
-  const hasAnsweredChallenge = isChallengeAttempt && !!answers[currentKey];
+  // In Practice mode: reveal answer+solution as soon as the user picks an option
+  const showSolutionNow = isReview || (isPracticeMode && hasAnsweredCurrent) || currentQuestion.isReviewable;
   
-  // Should we show the correct answer highlight and speed hack?
-  const showSolutionNow = isReview || isOriginalReview || (isChallengeAttempt && hasAnsweredChallenge);
-  
-  // Should the options be interactive?
-  const areOptionsInteractive = !isReview && !isOriginalReview && (!isChallengeAttempt || !hasAnsweredChallenge);
+  // Options are interactive only if not reviewing AND (not practice mode OR hasn't answered yet)
+  const areOptionsInteractive = !isReview && !currentQuestion.isReviewable && !(isPracticeMode && hasAnsweredCurrent);
 
   return (
     <div className="jamb-replica-root">
@@ -161,7 +159,7 @@ export default function ExamInterface({
             <span className="q-number-badge">
               Question {curQIdx + 1} of {currentQuestions.length} — {currentSubject} ({currentQuestion.yr})
             </span>
-            {!isReview && !isOriginalReview && !isChallengeAttempt && (
+            {!isReview && !currentQuestion.isReviewable && !(isPracticeMode && hasAnsweredCurrent) && (
               <button
                 className={`flag-btn ${flags[currentKey] ? "flagged" : ""}`}
                 onClick={() => setFlags((prev) => ({ ...prev, [currentKey]: !prev[currentKey] }))}
@@ -256,7 +254,7 @@ export default function ExamInterface({
               </div>
 
               {/* Solution / Hack Section */}
-              {showSolutionNow && (showSolutions || hacks[currentQuestion.id]) && (
+              {showSolutionNow && (showSolutions || hacks[currentQuestion.id] || currentQuestion.solution) && (
                 <div style={{ marginTop: "30px", padding: "20px", background: "#f0f7ff", borderRadius: "12px", border: "1px solid #003366" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "12px" }}>
                     <span style={{ fontSize: "12px", fontWeight: "900", color: "#003366", textTransform: "uppercase", background: "white", padding: "4px 10px", borderRadius: "20px", border: "1px solid #003366" }}>
