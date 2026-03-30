@@ -79,7 +79,7 @@ async function checkAndIncrementRate(name: string, question: string): Promise<bo
   const time = new Date().toLocaleTimeString('en-NG', { hour: '2-digit', minute: '2-digit' });
 
   // Log to history
-  const newEntry = { name: name || "Unknown", time, question: question.substring(0, 100).replace(/\n/g, " ") + "..." };
+  const newEntry = { name: name || "Unknown", time, question: question.replace(/\n/g, " ") };
   const history = [newEntry, ...(data.history || [])].slice(0, 100);
 
   if (data.date !== today) {

@@ -381,7 +381,18 @@ export default function JambReplica() {
     if (sessionMode === 'PRACTICE') {
       localStorage.removeItem("jamb_prep_session");
       localStorage.removeItem("jamb_prep_chats");
-      window.location.reload();
+      
+      // Cleanly reset the React state to exit back to Setup
+      setIsFinished(true);
+      setExamStarted(false);
+      setHasSavedSession(false);
+      setResumePromptOpen(false);
+      setAnswers({});
+      setChatHistories({});
+      setTotalSecs(0);
+      setCurSubIdx(0);
+      setCurQIdx(0);
+      setView('SETUP');
       return;
     }
 
