@@ -137,7 +137,7 @@ export default function QuestionChat({ candidateName, questionContext, questionI
       setMessages(newMessages.slice(0, -1));
       setIsLoading(false);
     } finally {
-      setTimeout(() => inputRef.current?.focus(), 50);
+      // Do not auto-focus here, as it pulls mobile screens down away from the response.
     }
   };
 

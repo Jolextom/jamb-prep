@@ -171,8 +171,8 @@ export async function POST(req: NextRequest) {
       data = { date: today, count: 0, sessionCount: 0, history: [] };
     }
 
-    if (type === 'chat') data.count++;
-    if (type === 'session') data.sessionCount++;
+    if (type === 'chat') data.count = (data.count || 0) + 1;
+    if (type === 'session') data.sessionCount = (data.sessionCount || 0) + 1;
 
     data.history = [{ type, name: name || "Unknown", time, detail: detail || "" }, ...(data.history || [])].slice(0, 100);
 

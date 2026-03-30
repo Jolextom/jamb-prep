@@ -379,6 +379,8 @@ export default function JambReplica() {
     setResultModalOpen(false);
 
     if (sessionMode === 'PRACTICE') {
+      localStorage.removeItem("jamb_prep_session");
+      localStorage.removeItem("jamb_prep_chats");
       window.location.reload();
       return;
     }

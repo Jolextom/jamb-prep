@@ -99,9 +99,11 @@ async function checkAndIncrementRate(name: string, question: string): Promise<bo
 export async function POST(req: NextRequest) {
   const { messages, questionContext, candidateName } = await req.json();
 
+  const userQuery = messages.length > 0 ? messages[messages.length - 1].content : "Started chat";
+
   // Rate limit check
-  console.log(`[Chat API] Request from ${candidateName} for question: ${questionContext.substring(0, 50)}...`);
-  if (!(await checkAndIncrementRate(candidateName, questionContext))) {
+  console.log(`[Chat API] Request from ${candidateName} for query: ${userQuery.substring(0, 50)}...`);
+  if (!(await checkAndIncrementRate(candidateName, userQuery))) {
     return NextResponse.json(
       { error: "Daily usage limit reached. Please try again tomorrow." },
       { status: 429 }
