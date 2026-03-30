@@ -77,14 +77,13 @@ export default function Modals({
       {/* Resume Session Prompt */}
       <div className={`modal-bg ${resumePromptOpen ? 'open' : ''}`}>
         <div className="modal-box" style={{ maxWidth: '420px', textAlign: 'center' }}>
-          <div style={{ fontSize: '36px', marginBottom: '10px' }}>⏸️</div>
           <h3 style={{ color: '#003366', fontWeight: '800', marginBottom: '10px' }}>Session in Progress</h3>
           <p style={{ fontSize: '14px', color: '#555', marginBottom: '24px' }}>
             You have an unfinished exam session. Would you like to continue where you left off, or start a new session?
           </p>
           <div className="modal-btns">
             <button className="modal-cancel" onClick={onClearSession} style={{ background: '#f3f4f6', color: '#333' }}>Start Fresh</button>
-            <button className="modal-confirm" onClick={onResumeSession} style={{ background: '#003366' }}>▶ Continue</button>
+            <button className="modal-confirm" onClick={onResumeSession} style={{ background: '#003366' }}>Continue</button>
           </div>
         </div>
       </div>
@@ -144,7 +143,7 @@ export default function Modals({
                 )} */}
 
                 <button className="nav-btn primary" onClick={onReview} style={{ width: "100%", padding: "12px", background: "#003366" }}>
-                  📋 See Answers & Explanations
+                  See Answers & Explanations
                 </button>
 
                 <button className="nav-btn" onClick={() => window.location.reload()} style={{ width: "100%", padding: "12px" }}>

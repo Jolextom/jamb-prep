@@ -32,6 +32,17 @@ export default function JambReplica() {
     return initial;
   });
   const [sessionMode, setSessionMode] = useState<'EXAM' | 'PRACTICE'>('PRACTICE');
+  const [candidateName, setCandidateName] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("jamb_candidate_name") || "";
+    }
+    return "";
+  });
+
+  // Sync name to local storage
+  useEffect(() => {
+    localStorage.setItem("jamb_candidate_name", candidateName);
+  }, [candidateName]);
 
   // Exam States
   const [activeSubjects, setActiveSubjects] = useState<string[]>([]);
@@ -93,7 +104,8 @@ export default function JambReplica() {
         curSubIdx,
         curQIdx,
         sessionMode,
-        configs
+        configs,
+        candidateName
       };
       localStorage.setItem("jamb_prep_session", JSON.stringify(session));
     }
@@ -145,6 +157,7 @@ export default function JambReplica() {
         setTotalSecs(session.totalSecs);
         setSessionMode(session.sessionMode || (session.isExamMode ? 'EXAM' : 'PRACTICE'));
         setConfigs(session.configs);
+        setCandidateName(session.candidateName || localStorage.getItem("jamb_candidate_name") || "");
         setCurSubIdx(session.curSubIdx ?? 0);
         setCurQIdx(session.curQIdx ?? 0);
         setExamStarted(true);
@@ -318,7 +331,12 @@ export default function JambReplica() {
     setBreakdown(resBreakdown);
     setDiagnosticJSON(JSON.stringify(diagnosticPayload, null, 2));
     setIsFinished(true);
-    setResultModalOpen(true);
+    // Auto-enter review — no modal
+    setIsReview(true);
+    setReviewAnswers(answers);
+    setView('EXAM');
+    setCurSubIdx(0);
+    setCurQIdx(0);
     localStorage.removeItem("jamb_prep_session");
   }, [answers, qbState, activeSubjects, key]);
 
@@ -530,13 +548,20 @@ ${JSON.stringify(sessionData, null, 2)}`;
             availableSubjects={availableSubjects}
             availableCounts={availableCounts}
             isDataReady={isDataReady}
+            candidateName={candidateName}
+            setCandidateName={setCandidateName}
           />
         </div>
       ) : (
         <ExamInterface
+          candidateName={candidateName}
           activeSubjects={activeSubjects}
           totalQuestionsCount={Object.keys(qbState).length > 0 ? Object.values(qbState).reduce((acc, qs) => acc + qs.length, 0) : totalQuestionsTotal}
           isExamMode={sessionMode === 'EXAM'}
+          finalScore={finalScore}
+          totalQuestions={Object.keys(qbState).length > 0 ? Object.values(qbState).reduce((acc, qs) => acc + qs.length, 0) : totalQuestionsTotal}
+          jambScore={jambScore}
+          breakdown={breakdown}
           curSubIdx={curSubIdx}
           curQIdx={curQIdx}
           setCurSubIdx={setCurSubIdx}

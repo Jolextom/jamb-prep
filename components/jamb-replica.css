@@ -382,21 +382,46 @@ body { font-family: Arial, Helvetica, sans-serif; font-size: 14px; background: #
 /* Mobile Responsive Overrides */
 @media (max-width: 768px) {
   /* Setup Screen */
-  .setup-wrapper { padding: 10px !important; }
-  .setup-container { padding: 0 !important; border: none !important; }
-  .setup-content { padding: 15px !important; }
-  .setup-grid { grid-template-columns: 1fr !important; gap: 20px !important; }
+  .setup-wrapper { padding: 4px !important; }
+  .setup-container { padding: 0 !important; border: none !important; box-shadow: none !important; }
+  .setup-content { padding: 8px !important; }
+  .setup-grid { grid-template-columns: 1fr !important; gap: 12px !important; }
 
   /* Generic App Header */
-  .jamb-header { flex-wrap: wrap; text-align: center; justify-content: center; }
-  .candidate-info { width: 100%; justify-content: center; margin-top: 8px; }
-  .timer-box { margin-left: auto; margin-right: auto; }
-  .end-btn { width: 100%; margin-top: 8px; }
+  .jamb-header { flex-wrap: wrap; text-align: center; justify-content: center; padding: 4px 8px !important; }
+  .candidate-info { width: 100%; justify-content: center; margin-top: 4px; padding: 2px 6px !important; }
+  .timer-box { margin-left: auto; margin-right: auto; padding: 2px 8px !important; }
+  .end-btn { width: 100%; margin-top: 4px; padding: 6px 12px !important; }
 
   /* Exam Body Layout */
-  .exam-body { flex-direction: column; min-height: auto; }
-  .navigator-panel { width: 100%; order: -1; margin-bottom: 10px; } 
-  .q-grid { grid-template-columns: repeat(8, 1fr); max-height: 150px; overflow-y: auto; }
+  .exam-body { flex-direction: column; min-height: auto; padding: 4px !important; gap: 4px !important; }
+  .navigator-panel { width: 100%; order: -1; margin-bottom: 6px; } 
+  
+  .q-grid { 
+    display: flex !important; 
+    flex-wrap: nowrap !important; 
+    overflow-x: auto !important; 
+    padding-bottom: 8px;
+    gap: 8px !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  .q-bubble { 
+    flex: 0 0 40px !important; 
+    height: 40px !important; 
+    aspect-ratio: 1; 
+  }
+  /* Custom scrollbar for better visibility on mobile */
+  .q-grid::-webkit-scrollbar { height: 4px; }
+  .q-grid::-webkit-scrollbar-track { background: #eee; }
+  .q-grid::-webkit-scrollbar-thumb { background: #003366; border-radius: 4px; }
+
+  .legend { 
+    flex-direction: row !important; 
+    flex-wrap: wrap; 
+    justify-content: space-around; 
+    gap: 12px !important; 
+    padding: 10px 0;
+  }
 
   /* Split screen for reading passage vs question */
   .split-screen { flex-direction: column; gap: 8px; }

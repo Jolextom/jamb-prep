@@ -2,12 +2,19 @@
 
 import React from "react";
 import { Question } from "./types";
+import QuestionChat from "./QuestionChat";
 
 interface ExamInterfaceProps {
   // Config/Info
+  candidateName: string;
   activeSubjects: string[];
   totalQuestionsCount: number;
   isExamMode: boolean;
+  // Score (shown in review mode header)
+  finalScore?: number;
+  totalQuestions?: number;
+  jambScore?: number;
+  breakdown?: string[];
   
   // Navigation State
   curSubIdx: number;
@@ -48,9 +55,14 @@ interface ExamInterfaceProps {
 }
 
 export default function ExamInterface({
+  candidateName,
   activeSubjects,
   totalQuestionsCount,
   isExamMode,
+  finalScore = 0,
+  totalQuestions: totalQCount = 0,
+  jambScore = 0,
+  breakdown = [],
   curSubIdx,
   curQIdx,
   setCurSubIdx,
@@ -77,6 +89,10 @@ export default function ExamInterface({
   hacks = {},
   isPracticeMode = false
 }: ExamInterfaceProps) {
+  // Helper to remove emojis from string
+  const stripEmojis = (str: string) => {
+    return str.replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E6}-\u{1F1FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F900}-\u{1F9FF}\u{1F018}-\u{1F093}\u{1F191}-\u{1F251}\u{2B50}]/gu, '');
+  };
   
   // Derived Stats
   const key = (sIdx: number, qIdx: number) => `${sIdx}-${qIdx}`;
@@ -103,13 +119,72 @@ export default function ExamInterface({
         <div className="jamb-logo">
           <div className="jamb-logo-circle">JAMB</div>
           <div className="jamb-logo-text">
-            <strong>UTME 2025</strong>
+            <strong>UTME 2026</strong>
             Unified Tertiary Matriculation Examination
           </div>
         </div>
 
-        <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-          {isExamMode && (
+        {/* Score Banner — shown in header during review */}
+        {isReview && finalScore !== undefined && (
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "24px",
+            flex: 1,
+            justifyContent: "center",
+            padding: "4px 20px",
+            background: "rgba(255, 255, 255, 0.08)",
+            borderRadius: "50px",
+            border: "1px solid rgba(255, 255, 255, 0.15)",
+            margin: "0 15px",
+            minWidth: "fit-content"
+          }}>
+            <div style={{ textAlign: "center" }}>
+              <div style={{ fontSize: "20px", fontWeight: "900", color: "#fff", lineHeight: 1 }}>
+                {finalScore}<span style={{ fontSize: "12px", opacity: 0.7 }}>/{totalQCount}</span>
+              </div>
+              <div style={{ fontSize: "9px", color: "#aad4ee", fontWeight: "800", textTransform: "uppercase", marginTop: "2px" }}>CORRECT</div>
+            </div>
+            
+            <div style={{ width: "1px", height: "24px", background: "rgba(255, 255, 255, 0.2)" }} />
+            
+            <div style={{ textAlign: "center" }}>
+              <div style={{ fontSize: "20px", fontWeight: "900", color: "#4ade80", lineHeight: 1 }}>{jambScore}</div>
+              <div style={{ fontSize: "9px", color: "#aad4ee", fontWeight: "800", textTransform: "uppercase", marginTop: "2px" }}>JAMB SCORE</div>
+            </div>
+            
+            <div style={{ width: "1px", height: "24px", background: "rgba(255, 255, 255, 0.2)" }} />
+            
+            <div style={{ fontSize: "11px", color: "white", fontWeight: "600", letterSpacing: "0.3px" }}>
+              {breakdown.map(b => <div key={b}>{b}</div>)}
+            </div>
+
+            <button
+              onClick={() => window.location.reload()}
+              style={{ 
+                padding: "8px 16px", 
+                background: "#facc15", 
+                color: "#1e3a8a", 
+                border: "none", 
+                borderRadius: "20px", 
+                fontSize: "12px", 
+                fontWeight: "800", 
+                cursor: "pointer", 
+                whiteSpace: "nowrap",
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
+                transition: "transform 0.2s"
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
+              onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+            >
+              New Session
+            </button>
+          </div>
+        )}
+        <div style={{ display: "flex", gap: "8px", alignItems: "center", marginLeft: "auto" }}>
+          {isExamMode && !isReview && (
             <div className="timer-box">
               <div className="timer-label">Time Remaining</div>
               <div className={`timer-value ${totalSecs < 300 ? "urgent" : ""}`} id="timer">
@@ -117,12 +192,12 @@ export default function ExamInterface({
               </div>
             </div>
           )}
-          <button className="end-btn" onClick={openEndModal}>End Exam</button>
+          {!isReview && <button className="end-btn" onClick={openEndModal}>End Exam</button>}
         </div>
       </div>
 
       <div className="info-bar">
-        <span>UTME — 2025 | {totalQuestionsCount} Questions | {activeSubjects.length} Subjects</span>
+        <span>UTME — 2026 | {totalQuestionsCount} Questions | {activeSubjects.length} Subjects</span>
         {isReview ? (
           <span style={{ color: "#cc8800", fontWeight: "bold" }}>REVIEW MODE — Navigation Only</span>
         ) : (
@@ -257,9 +332,18 @@ export default function ExamInterface({
                   <div 
                     className="whitespace-pre-wrap"
                     style={{ fontSize: "15px", lineHeight: "1.6", color: "#003366", fontWeight: "600" }}
-                    dangerouslySetInnerHTML={{ __html: hacks[currentQuestion.id] || currentQuestion.solution || "No explanation provided." }}
+                    dangerouslySetInnerHTML={{ __html: stripEmojis(hacks[currentQuestion.id] || currentQuestion.solution || "No explanation provided.") }}
                   />
                 </div>
+              )}
+
+              {/* AI Tutor Chat — shown whenever solution is revealed */}
+              {showSolutionNow && (
+                <QuestionChat
+                  candidateName={candidateName}
+                  questionId={currentQuestion.id}
+                  questionContext={`QUESTION: ${currentQuestion.q}\n\nOPTIONS:\n${Object.entries(currentQuestion.options || {}).map(([k, v]) => `${k.toUpperCase()}) ${v}`).join('\n')}\n\nCORRECT ANSWER: ${currentQuestion.a}\n\nEXPLANATION: ${currentQuestion.solution || 'Not available.'}`}
+                />
               )}
             </div>
           </div>
@@ -269,15 +353,15 @@ export default function ExamInterface({
               onClick={() => navigate(-1)}
               disabled={curSubIdx === 0 && curQIdx === 0}
             >
-              ◀ Previous
+              Previous
             </button>
             <button
               className="nav-btn primary"
               onClick={() => navigate(1)}
             >
-              {curSubIdx === activeSubjects.length - 1 && curQIdx === currentQuestions.length - 1 ? "Finish ▶" : "Next ▶"}
+              {curSubIdx === activeSubjects.length - 1 && curQIdx === currentQuestions.length - 1 ? "Finish" : "Next"}
             </button>
-            <button className="calc-btn" onClick={toggleCalc}>🖩 Calculator</button>
+            <button className="calc-btn" onClick={toggleCalc}>Calculator</button>
           </div>
         </div>
 

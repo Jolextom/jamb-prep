@@ -17,6 +17,8 @@ interface SetupScreenProps {
   availableSubjects: string[];
   availableCounts: Record<string, number>;
   isDataReady: boolean;
+  candidateName: string;
+  setCandidateName: (v: string) => void;
 }
 
 export default function SetupScreen({
@@ -32,7 +34,9 @@ export default function SetupScreen({
   fetchError,
   availableSubjects,
   availableCounts,
-  isDataReady
+  isDataReady,
+  candidateName,
+  setCandidateName
 }: SetupScreenProps) {
   
   const toggleSubject = (name: string) => {
@@ -55,22 +59,46 @@ export default function SetupScreen({
   // Only show subjects that have local JSON data
   const filteredSubjects = SUBJECT_METADATA.filter(m => availableSubjects.includes(m.name));
 
+  const anySelected = Object.values(configs).some(c => c.selected);
+
   return (
-    <div className="setup-wrapper" style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "40px", minHeight: "100vh" }}>
-      <div className="setup-container" style={{ maxWidth: "900px", width: "100%", margin: "0 auto", background: "white", borderRadius: "8px", border: "1px solid #ccc", overflow: "hidden", display: "flex", flexDirection: "column" }}>
+    <div className="setup-wrapper" style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "12px", minHeight: "100vh" }}>
+      <div className="setup-container" style={{ maxWidth: "900px", width: "100%", margin: "0 auto", background: "white", borderRadius: "8px", border: "1px solid #ccc", overflow: "hidden", display: "flex", flexDirection: "column", boxShadow: "0 4px 12px rgba(0,0,0,0.1)" }}>
         
-        <div className="jamb-header" style={{ padding: "20px" }}>
+        <div className="jamb-header" style={{ padding: "12px 16px" }}>
           <div className="jamb-logo">
-            <div className="jamb-logo-circle">JAMB</div>
-            <div className="jamb-logo-text">
-              <strong>UTME 2025</strong>
-              Professional CBT Simulation Engine
+            <div className="jamb-logo-circle" style={{ width: "30px", height: "30px", fontSize: "8px" }}>JAMB</div>
+            <div className="jamb-logo-text" style={{ fontSize: "10px" }}>
+              <strong>UTME 2026</strong>
             </div>
           </div>
         </div>
 
-        <div className="setup-content" style={{ padding: "30px" }}>
-          <h2 style={{ fontSize: "20px", color: "#003366", marginBottom: "20px", fontWeight: "800" }}>Configure Your Session</h2>
+        <div className="setup-content" style={{ padding: "16px" }}>
+          <h2 style={{ fontSize: "16px", color: "#003366", marginBottom: "15px", fontWeight: "800" }}>Configure Your Session</h2>
+          
+          {/* Candidate ID Section */}
+          <div style={{ marginBottom: "16px", background: "#f0f7ff", padding: "12px", borderRadius: "8px", border: "1px solid #c8d8f0" }}>
+            <label style={{ display: "block", fontSize: "11px", fontWeight: "900", color: "#003366", textTransform: "uppercase", marginBottom: "8px" }}>
+              Who is practicing? (Candidate Name)
+            </label>
+            <input 
+              type="text" 
+              placeholder="Candidate Name" 
+              value={candidateName}
+              onChange={(e) => setCandidateName(e.target.value)}
+              style={{
+                width: "100%",
+                padding: "10px 12px",
+                borderRadius: "6px",
+                border: "1px solid #003366",
+                fontSize: "14px",
+                outline: "none",
+                fontWeight: "600",
+                color: "#003366"
+              }}
+            />
+          </div>
           
           <div className="setup-grid" style={{ display: "grid", gap: "30px" }}>
             
@@ -90,12 +118,12 @@ export default function SetupScreen({
                       key={s.name} 
                       className={`subject-config-card ${conf.selected ? 'selected' : ''} ${!isReady ? 'disabled' : ''}`}
                       style={{ 
-                        padding: "12px", 
+                        padding: "8px 12px", 
                         border: "1px solid #ddd", 
                         borderRadius: "6px", 
                         display: "flex", 
                         flexDirection: "column",
-                        gap: "10px",
+                        gap: "6px",
                         background: !isReady ? "#f5f5f5" : (conf.selected ? "#f0f7ff" : "#fff"),
                         borderColor: !isReady ? "#eee" : (conf.selected ? "#003366" : "#ddd"),
                         opacity: !isReady ? 0.7 : 1,
@@ -142,23 +170,23 @@ export default function SetupScreen({
               </div>
             </div>
 
-            <div className="mode-section" style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-              <div style={{ background: "#f9f9f9", padding: "20px", borderRadius: "8px", border: "1px dashed #ccc" }}>
-                <h3 style={{ fontSize: "14px", textTransform: "uppercase", color: "#666", marginBottom: "15px" }}>Session Mode</h3>
+            <div className="mode-section" style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+              <div style={{ background: "#f9f9f9", padding: "12px", borderRadius: "8px", border: "1px dashed #ccc" }}>
+                <h3 style={{ fontSize: "12px", textTransform: "uppercase", color: "#666", marginBottom: "10px" }}>Session Mode</h3>
                 <div style={{ display: "flex", gap: "10px" }}>
                   <button 
                     className={`nav-btn ${sessionMode === 'EXAM' ? 'primary' : ''}`}
                     onClick={() => setSessionMode('EXAM')}
                     style={{ flex: 1, fontSize: "12px", padding: "10px" }}
                   >
-                    ⏱ EXAM MODE
+                    EXAM MODE
                   </button>
                   <button 
                     className={`nav-btn ${sessionMode === 'PRACTICE' ? 'primary' : ''}`}
                     onClick={() => setSessionMode('PRACTICE')}
                     style={{ flex: 1, fontSize: "12px", padding: "10px" }}
                   >
-                    📖 PRACTICE MODE
+                    PRACTICE MODE
                   </button>
                 </div>
               </div>
@@ -170,7 +198,12 @@ export default function SetupScreen({
               )}
 
               <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                <button className="nav-btn primary" onClick={startExam} disabled={isLoading} style={{ padding: "15px", fontSize: "16px", fontWeight: "800" }}>
+                <button 
+                  className="nav-btn primary" 
+                  onClick={startExam} 
+                  disabled={isLoading || !candidateName.trim() || !anySelected} 
+                  style={{ padding: "15px", fontSize: "16px", fontWeight: "800" }}
+                >
                   {isLoading ? "Loading Questions..." : "GENERATE NEW EXAM"}
                 </button>
                 <div style={{ display: "flex", gap: "10px" }}>
@@ -187,8 +220,8 @@ export default function SetupScreen({
               
               <div style={{ fontSize: "12px", color: "#555", background: "#f9f9f9", padding: "10px", borderRadius: "6px", border: "1px dashed #ccc" }}>
                 {sessionMode === 'EXAM'
-                  ? "⏱ Timed. Answers and solutions shown after you submit."
-                  : "📖 Untimed. See if your answer is correct immediately after each question."}
+                  ? "Timed. Answers and solutions shown after you submit."
+                  : "Untimed. See if your answer is correct immediately after each question."}
               </div>
             </div>
 
