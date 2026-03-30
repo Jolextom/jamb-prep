@@ -262,11 +262,41 @@ export default function JambReplica() {
           });
         }
         
-        // 3. TRUE RANDOMIZATION with Fisher-Yates
-        const shuffled = fisherYatesShuffle(allQuestions);
-        const picked = shuffled.slice(0, Math.min(config.count, shuffled.length));
+        // 3. STRATIFIED RANDOMIZATION (Topic Spreading)
+        const questionsByTopic: Record<string, any[]> = {};
+        allQuestions.forEach(q => {
+          const t = q.topic || "General";
+          if (!questionsByTopic[t]) questionsByTopic[t] = [];
+          questionsByTopic[t].push(q);
+        });
 
-        newQB[subjectName] = picked.map(item => ({
+        const topicNames = Object.keys(questionsByTopic);
+        const targetCount = Math.min(config.count, allQuestions.length);
+        const picked: any[] = [];
+        
+        if (topicNames.length > 0 && targetCount > 0) {
+          // Shuffle each topic group first
+          topicNames.forEach(t => {
+            questionsByTopic[t] = fisherYatesShuffle(questionsByTopic[t]);
+          });
+
+          // Round-robin picking to ensure spread
+          let topicIdx = 0;
+          while (picked.length < targetCount) {
+            const t = topicNames[topicIdx % topicNames.length];
+            const q = questionsByTopic[t].pop();
+            if (q) picked.push(q);
+            
+            topicIdx++;
+            // Safety break if we've cycled through all and found nothing (shouldn't happen given targetCount check)
+            if (topicIdx > targetCount * 10) break; 
+          }
+        }
+
+        // Final shuffle of the picked set so they aren't ordered by topic
+        const finalPicked = fisherYatesShuffle(picked);
+
+        newQB[subjectName] = finalPicked.map(item => ({
           id: item.id || 0,
           q: item.question || item.q || "",
           options: item.options || item.option || (Array.isArray(item.opts) ? Object.fromEntries(item.opts.map((o: string) => [o.substring(0,1).toLowerCase(), o.substring(3)])) : {}),

@@ -106,7 +106,7 @@ RULES:
     body: JSON.stringify({
       model: "llama-3.1-8b-instant",
       messages: groqMessages,
-      max_tokens: 300,
+      max_tokens: 2048,
       temperature: 0.4,
       stream: false,
     }),
