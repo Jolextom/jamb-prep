@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 
+export const dynamic = 'force-dynamic';
+
 const RATE_FILE = path.join(process.cwd(), "rate_limit.json");
 const ADMIN_SECRET = process.env.ADMIN_SECRET || "jamb_secret_2025";
 
@@ -14,18 +16,28 @@ export async function GET(req: NextRequest) {
     return new NextResponse("Unauthorized", { status: 401 });
   }
 
-  let data = { date: "No data", count: 0, history: [] };
+  let data = { date: new Date().toISOString().slice(0, 10), count: 0, history: [] };
+  let isReadOnly = false;
+
   if (fs.existsSync(RATE_FILE)) {
-    data = JSON.parse(fs.readFileSync(RATE_FILE, "utf-8"));
+    try {
+      data = JSON.parse(fs.readFileSync(RATE_FILE, "utf-8"));
+    } catch (e) {
+      console.error("Error reading rate file:", e);
+    }
   }
 
   if (reset === "1") {
     data.count = 0;
-    fs.writeFileSync(RATE_FILE, JSON.stringify(data, null, 2));
+    try {
+      fs.writeFileSync(RATE_FILE, JSON.stringify(data, null, 2));
+    } catch (e) {
+      isReadOnly = true;
+    }
     // Redirect back to admin dashboard to clear the reset param
     return new NextResponse(null, {
       status: 302,
-      headers: { Location: `/api/admin?key=${key}` },
+      headers: { Location: `/api/admin?key=${key}${isReadOnly ? '&err=readonly' : ''}` },
     });
   }
 
@@ -41,6 +53,8 @@ export async function GET(req: NextRequest) {
           .card { background: white; padding: 20px; border-radius: 12px; border: 1px solid #c8d8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
           h1 { margin-top: 0; font-size: 20px; border-bottom: 2px solid #003366; padding-bottom: 10px; }
           .stat { font-size: 32px; font-weight: 800; margin: 20px 0; }
+          .badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: bold; text-transform: uppercase; margin-bottom: 10px; }
+          .badge-warn { background: #fff7ed; color: #9a3412; border: 1px solid #ffedd5; }
           .history-item { border-bottom: 1px solid #eee; padding: 10px 0; font-size: 13px; }
           .history-item:last-child { border-bottom: none; }
           .name { font-weight: 700; color: #0055a5; }
@@ -55,6 +69,8 @@ export async function GET(req: NextRequest) {
           <div style="font-size: 11px; opacity: 0.7;">Date: ${data.date}</div>
           <div class="stat">${data.count} / 200 requests</div>
           
+          ${searchParams.get('err') === 'readonly' ? '<div class="badge badge-warn">⚠️ Ephemeral Storage (Vercel): Data will reset on server restart</div>' : ''}
+
           <a href="/api/admin?key=${key}&reset=1" class="btn-reset" onclick="return confirm('Reset count to zero?')">Reset Daily Limit</a>
           
           <h2>Recent Activity (Last 100)</h2>

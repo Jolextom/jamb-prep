@@ -22,8 +22,16 @@ function loadRate(): RateData {
 
 function saveRate(data: RateData) {
   try {
-    fs.writeFileSync(RATE_FILE, JSON.stringify(data));
-  } catch {}
+    // Ensure directory exists (useful for local dev)
+    const dir = path.dirname(RATE_FILE);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    
+    fs.writeFileSync(RATE_FILE, JSON.stringify(data, null, 2));
+  } catch (err) {
+    // On Vercel, this will fail. We log it but don't crash.
+    // For production, suggest using Upstash Redis or a DB.
+    console.warn("Rate limit persistence failed (Safe to ignore on Vercel/Serverless):", err);
+  }
 }
 
 function getTodayString() {
@@ -57,6 +65,7 @@ export async function POST(req: NextRequest) {
   const { messages, questionContext, candidateName } = await req.json();
 
   // Rate limit check
+  console.log(`[Chat API] Request from ${candidateName} for question: ${questionContext.substring(0, 50)}...`);
   if (!checkAndIncrementRate(candidateName, questionContext)) {
     return NextResponse.json(
       { error: "Daily usage limit reached. Please try again tomorrow." },

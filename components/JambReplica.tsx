@@ -59,6 +59,20 @@ export default function JambReplica() {
   const [qbState, setQbState] = useState<Record<string, Question[]>>({});
   const [fetchError, setFetchError] = useState<string | null>(null);
 
+  // Chat Persistence State
+  const [chatHistories, setChatHistories] = useState<Record<number, any[]>>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("jamb_prep_chats");
+      return saved ? JSON.parse(saved) : {};
+    }
+    return {};
+  });
+
+  // Sync chats to local storage
+  useEffect(() => {
+    localStorage.setItem("jamb_prep_chats", JSON.stringify(chatHistories));
+  }, [chatHistories]);
+
   // Modal states
   const [endModalOpen, setEndModalOpen] = useState(false);
   const [resultModalOpen, setResultModalOpen] = useState(false);
@@ -391,6 +405,7 @@ export default function JambReplica() {
     setCurSubIdx(0);
     setCurQIdx(0);
     localStorage.removeItem("jamb_prep_session");
+    localStorage.removeItem("jamb_prep_chats"); // Clear chats on finish
   }, [answers, qbState, activeSubjects, key]);
 
   // Timer
@@ -640,6 +655,8 @@ ${JSON.stringify(sessionData, null, 2)}`;
           showSolutions={isReview || sessionMode === 'PRACTICE'}
           isPracticeMode={sessionMode === 'PRACTICE'}
           hacks={reviewHacks}
+          chatHistories={chatHistories}
+          setChatHistories={setChatHistories}
         />
       )}
 

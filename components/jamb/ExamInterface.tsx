@@ -46,6 +46,10 @@ interface ExamInterfaceProps {
   // Scoring
   qbState: Record<string, Question[]>;
 
+  // Chat Persistence
+  chatHistories: Record<number, any[]>;
+  setChatHistories: React.Dispatch<React.SetStateAction<Record<number, any[]>>>;
+
   // Review Mode Props
   isReview?: boolean;
   reviewAnswers?: Record<string, string>;
@@ -83,12 +87,28 @@ export default function ExamInterface({
   openEndModal,
   toggleCalc,
   qbState,
+  chatHistories,
+  setChatHistories,
   isReview = false,
   reviewAnswers = {},
   showSolutions = false,
   hacks = {},
   isPracticeMode = false
 }: ExamInterfaceProps) {
+  // Auto-scroll to question when solution appears
+  const [lastSolutionId, setLastSolutionId] = React.useState<number | null>(null);
+  const showSolutionNow = isReview || (isPracticeMode && !!answers[currentKey]) || currentQuestion.isReviewable;
+
+  React.useEffect(() => {
+    if (showSolutionNow && lastSolutionId !== currentQuestion.id) {
+      setLastSolutionId(currentQuestion.id);
+      // Wait for catch-up then scroll
+      setTimeout(() => {
+        document.getElementById("q-panel-top")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
+    }
+  }, [showSolutionNow, currentQuestion.id, lastSolutionId]);
+
   // Helper to remove emojis from string
   const stripEmojis = (str: string) => {
     return str.replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E6}-\u{1F1FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F900}-\u{1F9FF}\u{1F018}-\u{1F093}\u{1F191}-\u{1F251}\u{2B50}]/gu, '');
@@ -108,7 +128,6 @@ export default function ExamInterface({
   const hasAnsweredCurrent = !!answers[currentKey];
   
   // In Practice mode: reveal answer+solution as soon as the user picks an option
-  const showSolutionNow = isReview || (isPracticeMode && hasAnsweredCurrent) || currentQuestion.isReviewable;
   
   // Options are interactive only if not reviewing AND (not practice mode OR hasn't answered yet)
   const areOptionsInteractive = !isReview && !currentQuestion.isReviewable && !(isPracticeMode && hasAnsweredCurrent);
@@ -225,8 +244,8 @@ export default function ExamInterface({
         })}
       </div>
 
-      <div className="exam-body">
-        <div className="question-panel">
+      <div className="exam-body" style={{ scrollMarginTop: "80px" }}>
+        <div className="question-panel" id="q-panel-top">
           <div className="q-header">
             <span className="q-number-badge">
               Question {curQIdx + 1} of {currentQuestions.length} — {currentSubject} ({currentQuestion.yr})
@@ -347,6 +366,8 @@ export default function ExamInterface({
                   candidateName={candidateName}
                   questionId={currentQuestion.id}
                   questionContext={`QUESTION: ${currentQuestion.q}\n\nOPTIONS:\n${Object.entries(currentQuestion.options || {}).map(([k, v]) => `${k.toUpperCase()}) ${v}`).join('\n')}\n\nCORRECT ANSWER: ${currentQuestion.a}\n\nEXPLANATION: ${currentQuestion.solution || 'Not available.'}`}
+                  history={chatHistories[currentQuestion.id] || []}
+                  onUpdateMessages={(newMsgs) => setChatHistories(prev => ({ ...prev, [currentQuestion.id]: newMsgs }))}
                 />
               )}
             </div>

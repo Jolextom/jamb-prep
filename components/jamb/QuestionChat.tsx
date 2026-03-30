@@ -11,24 +11,26 @@ interface QuestionChatProps {
   candidateName: string;
   questionContext: string; // Question + options + correct answer + solution
   questionId: number;      // Used to reset chat when question changes
+  history: Message[];
+  onUpdateMessages: (messages: Message[]) => void;
 }
 
 const MAX_MESSAGES = 20; // per question session
 
-export default function QuestionChat({ candidateName, questionContext, questionId }: QuestionChatProps) {
-  const [messages, setMessages] = useState<Message[]>([]);
+export default function QuestionChat({ candidateName, questionContext, questionId, history, onUpdateMessages }: QuestionChatProps) {
+  const [messages, setMessages] = useState<Message[]>(history);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Reset chat when the question changes
+  // Load history when the question changes
   useEffect(() => {
-    setMessages([]);
+    setMessages(history);
     setInput("");
     setError(null);
-  }, [questionId]);
+  }, [questionId, history]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -64,7 +66,9 @@ export default function QuestionChat({ candidateName, questionContext, questionI
         setError(data.error || "Something went wrong. Please try again.");
         setMessages(newMessages.slice(0, -1)); // remove the user message on error
       } else {
-        setMessages([...newMessages, { role: "assistant", content: data.reply }]);
+        const finalMessages = [...newMessages, { role: "assistant" as const, content: data.reply }];
+        setMessages(finalMessages);
+        onUpdateMessages(finalMessages);
       }
     } catch {
       setError("Network error. Please check your connection.");
