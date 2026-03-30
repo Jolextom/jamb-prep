@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
+import { Redis } from "@upstash/redis";
+
+const redis = Redis.fromEnv();
 
 const RATE_FILE = path.join(process.cwd(), "rate_limit.json");
 const DAILY_CAP = 200; // max requests per day across all users
@@ -11,7 +14,35 @@ interface RateData {
   history: { name: string; time: string; question: string } [];
 }
 
-function loadRate(): RateData {
+async function redisGet(): Promise<RateData | null> {
+  const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
+  if (!url) return null;
+
+  try {
+    return await redis.get("jamb_rate_limit");
+  } catch (err) {
+    console.error("Redis Get Error:", err);
+    return null;
+  }
+}
+
+async function redisSet(data: RateData) {
+  const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
+  if (!url) return;
+
+  try {
+    await redis.set("jamb_rate_limit", data);
+  } catch (err) {
+    console.error("Redis Set Error:", err);
+  }
+}
+
+async function loadRate(): Promise<RateData> {
+  // Try Redis first
+  const redisData = await redisGet();
+  if (redisData) return redisData;
+
+  // Fallback to local file
   try {
     if (fs.existsSync(RATE_FILE)) {
       return JSON.parse(fs.readFileSync(RATE_FILE, "utf-8"));
@@ -20,17 +51,21 @@ function loadRate(): RateData {
   return { date: "", count: 0, history: [] };
 }
 
-function saveRate(data: RateData) {
+async function saveRate(data: RateData) {
+  // Save to Redis if available
+  const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
+  if (url) {
+    await redisSet(data);
+    return;
+  }
+
+  // Otherwise save to local file
   try {
-    // Ensure directory exists (useful for local dev)
     const dir = path.dirname(RATE_FILE);
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-    
     fs.writeFileSync(RATE_FILE, JSON.stringify(data, null, 2));
   } catch (err) {
-    // On Vercel, this will fail. We log it but don't crash.
-    // For production, suggest using Upstash Redis or a DB.
-    console.warn("Rate limit persistence failed (Safe to ignore on Vercel/Serverless):", err);
+    console.warn("Local save failed (expected on Vercel if Redis not setup):", err);
   }
 }
 
@@ -38,9 +73,9 @@ function getTodayString() {
   return new Date().toISOString().slice(0, 10);
 }
 
-function checkAndIncrementRate(name: string, question: string): boolean {
+async function checkAndIncrementRate(name: string, question: string): Promise<boolean> {
   const today = getTodayString();
-  const data = loadRate();
+  const data = await loadRate();
   const time = new Date().toLocaleTimeString('en-NG', { hour: '2-digit', minute: '2-digit' });
 
   // Log to history
@@ -49,7 +84,7 @@ function checkAndIncrementRate(name: string, question: string): boolean {
 
   if (data.date !== today) {
     // New day — reset
-    saveRate({ date: today, count: 1, history });
+    await saveRate({ date: today, count: 1, history });
     return true;
   }
 
@@ -57,7 +92,7 @@ function checkAndIncrementRate(name: string, question: string): boolean {
     return false;
   }
 
-  saveRate({ date: today, count: data.count + 1, history });
+  await saveRate({ date: today, count: data.count + 1, history });
   return true;
 }
 
@@ -66,7 +101,7 @@ export async function POST(req: NextRequest) {
 
   // Rate limit check
   console.log(`[Chat API] Request from ${candidateName} for question: ${questionContext.substring(0, 50)}...`);
-  if (!checkAndIncrementRate(candidateName, questionContext)) {
+  if (!(await checkAndIncrementRate(candidateName, questionContext))) {
     return NextResponse.json(
       { error: "Daily usage limit reached. Please try again tomorrow." },
       { status: 429 }

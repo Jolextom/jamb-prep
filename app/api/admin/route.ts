@@ -1,11 +1,43 @@
 import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
+import { Redis } from "@upstash/redis";
+
+const redis = Redis.fromEnv();
 
 export const dynamic = 'force-dynamic';
 
 const RATE_FILE = path.join(process.cwd(), "rate_limit.json");
 const ADMIN_SECRET = process.env.ADMIN_SECRET || "jamb_secret_2025";
+
+interface RateData {
+  date: string;
+  count: number;
+  history: any[];
+}
+
+async function redisGet(): Promise<RateData | null> {
+  const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
+  if (!url) return null;
+
+  try {
+    return await redis.get("jamb_rate_limit");
+  } catch (err) {
+    console.error("Redis Get Error:", err);
+    return null;
+  }
+}
+
+async function redisSet(data: RateData) {
+  const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
+  if (!url) return;
+
+  try {
+    await redis.set("jamb_rate_limit", data);
+  } catch (err) {
+    console.error("Redis Set Error:", err);
+  }
+}
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -16,10 +48,15 @@ export async function GET(req: NextRequest) {
     return new NextResponse("Unauthorized", { status: 401 });
   }
 
-  let data = { date: new Date().toISOString().slice(0, 10), count: 0, history: [] };
+  let data: RateData = { date: new Date().toISOString().slice(0, 10), count: 0, history: [] };
   let isReadOnly = false;
+  let isRedis = !!(process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL);
 
-  if (fs.existsSync(RATE_FILE)) {
+  // Try Redis first
+  const redisData = await redisGet();
+  if (redisData) {
+    data = redisData;
+  } else if (fs.existsSync(RATE_FILE)) {
     try {
       data = JSON.parse(fs.readFileSync(RATE_FILE, "utf-8"));
     } catch (e) {
@@ -29,15 +66,20 @@ export async function GET(req: NextRequest) {
 
   if (reset === "1") {
     data.count = 0;
-    try {
-      fs.writeFileSync(RATE_FILE, JSON.stringify(data, null, 2));
-    } catch (e) {
-      isReadOnly = true;
+    if (isRedis) {
+      await redisSet(data);
+    } else {
+      try {
+        fs.writeFileSync(RATE_FILE, JSON.stringify(data, null, 2));
+      } catch (e) {
+        isReadOnly = true;
+      }
     }
     // Redirect back to admin dashboard to clear the reset param
+    const errParam = isReadOnly ? '&err=readonly' : '';
     return new NextResponse(null, {
       status: 302,
-      headers: { Location: `/api/admin?key=${key}${isReadOnly ? '&err=readonly' : ''}` },
+      headers: { Location: `/api/admin?key=${key}${errParam}` },
     });
   }
 
@@ -69,7 +111,8 @@ export async function GET(req: NextRequest) {
           <div style="font-size: 11px; opacity: 0.7;">Date: ${data.date}</div>
           <div class="stat">${data.count} / 200 requests</div>
           
-          ${searchParams.get('err') === 'readonly' ? '<div class="badge badge-warn">⚠️ Ephemeral Storage (Vercel): Data will reset on server restart</div>' : ''}
+          ${isRedis ? '<div class="badge" style="background: #dcfce7; color: #166534; border: 1px solid #bbf7d0;">✓ Cloud Priority: Upstash Redis Active</div>' : ''}
+          ${searchParams.get('err') === 'readonly' && !isRedis ? '<div class="badge badge-warn">⚠️ Ephemeral Storage (Vercel): Data will reset on server restart</div>' : ''}
 
           <a href="/api/admin?key=${key}&reset=1" class="btn-reset" onclick="return confirm('Reset count to zero?')">Reset Daily Limit</a>
           
