@@ -133,9 +133,9 @@ export async function GET(req: NextRequest) {
           <h2>Recent Activity (Last 100)</h2>
           ${data.history && data.history.length > 0 ? data.history.map((h: any) => `
             <div class="history-item">
-              <span class="badge ${h.type === 'session' ? 'badge-session' : 'badge-chat'}">${h.type}</span>
-              <span class="name">${h.name}</span> <span class="time">at ${h.time}</span>
-              <div class="detail">${h.detail}</div>
+              <span class="badge ${h.type === 'session' ? 'badge-session' : 'badge-chat'}">${h.type || 'chat'}</span>
+              <span class="name">${h.name || 'Unknown'}</span> <span class="time">at ${h.time || ''}</span>
+              <div class="detail">${h.detail || h.question || ''}</div>
             </div>
           `).join('') : '<div style="color: #888;">No history yet today.</div>'}
         </div>

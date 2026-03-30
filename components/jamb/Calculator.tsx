@@ -49,7 +49,6 @@ export default function Calculator({
     <div
       ref={calcRef}
       className={`calc-popup ${isOpen ? "open" : ""}`}
-      style={{ bottom: "60px", right: "220px" }}
     >
       <div className="calc-display">{calcExpr}</div>
       <div className="calc-grid">
