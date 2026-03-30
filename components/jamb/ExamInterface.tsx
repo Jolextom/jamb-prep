@@ -107,14 +107,7 @@ export default function ExamInterface({
             Unified Tertiary Matriculation Examination
           </div>
         </div>
-        <div className="candidate-info">
-          <div className="candidate-photo">👤</div>
-          <div className="candidate-details">
-            <div><strong>ADEBAYO, TUNDE SAMUEL</strong></div>
-            <div>REG NO: 22376571AB</div>
-            <div>CENTRE: LAGOS CBT 004</div>
-          </div>
-        </div>
+
         <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
           {isExamMode && (
             <div className="timer-box">
