@@ -1,0 +1,21 @@
+{
+  "subject": "chemistry",
+  "status": 200,
+  "data": {
+    "id": 160,
+    "question": "Oxyacetylene flame is used for iron-welding because it",
+    "option": {
+      "a": " makes the iron metal solidity very quickly",
+      "b": "Combines with oxygen to give a pop sound",
+      "c": "Evolves a lot of heat when burnt",
+      "d": "Dissociates to produce carbon (IV) oxide and oxygen",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "c",
+    "solution": "",
+    "examtype": "utme",
+    "examyear": "2004"
+  }
+}
