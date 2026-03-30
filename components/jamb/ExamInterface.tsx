@@ -352,7 +352,7 @@ export default function ExamInterface({
                 <QuestionChat
                   candidateName={candidateName}
                   questionId={currentQuestion.id}
-                  questionContext={`QUESTION: ${currentQuestion.q}\n\nOPTIONS:\n${Object.entries(currentQuestion.options || {}).map(([k, v]) => `${k.toUpperCase()}) ${v}`).join('\n')}\n\nCORRECT ANSWER: ${currentQuestion.a}\n\nEXPLANATION: ${currentQuestion.solution || 'Not available.'}`}
+                  questionContext={`QUESTION: ${currentQuestion.q}\n\nOPTIONS:\n${Object.entries(currentQuestion.options || {}).filter(([_, v]) => v != null && String(v).trim() !== "" && String(v) !== "null").map(([k, v]) => `${k.toUpperCase()}) ${v}`).join('\n')}\n\nCORRECT ANSWER: ${currentQuestion.a}\n\nEXPLANATION: ${currentQuestion.solution || 'Not available.'}`}
                   history={chatHistories[currentQuestion.id] || []}
                   onUpdateMessages={(newMsgs) => setChatHistories(prev => ({ ...prev, [currentQuestion.id]: newMsgs }))}
                 />
