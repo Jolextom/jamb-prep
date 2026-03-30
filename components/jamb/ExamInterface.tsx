@@ -91,19 +91,13 @@ export default function ExamInterface({
   hacks = {},
   isPracticeMode = false
 }: ExamInterfaceProps) {
-  // Auto-scroll to question when solution appears
-  const [lastSolutionId, setLastSolutionId] = React.useState<number | null>(null);
+  
   const showSolutionNow = isReview || (isPracticeMode && !!answers[currentKey]) || currentQuestion.isReviewable;
 
+  // Snap to top when changing questions
   React.useEffect(() => {
-    if (showSolutionNow && lastSolutionId !== currentQuestion.id) {
-      setLastSolutionId(currentQuestion.id);
-      // Wait for catch-up then scroll
-      setTimeout(() => {
-        document.getElementById("q-panel-top")?.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 100);
-    }
-  }, [showSolutionNow, currentQuestion.id, lastSolutionId]);
+    document.getElementById("q-panel-top")?.scrollIntoView({ behavior: "instant", block: "start" });
+  }, [currentQuestion.id]);
 
   // Helper to remove emojis from string
   const stripEmojis = (str: string) => {
