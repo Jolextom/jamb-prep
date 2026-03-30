@@ -133,7 +133,7 @@ export default function Modals({
               </div>
 
               <div style={{ marginTop: "20px", display: "grid", gridTemplateColumns: "1fr", gap: "10px" }}>
-                {/* {sessionMode === 'MASTERY' && activeSubjects.length === 1 && (
+                {/* {sessionMode === 'PRACTICE' && activeSubjects.length === 1 && (
                     <button 
                       className="nav-btn" 
                       onClick={copyDiagnosticData} 
@@ -141,11 +141,11 @@ export default function Modals({
                     >
                       📋 Copy Data for AI Tutor
                     </button>
-                )}
+                )} */}
 
                 <button className="nav-btn primary" onClick={onReview} style={{ width: "100%", padding: "12px", background: "#003366" }}>
-                  Review Performance
-                </button> */}
+                  📋 See Answers & Explanations
+                </button>
 
                 <button className="nav-btn" onClick={() => window.location.reload()} style={{ width: "100%", padding: "12px" }}>
                   Start New Session
