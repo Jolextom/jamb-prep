@@ -153,7 +153,7 @@ RULES:
       messages: groqMessages,
       max_tokens: 2048,
       temperature: 0.4,
-      stream: false,
+      stream: true,
     }),
   });
 
@@ -163,8 +163,12 @@ RULES:
     return NextResponse.json({ error: "AI service error. Please try again." }, { status: 502 });
   }
 
-  const data = await groqRes.json();
-  const reply = data.choices?.[0]?.message?.content ?? "Sorry, I couldn't generate a response.";
-
-  return NextResponse.json({ reply });
+  // Return the raw readable stream directly to the client
+  return new NextResponse(groqRes.body, {
+    headers: {
+      "Content-Type": "text/event-stream",
+      "Cache-Control": "no-cache",
+      "Connection": "keep-alive"
+    }
+  });
 }

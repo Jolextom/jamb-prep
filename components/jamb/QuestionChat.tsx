@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 interface Message {
   role: "user" | "assistant";
@@ -25,11 +27,21 @@ export default function QuestionChat({ candidateName, questionContext, questionI
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Load history when the question changes
+  // Load history and draft when the question changes
   useEffect(() => {
     setMessages(history);
-    setInput("");
     setError(null);
+    
+    try {
+      const draftsState = localStorage.getItem("jamb_chat_drafts");
+      if (draftsState) {
+        const drafts = JSON.parse(draftsState);
+        setInput(drafts[questionId] || "");
+        return;
+      }
+    } catch(e) {}
+    
+    setInput("");
   }, [questionId, history]);
 
   useEffect(() => {
@@ -39,8 +51,8 @@ export default function QuestionChat({ candidateName, questionContext, questionI
   const userMessageCount = messages.filter((m) => m.role === "user").length;
   const isAtLimit = userMessageCount >= MAX_MESSAGES;
 
-  const sendMessage = async () => {
-    const text = input.trim();
+  const sendSpecificMessage = async (overrideText?: string) => {
+    const text = overrideText || input.trim();
     if (!text || isLoading || isAtLimit) return;
 
     const newMessages: Message[] = [...messages, { role: "user", content: text }];
@@ -48,6 +60,16 @@ export default function QuestionChat({ candidateName, questionContext, questionI
     setInput("");
     setIsLoading(true);
     setError(null);
+
+    // Clear draft on send
+    try {
+      const stored = localStorage.getItem("jamb_chat_drafts");
+      if (stored) {
+        const drafts = JSON.parse(stored);
+        delete drafts[questionId];
+        localStorage.setItem("jamb_chat_drafts", JSON.stringify(drafts));
+      }
+    } catch(e) {}
 
     try {
       const res = await fetch("/api/chat", {
@@ -60,24 +82,66 @@ export default function QuestionChat({ candidateName, questionContext, questionI
         }),
       });
 
-      const data = await res.json();
-
       if (!res.ok) {
-        setError(data.error || "Something went wrong. Please try again.");
+        let errText = "Something went wrong. Please try again.";
+        try {
+          const data = await res.json();
+          if (data.error) errText = data.error;
+        } catch(e) {}
+        setError(errText);
         setMessages(newMessages.slice(0, -1)); // remove the user message on error
-      } else {
-        const finalMessages = [...newMessages, { role: "assistant" as const, content: data.reply }];
-        setMessages(finalMessages);
-        onUpdateMessages(finalMessages);
+        setIsLoading(false);
+        return;
       }
-    } catch {
+
+      setIsLoading(false); // Stop loading animation since we are receiving stream
+      if (!res.body) throw new Error("No response body");
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let assistantContent = "";
+      let buffer = "";
+      let currentMessages = [...newMessages, { role: "assistant" as const, content: "" }];
+      setMessages(currentMessages);
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        
+        buffer += decoder.decode(value, { stream: true });
+        const chunks = buffer.split('\n\n');
+        buffer = chunks.pop() || "";
+        
+        for (const chunk of chunks) {
+          const trimmedChunk = chunk.trim();
+          if (trimmedChunk.startsWith('data: ') && trimmedChunk !== 'data: [DONE]') {
+            try {
+              const data = JSON.parse(trimmedChunk.slice(6));
+              const text = data.choices[0]?.delta?.content;
+              if (text) {
+                assistantContent += text;
+                currentMessages = [...newMessages, { role: "assistant" as const, content: assistantContent }];
+                setMessages(currentMessages);
+              }
+            } catch (e) {
+              // Ignore incomplete JSON
+            }
+          }
+        }
+      }
+      onUpdateMessages(currentMessages);
+
+    } catch (e) {
+      console.error(e);
       setError("Network error. Please check your connection.");
       setMessages(newMessages.slice(0, -1));
-    } finally {
       setIsLoading(false);
+    } finally {
       setTimeout(() => inputRef.current?.focus(), 50);
     }
   };
+
+  const sendMessage = () => sendSpecificMessage();
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -117,7 +181,7 @@ export default function QuestionChat({ candidateName, questionContext, questionI
             }}
           >
             <span style={{ fontWeight: "800", fontSize: "13px", letterSpacing: "0.5px" }}>
-              ASK THE TUTOR
+              ASK AI
             </span>
             <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
               <span style={{ fontSize: "11px", opacity: 0.75 }}>
@@ -139,8 +203,46 @@ export default function QuestionChat({ candidateName, questionContext, questionI
             }}
           >
             {messages.length === 0 && (
-              <div style={{ textAlign: "center", color: "#888", fontSize: "13px", marginTop: "60px" }}>
-                Ask me anything about this question!
+              <div style={{ textAlign: "center", marginTop: "20px", padding: "0 10px" }}>
+                <div style={{ color: "#003366", fontSize: "14px", fontWeight: "600", marginBottom: "6px" }}>
+                  Need a breakdown?
+                </div>
+                <div style={{ color: "#64748b", fontSize: "12px", marginBottom: "20px" }}>
+                  Ask the Pro Coach for speed hacks, concept reviews, or trick explanations.
+                </div>
+                
+                {/* Quick Action Chips */}
+                <div style={{ display: "flex", flexDirection: "column", gap: "8px", alignItems: "center" }}>
+                  {[
+                    "Explain why the others are wrong",
+                    "Give me a speed hack for this",
+                    "Break down the concept step-by-step"
+                  ].map((chip) => (
+                    <button
+                      key={chip}
+                      onClick={() => {
+                        setInput(chip);
+                        // We need to wait for state to update before sending, so we pass the text directly to a slightly modified sendMessage
+                        sendSpecificMessage(chip);
+                      }}
+                      style={{
+                        background: "#e0f2fe",
+                        color: "#0369a1",
+                        border: "1px solid #bae6fd",
+                        borderRadius: "16px",
+                        padding: "8px 16px",
+                        fontSize: "12px",
+                        fontWeight: "600",
+                        cursor: "pointer",
+                        transition: "all 0.2s",
+                        width: "100%",
+                        maxWidth: "280px"
+                      }}
+                    >
+                      {chip}
+                    </button>
+                  ))}
+                </div>
               </div>
             )}
 
@@ -159,14 +261,20 @@ export default function QuestionChat({ candidateName, questionContext, questionI
                     borderRadius: m.role === "user" ? "18px 18px 4px 18px" : "18px 18px 18px 4px",
                     background: m.role === "user" ? "#003366" : "#fff",
                     color: m.role === "user" ? "white" : "#1a1a2e",
-                    fontSize: "13px",
+                    fontSize: "14.5px",
                     lineHeight: "1.6",
                     boxShadow: "0 1px 4px rgba(0,0,0,0.08)",
                     border: m.role === "assistant" ? "1px solid #e2e8f0" : "none",
-                    whiteSpace: "pre-wrap",
                   }}
+                  className="chat-markdown"
                 >
-                  {m.content}
+                  {m.role === "assistant" ? (
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                      {m.content}
+                    </ReactMarkdown>
+                  ) : (
+                    <span style={{ whiteSpace: "pre-wrap" }}>{m.content}</span>
+                  )}
                 </div>
               </div>
             ))}
@@ -211,7 +319,17 @@ export default function QuestionChat({ candidateName, questionContext, questionI
             <input
               ref={inputRef}
               value={input}
-              onChange={(e) => setInput(e.target.value)}
+              onChange={(e) => {
+                const val = e.target.value;
+                setInput(val);
+                try {
+                  const stored = localStorage.getItem("jamb_chat_drafts");
+                  const drafts = stored ? JSON.parse(stored) : {};
+                  if (val.trim()) drafts[questionId] = val;
+                  else delete drafts[questionId];
+                  localStorage.setItem("jamb_chat_drafts", JSON.stringify(drafts));
+                } catch(err) {}
+              }}
               onKeyDown={handleKeyDown}
               placeholder={getPlaceholder()}
               disabled={isLoading || isAtLimit}
@@ -261,6 +379,12 @@ export default function QuestionChat({ candidateName, questionContext, questionI
             66%  { content: '...'; }
             100% { content: '.'; }
           }
+          .chat-markdown p { margin-bottom: 8px; }
+          .chat-markdown p:last-child { margin-bottom: 0; }
+          .chat-markdown strong { font-weight: 700; color: #003366; }
+          .chat-markdown ul { margin-left: 20px; margin-bottom: 8px; }
+          .chat-markdown ol { margin-left: 20px; margin-bottom: 8px; }
+          .chat-markdown li { margin-bottom: 4px; }
         `}</style>
         </div>
       </div>

@@ -49,7 +49,6 @@ export default function JambReplica() {
   const [curSubIdx, setCurSubIdx] = useState(0);
   const [curQIdx, setCurQIdx] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
-  const [flags, setFlags] = useState<Record<string, boolean>>({});
   const [fullPool, setFullPool] = useState<Question[]>([]); // For context injection
   const [totalSecs, setTotalSecs] = useState(0);
   const [timerRunning, setTimerRunning] = useState(false);
@@ -97,6 +96,19 @@ export default function JambReplica() {
   const calcRef = useRef<HTMLDivElement>(null);
 
   const key = useCallback((sIdx: number, qIdx: number) => `${sIdx}-${qIdx}`, []);
+
+  // Tracking Helper
+  const trackEvent = async (type: 'chat' | 'session', detail: string) => {
+    try {
+      await fetch("/api/admin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type, name: candidateName, detail }),
+      });
+    } catch (e) {
+      console.warn("Tracking failed", e);
+    }
+  };
 
   const totalQuestionsTotal = Object.entries(configs)
     .filter(([_, c]) => c.selected)
@@ -341,6 +353,12 @@ export default function JambReplica() {
       setFetchError(null);
       setView('EXAM');
       setExamStarted(true);
+      setTimerRunning(true);
+      setIsLoading(false);
+
+      // Track session start
+      trackEvent('session', `${sessionMode} Mode: ${selected.join(", ")}`);
+      
       setCurSubIdx(0);
       setCurQIdx(0);
     } catch (err: any) {
@@ -460,6 +478,10 @@ export default function JambReplica() {
   // Keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      // Ignore keystrokes if the user focuses an input or textarea
+      const activeTag = document.activeElement?.tagName;
+      if (activeTag === 'INPUT' || activeTag === 'TEXTAREA') return;
+
       if (!examStarted || resultModalOpen || endModalOpen || isLoading) return;
       const k = e.key.toUpperCase();
       
@@ -469,15 +491,18 @@ export default function JambReplica() {
         .map(([letter]) => letter.toUpperCase());
 
       if (validOptions.includes(k)) {
-        setAnswers(p => ({ ...p, [currentKey]: k }));
+        setAnswers(p => {
+          // Block override in Practice mode if already answered
+          if (sessionMode === 'PRACTICE' && p[currentKey]) return p;
+          return { ...p, [currentKey]: k };
+        });
       }
       if (k === "N") navigate(1);
       if (k === "P") navigate(-1);
-      if (k === "F") setFlags(p => ({ ...p, [currentKey]: !p[currentKey] }));
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [curSubIdx, curQIdx, resultModalOpen, endModalOpen, isLoading, examStarted, navigate, currentKey]);
+  }, [curSubIdx, curQIdx, resultModalOpen, endModalOpen, isLoading, examStarted, navigate, currentKey, currentQuestion?.options, sessionMode]);
 
   // Click outside calculator
   useEffect(() => {
@@ -626,6 +651,7 @@ ${JSON.stringify(sessionData, null, 2)}`;
           activeSubjects={activeSubjects}
           totalQuestionsCount={Object.keys(qbState).length > 0 ? Object.values(qbState).reduce((acc, qs) => acc + qs.length, 0) : totalQuestionsTotal}
           isExamMode={sessionMode === 'EXAM'}
+          isPracticeMode={sessionMode === 'PRACTICE'}
           finalScore={finalScore}
           totalQuestions={Object.keys(qbState).length > 0 ? Object.values(qbState).reduce((acc, qs) => acc + qs.length, 0) : totalQuestionsTotal}
           jambScore={jambScore}
@@ -642,9 +668,7 @@ ${JSON.stringify(sessionData, null, 2)}`;
           currentQuestion={currentQuestion}
           currentKey={currentKey}
           answers={answers}
-          flags={flags}
           setAnswers={setAnswers}
-          setFlags={setFlags}
           totalSecs={totalSecs}
           formatTime={formatTime}
           openEndModal={() => setEndModalOpen(true)}
@@ -653,7 +677,6 @@ ${JSON.stringify(sessionData, null, 2)}`;
           isReview={isReview}
           reviewAnswers={reviewAnswers}
           showSolutions={isReview || sessionMode === 'PRACTICE'}
-          isPracticeMode={sessionMode === 'PRACTICE'}
           hacks={reviewHacks}
           chatHistories={chatHistories}
           setChatHistories={setChatHistories}

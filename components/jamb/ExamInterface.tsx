@@ -33,10 +33,8 @@ interface ExamInterfaceProps {
   
   // User Actions
   answers: Record<string, string>;
-  flags: Record<string, boolean>;
   setAnswers: React.Dispatch<React.SetStateAction<Record<string, string>>>;
-  setFlags: React.Dispatch<React.SetStateAction<Record<string, boolean>>>;
-  
+
   // Timer & Controls
   totalSecs: number;
   formatTime: (s: number) => string;
@@ -79,9 +77,7 @@ export default function ExamInterface({
   currentQuestion,
   currentKey,
   answers,
-  flags,
   setAnswers,
-  setFlags,
   totalSecs,
   formatTime,
   openEndModal,
@@ -117,7 +113,6 @@ export default function ExamInterface({
   // Derived Stats
   const key = (sIdx: number, qIdx: number) => `${sIdx}-${qIdx}`;
   const currentSubAnsweredCount = currentQuestions.filter((_, i) => answers[key(curSubIdx, i)]).length;
-  const currentSubFlaggedCount = currentQuestions.filter((_, i) => flags[key(curSubIdx, i)]).length;
   const progressPct = Math.round((currentSubAnsweredCount / (currentQuestions.length || 1)) * 100);
   const validOptions = Object.entries(currentQuestion?.options || {})
     .filter(([_, text]) => text && String(text).trim() !== "")
@@ -250,14 +245,10 @@ export default function ExamInterface({
             <span className="q-number-badge">
               Question {curQIdx + 1} of {currentQuestions.length} — {currentSubject} ({currentQuestion.yr})
             </span>
-            {!isReview && !currentQuestion.isReviewable && !(isPracticeMode && hasAnsweredCurrent) && (
-              <button
-                className={`flag-btn ${flags[currentKey] ? "flagged" : ""}`}
-                onClick={() => setFlags((prev) => ({ ...prev, [currentKey]: !prev[currentKey] }))}
-              >
-                {flags[currentKey] ? "⚑ Flagged" : "⚑ Flag for Review"}
-              </button>
-            )}
+            <button className="calc-btn" onClick={toggleCalc} style={{ marginLeft: "auto", padding: "6px 12px", border: "1px solid #c8d8f0", background: "#f8fafc", borderRadius: "18px", fontSize: "12px", fontWeight: "600", color: "#003366", cursor: "pointer", display: "flex", alignItems: "center", gap: "6px" }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="16" y1="14" x2="16" y2="14"/><line x1="8" y1="10" x2="8" y2="10"/><line x1="12" y1="10" x2="12" y2="10"/><line x1="16" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="8" y2="14"/><line x1="12" y1="14" x2="12" y2="14"/><line x1="8" y1="18" x2="8" y2="18"/><line x1="12" y1="18" x2="12" y2="18"/><line x1="16" y1="18" x2="16" y2="18"/></svg>
+              Calculator
+            </button>
           </div>
 
           <div className={currentQuestion.hasPassage === 1 ? "split-screen" : "single-column"}>
@@ -330,15 +321,17 @@ export default function ExamInterface({
                         key={letter}
                         className={`option-row ${statusClass}`}
                         onClick={() => areOptionsInteractive && setAnswers((prev) => ({ ...prev, [currentKey]: upperLetter }))}
-                        style={{ cursor: areOptionsInteractive ? "pointer" : "default" }}
+                        style={{ cursor: areOptionsInteractive ? "pointer" : "default", alignItems: "center" }}
                       >
                         <div className="option-letter">{upperLetter}</div>
                         <div 
                           className="option-text" 
                           dangerouslySetInnerHTML={{ __html: text }}
                         />
-                        {showSolutionNow && isCorrect && <span style={{ marginLeft: "auto", color: "#166534", fontWeight: "bold" }}>● Correct Answer</span>}
-                        {showSolutionNow && isSelected && !isCorrect && <span style={{ marginLeft: "auto", color: "#991b1b", fontWeight: "bold" }}>✕ Your Choice</span>}
+                        <div className="option-status-container">
+                          {showSolutionNow && isCorrect && <span className="option-badge badge-correct">● Correct Answer</span>}
+                          {showSolutionNow && isSelected && !isCorrect && <span className="option-badge badge-wrong">✕ Your Choice</span>}
+                        </div>
                       </div>
                     );
                   })}
@@ -349,7 +342,7 @@ export default function ExamInterface({
                 <div style={{ marginTop: "30px", padding: "20px", background: "#f0f7ff", borderRadius: "12px", border: "1px solid #003366" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "12px" }}>
                     <span style={{ fontSize: "12px", fontWeight: "900", color: "#003366", textTransform: "uppercase", background: "white", padding: "4px 10px", borderRadius: "20px", border: "1px solid #003366" }}>
-                      {hacks[currentQuestion.id] ? "💡 SPEED HACK" : "📖 EXPLANATION"}
+                      {hacks[currentQuestion.id] ? "💡 SPEED HACK" : "EXPLANATION"}
                     </span>
                   </div>
                   <div 
@@ -388,7 +381,6 @@ export default function ExamInterface({
                 ? (isExamMode ? "Finish" : "Exit Session") 
                 : "Next"}
             </button>
-            <button className="calc-btn" onClick={toggleCalc}>Calculator</button>
           </div>
         </div>
 
@@ -399,7 +391,7 @@ export default function ExamInterface({
           </div>
           <div className="score-row">
             <span>{currentSubAnsweredCount} answered</span>
-            <span>{currentSubFlaggedCount} flagged</span>
+            <span>{currentQuestions.length - currentSubAnsweredCount} untouched</span>
           </div>
           <div className="q-grid">
             {currentQuestions.map((q, i) => {
@@ -407,12 +399,15 @@ export default function ExamInterface({
               const ans = effectiveAnswers[k];
               let cls = "q-bubble";
               
-              if (showSolutionNow || isReview) {
+              // In practice mode, if it's answered, we ALWAYS show if it's correct or incorrect.
+              // In exam mode, we only show correct/incorrect if isReview is true.
+              const shouldShowStatus = isReview || currentQuestion.isReviewable || (isPracticeMode && !!ans);
+              
+              if (shouldShowStatus) {
                 if (ans === q.a) cls += " correct-q";
                 else if (ans) cls += " incorrect-q";
               } else {
                 if (answers[k]) cls += " answered";
-                else if (flags[k]) cls += " flagged-q";
               }
               
               if (i === curQIdx) cls += " current";
@@ -424,8 +419,15 @@ export default function ExamInterface({
             })}
           </div>
           <div className="legend">
-            <div className="legend-row"><div className="legend-dot ans"></div> Answered</div>
-            <div className="legend-row"><div className="legend-dot flg"></div> Flagged</div>
+            {isExamMode && !isReview && (
+              <div className="legend-row"><div className="legend-dot ans"></div> Answered</div>
+            )}
+            {(isPracticeMode || isReview) && (
+              <>
+                <div className="legend-row"><div className="legend-dot" style={{ background: "#22c55e", borderColor: "#16a34a" }}></div> Correct</div>
+                <div className="legend-row"><div className="legend-dot" style={{ background: "#ef4444", borderColor: "#dc2626" }}></div> Incorrect</div>
+              </>
+            )}
             <div className="legend-row"><div className="legend-dot una"></div> Not Attempted</div>
           </div>
         </div>

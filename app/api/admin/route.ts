@@ -12,8 +12,9 @@ const ADMIN_SECRET = process.env.ADMIN_SECRET || "jamb_secret_2025";
 
 interface RateData {
   date: string;
-  count: number;
-  history: any[];
+  count: number;         // AI requests count
+  sessionCount: number;  // Usage starts count
+  history: { type: 'chat' | 'session', name: string, time: string, detail: string }[];
 }
 
 async function redisGet(): Promise<RateData | null> {
@@ -48,29 +49,29 @@ export async function GET(req: NextRequest) {
     return new NextResponse("Unauthorized", { status: 401 });
   }
 
-  let data: RateData = { date: new Date().toISOString().slice(0, 10), count: 0, history: [] };
+  let data: RateData = { date: new Date().toISOString().slice(0, 10), count: 0, sessionCount: 0, history: [] };
   let isReadOnly = false;
   let isRedis = !!(process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL);
 
   // Try Redis first
   const redisData = await redisGet();
   if (redisData) {
-    data = redisData;
+    data = { ...data, ...redisData };
   } else if (fs.existsSync(RATE_FILE)) {
     try {
-      data = JSON.parse(fs.readFileSync(RATE_FILE, "utf-8"));
+      const fileData = JSON.parse(fs.readFileSync(RATE_FILE, "utf-8"));
+      data = { ...data, ...fileData };
     } catch (e) {
       console.error("Error reading rate file:", e);
     }
   }
 
   if (reset === "1") {
-    data.count = 0;
     if (isRedis) {
-      await redisSet(data);
+      await redisSet({ ...data, count: 0, sessionCount: 0, history: [] });
     } else {
       try {
-        fs.writeFileSync(RATE_FILE, JSON.stringify(data, null, 2));
+        fs.writeFileSync(RATE_FILE, JSON.stringify({ ...data, count: 0, sessionCount: 0, history: [] }, null, 2));
       } catch (e) {
         isReadOnly = true;
       }
@@ -94,22 +95,35 @@ export async function GET(req: NextRequest) {
           body { font-family: system-ui, sans-serif; padding: 20px; background: #f0f7ff; color: #003366; }
           .card { background: white; padding: 20px; border-radius: 12px; border: 1px solid #c8d8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
           h1 { margin-top: 0; font-size: 20px; border-bottom: 2px solid #003366; padding-bottom: 10px; }
-          .stat { font-size: 32px; font-weight: 800; margin: 20px 0; }
-          .badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: bold; text-transform: uppercase; margin-bottom: 10px; }
+          .stat-box { margin: 20px 0; background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0; flex: 1; text-align: center; }
+          .stat-val { font-size: 28px; font-weight: 800; color: #003366; }
+          .stat-lab { font-size: 10px; font-weight: bold; color: #64748b; margin-top: 4px; }
+          .badge { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 9px; font-weight: bold; text-transform: uppercase; margin-right: 8px; }
           .badge-warn { background: #fff7ed; color: #9a3412; border: 1px solid #ffedd5; }
-          .history-item { border-bottom: 1px solid #eee; padding: 10px 0; font-size: 13px; }
+          .badge-chat { background: #dcfce7; color: #166534; }
+          .badge-session { background: #e0f2fe; color: #0369a1; }
+          .history-item { border-bottom: 1px solid #eee; padding: 12px 0; font-size: 13px; }
           .history-item:last-child { border-bottom: none; }
-          .name { font-weight: 700; color: #0055a5; }
+          .name { font-weight: 700; color: #003366; }
           .time { font-size: 11px; opacity: 0.6; }
-          .question { color: #555; margin-top: 4px; font-style: italic; }
-          .btn-reset { display: inline-block; background: #cc0000; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: bold; margin-bottom: 20px; border: none; cursor: pointer; }
+          .detail { color: #555; margin-top: 4px; font-style: italic; font-size: 12px; }
+          .btn-reset { display: block; width: 100%; text-align: center; background: #ef4444; color: white; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-bottom: 20px; border: none; cursor: pointer; box-sizing: border-box; }
         </style>
       </head>
       <body>
         <div class="card">
           <h1>JAMB AI Usage Monitor 2026</h1>
           <div style="font-size: 11px; opacity: 0.7;">Date: ${data.date}</div>
-          <div class="stat">${data.count} / 200 requests</div>
+          <div style="display: flex; gap: 20px;">
+            <div class="stat-box">
+              <div class="stat-val">${data.count || 0}</div>
+              <div class="stat-lab">AI CHATS</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-val">${data.sessionCount || 0}</div>
+              <div class="stat-lab">SESSIONS</div>
+            </div>
+          </div>
           
           ${isRedis ? '<div class="badge" style="background: #dcfce7; color: #166534; border: 1px solid #bbf7d0;">✓ Cloud Priority: Upstash Redis Active</div>' : ''}
           ${searchParams.get('err') === 'readonly' && !isRedis ? '<div class="badge badge-warn">⚠️ Ephemeral Storage (Vercel): Data will reset on server restart</div>' : ''}
@@ -119,8 +133,9 @@ export async function GET(req: NextRequest) {
           <h2>Recent Activity (Last 100)</h2>
           ${data.history && data.history.length > 0 ? data.history.map((h: any) => `
             <div class="history-item">
+              <span class="badge ${h.type === 'session' ? 'badge-session' : 'badge-chat'}">${h.type}</span>
               <span class="name">${h.name}</span> <span class="time">at ${h.time}</span>
-              <div class="question">${h.question}</div>
+              <div class="detail">${h.detail}</div>
             </div>
           `).join('') : '<div style="color: #888;">No history yet today.</div>'}
         </div>
@@ -131,4 +146,46 @@ export async function GET(req: NextRequest) {
   return new NextResponse(html, {
     headers: { "Content-Type": "text/html" },
   });
+}
+
+export async function POST(req: NextRequest) {
+  try {
+    const { type, name, detail } = await req.json();
+    const today = new Date().toISOString().slice(0, 10);
+    const time = new Date().toLocaleTimeString('en-NG', { hour: '2-digit', minute: '2-digit' });
+
+    let data: RateData = { date: today, count: 0, sessionCount: 0, history: [] };
+    
+    const redisData = await redisGet();
+    if (redisData) {
+      data = { ...data, ...redisData };
+    } else if (fs.existsSync(RATE_FILE)) {
+      try {
+        const fileData = JSON.parse(fs.readFileSync(RATE_FILE, "utf-8"));
+        data = { ...data, ...fileData };
+      } catch {}
+    }
+
+    // Reset if new day
+    if (data.date !== today) {
+      data = { date: today, count: 0, sessionCount: 0, history: [] };
+    }
+
+    if (type === 'chat') data.count++;
+    if (type === 'session') data.sessionCount++;
+
+    data.history = [{ type, name: name || "Unknown", time, detail: detail || "" }, ...(data.history || [])].slice(0, 100);
+
+    if (!!(process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL)) {
+      await redisSet(data);
+    } else {
+      try {
+        fs.writeFileSync(RATE_FILE, JSON.stringify(data, null, 2));
+      } catch {}
+    }
+
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    return NextResponse.json({ error: "Failed to track" }, { status: 500 });
+  }
 }
