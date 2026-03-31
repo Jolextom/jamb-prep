@@ -2,18 +2,28 @@ const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
 
-const TOKEN = "ALOC-71329e098ec1488987b9"; 
+const TOKEN = "ALOC-76cc8403b73af4377b78"; 
 const DELAY_MS = 300; 
 const STALL_THRESHOLD = 50; // Pause subject if 50 consecutive duplicates
 const DATA_DIR = 'public/data';
 
 const targets = {
-    crk: 657,         
-    government: 590,
-    englishlit: 655
+    mathematics: 500
 };
 
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+function cleanQuestion(text) {
+    if (!text) return text;
+    // 1. Remove "ClassIntervalsFrequency[numbers/hyphens]" pattern
+    // This often appears as a smashed string before the actual question.
+    let cleaned = text.replace(/^ClassIntervalsFrequency[0-9\u2212\-\s\n\/\\]+(?=\n)/i, "");
+    
+    // 2. Remove "Mark...Frequency..." smashed patterns
+    cleaned = cleaned.replace(/^Mark\s*\d+[\d\s]*Frequency\s*\d+[\d\s]*(?=\n)/i, "");
+    
+    return cleaned.trim();
+}
 
 async function fetchQuestions() {
     console.log("🚀 Starting the ROUND-ROBIN JAMB Data Heist...");
@@ -72,9 +82,15 @@ async function fetchQuestions() {
                 });
 
                 const q = response.data.data;
-                if (q && q.id) {
+                if (q && q.id && q.examtype.toLowerCase() === 'utme' && q.solution && q.solution.trim() !== "") {
                     if (!uniqueIds[subject].has(q.id)) {
                         uniqueIds[subject].add(q.id);
+                        
+                        // Apply cleaning logic
+                        if (subject === 'mathematics') {
+                            q.question = cleanQuestion(q.question);
+                        }
+                        
                         banks[subject].push(q);
                         consecutiveDuplicates[subject] = 0;
                         
@@ -111,4 +127,8 @@ async function fetchQuestions() {
     console.log(summary);
 }
 
-fetchQuestions();
+fetchQuestions().catch(err => {
+    console.error("\n💥 FATAL HEIST ERROR:");
+    console.error(err);
+    process.exit(1);
+});

@@ -1,7 +1,7 @@
 // ALOC V2 Supported Subjects with metadata
 export const SUBJECT_METADATA = [
   { name: "English Language", slug: "english", default: 60, fixedExamCount: 60, isReady: true },
-  { name: "Mathematics", slug: "mathematics", default: 40, fixedExamCount: 40, isReady: false },
+  { name: "Mathematics", slug: "mathematics", default: 40, fixedExamCount: 40, isReady: true },
   { name: "Physics", slug: "physics", default: 40, fixedExamCount: 40, isReady: true },
   { name: "Chemistry", slug: "chemistry", default: 40, fixedExamCount: 40, isReady: true },
   { name: "Biology", slug: "biology", default: 40, fixedExamCount: 40, isReady: true },

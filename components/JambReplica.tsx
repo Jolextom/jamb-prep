@@ -56,6 +56,7 @@ export default function JambReplica() {
 
   // API State
   const [isLoading, setIsLoading] = useState(false);
+  const [isBooting, setIsBooting] = useState(false);
   const [qbState, setQbState] = useState<Record<string, Question[]>>({});
   const [fetchError, setFetchError] = useState<string | null>(null);
 

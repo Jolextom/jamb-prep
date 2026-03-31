@@ -10998,5 +10998,1285 @@
     "topic": "Lexis & Structure",
     "sub_topic": "Synonyms/Antonyms",
     "difficulty": "Moderate"
+  },
+  {
+    "id": 1783,
+    "question": "Joke gave Muhammad a <u>jaunty</u>  smile.",
+    "option": {
+      "a": " A cheerful.",
+      "b": "A discouraging.",
+      "c": "An inviting.",
+      "d": "A frightful.",
+      "e": ""
+    },
+    "section": "Choose the option <b>nearest</b> in meaning to the underlined word or phrase.",
+    "image": "",
+    "answer": "a",
+    "solution": "jaunty; having or expressing a lively, cheerful, and self-confident manner.",
+    "examtype": "utme",
+    "examyear": "2014",
+    "questionNub": 24,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1110,
+    "question": "Choose the most appropriate answer in the numbered 18",
+    "option": {
+      "a": "shocktherapy",
+      "b": "shockwaves",
+      "c": "shocktroops",
+      "d": "shockjocks",
+      "e": ""
+    },
+    "section": "The passage below has gaps numbered 16 to 25. Immediately following each gap, four options are provided. Choose the most appropriate option for each gap. <br><br>Whatever may be its wider implications, the explosion of hydrogen bomb is, for the meteorologist, simply another atmospheric disturbance. It should therefore be classed with certain rare natural.....11...... (A. programmes B. occurrences C. resources D. laws), such as volcanic ....12... But there are certain features of a man-made disturbance that requires special examination. As with all events on this ....13...It is impossible to describe what happens in details. However we can be reasonably sure of the main effects, and most impressive of these arises from ....14...The immediate result of the ....15....is that the air surrounding the bomb is raised very rapidly to an enormously high.....16....The hot gases expand violently as great........17.....compressing the air around them into what is called .....18......or blast wave that is responsible for much of terrible destructive power of the weapon.<br><br>Another kind of wave arises because of the weight of the air. The force of the explosion lifts the ....19... (A. atmosphere B. space C. height D. form around the bomb. The gravity waves can also resemble ordinary.....20..... (A. stream B. lake C. ocean D. river) waves. Waves of this type are normally felt by human beings and they have their effect on the weather.<br><br>Adapted from Ayoola K. (2007) University for All Students, Lagos, Nigeria: Olive Free Venture",
+    "image": "",
+    "answer": "b",
+    "solution": "shockwaves; a sharp change of pressure in a narrow region travelling through a medium, especially air, caused by explosion or by a body moving faster than sound.",
+    "examtype": "utme",
+    "examyear": "2013",
+    "questionNub": 18,
+    "hasPassage": 1,
+    "category": "register"
+  },
+  {
+    "id": 674,
+    "question": "YOUR sister should come with us tomorrow?",
+    "option": {
+      "a": "Should your brother come with us tomorrow?",
+      "b": "Should our brother come with us tomorrow?",
+      "c": "Should Ado's sister come with us tomorrow?",
+      "d": "Should my sister come with us tomorrow?",
+      "e": ""
+    },
+    "section": "<b>In each of questions 78 to 80, the word in capital letters has an emphatic stress. Choose the option that best fits the expression in the sentence.</b>",
+    "image": "",
+    "answer": "c",
+    "solution": "In answering questions on emphatic stress, the statement which contradicts the emphasized word is usually the correct option.\n\nFrom the question above, the emphatic stress is placed on 'YOUR', and the option which contradicts it, is option 'C'.\n\nShould ADO's sister come with us tomorrow? No!\n\nYOUR sister should come with us tomorrow?",
+    "examtype": "utme",
+    "examyear": "2001",
+    "questionNub": 78,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 970,
+    "question": "Instead of ......., she lied?",
+    "option": {
+      "a": "pleading",
+      "b": "her to plead",
+      "c": "her pleading",
+      "d": "plead",
+      "e": ""
+    },
+    "section": "<b>In each of the questions 64 to 83, choose the option that best completes the gap(s).</b> \n",
+    "image": "",
+    "answer": "a",
+    "solution": "Instead of pleading, she lied?",
+    "examtype": "utme",
+    "examyear": "2011",
+    "questionNub": 75,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1134,
+    "question": "Amaka would pass for a beauty queen",
+    "option": {
+      "a": "She would be accepted by all as a beauty Queen",
+      "b": "She walked past the beauty queen",
+      "c": "she was acting as a beauty queen",
+      "d": "she would pass the drink to the queen who is sitting next to her",
+      "e": ""
+    },
+    "section": "<b>questions 36 - 45 are on LEXIS, STRUCTURE AND ORAL FORMS</b>\nIn each of this question select the option that best explains the information conveyed in the sentence.",
+    "image": "",
+    "answer": "a",
+    "solution": "Amaka has the qualities of a beauty queen.",
+    "examtype": "utme",
+    "examyear": "2013",
+    "questionNub": 42,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1770,
+    "question": "Prolonged strike action <u>debilitated</u> the industry.",
+    "option": {
+      "a": "Stroyed.",
+      "b": "Invigorated.",
+      "c": "Isolated.",
+      "d": "Weakened.",
+      "e": ""
+    },
+    "section": "Choose the option <b>opposite</b> in meaning to the underlined word or phrase.",
+    "image": "",
+    "answer": "b",
+    "solution": "debilitated; in a very weakened and infirm state.\n\ninvigorate; give strength or energy to",
+    "examtype": "utme",
+    "examyear": "2014",
+    "questionNub": 11,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1735,
+    "question": "From the words lettered A to D, choose the word that has the same <b>vowel</b> sound as the one represented by the underlined letters or letters underlined.\n\nBr<u>ou</u>ght",
+    "option": {
+      "a": "roar",
+      "b": "plough",
+      "c": "drought",
+      "d": "worse",
+      "e": ""
+    },
+    "section": "",
+    "image": "",
+    "answer": "a",
+    "solution": "The word ‘bought’ is transcribed /bc:t/ and it is the long vowel sound of /Ɔ/. The answer is A ‘roar’ /rc:r/ or /rc:r/ and it is the long vowel sound as ‘bought’ /bc:t/. the others have different vowel sounds like ‘plough’ /plau/, which has the diphthong /au/, ‘drought’ /draut/, also with the diphthong /au/ and ‘worse’ /wƷ:s/ which has a different sound.",
+    "examtype": "utme",
+    "examyear": "2015",
+    "questionNub": 48,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1063,
+    "question": "The driver was short of petrol, so he..........down the hills with the engine switched off",
+    "option": {
+      "a": "glided",
+      "b": "coasted",
+      "c": "wheeled",
+      "d": "taxied",
+      "e": ""
+    },
+    "section": "<b>In each of the question 66 to 85 choose the option that best completes the gap(s)</b>",
+    "image": "",
+    "answer": "b",
+    "solution": "glide means To move in a smooth, effortless manner: a submarine gliding through the water. See Synonyms at slide. 2. To move silently and furtively: The thief glided across the room.\n\ncoasted: To proceed with little effort. Because the route was mostly downhill, the car just coasted along. I'm worried that you're just coasting along through your senior year without taking your future seriously.\n\nwheeled (of a vehicle or other object) having wheels to enable it to move over the ground.\n\ntaxied (of an aircraft) move slowly along the ground before take-off or after landing.\n\n ",
+    "examtype": "utme",
+    "examyear": "2012",
+    "questionNub": 69,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1508,
+    "question": "Nwankwo was on the <u>verge</u> of signing a two-year contract with the club",
+    "option": {
+      "a": "brink",
+      "b": "summit",
+      "c": "height",
+      "d": "shore",
+      "e": ""
+    },
+    "section": "Choose the option nearest in meaning to the underlined.",
+    "image": "",
+    "answer": "a",
+    "solution": "To be on the verge of something means to be very close to it.\n\nTo be on the brink also means to be on the edge or border of something.",
+    "examtype": "utme",
+    "examyear": "2018",
+    "questionNub": 25,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1631,
+    "question": "He suddenly found himself in the thick of the situation",
+    "option": {
+      "a": "He did not agree with the situation",
+      "b": "He used his experience to settle the sitution",
+      "c": "He saved himself out of the situation",
+      "d": "He found himself deeply involved in the situation",
+      "e": ""
+    },
+    "section": "For this question, select the option that best explains the information conveyed in the question.",
+    "image": "",
+    "answer": "d",
+    "solution": "be in the thick of something means = to be very involved at the busiest or most active stage of a situation or activity",
+    "examtype": "utme",
+    "examyear": "2016",
+    "questionNub": 19,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1159,
+    "question": "Our teacher defined ......in his introductory lesson",
+    "option": {
+      "a": "onomatopoeia",
+      "b": "onomatopieoa",
+      "c": "onomatopiea",
+      "d": "Onomatopoia",
+      "e": ""
+    },
+    "section": "<b>In each of question 66 to 85, choose the option that best completes the gap (s)</b>\n",
+    "image": "",
+    "answer": "a",
+    "solution": "The correct option is option A.\nOnomatopoeia; is the formation of a word from a sound associated with what is named. Example animals sounds such as meow, chirp etc",
+    "examtype": "utme",
+    "examyear": "2013",
+    "questionNub": 67,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1569,
+    "question": "Choose the option to which the given sentence relates\n\nMy Boss has an amiable DISPOSITION",
+    "option": {
+      "a": "Does your boss have an amiable disposition",
+      "b": "Does my boss have an unfriendly disposition",
+      "c": "Does my colleague have an amiable disposition?",
+      "d": "Does my boss have an amiable complexion?",
+      "e": ""
+    },
+    "section": "",
+    "image": "",
+    "answer": "d",
+    "solution": "Still going by the rule when answering questions on emphatic stress, the option that doesn't have the emphasized word. In this case 'DISPOSITION' is the emphasized word on the only option without it is option D",
+    "examtype": "utme",
+    "examyear": "2017",
+    "questionNub": 6,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 965,
+    "question": "Unoka .... the whole house to find his missing wristwatch?",
+    "option": {
+      "a": "scourged",
+      "b": "scoured",
+      "c": "scored",
+      "d": "scouted",
+      "e": ""
+    },
+    "section": "<b>In each of the questions 64 to 83, choose the option that best completes the gap(s).</b> \n",
+    "image": "",
+    "answer": "b",
+    "solution": "Unoka scoured the whole house to finds his missing wristwatch?\n\nIf you scour something such as a place or a book, you make a thorough search of it to try to find what you are looking for. ",
+    "examtype": "utme",
+    "examyear": "2011",
+    "questionNub": 70,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1364,
+    "question": "My uncle is a <u>prosperous</u> businessman, my aunt, unfortunately, is quite ________",
+    "option": {
+      "a": "unskillful",
+      "b": "domestic",
+      "c": "unsuccessful",
+      "d": "unqualified",
+      "e": ""
+    },
+    "section": "From the list of words or group of words lettered A to D, choose the one that is most nearest opposite in meaning to the underlined word or group of words and that will, at the same time correctly fill in the gap in the sentence. ",
+    "image": "",
+    "answer": "c",
+    "solution": "Unsuccessful implies 'not successful'. An opposite of Prosperous.",
+    "examtype": "utme",
+    "examyear": "2020",
+    "questionNub": 51,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1292,
+    "question": "My father is <u>parsimonious</u>",
+    "option": {
+      "a": "thrifty",
+      "b": "ungenerous",
+      "c": "frugal",
+      "d": "generous",
+      "e": ""
+    },
+    "section": "From the options lettered A-D, choose the option that is most nearly opposite in meaning to the underlined word.\n",
+    "image": "",
+    "answer": "d",
+    "solution": "Parsimonious means to be very unwilling to spend money or use resources. The nearly opposite word is generous.",
+    "examtype": "utme",
+    "examyear": "2022",
+    "questionNub": 39,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 678,
+    "question": "You must not attend the end-of year party?",
+    "option": {
+      "a": "It is not necessary that you attend the party",
+      "b": " It is necessary that you attend the party",
+      "c": "You do not have to decided whether to attend the party or not",
+      "d": "You have to decided whether to attend the party or not",
+      "e": ""
+    },
+    "section": "<b>In each of questions 81 to 85, select the option that best explains the information conveyed in the sentence.</b>\n",
+    "image": "",
+    "answer": "a",
+    "solution": "'You must not attend the end-of year party'' this statement means that, attending the party is not compulsory or a necessity. it is optional",
+    "examtype": "utme",
+    "examyear": "2001",
+    "questionNub": 82,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1670,
+    "question": "disagreement",
+    "option": {
+      "a": "disAgreement",
+      "b": "disaGREEment",
+      "c": "DISagreement",
+      "d": "disagreeMENT",
+      "e": ""
+    },
+    "section": "For these questions, choose the most appropriate stress pattern from the options. The Stressed syllable are written in capital letter (s)",
+    "image": "",
+    "answer": "b",
+    "solution": "Primary syllable stress:   dis-a-gree-ment",
+    "examtype": "utme",
+    "examyear": "2016",
+    "questionNub": 58,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1800,
+    "question": "Those _____ are very beautiful.",
+    "option": {
+      "a": "Flowers of ours.",
+      "b": "Flowers of her.",
+      "c": "Flowers of her's.",
+      "d": " Our flowers.",
+      "e": ""
+    },
+    "section": "Choose the option that best complete the gap.",
+    "image": "",
+    "answer": "a",
+    "solution": "Those Flowers of ours are very beautiful.",
+    "examtype": "utme",
+    "examyear": "2014",
+    "questionNub": 41,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1225,
+    "question": "One hundred and forty kilometres per hour is a <u>reasonable</u> speed limit. ",
+    "option": {
+      "a": "acceptable",
+      "b": "unbelievable",
+      "c": "outrageous",
+      "d": "detestable",
+      "e": ""
+    },
+    "section": "choose the option nearly opposite in meaning to the word(s) underlined",
+    "image": "",
+    "answer": "c",
+    "solution": "Reasonable:as much as is appropriate or fair; moderate.\n\nOutrageous: shockingly bad or excessive.",
+    "examtype": "utme",
+    "examyear": "2021",
+    "questionNub": 32,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1436,
+    "question": "The author compares sea anemone's tentacles to a flower's",
+    "option": {
+      "a": "Stem",
+      "b": "Petals",
+      "c": "Leaves",
+      "d": "roots",
+      "e": ""
+    },
+    "section": "Read the Passage carefully and answer the questions that follow. <br><br>\nWith its radiant color and plant-like shape, the sea anemone looks more like a flower than animal. More specifically, the sea anemone is formed quite like a flower for which is named, with body like a stem and tentacles like petals in brilliant shades; blue, pink, green and red. Its diameters vary from about six millimeters in some species to more than ninety centimeters in the giant verities of Australia. Like corals, hydras and jelly fish, sea anemones are coelenterates. They can move slowly, but more often they attach the lower part of their cylindrical bodies to rocks, shells or wharf pilings.  <br><br>\nThe upper and end of the sea anemone has a mouth surrounded by tentacles which the animal uses to capture its food. Stinging cells in the tentacles throw out tiny poison threads that paralyze other small sea animals. The tentacles then drag this prey into the sea anemone's mouth.The food is digested in the large inner body cavity. When disturbed, a sea anemone retracts its lump on a rock. Anemones may reproduce by forming eggs. dividing in half or developing buds that grow and break off as independent animals. ",
+    "image": "",
+    "answer": "b",
+    "solution": "The sea anemones tentacles are compared to petals in brilliant shades of  blue, pink, green and red.",
+    "examtype": "utme",
+    "examyear": "2019",
+    "questionNub": 63,
+    "hasPassage": 1,
+    "category": "passage-c"
+  },
+  {
+    "id": 1480,
+    "question": "Neighb[our]",
+    "option": {
+      "a": "blood",
+      "b": "standard",
+      "c": "board",
+      "d": "source",
+      "e": ""
+    },
+    "section": "Choose the word that has the same vowel sound as the one in bracket, from questions below",
+    "image": "",
+    "answer": "b",
+    "solution": "The vowel sound obtainable here is the /∂/ sound as in 'brother'. Stand[ar]d qualifies in this regard.",
+    "examtype": "utme",
+    "examyear": "2019",
+    "questionNub": 107,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1584,
+    "question": "Choose the option opposite in meaning to the word or phrase in italics\n\nThe students received a mild <i>reproof</i> from the teacher",
+    "option": {
+      "a": "exhortation",
+      "b": "opposition",
+      "c": "commendation",
+      "d": "appropriation",
+      "e": ""
+    },
+    "section": "",
+    "image": "",
+    "answer": "c",
+    "solution": "This answer was chosen because it is opposite to the word italicized in the question; reproof which means an expression of criticism, blame.\nFrom the above meaning of the other options, it is obvious that non-fits for the opposite of the word 'reproof'.\n\nCommendation means an official or a formal praise",
+    "examtype": "utme",
+    "examyear": "2017",
+    "questionNub": 21,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1223,
+    "question": "The governor was <u>incoherent</u> in his speech",
+    "option": {
+      "a": "uncoordinated",
+      "b": "talkative",
+      "c": "confused",
+      "d": "eloquent",
+      "e": ""
+    },
+    "section": "choose the most appropriate option nearest in meaning to the word(s) underlined.",
+    "image": "",
+    "answer": "a",
+    "solution": "Incoherent: (of spoken or written language) expressed in an incomprehensible or confusing way; unclear.",
+    "examtype": "utme",
+    "examyear": "2021",
+    "questionNub": 30,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1375,
+    "question": "Some men will continue to cause offences until they are given [a taste of their own medicine]",
+    "option": {
+      "a": "placated",
+      "b": "revenged on",
+      "c": "cured",
+      "d": "recompensed for",
+      "e": ""
+    },
+    "section": "Choose the one nearest in meaning to the word(s) in bracket",
+    "image": "",
+    "answer": "d",
+    "solution": "Recompensed for is the correct answer. To have 'a taste of your own medicine' is to have the same unpleasant experience that one has caused another.",
+    "examtype": "utme",
+    "examyear": "2019",
+    "questionNub": 2,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1344,
+    "question": "You need to __________your points\n",
+    "option": {
+      "a": "expanciate",
+      "b": "expaciate",
+      "c": "expatiate",
+      "d": "expantiate",
+      "e": ""
+    },
+    "section": "From the words lettered A to D, choose the word or group of words that best completes each of the following sentences.",
+    "image": "",
+    "answer": "c",
+    "solution": "Option C, 'Expatiate' is the appropriate spelling",
+    "examtype": "utme",
+    "examyear": "2020",
+    "questionNub": 31,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1441,
+    "question": "...to cover the improperly secured left rear ....3....",
+    "option": {
+      "a": "hatch",
+      "b": "door",
+      "c": "entrance",
+      "d": "gate",
+      "e": ""
+    },
+    "section": "Read the passage and choose the most appropriate option for each gap.<br><br> \nJust after ...1..... the aircraft gave a shudder and coughed. The pilot, from the ..2...... activated the emergency sheet to cover the improperly secured left rear ....3.... At the same time, he pushed a button on the panel to activate automatic turning, and the airplane ....4.... north-east He called the control ....5.... to report the misshaped requested clearance for emergency ....6....The plane circled the airport and prepared to return to the airport it had just left. Moments later, the aircraft ....7....to stop on a ....8.... ....9.... in oilskin ran in the light drizzle and were soon perched on the ....10.... of the plane, from where they began their inspection. ",
+    "image": "",
+    "answer": "a",
+    "solution": "The hatch is the trap door in the cockpit ceiling which allows the pilot to evacuate the flight control area in case of an emergency.",
+    "examtype": "utme",
+    "examyear": "2019",
+    "questionNub": 68,
+    "hasPassage": 1,
+    "category": "register"
+  },
+  {
+    "id": 1170,
+    "question": "Local governments are authorized to pass",
+    "option": {
+      "a": "bye laws",
+      "b": "byes-laws",
+      "c": " bye's law",
+      "d": "bye-law",
+      "e": ""
+    },
+    "section": "<b>In each of question 66 to 85, choose the option that best completes the gap (s)</b>\n",
+    "image": "",
+    "answer": "a",
+    "solution": "A bye law is a regulation made by a local authority or corporation. Since the Subject of the noun is in plural form, the laws will also be in plural. ",
+    "examtype": "utme",
+    "examyear": "2013",
+    "questionNub": 78,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1503,
+    "question": "<u>For all he cared: the game was as good as lost</u>",
+    "option": {
+      "a": "He did not care if the game as lost",
+      "b": "He could not care less if the game was lost",
+      "c": "He was almost certain that the game would be lost",
+      "d": "He was afraid the game would be lost",
+      "e": ""
+    },
+    "section": "Choose the option nearest in meaning to the underlined.",
+    "image": "",
+    "answer": "c",
+    "solution": "For all I care' is used to say that a person is not worried/ uninterested about what happened to someone or something. 'As good as' indicates a comparison between 'the game' and 'a lost'\n\nOption C is the best answer",
+    "examtype": "utme",
+    "examyear": "2018",
+    "questionNub": 20,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1587,
+    "question": "Choose the options that have the same consonant as the ones represented by the letter(s) underlined\n\nlei<u>s</u>ure",
+    "option": {
+      "a": "sure",
+      "b": "ledger",
+      "c": "treasure",
+      "d": "judge",
+      "e": ""
+    },
+    "section": "",
+    "image": "",
+    "answer": "c",
+    "solution": "Leisure has the same consonant sound as in treasure",
+    "examtype": "utme",
+    "examyear": "2017",
+    "questionNub": 24,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1716,
+    "question": "From the words lettered A to D, choose the word that has the same consonant sounds as the one represented by the letters underlined.\n\nHa<u>ng</u>",
+    "option": {
+      "a": "hinge",
+      "b": "tinge",
+      "c": "song",
+      "d": "balm",
+      "e": ""
+    },
+    "section": "",
+    "image": "",
+    "answer": "c",
+    "solution": "The answer to this is ‘C’ because the word ‘song’ /son/ /sc:g/ has the same consonant nasal sound as ‘hang’ /hæg/ while the other option have different sounds ‘hinge’, Einge /EIndz/, ‘balm’ /ba:m/",
+    "examtype": "utme",
+    "examyear": "2015",
+    "questionNub": 29,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 927,
+    "question": "The plan to upgrade the dispensary to a general hospital did not materialized?",
+    "option": {
+      "a": "The plan did not meet the required specifications",
+      "b": "The arrangement did not work out as wished",
+      "c": "It was difficult to obtain the materials",
+      "d": "The materials purchased were not the right ones",
+      "e": ""
+    },
+    "section": "<b>LEXIS, STRUCTURE AND ORAL FORMS</b>\nIn each of the questions 26 to 33, select the option \nthat best explains the information conveyed in \nthe sentence.",
+    "image": "",
+    "answer": "b",
+    "solution": "If a possible or expected event does not materialize, it does not happen.",
+    "examtype": "utme",
+    "examyear": "2011",
+    "questionNub": 32,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1839,
+    "question": "Choose the most appropriate option for the gap labelled 16.",
+    "option": {
+      "a": "an essayist",
+      "b": "a freelancer",
+      "c": "composer",
+      "d": "columnist",
+      "e": ""
+    },
+    "section": "Setting up a news paper involves a lot of preparations. The __11__ has to employ a lot of people. Other people working with him are cartographers, editors, typesetters, readers, who work in various ways to produce the text of the newspaper, __12__, who go out and collect story and items of news, and __13__, who specialize in one kind of topic. Another important person who works closely with the Editor-in-Chief is the __14__, who has to choose the most important stories__15__ go through stories sent to them and make necessary adjustments. <br><br>\nThe Editor-in-Chief could determine for instance, whether a particular journalist should write articles daily or weekly in a particular column. Such a journalist is known as __16__. The editorials of the news paper will be coordinated by __17__. The publisher could decide to establish __18__ which would be on sale weekly, fortnightly, or monthly,__19__ the eyes catching, screaming headlines and captions of newspapers on sale everyday from the __20__. ",
+    "image": "",
+    "answer": "d",
+    "solution": "columnist; a journalist contributing regularly to a newspaper or magazine.",
+    "examtype": "utme",
+    "examyear": "2014",
+    "questionNub": 80,
+    "hasPassage": 1,
+    "category": "register"
+  },
+  {
+    "id": 1382,
+    "question": "Band[a]ge",
+    "option": {
+      "a": "kite",
+      "b": "says",
+      "c": "cacophony",
+      "d": "cage",
+      "e": ""
+    },
+    "section": "Choose the word with the same vowel sound as the one in bracket\n",
+    "image": "",
+    "answer": "c",
+    "solution": "Bandage' is pronounced as /bandɪdʒ/ with the [a] in bandage having the 'i' vowel sound, and option C 'cacophony' has the same vowel sound as with the letter 'y'. ",
+    "examtype": "utme",
+    "examyear": "2019",
+    "questionNub": 9,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1210,
+    "question": "In question number 17 above choose the best option from letters A- E that best complete the gap",
+    "option": {
+      "a": "alpha",
+      "b": "adult",
+      "c": "drone",
+      "d": "chief",
+      "e": "leader"
+    },
+    "section": "In the passage below, the numbered gaps (11-20) indicate missing words. From the options lettered A- E the most appropriate option. <br><br>\nThe head of the -11- is called the queen bee. She is -12-than the rest of the bees. Her main task in the colony is to lay eggs. Most of the other bees are the -13- bees. These bees collect nectar and -14- from flowers. The nectar that is carried by the worker bees is deposited on the hive and then -15- into honey. The worker bees also help to look after the young bees. As soon as they are -16-, the worker bees feed the young bees with pollen and nectar. The third type of bee found in the colony is the -17- or male bee. The main task of such a bee is to -18- with a new queen. The queen bee has a life span of about three years. During this period, she would have - 19- more than half a million eggs. When the queen bee is dying, a new queen would be groomed. This new queen will eventually take over the duties of the old queen when the -20- dies. ",
+    "image": "",
+    "answer": "c",
+    "solution": "The male bee is called the drone",
+    "examtype": "utme",
+    "examyear": "2021",
+    "questionNub": 17,
+    "hasPassage": 1,
+    "category": "passage-c"
+  },
+  {
+    "id": 1778,
+    "question": "The testimony of the witness was <u>vague</u>.",
+    "option": {
+      "a": "Clear.",
+      "b": "Disturbing.",
+      "c": "True.",
+      "d": "Ambiguous.",
+      "e": ""
+    },
+    "section": "Choose the option <b>opposite</b> in meaning to the underlined word or phrase.",
+    "image": "",
+    "answer": "a",
+    "solution": "vague; of uncertain, indefinite, or unclear character or meaning.",
+    "examtype": "utme",
+    "examyear": "2014",
+    "questionNub": 19,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1532,
+    "question": "Knowledge of figures of speech as well as of idiom and lexical items ____________ in this section",
+    "option": {
+      "a": "is tested",
+      "b": "have been tested",
+      "c": "are tested",
+      "d": "were tested",
+      "e": ""
+    },
+    "section": "Choose the word(s) or phrase(s) which best fill(s) the gap. ",
+    "image": "",
+    "answer": "a",
+    "solution": "When either of these words is used; as well as, together with, alongside, no less than e.t.c, the subject of the clause would be the noun or pronoun that comes before the marker of accompaniment. \n\nKnowledge of figures of speech is a singular subject that should agree with a singular verb",
+    "examtype": "utme",
+    "examyear": "2018",
+    "questionNub": 49,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1821,
+    "question": "Conspiracy.",
+    "option": {
+      "a": "CONspiracy.",
+      "b": "conspiRAcy.",
+      "c": "conspiraCY",
+      "d": "conSPIracy.",
+      "e": ""
+    },
+    "section": "choose the most appropriate stress pattern from the options.\n",
+    "image": "",
+    "answer": "d",
+    "solution": "conspiracy; /kənˈspɪrəsi/",
+    "examtype": "utme",
+    "examyear": "2014",
+    "questionNub": 62,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1108,
+    "question": "Choose the most appropriate answer in the numbered 16",
+    "option": {
+      "a": "temperature",
+      "b": "class",
+      "c": "profile",
+      "d": "way",
+      "e": ""
+    },
+    "section": "The passage below has gaps numbered 16 to 25. Immediately following each gap, four options are provided. Choose the most appropriate option for each gap. <br><br>Whatever may be its wider implications, the explosion of hydrogen bomb is, for the meteorologist, simply another atmospheric disturbance. It should therefore be classed with certain rare natural.....11...... (A. programmes B. occurrences C. resources D. laws), such as volcanic ....12... But there are certain features of a man-made disturbance that requires special examination. As with all events on this ....13...It is impossible to describe what happens in details. However we can be reasonably sure of the main effects, and most impressive of these arises from ....14...The immediate result of the ....15....is that the air surrounding the bomb is raised very rapidly to an enormously high.....16....The hot gases expand violently as great........17.....compressing the air around them into what is called .....18......or blast wave that is responsible for much of terrible destructive power of the weapon.<br><br>Another kind of wave arises because of the weight of the air. The force of the explosion lifts the ....19... (A. atmosphere B. space C. height D. form around the bomb. The gravity waves can also resemble ordinary.....20..... (A. stream B. lake C. ocean D. river) waves. Waves of this type are normally felt by human beings and they have their effect on the weather.<br><br>Adapted from Ayoola K. (2007) University for All Students, Lagos, Nigeria: Olive Free Venture",
+    "image": "",
+    "answer": "a",
+    "solution": "Temperature; the degree or intensity of heat present in a substance or object, especially as expressed according to a comparative scale and shown by a thermometer or perceived by touch.",
+    "examtype": "utme",
+    "examyear": "2013",
+    "questionNub": 16,
+    "hasPassage": 1,
+    "category": "register"
+  },
+  {
+    "id": 1453,
+    "question": "Aliya's sixteenth birthday is special because",
+    "option": {
+      "a": "she receives birthday cards from her father every year since age twelve",
+      "b": "she was already matured to fully understand the realities of life stories told by her father",
+      "c": " her father gave her a birthday card and a digital camera",
+      "d": "of her father's sixteen-page letter detailing her life journey thus far",
+      "e": ""
+    },
+    "section": "<b>Questions below are based on Bolaji Abdullahi's \"Sweet Sixteen\"</b>",
+    "image": "",
+    "answer": "d",
+    "solution": "The specialty in Aliya's sixteenth birthday is a result of the sixteen-page letter which her father wrote to her, dedicating each page to each year of her life.",
+    "examtype": "utme",
+    "examyear": "2019",
+    "questionNub": 80,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1643,
+    "question": "The idea makes me <i>cringe</i>",
+    "option": {
+      "a": "quiver",
+      "b": "tremble",
+      "c": "resolute",
+      "d": "writhe",
+      "e": ""
+    },
+    "section": "For this question, choose the option opposite in meaning to the word or phrase in italics ",
+    "image": "",
+    "answer": "c",
+    "solution": "<i>cringe</i>; bend one's head and body in fear or apprehension or in a servile manner.\nsynonyms; shake, tremble, quiver, quail, quake\nresolute; admirably purposeful, determined, and unwavering.",
+    "examtype": "utme",
+    "examyear": "2016",
+    "questionNub": 31,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1154,
+    "question": "I am tired of your <u>eternal</u> argument",
+    "option": {
+      "a": "constant",
+      "b": "useless",
+      "c": "open",
+      "d": "strong",
+      "e": ""
+    },
+    "section": "In each of questions 56 to 65, choose the option <b>nearest</b> in meaning to the word or phrase underlined.\n",
+    "image": "",
+    "answer": "a",
+    "solution": "Eternal; lasting or existing forever; without end. Endless, constant",
+    "examtype": "utme",
+    "examyear": "2013",
+    "questionNub": 62,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 978,
+    "question": "The school authority dismissed him for ...... but I won't tell you about it yet?",
+    "option": {
+      "a": " certain reason",
+      "b": "a reason",
+      "c": "more reason",
+      "d": "a certain reason",
+      "e": ""
+    },
+    "section": "<b>In each of the questions 64 to 83, choose the option that best completes the gap(s).</b> \n",
+    "image": "",
+    "answer": "d",
+    "solution": "The school authority dismissed him for a certain reason but I won't tell you about it yet?",
+    "examtype": "utme",
+    "examyear": "2011",
+    "questionNub": 83,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1751,
+    "question": "What did papa Solade do after knowing that Wole and jimi still saw secretly?",
+    "option": {
+      "a": "he flogged jimi",
+      "b": " he flogged wole",
+      "c": "sent jimi away to Ibadan",
+      "d": " sent jimi's mother away",
+      "e": ""
+    },
+    "section": "This question is from the novel 'The Last Days at Forcados High school'.",
+    "image": "",
+    "answer": "c",
+    "solution": "Papa Solade became so furious when he discovered Jimi and Wole still saw each other secretly, so he decided to send jimi to Ibadan for the holidays because he didn’t want jimi under Wole’s bad influence.\n\nTherefore, option c is the answer.\n\nSee page 8",
+    "examtype": "utme",
+    "examyear": "2015",
+    "questionNub": 64,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1303,
+    "question": "If James fails his examination, his teachers, his parents, his friends, or I ______ to be blame.",
+    "option": {
+      "a": "are",
+      "b": "is",
+      "c": "am",
+      "d": "not",
+      "e": ""
+    },
+    "section": "Fill in the gap with the option that best completes the sentence.",
+    "image": "",
+    "answer": "c",
+    "solution": "When there is a list of nouns or pronouns at the level of the subject, it is the nearest noun or pronoun to the position of the verb that will determine the choice of the verb.",
+    "examtype": "utme",
+    "examyear": "2022",
+    "questionNub": 50,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1806,
+    "question": "What is the jury's _____ the matter.",
+    "option": {
+      "a": "Verdict with.",
+      "b": "Verdict on.",
+      "c": "Verdict at.",
+      "d": "Verdict from.",
+      "e": ""
+    },
+    "section": "Choose the option that best complete the gap.",
+    "image": "",
+    "answer": "b",
+    "solution": "Verdict; a decision on an issue of fact in a civil or criminal case or an inquest.\n\nOn; is used in indicating continuation of a movement or action.",
+    "examtype": "utme",
+    "examyear": "2014",
+    "questionNub": 47,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1389,
+    "question": "When her husband died of AIDS in 1987, Alice discovered she was HIV positive. Frequent ...2..... of sickness forced her to give up her embroidery job.",
+    "option": {
+      "a": "sufferings",
+      "b": "Happenings",
+      "c": "Rounds",
+      "d": "Bouts",
+      "e": ""
+    },
+    "section": "Choose the most appropriate option for each group for questions <br><br>\nAlice, a small fragile-looking Ugandan mother, is dying of AIDS. She lives with her son and daughter in a tin-roofed shack on the .....1... of Kampala. When her husband died of AIDS in 1987, Alice discovered she was HIV positive. Frequent ...2..... of sickness forced her to give up her embroidery job. She was so depressed that she just wanted to eat. ....3.... by a neighbour, the mobile care unit from Nsambya hospital went to her home. They convinced her to start taking proper ..4....... After three months of ....5.... treatment, she regained her will to live. The AIDS time bomb .....6... on relentlessly. The World Health Organization ....7.... that 1.8 million Ugandans are HIV positive, nearly one in eight of the total population. The Ugandan AIDS Commission set up by President Museveni ..8...... the spread of the disease. However, under-porting and the lack of post-mortem and ...9..... makes it impossible to establish exact figures. No one ....10.... that it is a disaster far worse than the years of civil war. ",
+    "image": "",
+    "answer": "d",
+    "solution": "Bouts indicate short periods of intense activity of a specified kind.",
+    "examtype": "utme",
+    "examyear": "2019",
+    "questionNub": 16,
+    "hasPassage": 1,
+    "category": "passage-b"
+  },
+  {
+    "id": 1354,
+    "question": "Our chief is very intelligent but he could be <u>parochial</u> in his judgements",
+    "option": {
+      "a": "deep",
+      "b": "broad",
+      "c": "narrow-minded",
+      "d": " kind-hearted",
+      "e": ""
+    },
+    "section": "From the words lettered A to D, choose the word or group of words that is nearest in meaning to the underlined word as it is used in the sentence\n\n ",
+    "image": "",
+    "answer": "c",
+    "solution": "Parochial means having a limited or narrow scope. Option C best fits this definition.",
+    "examtype": "utme",
+    "examyear": "2020",
+    "questionNub": 41,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 915,
+    "question": "In question number 20 above, choose the best option from letters A - D that best completes the gap.",
+    "option": {
+      "a": " an acceptable",
+      "b": "a foremost",
+      "c": "the only",
+      "d": "the last",
+      "e": ""
+    },
+    "section": "The passage below has gaps numbered 16 to 25. Immediately following each gap, four options are provided. Choose the most appropriate option for each gap. <br><br>Believe it or not, change is to human existence what the blood is to the human body. We live in era of amazing .... 16.... [A. well- defined B. fast-paced C. favourable D. social] change spawned by advancing technology and industrialization. However,\nman’s ...17.... [A. knowledge of B. attitude to C. commitment to D. opinion of] promoting and defending change in a deliberate effort to establish...18... [A. customs B. companies C. trade- zones D. variations] that stimulate advancement for man’s concern is proving unfavourable to the climate with\nthreatening ...19... [A. repercussions B. clouds C. pressure D. implication].<br><br>Human-induced climate change has awakened widespread concern across the globe. As a matter of fact, climate change is now 20 [A. an acceptable B. a foremost C. the only D. the last] global issue. It is a major test of Africa’s ....21.... [A. popularity B. energy C. ingenuity D. incapability] ! the fourth Assessment Report {AR4} of the intergovernmental Panel on Climate Change (IPCC) confirmed that human actions are changing the earth’s climate and creating maker disturbances in human ....22...[A. geography B. societies C. systems D\nlife] and ecosystems. The IPCC reports that the world has warned by an average of 0.76oC since pre-industrial times. The rising global ...23.... [A. command B. demand C. warming D. supply] for energy and the adverse changes in the climate put the earth and its inhabitants in a catch -22 situation.\nAgain, if the effects of climate change on each were commensurate with the level of greenhouse ...24 .... [A. structure B. paints C. emulsion D. emissions] in spews out, perhaps Africa would have been spared and would probably be just an amused spectator. But it is, this is not the case. Here again, we see well-meaning global citizens appealing for the rest of the world to take responsibility for the problems of Africa, a strategy that cannot, thus far, termed ....25.... [A. notable B. liable C. credible D. flexible]",
+    "image": "",
+    "answer": "b",
+    "solution": "Foremost; most prominent in rank, importance, or position.",
+    "examtype": "utme",
+    "examyear": "2011",
+    "questionNub": 20,
+    "hasPassage": 1,
+    "category": "register"
+  },
+  {
+    "id": 1386,
+    "question": "One major source of worry about the mass media is from?",
+    "option": {
+      "a": "Broadcasting",
+      "b": "Advertisement",
+      "c": "Political rallies",
+      "d": " News casting",
+      "e": ""
+    },
+    "section": "Read the Passage carefully and answer the questions that follow. <br><br>\nThe term Mass Communication occurs when information is disseminated to a relatively large number of people in different places. it should be seen as the same thing with talking face to face with someone else. With mass communication, there is no answer, smile, laugh or lock of surprise. the people who receive the message are as far away from the source of the message as far away as you are from the announcers on the radio or from the newscasters on television, or from the writer of a column in the local newspaper. There are three identifiable means of errors in mass communication. There is one done through the printed words, books, magazine and newspapers. The other is primarily radio, but also records and tape recordings. Also, it can be done through a combination of sound and pictures as in television, films and the more recently popular video tape. Together, they are referred to as the mass media.  <br><br>\n\u000bAll media can be used to inform and entertain. However, there are coverts roles played. It may be to educate as in school broadcast. Again, the aim may be to persuade as when the media are used by advertisers or for political broadcasts. The media are often in strong position to influence public opinion because they select the topics to be presented and can stress the importance of one issue over the other. <br><br>\n\u000bThe mass media have, in recent times, come under acerbic criticism. Many presenters have become not only conscientized but also immensely concerned about the possible effects that science of violence and bad behavior may have on their children. More worrisome are the potential danger of political and commercial propaganda. ",
+    "image": "",
+    "answer": "c",
+    "solution": "From the last paragraph, the ruling class may influence popular thinking and create certain impression and even direct the course of social discussions by simply buying and/or controlling the media.",
+    "examtype": "utme",
+    "examyear": "2019",
+    "questionNub": 13,
+    "hasPassage": 1,
+    "category": "passage-a"
+  },
+  {
+    "id": 1034,
+    "question": "Dupe was promoted for her <u>efficiency</u>",
+    "option": {
+      "a": "ability",
+      "b": "inconsistency",
+      "c": "incompetence",
+      "d": "rudeness",
+      "e": ""
+    },
+    "section": "In each of the questions 36 to 50 choose the option <b>opposite</b> in meaning to the underlined word or phrase.\n",
+    "image": "",
+    "answer": "c",
+    "solution": "Efficient; (of a person) working in a well-organized and competent way.",
+    "examtype": "utme",
+    "examyear": "2012",
+    "questionNub": 40,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1717,
+    "question": "Choose the option that best fills the gap.\n\nThe trader complained that he ------------------ robbed",
+    "option": {
+      "a": "had been",
+      "b": "has been",
+      "c": "was being",
+      "d": "is being",
+      "e": ""
+    },
+    "section": "",
+    "image": "",
+    "answer": "a",
+    "solution": "the trader ''complained'' is a (past tense) and (past participle). this means that, the event had already taken place in the past. \n\nthe word ''robbed'' is in its past tense as well. \n\nhad  is also a (past tense) and a (past participle) mostly used to narrate an event or experience undergone in the past. it rightly completes the space on the question.",
+    "examtype": "utme",
+    "examyear": "2015",
+    "questionNub": 30,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 931,
+    "question": "Lantana <u>dwelt</u> in a ruined cottage on the hillside?",
+    "option": {
+      "a": "sat",
+      "b": "worked",
+      "c": "slept",
+      "d": "lived",
+      "e": ""
+    },
+    "section": "<b>In each of the questions 34 to 48, Choose the option nearest in meaning to the underlined word(s).</b>\n",
+    "image": "",
+    "answer": "d",
+    "solution": "Dwelt; to live in or at a specified place.",
+    "examtype": "utme",
+    "examyear": "2011",
+    "questionNub": 36,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1810,
+    "question": "C<u>oo</u>l.",
+    "option": {
+      "a": "Should.",
+      "b": "Full.",
+      "c": "Luke.",
+      "d": "Look.",
+      "e": ""
+    },
+    "section": "Choose the option that has the same vowel sound as the one represented by the letter underlined.\n",
+    "image": "",
+    "answer": "c",
+    "solution": "cool; /kuːl/\n\nLuke; /lu:k/",
+    "examtype": "utme",
+    "examyear": "2014",
+    "questionNub": 51,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1509,
+    "question": "The Governor told the chief that he was only on a <u>routine</u> tour",
+    "option": {
+      "a": "normal and regular visit",
+      "b": "unplanned encounter",
+      "c": " surprise and impromptu check",
+      "d": "working, visit and homage",
+      "e": ""
+    },
+    "section": "Choose the option nearest in meaning to the underlined.",
+    "image": "",
+    "answer": "a",
+    "solution": "Routine means performed as part of a regular procedure",
+    "examtype": "utme",
+    "examyear": "2018",
+    "questionNub": 26,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1302,
+    "question": "The secretary and treasurer did not do ____ job.",
+    "option": {
+      "a": "their",
+      "b": " all of the above",
+      "c": "none of the above",
+      "d": "his",
+      "e": ""
+    },
+    "section": "Fill in the gap with the option that best completes the sentence.",
+    "image": "",
+    "answer": "d",
+    "solution": "When two subjects are joined together by \"and\" but the two subjects refer to only one person or thing, a singular verb should be used.",
+    "examtype": "utme",
+    "examyear": "2022",
+    "questionNub": 49,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1060,
+    "question": "He was both a writer and a politician, but he was better...... a singer",
+    "option": {
+      "a": "as if",
+      "b": "like",
+      "c": "as",
+      "d": "to be",
+      "e": ""
+    },
+    "section": "<b>In each of the question 66 to 85 choose the option that best completes the gap(s)</b>",
+    "image": "",
+    "answer": "c",
+    "solution": "As; is used in comparisons to refer to the extent or degree of something.\n\nHe was both a writer and a politician, but he was better as a singer",
+    "examtype": "utme",
+    "examyear": "2012",
+    "questionNub": 66,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1550,
+    "question": "choose the word(s) or phrase(s) which best fill(s) the gap(s).\n\nFor fear of being caught, the thief shouted and cursed the slow bank manager in a language ________much for words.",
+    "option": {
+      "a": "Way",
+      "b": "Too",
+      "c": "Very",
+      "d": "So",
+      "e": ""
+    },
+    "section": "",
+    "image": "",
+    "answer": "b",
+    "solution": "Here is an adverb of degree. The correct item to use is ‘too’.",
+    "examtype": "utme",
+    "examyear": "2018",
+    "questionNub": 67,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1067,
+    "question": "We visited his house...........three times",
+    "option": {
+      "a": "about",
+      "b": " for about",
+      "c": "like",
+      "d": "for like",
+      "e": ""
+    },
+    "section": "<b>In each of the question 66 to 85 choose the option that best completes the gap(s)</b>",
+    "image": "",
+    "answer": "a",
+    "solution": "About is used to indicate movement within a particular area.\n\nWe visited his house about three times",
+    "examtype": "utme",
+    "examyear": "2012",
+    "questionNub": 73,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1165,
+    "question": "The police described the boy as being.....hand",
+    "option": {
+      "a": "over at",
+      "b": "out of",
+      "c": "on by",
+      "d": " up to",
+      "e": ""
+    },
+    "section": "<b>In each of question 66 to 85, choose the option that best completes the gap (s)</b>\n",
+    "image": "",
+    "answer": "b",
+    "solution": "Out of hand means to be out of control.",
+    "examtype": "utme",
+    "examyear": "2013",
+    "questionNub": 73,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1444,
+    "question": "and requested clearance for emergency ...6.....",
+    "option": {
+      "a": "return",
+      "b": "landing",
+      "c": "stopping",
+      "d": "arrival",
+      "e": ""
+    },
+    "section": "Read the passage and choose the most appropriate option for each gap.<br><br> \nJust after ...1..... the aircraft gave a shudder and coughed. The pilot, from the ..2...... activated the emergency sheet to cover the improperly secured left rear ....3.... At the same time, he pushed a button on the panel to activate automatic turning, and the airplane ....4.... north-east He called the control ....5.... to report the misshaped requested clearance for emergency ....6....The plane circled the airport and prepared to return to the airport it had just left. Moments later, the aircraft ....7....to stop on a ....8.... ....9.... in oilskin ran in the light drizzle and were soon perched on the ....10.... of the plane, from where they began their inspection. ",
+    "image": "",
+    "answer": "b",
+    "solution": "An emergency landing is a prioritized form of landing made by an aircraft in an emergency situation.",
+    "examtype": "utme",
+    "examyear": "2019",
+    "questionNub": 71,
+    "hasPassage": 1,
+    "category": "register"
+  },
+  {
+    "id": 1582,
+    "question": "From the options, choose the word opposite in meaning to the underlined word\n\nHe is quite an <u>outspoken</u> young man but his father is_____?",
+    "option": {
+      "a": "humorous",
+      "b": "sober",
+      "c": "taciturn",
+      "d": "silent",
+      "e": ""
+    },
+    "section": "",
+    "image": "",
+    "answer": "c",
+    "solution": "Outspoken: frank in stating one's opinions, especially if they are shocking or controversial. to be direct and open in speech and expression. \n\nsynonyms: forthright · direct · candid · frank · straightforward · honest · open · straight · straight from the shoulder · plain · plain-spoken · vociferous · vocal · explicit · point-blank ·\n\n taciturn: (of a person) reserved or uncommunicative in speech; saying little.\n\n\"after such gatherings she would be taciturn and morose\"\n\nsynonyms: untalkative · uncommunicative · reticent · unforthcoming · quiet · unresponsive · secretive · silent · tight-lipped · close-mouthed · mute · dumb · inarticulate · reserved\n\n ",
+    "examtype": "utme",
+    "examyear": "2017",
+    "questionNub": 19,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1179,
+    "question": "L<u>au</u>d",
+    "option": {
+      "a": "lathe",
+      "b": "core",
+      "c": "lavatory",
+      "d": "loud",
+      "e": ""
+    },
+    "section": "<b>In each of question 86 to 88 choose the option that has same vowel sound as the one represented by the letter (s) underlined.</b>",
+    "image": "",
+    "answer": "b",
+    "solution": "laud; /lɔːd/\n\ncore; /kɔː/",
+    "examtype": "utme",
+    "examyear": "2013",
+    "questionNub": 87,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1514,
+    "question": "Choose the option that best explains the information conveyed in the sentence. Adawo is an Imp",
+    "option": {
+      "a": "Adawo behaves queenly",
+      "b": "Adawo behaves differently",
+      "c": "Adawo behaves decently",
+      "d": "Adawo behaves badly",
+      "e": ""
+    },
+    "section": "Choose the option that best explains the information conveyed in the sentence. ",
+    "image": "",
+    "answer": "d",
+    "solution": "An imp is a person with mischievous behaviour.\n\nOption D is the correct answer.",
+    "examtype": "utme",
+    "examyear": "2018",
+    "questionNub": 31,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1718,
+    "question": "From the words lettered A to D, choose the word that has the same vowel sound as the one represented by the underlined letters or letters underlined.\n\nP<u>ur</u>se",
+    "option": {
+      "a": "journey",
+      "b": "pays",
+      "c": "heart",
+      "d": "course",
+      "e": ""
+    },
+    "section": "",
+    "image": "",
+    "answer": "a",
+    "solution": "The answer as regards the word purse /pƷ:s/ is journey /dzƷ:ni/ because it has the same vowel sound 'uh'.\n\n‘journey’ is the answer as opposed to the other options; pays \\ˈpā\\. heart /ha:t/ which has the long vowel /a:/ and course /kc:s/",
+    "examtype": "utme",
+    "examyear": "2015",
+    "questionNub": 31,
+    "hasPassage": 0,
+    "category": "others"
   }
 ]
