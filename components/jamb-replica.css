@@ -424,13 +424,29 @@ body { font-family: var(--font-outfit), Arial, Helvetica, sans-serif; font-size:
 }
 
 
+
+.setup-wrapper-outer { padding: 60px 20px 40px; }
+
 /* Mobile Responsive Overrides */
 @media (max-width: 768px) {
-  /* Setup Screen */
-  .setup-wrapper { padding: 0 !important; }
-  .setup-container { padding: 0 !important; border: none !important; box-shadow: none !important; }
-  .setup-content { padding: 8px !important; }
-  .setup-grid { grid-template-columns: 1fr !important; gap: 12px !important; }
+  /* Setup Screen - PURE EDGE-TO-EDGE BACKROUND, WITH INNER PADDING */
+  .setup-wrapper-outer { padding: 0 !important; }
+  .setup-wrapper { padding: 0 !important; margin: 0 !important; width: 100% !important; max-width: 100% !important; }
+  .setup-container { padding: 0 !important; margin: 0 !important; width: 100% !important; max-width: 100% !important; border: none !important; box-shadow: none !important; border-radius: 0 !important; }
+  .setup-content { padding: 0 16px !important; width: 100% !important; }
+  .setup-grid { grid-template-columns: 1fr !important; gap: 8px !important; padding: 12px 0; }
+  
+  .setup-section-inner { padding: 16px 16px !important; }
+  .mobile-zero-pad { padding: 0 !important; }
+
+  /* Final Mobile Spacing Refinements */
+  .session-mode-card { padding: 12px 10px !important; margin-bottom: 0 !important; }
+  .setup-feedback-footer { 
+    margin: 20px 16px 60px 16px !important; 
+    padding: 24px 16px !important; 
+    border-radius: 16px !important; 
+    border: 2px dashed #00336633 !important;
+  }
 
   /* Generic App Header */
   .jamb-header { flex-wrap: wrap; text-align: center; justify-content: center; padding: 4px 8px !important; }

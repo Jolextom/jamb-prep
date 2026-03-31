@@ -144,30 +144,34 @@ export default function SetupScreen({
             </div>
           </div>
 
-          <div style={{ padding: "16px 16px 20px 16px", background: "#f0f7ff" }}>
-            <label style={{ display: "block", fontSize: "11px", fontWeight: "900", color: "#003366", textTransform: "uppercase", marginBottom: "8px" }}>
-              Who is practicing? (Candidate Name)
-            </label>
-            <input
-              type="text"
-              placeholder="Candidate Name"
-              value={candidateName}
-              onChange={(e) => setCandidateName(e.target.value)}
-              style={{
-                width: "100%",
-                padding: "12px 16px",
-                borderRadius: "12px",
-                border: "2px solid #00336622",
-                fontSize: "14px",
-                fontWeight: "750",
-                outline: "none",
-                background: "white",
-                color: "#1e3a8a",
-                boxShadow: "inset 0 2px 4px rgba(0,0,0,0.02)"
-              }}
-            />
+          <div className="setup-section-inner" style={{ padding: "16px 16px 20px 16px", background: "#f0f7ff" }}>
+            <div style={{ maxWidth: "900px", margin: "0 auto", width: "100%", padding: "0 16px" }} className="mobile-zero-pad">
+              <label style={{ display: "block", fontSize: "11px", fontWeight: "900", color: "#003366", textTransform: "uppercase", marginBottom: "8px" }}>
+                Who is practicing? (Candidate Name)
+              </label>
+              <input
+                type="text"
+                placeholder="Candidate Name"
+                value={candidateName}
+                onChange={(e) => setCandidateName(e.target.value)}
+                style={{
+                  width: "100%",
+                  padding: "12px 16px",
+                  borderRadius: "12px",
+                  border: "2px solid #00336622",
+                  fontSize: "14px",
+                  fontWeight: "750",
+                  outline: "none",
+                  background: "white",
+                  color: "#1e3a8a",
+                  boxShadow: "inset 0 2px 4px rgba(0,0,0,0.02)"
+                }}
+              />
+            </div>
           </div>
+        </div>
 
+        <div className="setup-content" style={{ padding: "30px" }}>
           <div className="setup-grid" style={{ display: "grid", gap: "30px" }}>
 
             <div className="subjects-section" style={{ gridColumn: "1 / -1" }}>
@@ -254,17 +258,17 @@ export default function SetupScreen({
               display: "flex",
               flexDirection: "column",
               gap: "15px",
-              alignItems: "center",  // Center children on desktop
-              gridColumn: "1 / -1", // Span full width to allow centering
+              alignItems: "center",
+              gridColumn: "1 / -1",
               marginTop: "20px"
             }}>
-              <div style={{
+              <div className="session-mode-card" style={{
                 background: "#f9f9f9",
                 padding: "20px",
                 borderRadius: "12px",
                 border: "1px dashed #00336644",
                 width: "100%",
-                maxWidth: "500px" // Keep fixed feel but centered
+                maxWidth: "500px"
               }}>
                 <h3 style={{ fontSize: "11px", fontWeight: "900", textTransform: "uppercase", color: "#003366", marginBottom: "12px", textAlign: "center", letterSpacing: "1px" }}>
                   Session Mode
@@ -383,7 +387,7 @@ export default function SetupScreen({
           </div>
 
           {/* Big Noticeable Feedback Section */}
-          <div style={{
+          <div className="setup-feedback-footer" style={{
             marginTop: "40px",
             padding: "24px",
             background: "#f0f7ff",

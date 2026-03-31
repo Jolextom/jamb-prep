@@ -678,7 +678,7 @@ ${JSON.stringify(sessionData, null, 2)}`;
   return (
     <div className="jamb-replica-root">
       {view === 'SETUP' ? (
-        <div style={{ minHeight: "100vh", background: "#f5f7f9", padding: "40px 20px" }}>
+        <div className="setup-wrapper-outer" style={{ minHeight: "100vh", background: "#f5f7f9" }}>
           <SetupScreen
             configs={configs}
             setConfigs={setConfigs}
