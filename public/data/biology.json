@@ -8,7 +8,7 @@
       "a": "alternation of generation",
       "b": "vegetative reproduction",
       "c": "sexual reproduction",
-      "d": "sexual reproduction (Alt)"
+      "d": "asexual reproduction"
     },
     "section": "",
     "image": "",
@@ -64,7 +64,7 @@
   },
   {
     "id": 32,
-    "question": "A man and his wife are both heterozygous for the sickle cell trait. The likely percentage of their offspring that will be either carriers of sicklers is",
+    "question": "A man and his wife are both heterozygous for the sickle cell trait. The likely percentage of their offspring that will be either carriers or sicklers is",
     "answer": "a",
     "solution": "When both parents are heterozygous carriers (AS) for sickle cell, there is a 25% chance of AA (normal), 50% chance of AS (carrier), and 25% chance of SS (sickler). The probability of offspring being either carriers or sicklers is 50% + 25% = 75%.",
     "options": {
@@ -92,7 +92,7 @@
       "a": "possession of wings by bird and bats",
       "b": "cold-bloodedness of fishes, amphibians and reptiles",
       "c": "presence of gill clefts in vertebrate embryos",
-      "d": "N/A"
+      "d": "presence of scales"
     },
     "section": "",
     "image": "",
@@ -169,7 +169,7 @@
   },
   {
     "id": 355,
-    "question": "Which of the following plant structures lacks a waterproof of cuticle?",
+    "question": "Which of the following plant structures lacks a waterproof cuticle?",
     "answer": "c",
     "solution": "Roots are specialized for the absorption of water and minerals from the soil; therefore, they 'lack a waterproof cuticle', which would otherwise block the entry of water into the epidermal cells.",
     "options": {
@@ -216,8 +216,8 @@
     "solution": "The heart of a mammal is located within the thoracic cavity, specifically enclosed and protected within a double-layered membrane known as the 'pericardial cavity'.",
     "options": {
       "a": "stomach",
-      "b": "Liver (Alt)",
-      "c": "Liver",
+      "b": "liver",
+      "c": "heart",
       "d": "spleen"
     },
     "section": "",
@@ -317,8 +317,8 @@
   {
     "id": 182,
     "question": "Which of the following factors can bring about competition in a population?",
-    "answer": "d",
-    "solution": "Competition occurs when resources (like food, space, or mates) are limited. High 'Emigration' (movement of individuals out of a population) is often a result of intense competition for these scarce resources.",
+    "answer": "a",
+    "solution": "Competition is brought about by a scarcity of resources. A drought limits essential resources like water and vegetation, forcing individuals in a population to compete for survival.",
     "options": {
       "a": "Drought",
       "b": "Mortality",
@@ -339,12 +339,12 @@
     "id": 345,
     "question": "The brightly coloured eye spots on the hind wings of a moth are an example of",
     "answer": "d",
-    "solution": "The appearance of eye spots on moth wings, which can startle predators or mimic larger animals, is an example of 'Convergent Evolution', where unrelated species develop similar traits due to similar environmental pressures.",
+    "solution": "Moths use eye spots on their hind wings as a startle display to scare off predators. This is a form of mimicry, where the moth mimics the eyes of a larger, more dangerous animal like an owl.",
     "options": {
-      "a": "disruptive colouration",
-      "b": "continuous variation",
-      "c": "divergent  Evolution",
-      "d": "convergent  evolution"
+      "a": "warning colouration",
+      "b": "disruptive colouration",
+      "c": "crypsis",
+      "d": "mimicry"
     },
     "section": "",
     "image": "",
@@ -359,8 +359,8 @@
   {
     "id": 378,
     "question": "When a colour blind man marries a carrier woman. What is the probability of their offspring being colorblind?",
-    "answer": "c",
-    "solution": "In a cross between a colorblind man (XnY) and a carrier woman (XNXn), the offspring possibilities are XNXn (carrier daughter), XnXn (colorblind daughter), XNY (normal son), and XnY (colorblind son). The total probability is 50% for all offspring, or 100% chance for certain genotypes; logically, '50%' is the most common answer, but check local exam keys.",
+    "answer": "b",
+    "solution": "In a cross between a colorblind man (XnY) and a carrier woman (XNXn), the offspring possibilities are XNXn (carrier daughter), XnXn (colorblind daughter), XNY (normal son), and XnY (colorblind son). 2 out of 4 (50%) of the offspring will be colorblind.",
     "options": {
       "a": "25%",
       "b": "50%",
@@ -386,7 +386,7 @@
       "a": "light",
       "b": "humidity",
       "c": "wind",
-      "d": "PH."
+      "d": "pH"
     },
     "section": "",
     "image": "",
@@ -442,14 +442,14 @@
   },
   {
     "id": 243,
-    "question": "A marine protozoan is likely to have no contractile acuole  mainly because the cytoplasm is",
+    "question": "A marine protozoan is likely to have no contractile vacuole  mainly because the cytoplasm is",
     "answer": "a",
     "solution": "Marine protozoans live in a hypertonic environment (seawater). Since water tends to move out of their cells by osmosis rather than in, they typically 'lack contractile vacuoles', which are mainly for expelling excess water.",
     "options": {
       "a": "isotonic to sea water",
       "b": "hypotonic to sea water",
       "c": "hypertonic to sea water",
-      "d": "impervious to seas water"
+      "d": "impervious to sea water"
     },
     "section": "",
     "image": "",
@@ -530,10 +530,10 @@
     "answer": "b",
     "solution": "In plants, the 'Pith' is a tissue in the stem/root of vascular plants. A wide pith in the center is a common feature in most 'dicot stems' and certain 'monocot roots' like corn.",
     "options": {
-      "a": "dicot stems and moocot stems",
+      "a": "dicot stems and monocot stems",
       "b": "dicot stems and monocot roots",
       "c": "dicot roots and monocot roots",
-      "d": "dicotroots and monocot stems"
+      "d": "dicot roots and monocot stems"
     },
     "section": "",
     "image": "",
@@ -904,7 +904,7 @@
   },
   {
     "id": 143,
-    "question": "The mammalian vain which starts with and ends in a capillary network is the",
+    "question": "The mammalian vein which starts with and ends in a capillary network is the",
     "answer": "a",
     "solution": "The 'Hepatic Portal Vein' is unique in mammals because it starts with capillaries in the digestive organs and ends in another capillary network within the 'Liver'.",
     "options": {
@@ -1013,10 +1013,10 @@
     "answer": "c",
     "solution": "Two species living on the same plant can avoid direct competition if they 'occupy different ecological niches' (e.g., feeding on different parts of the plant at different times).",
     "options": {
-      "a": "occupy the same ecological riches",
+      "a": "occupy the same ecological niches",
       "b": "Be in different habitats",
-      "c": "occupy different ecological riches",
-      "d": "be in  similar micro habitats"
+      "c": "occupy different ecological niches",
+      "d": "be in similar micro habitats"
     },
     "section": "",
     "image": "",
@@ -1051,7 +1051,7 @@
   },
   {
     "id": 370,
-    "question": "Which of the following animals an exist solely on the water they get from food and metabolic reactions?",
+    "question": "Which of the following animals can exist solely on the water they get from food and metabolic reactions?",
     "answer": "b",
     "solution": "Desert dwellers (like the kangaroo rat) have evolved highly efficient physiological adaptations that allow them to survive 'solely on metabolic water' produced from food, without needing to drink liquid water.",
     "options": {
@@ -1114,7 +1114,7 @@
   },
   {
     "id": 221,
-    "question": "Which of the following is the most advanced evolutionary development in plants?  (a) possession of unicellular structures",
+    "question": "Which of the following is the most advanced evolutionary development in plants?",
     "answer": "b",
     "solution": "From an evolutionary perspective, the 'Development of flowers' (Angiosperms) is the most advanced trait in the plant kingdom, allowing for complex pollination and seed protection strategies.",
     "options": {
@@ -1198,14 +1198,14 @@
   },
   {
     "id": 325,
-    "question": "In an experiment to determine the percentage of humus and water in a soil sample, the following results were obtained. \nWeight of the evaporating basin alone = 80.5g   Weight of basin and soil = 101.5g    Weight after drying the soil in the oven = 99.0g    Weight of basin and roasted soil = 95.5h\nThe percentage of humus in the soil sample is",
-    "answer": "d",
-    "solution": "To find the % of humus: (Drying weight - Roasted weight) / Original soil weight * 100. Calculating: (99.0 - 95.5) / (101.5 - 80.5) = 3.5 / 21 = ~16.6%. The key '70%' or '20%' suggests a specific local exam key or calculation error; logically '20%' or '16%' is the closest pedagogical match.",
+    "question": "In an experiment to determine the percentage of humus and water in a soil sample, the following results were obtained. \nWeight of the evaporating basin alone = 80.5g \nWeight of basin and soil = 101.5g \nWeight after drying the soil in the oven = 99.0g \nWeight of basin and roasted soil = 95.5g\nThe percentage of humus in the soil sample is",
+    "answer": "a",
+    "solution": "First, find the original mass of the soil: 101.5g - 80.5g = 21.0g. Next, find the mass of the humus lost during roasting: 99.0g (dried soil) - 95.5g (roasted soil) = 3.5g. Finally, calculate the percentage: (3.5g / 21.0g) * 100 = 16.7%.",
     "options": {
-      "a": "60%",
-      "b": "70% (Alt)",
-      "c": "20%",
-      "d": "70%"
+      "a": "16.7%",
+      "b": "11.9%",
+      "c": "20.0%",
+      "d": "70.0%"
     },
     "section": "",
     "image": "",
@@ -1413,8 +1413,8 @@
     "solution": "In fish like the tilapia, the 'caudal fin' (tail fin) is the primary engine of movement, providing the powerful side-to-side thrust needed to 'propel the fish forward' in water.",
     "options": {
       "a": "propel it forward in water",
-      "b": "seer it while changing directions",
-      "c": "balance it in eater",
+      "b": "steer it while changing directions",
+      "c": "balance it in water",
       "d": "enable it to float in water"
     },
     "section": "",
@@ -1450,7 +1450,7 @@
   },
   {
     "id": 136,
-    "question": "An increase  in air pressure in the lings is due to the",
+    "question": "An increase  in air pressure in the lungs is due to the",
     "answer": "b",
     "solution": "Exhalation (lowering lung air pressure to push air out) occurs when the thoracic volume decreases. This is caused by the 'relaxation of the diaphragm' (moving upward) and the intercostal muscles.",
     "options": {
@@ -1582,8 +1582,8 @@
     "options": {
       "a": "XbY",
       "b": "XBXB",
-      "c": "XBY (Alt)",
-      "d": "XBXb (Alt)"
+      "c": "XBY",
+      "d": "XBXb"
     },
     "section": "",
     "image": "",
@@ -1664,7 +1664,7 @@
     "answer": "a",
     "solution": "The pelvic girdle (hip bone) is composed of two symmetrical halves that meet and are joined together at the front by a specialized joint called the 'pubic symphysis'.",
     "options": {
-      "a": "public  symphysis",
+      "a": "pubic  symphysis",
       "b": "ilium",
       "c": "pubis",
       "d": "obturator foramen"
@@ -1729,7 +1729,7 @@
     "options": {
       "a": "presence of wings, possession of a small head and large thorax",
       "b": "presence of wings, possession of a large thorax  and a small head",
-      "c": "absence of wings, possession off strong mandibles and a large head",
+      "c": "absence of wings, possession of strong mandibles and a large head",
       "d": "absence of wings, possession of big head and the absence of mandible."
     },
     "section": "",
@@ -1771,7 +1771,7 @@
     "options": {
       "a": "budding",
       "b": "sexual",
-      "c": "vegatative",
+      "c": "vegetative",
       "d": "asexual"
     },
     "section": "",
@@ -1850,8 +1850,8 @@
   {
     "id": 24,
     "question": "One example of fossil fuel is",
-    "answer": "b",
-    "solution": "While firewood is renewable, 'Coal', petroleum, and natural gas are 'fossil fuels' formed from the remains of ancient organic matter over millions of years and are non-renewable.",
+    "answer": "c",
+    "solution": "While firewood is renewable, coal, petroleum, and natural gas are fossil fuels formed from the remains of ancient organic matter over millions of years and are non-renewable.",
     "options": {
       "a": "limestone",
       "b": "coral",
@@ -1871,8 +1871,8 @@
   {
     "id": 341,
     "question": "The crossing of individuals of the same species with different genetic characters is",
-    "answer": "c",
-    "solution": "The practice of 'cross-breeding' involves the controlled mating of individuals of the 'same species' that possess 'different genetic characters' to produce offspring with hybrid vigor.",
+    "answer": "d",
+    "solution": "The practice of 'cross-breeding' involves the controlled mating of individuals of the same species that possess different genetic characters to produce offspring with hybrid vigor.",
     "options": {
       "a": "polygenic inheritance",
       "b": "non disjunction",
@@ -1891,7 +1891,7 @@
   },
   {
     "id": 375,
-    "question": "The disease caused by water-brone pathogen include",
+    "question": "The disease caused by water-borne pathogen include",
     "answer": "d",
     "solution": "Water-borne pathogens cause severe intestinal diseases. 'Typhoid' and 'Cholera' are the most common examples, spreading through the consumption of contaminated water or food.",
     "options": {
@@ -1954,7 +1954,7 @@
   },
   {
     "id": 73,
-    "question": "A farm practice that results in he loss of soil fertility is",
+    "question": "A farm practice that results in the loss of soil fertility is",
     "answer": "d",
     "solution": "Agricultural practices like 'continuous cropping' (planting the same crop on the same piece of land year after year) quickly deplete the soil of essential nutrients, leading to a 'loss of soil fertility'.",
     "options": {
@@ -1996,14 +1996,14 @@
   },
   {
     "id": 247,
-    "question": "Mass of a crucible = 10g\n Mass of a crucible and soil before heating = -29g.\nMass of a crucible and sol after heating = 18g. From the information above, determine the percentage of wter in the given soil sample?",
+    "question": "Mass of a crucible = 10g\nMass of a crucible and soil before heating = 29g\nMass of a crucible and soil after heating = 18g\nFrom the information above, determine the percentage of water in the given soil sample.",
     "answer": "d",
-    "solution": "To calculate the % of water: (Initial weight - Dry weight) / (Initial weight - Crucible weight) * 100. Calculating: (29 - 18) / (29 - 10) = 11 / 19 = ~58%. The option '50%' or '40%' suggests a specific local exam key; logically '50%' is the closest pedagogical match.",
+    "solution": "First, find the initial mass of the soil: 29g - 10g = 19g. Next, find the mass of the water lost during heating: 29g - 18g = 11g. Finally, calculate the percentage of water: (11 / 19) * 100 = 57.9%.",
     "options": {
-      "a": "20%",
-      "b": "25%",
-      "c": "40%",
-      "d": "50%"
+      "a": "20.0%",
+      "b": "25.0%",
+      "c": "40.0%",
+      "d": "57.9%"
     },
     "section": "",
     "image": "",
@@ -2374,11 +2374,11 @@
   },
   {
     "id": 159,
-    "question": "Moncot stems differ from dioct  stems in that monocots have",
+    "question": "Monocot stems differ from dicot  stems in that monocots have",
     "answer": "b",
     "solution": "Monocot stems are distinguished from dicot stems by their scattered vascular bundles and, most significantly, the 'absence of cambium', which means they generally do not undergo secondary thickening.",
     "options": {
-      "a": "fewer vascular bundies",
+      "a": "fewer vascular bundles",
       "b": "no cambium",
       "c": "phloem with parenchyma",
       "d": "no pith"
@@ -2416,7 +2416,7 @@
   },
   {
     "id": 133,
-    "question": "One basic similarly between nervous and endocrine system is that both",
+    "question": "One basic similarity between nervous and endocrine system is that both",
     "answer": "b",
     "solution": "While they differ in speed and duration, both the nervous and endocrine systems coordinate body functions through the 'use of chemical substances' (neurotransmitters and hormones, respectively).",
     "options": {
@@ -2504,7 +2504,7 @@
     "answer": "b",
     "solution": "A climax community is the final, stable stage of biotic succession. It is characterized by a 'stable and self-perpetuating composition' of plant and animal species that are in equilibrium with the environment.",
     "options": {
-      "a": "a constant change in the appearance of the commodities",
+      "a": "a constant change in the appearance of the communities",
       "b": "a stable composition of plant and animal species",
       "c": "rapid changes in the plant and animal species",
       "d": "different species that are constantly changing"
@@ -2546,10 +2546,10 @@
     "answer": "b",
     "solution": "The male mammalian reproductive system consists of the 'testis' (sperm production), 'prostate gland' (fluid secretion), 'sperm duct' (vas deferens), and the 'urethra' for delivery.",
     "options": {
-      "a": "claspers, prostrate, gland, sperm duct and vas deferns",
-      "b": "testis, prostrate gland, sperm duct and vas deferns",
+      "a": "claspers, prostate, gland, sperm duct and vas deferens",
+      "b": "testis, prostate gland, sperm duct and vas deferens",
       "c": "oviduct , urethra, testis and sperm  duct",
-      "d": "testis, uterus, prostrate gland and sperm duct."
+      "d": "testis, uterus, prostate gland and sperm duct."
     },
     "section": "",
     "image": "",
@@ -2710,7 +2710,7 @@
   },
   {
     "id": 224,
-    "question": "A characteristic exhibited by all living organism is",
+    "question": "A characteristic exhibited by all living organisms is",
     "answer": "d",
     "solution": "Excretion is one of the fundamental characteristics of all living things. It is the vital 'ability to remove unwanted metabolic waste substances' from the body to maintain internal balance.",
     "options": {
@@ -2756,10 +2756,10 @@
     "answer": "b",
     "solution": "In the mammalian nephron, 'Ultra-filtration' takes place at the 'Bowman's capsule' (the cup-like beginning of the tubule) as blood is forced through the glomerulus.",
     "options": {
-      "a": "urinferous tuble",
+      "a": "uriniferous tubule",
       "b": "Bowman capsule",
       "c": "loop of Henle",
-      "d": "renal tuble"
+      "d": "renal tubule"
     },
     "section": "",
     "image": "",
@@ -2794,7 +2794,7 @@
   },
   {
     "id": 295,
-    "question": "Throxne and adrenalin are examples of hormones which control",
+    "question": "Thyroxine and adrenalin are examples of hormones which control",
     "answer": "c",
     "solution": "Adrenaline and thyroxine are key hormones in the human body. Adrenaline, released in response to stress, is one of the primary 'hormones that control behavioral patterns' and reflexes.",
     "options": {
@@ -2815,7 +2815,7 @@
   },
   {
     "id": 298,
-    "question": "If both parents are heterozygous for trait, he probability that an offspring will be recessive for that trait is",
+    "question": "If both parents are heterozygous for a trait, the probability that an offspring will be recessive for that trait is",
     "answer": "c",
     "solution": "When both parents are 'heterozygous' (Tt x Tt), the Mendelian ratio in the offspring is 3:1 (dominant to recessive). Therefore, the 'probability of an offspring being recessive (tt)' is exactly '1/4' (25%).",
     "options": {
@@ -3046,14 +3046,14 @@
   },
   {
     "id": 245,
-    "question": "Which of the following biomass could be characterized by very low rainfall, cold nights, hardays and fast blooming plants?",
-    "answer": "b",
-    "solution": "The Tropical desert biome is famously characterized by extreme conditions: 'very low rainfall', high daytime temperatures ('hard days'), 'cold nights', and fast blooming xerophytes.",
+    "question": "Which of the following biomes could be characterized by very low rainfall, cold nights, hot days and fast blooming plants?",
+    "answer": "c",
+    "solution": "The Tropical desert biome is famously characterized by extreme conditions: 'very low rainfall', high daytime temperatures ('hot days'), 'cold nights', and fast blooming xerophytes.",
     "options": {
       "a": "Northern Guinea savanna",
-      "b": "southern Guinea savanna",
+      "b": "Southern Guinea savanna",
       "c": "Tropical desert",
-      "d": "montane forest"
+      "d": "Montane forest"
     },
     "section": "",
     "image": "",
@@ -3235,8 +3235,8 @@
   },
   {
     "id": 310,
-    "question": "The conversion of a nutrient into a molecule in the body of a consumer is referred to a s",
-    "answer": "d",
+    "question": "The conversion of a nutrient into a molecule in the body of a consumer is referred to as",
+    "answer": "a",
     "solution": "In biology, 'Assimilation' is the vital technical process where absorbed 'nutrients are converted into molecules' that become part of the consumer's body tissues.",
     "options": {
       "a": "assimilation",
@@ -3256,7 +3256,7 @@
   },
   {
     "id": 69,
-    "question": "One adaptation of reptiles of water loss is the presence of",
+    "question": "One adaptation of reptiles to water loss is the presence of",
     "answer": "a",
     "solution": "Reptiles (like lizards and snakes) are adapted to dry land habitats with 'keratinous (horny) scales' on their skin, which are extremely effective at 'preventing water loss' through the body.",
     "options": {
@@ -3319,7 +3319,7 @@
   },
   {
     "id": 66,
-    "question": "Zone  © (mm)\nI 45 300\nII 32 2000\nIII 30 2200\nIV 15 800\n\nWhich of the zones is likely to be a desert",
+    "question": "Zone | Rainfall (mm) | Temperature (°C)\nI | 45 | 30\nII | 32 | 20\nIII | 30 | 22\nIV | 15 | 8\n\nWhich of the zones is likely to be a desert?",
     "answer": "a",
     "solution": "Deserts are characterized by extreme conditions including very low annual rainfall (below 250mm). 'Zone I' (with only 45mm rainfall) is the 'most likely to be a desert'.",
     "options": {
@@ -3361,7 +3361,7 @@
   },
   {
     "id": 275,
-    "question": "The oily substance that lubricates the mammalian hair to keep it flexible ad water repellent is secreted by the",
+    "question": "The oily substance that lubricates the mammalian hair to keep it flexible and water repellent is secreted by the",
     "answer": "b",
     "solution": "In mammals, the hairs are kept flexible, water-repellent, and protected by an oily substance called sebum, which is secreted by the 'Sebaceous glands' in the dermis.",
     "options": {
@@ -3424,9 +3424,9 @@
   },
   {
     "id": 373,
-    "question": "The abiotic factors that  control human population include",
-    "answer": "a",
-    "solution": "Human population dynamics are affected by many factors. Abiotic factors (non-living) that can catastrophically impact numbers include 'Space and Rainfall', alongside geological events.",
+    "question": "The abiotic factors that control human population include",
+    "answer": "b",
+    "solution": "Abiotic factors are the non-living physical and chemical parts of the environment. While disease and famine are driven by biotic (living) factors like pathogens, space and rainfall are entirely abiotic factors that limit population growth.",
     "options": {
       "a": "disease and famine",
       "b": "space and rainfall",
@@ -3450,7 +3450,7 @@
     "solution": "Intraspecific competition occurs between members of the 'SAME species'. A 'worker termite and a soldier' (though different castes, they are of the same species) 'competing in a limited space' is a prime example.",
     "options": {
       "a": "a lizard and an ant eater chasing an insect",
-      "b": "a worker termite and a solider in a limited space",
+      "b": "a worker termite and a soldier in a limited space",
       "c": "a hawk and an eagle targeting the same chicken",
       "d": "yam and potato shoots growing out through the same window"
     },
@@ -3487,7 +3487,7 @@
   },
   {
     "id": 121,
-    "question": "Mendel, s second law of inheritance states that",
+    "question": "Mendel's second law of inheritance states that",
     "answer": "b",
     "solution": "Gregor Mendel's 'Second Law of Inheritance' (The Law of Independent Assortment) states that 'alleles for different traits segregate independently' during gamete formation.",
     "options": {
@@ -3550,12 +3550,12 @@
   },
   {
     "id": 150,
-    "question": "The evidence that supports the advancement of  fern over mosses is derived from",
+    "question": "The evidence that supports the advancement of fern over mosses is derived from",
     "answer": "b",
-    "solution": "Ferns (pteridophytes) show an evolutionary advancement over mosses (bryophytes) primarily through the development of true 'vascular tissues' (xylem and phloem) for transport.",
+    "solution": "Ferns (pteridophytes) show an evolutionary advancement over mosses (bryophytes) primarily because they possess true vascular tissues (xylem and phloem) for the transport of water and nutrients.",
     "options": {
       "a": "biochemical similarities",
-      "b": "N/A",
+      "b": "presence of vascular tissues",
       "c": "physiological records",
       "d": "molecular records"
     },
@@ -3572,13 +3572,13 @@
   {
     "id": 40,
     "question": "An example of cryptic colouration is the",
-    "answer": "d",
-    "solution": "Cryptic coloration is a type of camouflage. A classic example is the 'mottled colors on moths' that rest on lichens, allowing them to blend perfectly into their environment and avoid detection.",
+    "answer": "a",
+    "solution": "Cryptic coloration is a form of camouflage that allows an organism to blend into its surroundings to avoid detection. Moths resting on lichens perfectly mimic their background, whereas bright marks on a poisonous frog are an example of warning coloration.",
     "options": {
-      "a": "mottled colours on moths that rest o lichens",
+      "a": "mottled colours on moths that rest on lichens",
       "b": "bright colour of an insect pollinated flower",
       "c": "green colour of a plant",
-      "d": "bright marks on a poisonous tropical frog on variegated  leaves"
+      "d": "bright marks on a poisonous tropical frog on variegated leaves"
     },
     "section": "",
     "image": "",
@@ -3618,7 +3618,7 @@
     "solution": "Features like 'sunken stomata' protected by hairs are specialized adaptations found in 'Xerophytes' (desert plants) to significantly reduce water loss through transpiration in arid environments.",
     "options": {
       "a": "mesophytes",
-      "b": "epiphtes",
+      "b": "epiphytes",
       "c": "hydrophytes",
       "d": "Xerophytes"
     },
@@ -3676,14 +3676,14 @@
   },
   {
     "id": 190,
-    "question": "In plants, the structure that performs  a similar  function with the testis is in mammals  is the",
+    "question": "In plants, the structure that performs a similar function to the testis in mammals is the",
     "answer": "c",
     "solution": "In plants, the 'Anther' (part of the stamen) is the structure that produces pollen grains (male gametes), performing a similar reproductive function to the 'Testis' in mammals.",
     "options": {
       "a": "stigma",
       "b": "filament",
       "c": "anther",
-      "d": "replace"
+      "d": "ovary"
     },
     "section": "",
     "image": "",
@@ -3718,7 +3718,7 @@
   },
   {
     "id": 314,
-    "question": "I. Parasitism _ Sundew    II Autrrophism_Amoeba    III Saprophytism_ Alga  IV. Heterotrophism- Agama. Which of the above modes of nutrition is correctly matched with the organism that  exhibits it?",
+    "question": "I. Parasitism _ Sundew    II Autotrophism_Amoeba    III Saprophytism_ Alga  IV. Heterotrophism- Agama. Which of the above modes of nutrition is correctly matched with the organism that  exhibits it?",
     "answer": "b",
     "solution": "Organisms are matched with their nutrition: 'Agama' lizards are 'Heterotrophs' (consumers) because they must ingest other organisms (insects) to obtain their energy and nutrients.",
     "options": {
@@ -3743,8 +3743,8 @@
     "answer": "a",
     "solution": "In nursing mothers, milk production (lactogenesis) is primarily controlled by the hormone 'Prolactin', which is secreted by the anterior pituitary gland.",
     "options": {
-      "a": "prollactine",
-      "b": "estosterone",
+      "a": "prolactin",
+      "b": "testosterone",
       "c": "thyroxin",
       "d": "insulin"
     },
@@ -4075,11 +4075,11 @@
   },
   {
     "id": 89,
-    "question": "I. Rettus rattus   II. Agama agama  II Bufo regularis  IV. Tilapia Zill. The order of evolutionary advancement  of the above",
+    "question": "I. Rattus rattus   II. Agama agama  III. Bufo regularis  IV. Tilapia zillii. The order of evolutionary advancement of the above is",
     "answer": "d",
     "solution": "The order of evolutionary advancement from simplest to most complex vertebrates is: 'Tilapia' (fish), 'Bufo' (amphibian), 'Agama' (reptile), then 'Rattus' (mammal).",
     "options": {
-      "a": "I, II and III , IV",
+      "a": "I, II, III and IV",
       "b": "I, IV, III, II",
       "c": "II, III, IV, I",
       "d": "IV, III, II, I"
@@ -4101,7 +4101,7 @@
     "solution": "In osmosis, a 'Hypertonic solution' (one with a higher solute concentration than the cell) will cause water to leave the cell, leading to 'cell shrinkage' (plasmolysis).",
     "options": {
       "a": "Isotonic solution",
-      "b": "Delonized water",
+      "b": "Deionized water",
       "c": "Hypertonic solution",
       "d": "hypotonic solution"
     },
@@ -4117,14 +4117,14 @@
   },
   {
     "id": 246,
-    "question": "The optimum temperature  for the growth of the organism is",
-    "answer": "b",
-    "solution": "The 'Optimum temperature' for most biochemical reactions and the 'growth of most organisms' centers around 35ºC to 40ºC; higher temperatures like 50ºC can denature enzymes.",
+    "question": "The optimum temperature for the growth of the organism is",
+    "answer": "a",
+    "solution": "For most standard organisms, the optimum temperature falls between 25°C and 40°C. Temperatures of 50°C and above are generally lethal because they denature the organism's enzymes. Therefore, 25°C is the only biologically viable option provided.",
     "options": {
-      "a": "25oC",
-      "b": "50oC",
-      "c": "75oC",
-      "d": "100oC"
+      "a": "25°C",
+      "b": "50°C",
+      "c": "75°C",
+      "d": "100°C"
     },
     "section": "",
     "image": "",
@@ -4201,14 +4201,14 @@
   },
   {
     "id": 114,
-    "question": "Which of the following gis the best explanation for a child who is phenol-typically short and born of two tall parents?",
+    "question": "Which of the following is the best explanation for a child who is phenotypically short and born of two tall parents?",
     "answer": "d",
     "solution": "In genetics, if two tall parents have a short child, it proves 'Both parents possess recessive genes for shortness' (Tt x Tt), which they both passed to the offspring (tt).",
     "options": {
       "a": "The father possesses a gene for shortness",
       "b": "The mother possesses a gene for shortness",
       "c": "Nature makes the child short",
-      "d": "Both parents posses genes for shortness."
+      "d": "Both parents possess genes for shortness."
     },
     "section": "",
     "image": "",
@@ -4327,9 +4327,9 @@
   },
   {
     "id": 226,
-    "question": "Alternation of a sexual and sexual modes of reproduction is found in",
+    "question": "Alternation of asexual and sexual modes of reproduction is found in",
     "answer": "c",
-    "solution": "A 'Fernando' (fern) exhibits 'Alternation of Generations', where different life cycles (sexual gametophyte and asexual sporophyte) follow each other in succession.",
+    "solution": "A 'fern' (Pteridophyte) exhibits 'Alternation of Generations', where different life cycles (sexual gametophyte and asexual sporophyte) follow each other in succession.",
     "options": {
       "a": "blue-green algae",
       "b": "Euglena",
@@ -4390,7 +4390,7 @@
   },
   {
     "id": 67,
-    "question": "The association between termites and the cellulose digesting protozoans in heir guts is an example of",
+    "question": "The association between termites and the cellulose digesting protozoans in their guts is an example of",
     "answer": "b",
     "solution": "The relationship between termites and the cellulose-digesting protozoans (like Trichonympha) in their gut is 'Mutualism', as they both depend on each other for nutrition and survival.",
     "options": {
@@ -4413,11 +4413,11 @@
     "id": 193,
     "question": "Radial symmetry is a feature common to the",
     "answer": "c",
-    "solution": "Radial symmetry is a characteristic feature of 'Coelentrates' (Cnidaria) like Hydra or jellyfish, where the body is organized around a central axis.",
+    "solution": "Radial symmetry is a characteristic feature of 'Coelenterates' (Cnidaria) like Hydra or jellyfish, where the body is organized around a central axis.",
     "options": {
       "a": "platyhelminthes",
       "b": "nematodes",
-      "c": "coelentrates",
+      "c": "coelenterates",
       "d": "arthropods"
     },
     "section": "",
@@ -4537,7 +4537,7 @@
   },
   {
     "id": 270,
-    "question": "When a mixture of a food substance fand Benedict’s solution was warmed, the solution changed from blue to brick red . This indicates the presence of",
+    "question": "When a mixture of a food substance and Benedict's solution was warmed, the solution changed from blue to brick red . This indicates the presence of",
     "answer": "a",
     "solution": "When a mixture of food and Benedict's solution is warmed, a color change to brick red is the standard 'chemical indicator for the presence of reducing sugars' like glucose.",
     "options": {
@@ -4563,8 +4563,8 @@
     "solution": "The movement of a cockroach away from a light source is a simple behavioral reflex known as 'Negative Phototaxism' (movement away from light).",
     "options": {
       "a": "negative phototaxism",
-      "b": "negative photropism",
-      "c": "positive  photropism",
+      "b": "negative phototropism",
+      "c": "positive  phototropism",
       "d": "positive phototaxism"
     },
     "section": "",
@@ -4772,7 +4772,7 @@
     "answer": "c",
     "solution": "The small blackfly (Simulium) is the well-known biological vector responsible for the transmission of the 'Onchocerciasis (River Blindness)' parasite to humans.",
     "options": {
-      "a": "material",
+      "a": "malaria",
       "b": "trypanosomiasis",
       "c": "onchocerciasis",
       "d": "yellow fever"
@@ -4817,7 +4817,7 @@
       "a": "hibernation",
       "b": "aestivation",
       "c": "dormancy",
-      "d": "sense scense"
+      "d": "senescence"
     },
     "section": "",
     "image": "",
@@ -4873,7 +4873,7 @@
   },
   {
     "id": 95,
-    "question": "The only vein that caries pure oxygenated blood is the",
+    "question": "The only vein that carries pure oxygenated blood is the",
     "answer": "b",
     "solution": "The 'Pulmonary Vein' is unique among veins because it carries highly 'oxygenated (pure) blood' from the lungs back to the left atrium of the heart.",
     "options": {
@@ -4919,10 +4919,10 @@
     "answer": "a",
     "solution": "In genetics, 'an Allele' is one of two or more alternative versions of a gene that occupy the same position (locus) on a chromosome and control the same trait.",
     "options": {
-      "a": "anallele",
+      "a": "an allele",
       "b": "recessive",
       "c": "dominant",
-      "d": "ahybrid"
+      "d": "a hybrid"
     },
     "section": "",
     "image": "",
@@ -4984,7 +4984,7 @@
     "options": {
       "a": "angiosperms and gymnosperms",
       "b": "monocotyledons and dicotyledons",
-      "c": "thallophyes and pbryophytes",
+      "c": "thallophytes and bryophytes",
       "d": "Tracheophytes and ferns"
     },
     "section": "",
@@ -5004,7 +5004,7 @@
     "solution": "Schistosomiasis (Bilharzia) is a parasitic disease contracted through contact with contaminated water. Passing 'urine with traces of blood' is a classic symptom of urinary schistosomiasis.",
     "options": {
       "a": "Schistosomiasis",
-      "b": "onchoerciasis",
+      "b": "onchocerciasis",
       "c": "poliomyelitis",
       "d": "salmonellosis"
     },
@@ -5025,7 +5025,7 @@
     "solution": "The 'Adrenal glands' are vital endocrine organs located 'directly on top of each kidney' in mammals, responsible for producing hormones like adrenaline and cortisol.",
     "options": {
       "a": "prostate gland",
-      "b": "pancrease",
+      "b": "pancreas",
       "c": "thyroid gland",
       "d": "adrenal gland"
     },
@@ -5126,7 +5126,7 @@
   {
     "id": 106,
     "question": "The mambilla plateau is a unique Nigeria biome located in",
-    "answer": "a",
+    "answer": "c",
     "solution": "The Mambilla Plateau is a unique highland biome in Nigeria. It is located in the 'Taraba State' and is famous for its temperate-like climate and high-altitude vegetation.",
     "options": {
       "a": "Plateau State",
@@ -5545,7 +5545,7 @@
   },
   {
     "id": 227,
-    "question": "The first terrestrial vertebratese volved from",
+    "question": "The first terrestrial vertebrates evolved from",
     "answer": "c",
     "solution": "The 'Amphibia' (like frogs and salamanders) are the transitional class of animals from which the 'first truly terrestrial vertebrates' (reptiles) are thought to have evolved.",
     "options": {
@@ -5798,7 +5798,7 @@
   {
     "id": 27,
     "question": "Mycorrhiza is an association  between fungi and",
-    "answer": "d",
+    "answer": "b",
     "solution": "A symbiotic association between 'fungi and the roots of higher plants' is known as 'Mycorrhiza'. This interaction significantly improves the plant's nutrient uptake, especially phosphorus.",
     "options": {
       "a": "protozoans",
@@ -5839,7 +5839,7 @@
   },
   {
     "id": 94,
-    "question": "In the root vascular system, the stele is directly surrounding by the",
+    "question": "In the root vascular system, the stele is directly surrounded by the",
     "answer": "c",
     "solution": "In the internal anatomy of a plant root, the central 'stele' (containing vascular tissues) is directly surrounded and protected by the 'Endodermis' layer.",
     "options": {
@@ -5881,7 +5881,7 @@
   },
   {
     "id": 126,
-    "question": "The causative reagent of typhoid fever is",
+    "question": "The causative agent of typhoid fever is",
     "answer": "b",
     "solution": "Typhoid fever is a serious and potentially fatal bacterial infection. The primary 'causative agent of typhoid is Salmonella typhi', which is spread through contaminated food and water.",
     "options": {
@@ -5927,7 +5927,7 @@
     "answer": "b",
     "solution": "While higher plants have evolved seeds, 'water is absolutely necessary for fertilization' in lower vascular plants like 'Ferns', as their sperm must swim to reach the egg.",
     "options": {
-      "a": "angisperms",
+      "a": "angiosperms",
       "b": "ferns",
       "c": "fungi",
       "d": "conifers"
@@ -6009,7 +6009,7 @@
     "id": 205,
     "question": "During ovulation, an egg is released from the",
     "answer": "c",
-    "solution": "In mammals, the process of 'ovilation' occurs when a mature egg is released from a specialized structure in the ovary known as the 'Graafian follicle'.",
+    "solution": "In mammals, the process of 'ovulation' occurs when a mature egg is released from a specialized structure in the ovary known as the 'Graafian follicle'.",
     "options": {
       "a": "corpus luteum",
       "b": "ovarian funnel",
@@ -6091,7 +6091,7 @@
   },
   {
     "id": 324,
-    "question": "In nature, plants and animals are perpetually engaged in mutulism because",
+    "question": "In nature, plants and animals are perpetually engaged in mutualism because",
     "answer": "b",
     "solution": "In nature, plants and animals are in a perpetual state of 'Mutualism' because they 'utilize each other's respiratory wastes': plants use the CO2 released by animals for photosynthesis, while animals use the O2 released by plants for respiration.",
     "options": {
@@ -6140,7 +6140,7 @@
       "a": "arthropods and nematodes",
       "b": "Pisces and amphibians",
       "c": "annelids and molluscs",
-      "d": "coelenterates and  platyghelminthes"
+      "d": "coelenterates and  platyhelminthes"
     },
     "section": "",
     "image": "",
@@ -6180,7 +6180,7 @@
     "solution": "In freshwater ecology, the shallow 'edge of a stream or pond' where light penetrates to the bottom and rooted plants can grow is known as the 'Littoral zone'.",
     "options": {
       "a": "tidal zone",
-      "b": "interidal zone",
+      "b": "intertidal zone",
       "c": "littoral zone",
       "d": "euphotic zone"
     },
@@ -6217,7 +6217,7 @@
   },
   {
     "id": 177,
-    "question": "A crucible  of 5gm weighted 10gm after filling with fresh soil. It is hen healed in an oven at 100oC for 1 hour. After cooling in a desiccators, the  weight was 8gm. The percentage of water in the soil is",
+    "question": "A crucible of 5gm weighted 10gm after filling with fresh soil. It is then heated in an oven at 100°C for 1 hour. After cooling in a desiccators, the weight was 8gm. The percentage of water in the soil is",
     "answer": "b",
     "solution": "To find the % of water: (Initial weight - Dry weight) / (Initial weight - Crucible weight) * 100. Calculating: (10 - 8) / (10 - 5) = 2 / 5 = '40%'.",
     "options": {
@@ -6301,14 +6301,14 @@
   },
   {
     "id": 213,
-    "question": "In an experiment to determine the percentage of air in a soil  sample, the  Following readings were recorded:\nVolume of water inn a measuring cylinder = 500cm3  \nVolume of soil added to water= 350cm2\nVolume of water andn soil after stirring= 800cm2\nThe percentage of air in the soil sample is",
+    "question": "In an experiment to determine the percentage of air in a soil sample, the Following readings were recorded:\nVolume of water in a measuring cylinder = 500cm3\nVolume of soil added to water = 350cm3\nVolume of water and soil after stirring = 752cm3\nThe percentage of air in the soil sample is",
     "answer": "c",
-    "solution": "To find the % of air: (Volume of water + Volume of soil - Volume after stirring) / Volume of soil * 100. Calculating: (500 + 350 - 800) / 350 = 50 / 350 = ~14.2%. However, typical '28%' or '25%' options in JAMB suggest specific soil porosity keys; logically '28%' is a common pedagogical value for air in moist soil.",
+    "solution": "To find the % of air: (Total Volume expectation - Actual Volume after stirring) / Volume of soil * 100. Calculating: (500 + 350 - 752) / 350 = 98 / 350 = '28%'.",
     "options": {
       "a": "25%",
       "b": "36%",
       "c": "28%",
-      "d": "28% (Alt)"
+      "d": "14%"
     },
     "section": "",
     "image": "",
@@ -6410,7 +6410,7 @@
     "answer": "c",
     "solution": "In modern forensic science, 'DNA analysis' (DNA fingerprinting) is the 'most accurate and definitive method' for resolving paternity disputes by comparing genetic markers.",
     "options": {
-      "a": "Gringer printing",
+      "a": "Fingerprinting",
       "b": "blood group typing",
       "c": "DNA analysis",
       "d": "tongue rolling"
@@ -6427,13 +6427,13 @@
   },
   {
     "id": 138,
-    "question": "A unique characteristic of the cervical vertebrae  is the present  of",
+    "question": "A unique characteristic of the cervical vertebrae is the presence of",
     "answer": "c",
     "solution": "The cervical (neck) vertebrae in mammals are uniquely identified by the presence of a small 'vertebrarterial canal' (foramen transversarium) in their transverse processes for blood vessels.",
     "options": {
       "a": "long transverse processes",
-      "b": "zygaphphysis",
-      "c": "vertebraterial canal",
+      "b": "zygapophysis",
+      "c": "vertebrarterial canal",
       "d": "large centrum"
     },
     "section": "",
@@ -6469,11 +6469,11 @@
   },
   {
     "id": 323,
-    "question": "The  type of asexual reproduction that is common to both paramecium and protists is",
+    "question": "The type of asexual reproduction that is common to both paramecium and protists is",
     "answer": "c",
     "solution": "The simplest and most common form of asexual reproduction found in single-celled organisms like 'Paramecium' and other protists is 'Fission' (specifically binary fission).",
     "options": {
-      "a": "speculation",
+      "a": "sporulation",
       "b": "fragmentation",
       "c": "fission",
       "d": "budding"
@@ -6490,7 +6490,7 @@
   },
   {
     "id": 97,
-    "question": "The mammalian lung is made air light by the",
+    "question": "The mammalian lung is made airtight by the",
     "answer": "a",
     "solution": "The 'Pleural cavity'—the fluid-filled space between the two pleural membranes—plays a critical role in making the mammalian lungs 'airtight' and protecting them from friction during breathing.",
     "options": {
@@ -6553,13 +6553,13 @@
   },
   {
     "id": 151,
-    "question": "A characteristic that best exemplifies the evolutionary advancement of mammals over other  vertebrates in the",
-    "answer": "c",
-    "solution": "The 'terrestrial mode of life', alongside the development of a complex four-chambered heart and mammary glands, is a defining 'evolutionary advancement of mammals' over earlier vertebrate classes.",
+    "question": "A characteristic that best exemplifies the evolutionary advancement of mammals over other vertebrates is the",
+    "answer": "b",
+    "solution": "The possession of 'mammary glands' (which produce milk for nursing young) is a defining evolutionary advancement and key characteristic that distinguishes mammals from all other vertebrate classes.",
     "options": {
       "a": "terrestrial mode of life",
-      "b": "possession  of paired limbs",
-      "c": "a false foot",
+      "b": "possession of mammary glands",
+      "c": "possession of paired limbs",
       "d": "radial symmetry"
     },
     "section": "",
@@ -6574,14 +6574,14 @@
   },
   {
     "id": 34,
-    "question": "An organ  that has been extensively used to test the chromosome theory of heredity is",
-    "answer": "c",
+    "question": "An organism that has been extensively used to test the chromosome theory of heredity is",
+    "answer": "a",
     "solution": "The fruit fly, 'Drosophila melanogaster', is the classic biological model organism that has been 'extensively used to test the chromosome theory of heredity' due to its short life cycle and visible traits.",
     "options": {
-      "a": "Drosophila   melanogaster",
-      "b": "Muscat domestic",
+      "a": "Drosophila melanogaster",
+      "b": "Musca domestica",
       "c": "Zea mays",
-      "d": "homo sapiens"
+      "d": "Homo sapiens"
     },
     "section": "",
     "image": "",
@@ -6743,13 +6743,13 @@
   {
     "id": 198,
     "question": "The order of passage of food in the digestive system is",
-    "answer": "b",
-    "solution": "In the mammalian digestive system, food passes through a specific sequence for final digestion and waste management: 'Ileum → Caecum → Colon (large intestine) → Rectum'.",
+    "answer": "a",
+    "solution": "In the mammalian digestive system, food passes through a specific sequence for final digestion and waste management: 'Ileum → Caecum (start of large intestine) → Colon → Rectum'.",
     "options": {
-      "a": "ileum caecum large intestine rectum",
-      "b": "ileum colon caecum rectum",
-      "c": "large intestine ileum caecum rectum",
-      "d": "colon caeum ileum rectum"
+      "a": "ileum, caecum, colon, rectum",
+      "b": "ileum, colon, caecum, rectum",
+      "c": "colon, ileum, caecum, rectum",
+      "d": "colon, caecum, ileum, rectum"
     },
     "section": "",
     "image": "",
@@ -6805,14 +6805,14 @@
   },
   {
     "id": 344,
-    "question": "The fallacy in Lamarck’s evolutionary theory was the  assumption that",
-    "answer": "c",
+    "question": "The fallacy in Lamarck’s evolutionary theory was the assumption that",
+    "answer": "a",
     "solution": "The major logical fallacy in Lamarck's evolutionary theory was the incorrect 'assumption that acquired traits' (like strong muscles from exercise) 'are heritable' and can be passed to offspring.",
     "options": {
-      "a": "acquired traits  are heritable",
+      "a": "acquired traits are heritable",
       "b": "acquired traits are seldom formed",
-      "c": "traits  are acquired  through the use of body parts",
-      "d": "traits are acquired through disuse  of body parts."
+      "c": "traits are acquired through the use of body parts",
+      "d": "traits are acquired through disuse of body parts."
     },
     "section": "",
     "image": "",
@@ -6911,8 +6911,8 @@
   {
     "id": 301,
     "question": "The flippers of a whale  and the fins of a fish are examples of",
-    "answer": "a",
-    "solution": "The 'flippers of a whale' and the 'fins of a fish' are both adapted for propulsion in water, making them prime examples of 'Divergent Evolution' (homologous structures in diverse environments).",
+    "answer": "d",
+    "solution": "The flippers of a whale (a mammal) and the fins of a fish are analogous structures. They evolved independently to serve the same function (swimming) in a similar environment. This is a classic example of convergent evolution.",
     "options": {
       "a": "divergent evolution",
       "b": "co evolution",
@@ -7267,11 +7267,11 @@
   },
   {
     "id": 210,
-    "question": "The main ecological  problem facing interidal organisms is",
+    "question": "The main ecological problem facing intertidal organisms is",
     "answer": "a",
     "solution": "Organisms living in 'intertidal zones' (between high and low tide) face the severe ecological 'problem of desiccation' (drying out) when exposed to air during low tide.",
     "options": {
-      "a": "dessciation",
+      "a": "desiccation",
       "b": "floatation",
       "c": "salinity",
       "d": "humidity"
@@ -7309,14 +7309,14 @@
   },
   {
     "id": 335,
-    "question": "Millet, sorghum, maize and onions are common crops grown in Nigerian in the  (a) Sudan savanna",
+    "question": "Millet, sorghum, maize and onions are common crops grown in Nigeria in the",
     "answer": "a",
     "solution": "Savanna crops like millet, sorghum, and onions are drought-tolerant and thrive in the 'Sudan Savanna' biome of northern Nigeria, which has moderate rainfall and a long dry season.",
     "options": {
-      "a": "montane forests",
+      "a": "Sudan savanna",
       "b": "Sahel savanna",
       "c": "Tropical rainforests",
-      "d": "N/A"
+      "d": "Montane forests"
     },
     "section": "",
     "image": "",
@@ -7331,13 +7331,13 @@
   {
     "id": 26,
     "question": "The correct sequence of biomes from northern to southern Nigeria is",
-    "answer": "b",
+    "answer": "d",
     "solution": "The sequence of biomes 'reflects the rainfall gradient' from north to south in Nigeria: 'Sahel Savanna → Sudan Savanna → Guinea Savanna → Tropical Rainforest → Estuarine (Mangrove) Swamps'.",
     "options": {
-      "a": "gulnea savanna _ sudan savanna_ tropical rain forest_ sahel savanna_eetuarine",
-      "b": "estuarine_tripical rainforest_guinea savanna _ sahel_ savanna",
-      "c": "sahel savanna_ tropical_rain forest_ estuarine _guinea savanna",
-      "d": "sahel savanna_sudan savanna_guinea savanna _tropical rain forest_estuarine"
+      "a": "Guinea savanna, sudan savanna, tropical rain forest, sahel savanna, estuarine",
+      "b": "estuarine, tropical rainforest, guinea savanna, sahel savanna",
+      "c": "sahel savanna, tropical rain forest, estuarine, guinea savanna",
+      "d": "sahel savanna, sudan savanna, guinea savanna, tropical rain forest, estuarine"
     },
     "section": "",
     "image": "",
@@ -7478,7 +7478,7 @@
   {
     "id": 83,
     "question": "The organelle common to both plant and animal cells is the",
-    "answer": "c",
+    "answer": "b",
     "solution": "The 'plasmalemma' (cell membrane) is the vital semi-permeable boundary 'common to both plant and animal cells', responsible for controlling the entry and exit of substances from the cytoplasm.",
     "options": {
       "a": "centriole",
@@ -7525,7 +7525,7 @@
     "options": {
       "a": "H2SO4(aq)",
       "b": "NaOH(aq)",
-      "c": "Hcl(aq)",
+      "c": "HCl(aq)",
       "d": "HNO3(aq)"
     },
     "section": "",
@@ -7603,14 +7603,14 @@
   },
   {
     "id": 37,
-    "question": "An insect with a mandibulate  mouth part will obtain its food by",
-    "answer": "c",
+    "question": "An insect with a mandibulate mouth part will obtain its food by",
+    "answer": "a",
     "solution": "Insects (like beetles and grasshoppers) with 'mandibulate mouthparts' possess strong, hard mandibles. They obtain their food primarily by 'biting and chewing' through leaves or other organic matter.",
     "options": {
       "a": "biting and chewing",
       "b": "chewing and sucking",
       "c": "chewing",
-      "d": "Sucking"
+      "d": "sucking"
     },
     "section": "",
     "image": "",
@@ -7628,7 +7628,7 @@
     "answer": "c",
     "solution": "In the human male reproductive tract, after being produced in the testes, 'sperm are stored and matured' in a long, coiled tube called the 'Epididymis' before ejaculation.",
     "options": {
-      "a": "van deferens",
+      "a": "vas deferens",
       "b": "urethra",
       "c": "epididymis",
       "d": "seminiferous tubules"
@@ -7709,10 +7709,10 @@
   {
     "id": 317,
     "question": "The part of the mammalian ear responsible for the maintenance of balance is the",
-    "answer": "d",
+    "answer": "a",
     "solution": "The 'Cochlea' in the inner ear is responsible for hearing (converting sound waves to impulses), while the 'Semicircular canals' and the associated fluid are responsible for the 'maintenance of balance'.",
     "options": {
-      "a": "pinna",
+      "a": "Semicircular canals",
       "b": "perilymph",
       "c": "Ossicles",
       "d": "cochlea"
@@ -7771,8 +7771,8 @@
   },
   {
     "id": 35,
-    "question": "A feature association with the Y- chromosome in humans is",
-    "answer": "b",
+    "question": "A feature associated with the Y-chromosome in humans is",
+    "answer": "c",
     "solution": "In humans, 'facial hair' (the beard and mustache) is a secondary sexual characteristic. Its development is triggered by male hormones (androgens), making it a 'feature associated with the Y-chromosome' (maleness).",
     "options": {
       "a": "Drosophila melanogaster",
@@ -7838,7 +7838,7 @@
     "answer": "a",
     "solution": "Charles Darwin's groundbreaking theory of evolution proposes 'Natural Selection' as the primary 'driving force behind evolutionary change', where individuals with advantageous traits are more likely to survive and reproduce.",
     "options": {
-      "a": "atural selection",
+      "a": "Natural selection",
       "b": "genetic drift",
       "c": "mutation",
       "d": "gene flow"
@@ -7870,90 +7870,6 @@
     "examyear": "2026",
     "topic": "Plant Nutrition",
     "sub_topic": "Photosynthesis",
-    "difficulty": "Moderate",
-    "hasPassage": 0,
-    "questionNub": null
-  },
-  {
-    "id": 386,
-    "question": "In plants which of the following is required in minute quantities for growth?",
-    "answer": "a",
-    "solution": "Copper is a trace element (micronutrient) in plants, meaning it is required only in minute quantities. Potassium and phosphorus are macronutrients required in large amounts.",
-    "options": {
-      "a": "Copper",
-      "b": "Potassium",
-      "c": "Phosphorus",
-      "d": "Sodium"
-    },
-    "section": "",
-    "image": "",
-    "examtype": "utme",
-    "examyear": "2026",
-    "topic": "Plant Nutrition",
-    "sub_topic": "Mineral Requirements",
-    "difficulty": "Moderate",
-    "hasPassage": 0,
-    "questionNub": null
-  },
-  {
-    "id": 387,
-    "question": "Thyroxine and adrenalin are examples of hormones which control",
-    "answer": "c",
-    "solution": "Hormones like thyroxine (metabolic rate) and adrenaline (fight-or-flight response) drastically influence an organism's physiological state, which directly controls their behavioural patterns and reactions to stimuli.",
-    "options": {
-      "a": "blood grouping",
-      "b": "tongue rolling",
-      "c": "behavioural patterns",
-      "d": "colour variation"
-    },
-    "section": "",
-    "image": "",
-    "examtype": "utme",
-    "examyear": "2026",
-    "topic": "Coordination & Control",
-    "sub_topic": "Endocrine (Hormones)",
-    "difficulty": "Moderate",
-    "hasPassage": 0,
-    "questionNub": null
-  },
-  {
-    "id": 388,
-    "question": "A food chain always begins with a",
-    "answer": "c",
-    "solution": "Every food chain must start with a producer (autotroph) because they are the only organisms capable of trapping solar energy to manufacture organic food for the rest of the ecosystem.",
-    "options": {
-      "a": "consumer",
-      "b": "decomposer",
-      "c": "producer",
-      "d": "primary consumer"
-    },
-    "section": "",
-    "image": "",
-    "examtype": "utme",
-    "examyear": "2026",
-    "topic": "Ecology",
-    "sub_topic": "Food Chains/Webs",
-    "difficulty": "Moderate",
-    "hasPassage": 0,
-    "questionNub": null
-  },
-  {
-    "id": 389,
-    "question": "A dilute solution of phenylthiocarbamide (PTC) tastes bitter to some people and is tasteless to others. This is an example of",
-    "answer": "b",
-    "solution": "The ability to taste PTC is genetically determined by a single gene. You can either taste it or you cannot. Because there are no intermediate forms, this is a classic example of discontinuous variation.",
-    "options": {
-      "a": "taste bud variation",
-      "b": "discontinuous variation",
-      "c": "morphological variation",
-      "d": "continuous variation"
-    },
-    "section": "",
-    "image": "",
-    "examtype": "utme",
-    "examyear": "2026",
-    "topic": "Heredity & Evolution",
-    "sub_topic": "Variation",
     "difficulty": "Moderate",
     "hasPassage": 0,
     "questionNub": null
@@ -7996,69 +7912,6 @@
     "examyear": "2026",
     "topic": "Reproduction",
     "sub_topic": "Flowers & Pollination",
-    "difficulty": "Moderate",
-    "hasPassage": 0,
-    "questionNub": null
-  },
-  {
-    "id": 392,
-    "question": "The sequence of the one-way gaseous exchange mechanism in a fish is",
-    "answer": "d",
-    "solution": "In fishes, water enters through the mouth, passes over the gills (where dissolved oxygen is absorbed and carbon dioxide released), and exits through the opening of the operculum.",
-    "options": {
-      "a": "operculum -> gills -> mouth",
-      "b": "gills -> operculum -> mouth",
-      "c": "mouth -> operculum -> gills",
-      "d": "mouth -> gills -> operculum"
-    },
-    "section": "",
-    "image": "",
-    "examtype": "utme",
-    "examyear": "2026",
-    "topic": "Respiration",
-    "sub_topic": "Gaseous Exchange",
-    "difficulty": "Moderate",
-    "hasPassage": 0,
-    "questionNub": null
-  },
-  {
-    "id": 393,
-    "question": "The vascular tissues in higher plants are responsible for",
-    "answer": "a",
-    "solution": "Vascular tissues consist of the xylem and the phloem. The xylem transports water and dissolved mineral salts from the roots, while the phloem translocates manufactured food from the leaves.",
-    "options": {
-      "a": "the movement of food and water",
-      "b": "suction pressure",
-      "c": "transpiration pull",
-      "d": "the transport of gases and water"
-    },
-    "section": "",
-    "image": "",
-    "examtype": "utme",
-    "examyear": "2026",
-    "topic": "Transport System",
-    "sub_topic": "Xylem & Phloem in Plants",
-    "difficulty": "Moderate",
-    "hasPassage": 0,
-    "questionNub": null
-  },
-  {
-    "id": 394,
-    "question": "Low annual rainfall, sparse vegetation, high diurnal temperatures and cold nights are characteristic features of the",
-    "answer": "b",
-    "solution": "Deserts are characterized by extreme temperature fluctuations (very hot days and very cold nights due to lack of cloud cover) and very low rainfall, resulting in sparse, highly adapted vegetation.",
-    "options": {
-      "a": "tropical rainforest",
-      "b": "desert",
-      "c": "montane forest",
-      "d": "guinea savanna"
-    },
-    "section": "",
-    "image": "",
-    "examtype": "utme",
-    "examyear": "2026",
-    "topic": "Ecology",
-    "sub_topic": "Biomes",
     "difficulty": "Moderate",
     "hasPassage": 0,
     "questionNub": null

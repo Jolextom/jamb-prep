@@ -85,9 +85,9 @@
   },
   {
     "id": 848,
-    "question": "",
-    "answer": "c",
-    "solution": "This question tests the vowel sound in 'weird' (/wɪəd/). It contains the /iə/ diphthong, which is correctly matched with the sound in 'weird' itself (self-referential check).",
+    "question": "Which of the following words has a different vowel sound from the others?",
+    "answer": "a",
+    "solution": "The words 'hear', 'weird', and 'mere' all contain the /ɪə/ sound (as in 'ear'). However, 'tear' when used as a verb (to rip) is pronounced with the /ɛə/ sound (as in 'air').",
     "options": {
       "a": "tear (verb)",
       "b": "hear",
@@ -678,9 +678,9 @@
     "solution": "Some words are made up of a root  and a suffix:\n\ndangerous   =    root –> danger  +  ous –<  suffix\ncommercial   =    root –> commerc(e)  + al –<  suffix\n\nIn some words with suffixes, the stress stays on the same syllable as in the root. Compare:\n\n‘danger and: ‘dangerous\n\nIn other words, the suffix changes the stressed syllable. Compare:\n\n‘commerce and: com‘mercial\n\nSuffixes which don’t usually change the stress pattern in the root word include (however they maybe some exceptions.) -able, -age, -al, -er, -ful, -less, -ness, -ous and -fy. For example:\n\ncomfort – ‘comfortable\nper‘cent – per’centage",
     "options": {
       "a": "PAL—a—ta—ble",
-      "b": "pal—A—ta—ble (Alt)",
-      "c": "pal—a—TA—ble (Alt) (Alt)",
-      "d": "pal—a—ta—BLE (Alt) (Alt) (Alt 2)"
+      "b": "pal—A—ta—ble",
+      "c": "pal—a—TA—ble",
+      "d": "pal—a—ta—BLE"
     },
     "section": "",
     "image": "",
@@ -715,7 +715,7 @@
   },
   {
     "id": 90,
-    "question": "I am not coming home, is he?......... he is isn’t.",
+    "question": "He is not coming home, is he? ... No, he isn't.",
     "answer": "b",
     "solution": "For tag questions or responses, if someone asks 'is he?', the appropriate short negative answer is 'No, he isn\\'t.' representing a classic grammatical agreement.",
     "options": {
@@ -820,11 +820,11 @@
   },
   {
     "id": 448,
-    "question": "It was our collective idea but Ado was doing every­ thing to steal the snow",
+    "question": "It was our collective idea but Ado was doing everything to steal the show",
     "answer": "c",
     "solution": "The idiom 'steal the show' means to attract the most attention and praise, often away from others. Ado was 'trying to attract the most attention' for the collective idea.",
     "options": {
-      "a": "Ado was not part of the planning but he tried to rub us of the benefits of it.",
+      "a": "Ado was not part of the planning but he tried to rob us of the benefits of it.",
       "b": "We planned the show together out Ado was trying to abort it.",
       "c": "It was a joint project but Ado is trying to attract the most attention",
       "d": "We collated the idea for the show but Ado was trying to steal the programme."
@@ -1094,8 +1094,8 @@
   {
     "id": 247,
     "question": "apparent",
-    "answer": "c",
-    "solution": "The word 'apparent' (/ əˈpærənt/) has its primary stress on the second syllable. Among the options, 'paragraph' (/ˈpærəɡræf/) typically follows a similar stressed vowel pattern in this context.",
+    "answer": "a",
+    "solution": "The word 'apparent' is stressed on the second syllable (ap-PA-rent). Among the options, 'arrested' is also stressed on the second syllable (ar-RES-ted). The other options ('telephone', 'paragraph', and 'appetite') are all stressed on the first syllable.",
     "options": {
       "a": "arrested",
       "b": "telephone",
@@ -1114,7 +1114,7 @@
   },
   {
     "id": 433,
-    "question": "Sc<u>oo</u> led",
+    "question": "Sch<u>oo</u>led",
     "answer": "d",
     "solution": "This is a phonetics question testing vowel sounds. 'Schooled' (/skuːld/) contains the long /uː/ sound, which matches with 'you' (/juː/).",
     "options": {
@@ -1513,7 +1513,7 @@
   },
   {
     "id": 104,
-    "question": "Everyone was ready to play the evil’s advocate in the impeachment controversy.",
+    "question": "Everyone was ready to play the devil's advocate in the impeachment controversy.",
     "answer": "a",
     "solution": "To 'play the devil's advocate' means to speak against an idea, even if you agree with it, for the sake of argument. It means being willing to 'speak against the impeachment to encourage discussion'.",
     "options": {
@@ -2002,7 +2002,7 @@
     "options": {
       "a": "Pat time /over",
       "b": "pass-time/over",
-      "c": "pastime/through (Alt)",
+      "c": "pastime/through",
       "d": "pastime/through"
     },
     "section": "choose the option that best completes the gap(s).",
@@ -2039,8 +2039,8 @@
   {
     "id": 317,
     "question": "bl<u>ues</u>",
-    "answer": "d",
-    "solution": "This phonetics question tests vowel length. 'Blues' (/bluːz/) contains a long /uː/ sound, which matches the sound in 'roots' (or simply 'look' depending on the narrow transcription key).",
+    "answer": "b",
+    "solution": "The underlined letters 'ues' in 'blues' produce the long /uː/ vowel sound. This matches the vowel sound in 'root'. The words 'book', 'foot', and 'look' all contain the short /ʊ/ sound.",
     "options": {
       "a": "book",
       "b": "root",
@@ -2316,9 +2316,9 @@
     "solution": "This is a spelling and pronunciation consistency check. 'Information' is the correct and only accepted spelling of the word.",
     "options": {
       "a": "information",
-      "b": "information (Alt)",
-      "c": "information (Alt) (Alt)",
-      "d": "Information (Alt) (Alt) (Alt 2)"
+      "b": "information",
+      "c": "information",
+      "d": "Information"
     },
     "section": "<b>In each of questions 95 to 97, choose the \nmost appropriate stress pattern from the \noptions. The stressed syllables are written \nin capital letters</b>",
     "image": "",
@@ -3974,10 +3974,10 @@
     "answer": "c",
     "solution": "The correct answer is ‘C’ because the main/primary stress of the word ‘education is on the third syllable. Another thing is that ends in ‘tion’ /’sion’ are stressed on its penultimate (before the last) education/ edju’keijan/",
     "options": {
-      "a": "E-du-ca-tion (Alt)",
-      "b": "e-DU-ca-tion (Alt) (Alt 2)",
+      "a": "E-du-ca-tion",
+      "b": "e-DU-ca-tion",
       "c": "e-du-CA-tion",
-      "d": "e-du-ca-TION (Alt) (Alt)"
+      "d": "e-du-ca-TION"
     },
     "section": "",
     "image": "",
@@ -4415,10 +4415,10 @@
     "answer": "b",
     "solution": "The word 'imperialism' (/imˈpɪəriəlɪzəm/) has its primary stress on the second syllable: 'im-PE-rialism'.",
     "options": {
-      "a": "<u>IM</u>perialism",
-      "b": "im<u>PE</u>rialism",
-      "c": "impe<u>RIA</u>lism",
-      "d": "imperiali<u>SM</u>"
+      "a": "IM-perialism",
+      "b": "im-PE-rialism",
+      "c": "im-pe-RIA-lism",
+      "d": "im-peria-LISM"
     },
     "section": "<b>In each of questions, 92 to 94, choose the appropriate stress pattern from the options. The syllables are underlined in capital letters.</b>",
     "image": "",
@@ -4604,10 +4604,10 @@
     "answer": "b",
     "solution": "Expenditure has its stress on the second syllable",
     "options": {
-      "a": "EX-pen-di-ture (Alt)",
+      "a": "EX-pen-di-ture",
       "b": "ex-PEN-di-ture",
-      "c": "ex-pen-DI-ture (Alt) (Alt 2)",
-      "d": "ex-pen-di-TURE (Alt) (Alt)"
+      "c": "ex-pen-DI-ture",
+      "d": "ex-pen-di-TURE"
     },
     "section": "In each of the following questions, the main or primary stress is indicated by writing the syllable on which it occurs in capital letters.\n",
     "image": "",
@@ -8972,9 +8972,9 @@
     "answer": "d",
     "solution": "Criticism has it stress on the first syllable",
     "options": {
-      "a": "cri-ti-ci-SM (Alt)",
-      "b": "cri-ti-CI-sm (Alt) (Alt 2)",
-      "c": "cri-TI-ci-sm (Alt) (Alt)",
+      "a": "cri-ti-ci-SM",
+      "b": "cri-ti-CI-sm",
+      "c": "cri-TI-ci-sm",
       "d": "CRI-ti-ci-sm"
     },
     "section": "In each of the following questions, the main or primary stress is indicated by writing the syllable on which it occurs in capital letters.\n",
@@ -9372,9 +9372,9 @@
     "solution": "In nouns ending -isation or -ization, we stress the /eɪ/:",
     "options": {
       "a": "obliGAtion",
-      "b": "OBligation (Alt)",
-      "c": "obligaTION (Alt) (Alt)",
-      "d": "obLIgation (Alt) (Alt) (Alt 2)"
+      "b": "OBligation",
+      "c": "obligaTION",
+      "d": "obLIgation"
     },
     "section": "For these questions, choose the most appropriate stress pattern from the options. The Stressed syllable are written in capital letter (s)",
     "image": "",
@@ -11261,8 +11261,8 @@
     "answer": "d",
     "solution": "conspiracy; /kənˈspɪrəsi/",
     "options": {
-      "a": "CONspiracy. (Alt)",
-      "b": "conspiRAcy. (Alt) (Alt 2)",
+      "a": "CONspiracy.",
+      "b": "conspiRAcy.",
       "c": "conspiraCY",
       "d": "conSPIracy."
     },
