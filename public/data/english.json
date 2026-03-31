@@ -12818,5 +12818,45 @@
     "questionNub": 58,
     "hasPassage": 0,
     "category": "others"
+  },
+  {
+    "id": 1224,
+    "question": "The lady has devised a means of <u>tackling</u> her current challenges.",
+    "option": {
+      "a": "attacking",
+      "b": "avoiding",
+      "c": "handling",
+      "d": "suspending",
+      "e": ""
+    },
+    "section": "choose the option nearly opposite in meaning to the word(s) underlined",
+    "image": "",
+    "answer": "b",
+    "solution": "Tackling: make determined efforts to deal with (a problem or difficult task).\n\nAvoiding: keep away from or stop oneself from doing (something).",
+    "examtype": "utme",
+    "examyear": "2021",
+    "questionNub": 31,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1674,
+    "question": "Which of the following statements is true according to the passage?",
+    "option": {
+      "a": "Suspicion often stimulates inquisitiveness",
+      "b": "Every human conduct often gives rise to curiosity",
+      "c": "Our environment always inhibits curiosity",
+      "d": "Curiosity is effective where there is no room for it",
+      "e": ""
+    },
+    "section": "Read the passage carefully and answer the question that follows. <br><br>\nCuriosity is as clear and definite as any of our urges. We wonder what is in a sealed telegram or in a letter which someone else is absorbed or what is being said in the telephone booth or in low conversation. This inquisitiveness is vastly stimulated by jealousy. Suspicion or any hint that we ourselves are directly or indirectly involved in. But there appears to be a fair amount of personal interest in other people's affairs even when they do not concern us except as a mystery to be unravelled or a tale to be told. The reports of a divorce suit will have news 'value' for many weeks, They constitute a story like a novel, a play or a moving picture. This is not an example of pure curiosity. However, since we readily identify ourselves with others' their joys and despair then become our own concern.  <br><br>\n\nAdapted from Harris, W. and L.G Wilson (1963) The University Handbook,New York: Holt Rinehart and Winston ",
+    "image": "",
+    "answer": "a",
+    "solution": "According to the passage, curiosity comes alive as a result of our inquisitiveness and suspicion of events happening with people around  us. ",
+    "examtype": "utme",
+    "examyear": "2016",
+    "questionNub": 62,
+    "hasPassage": 1,
+    "category": "passage-a"
   }
 ]
