@@ -12918,5 +12918,25 @@
     "questionNub": 54,
     "hasPassage": 0,
     "category": "others"
+  },
+  {
+    "id": 1000,
+    "question": "It can be inferred from the passage that",
+    "option": {
+      "a": "Nigerians have access to foreign books only",
+      "b": "Nigerian undergraduates do not read text books",
+      "c": "Nigerians read foreign and indigenous books alike",
+      "d": " Nigerians read mostly foreign books",
+      "e": ""
+    },
+    "section": "Recent literary researches reveal that Nigerians hardly have time to read . In essence, the reading culture in Nigeria is now at a low ebb. It is disturbing, however, that few Nigerians that read concentrate more on foreign books than indigenous productions. Most Nigerian authors of novels, storybooks, fictions and non-fiction series have decried, on different occasions, their woes. They were bitter at the way most owners of bookshops and publishers treat them. It was gathered to stock foreign books. When contacted by DAILY INDEPENDENT, the general manager of a popular bookstore on Lagos island declared that most of the bookshops preferred to stock foreign books because of higher demands for them. The question that bothers most Nigerian authors is, while their overseas counterparts are being rewarded with great international honours, why are Nigerians not awarding them such recognition in their own country?<br><br>Recently, \"Nigerian novelist, Chimamanda Ngozi Adichie, won the 2007 Orange Prize Award, the literary world's top award for fiction in English written by women. The award carries a prize tag of $30,000 it was reported in Publishers Weekly, Half of a Yellow Sun, the book that earned her the award, was profoundly gripping. According to the reviewer, the book is a transcendent novel of many descriptive triumphs, most notably its diction of the impact of war brutalities on peasants and intellectuals alike. It is searing history in fictional form, intensely evocative and immensely absorbing. Chinua Achebe, 'Father of Modern African Literature, also won the second ever Man Booker International Prize of £60,000 with his first novel Things Fall Apart, published in 1958. When Professor Wole Soyinka won the Nobel Prize for Literature in 1986, the fame confirmed the relevance of Nigerians in the world of classical excellence. Ben Okri won the 1991 Booker Prize with his work, The\nFamished Road, and the world celebrated Nigeria as the giant of Africa.<br><br>It was also, gathered that most of the publishers hurriedly produce books and in the process marred their good contents. Most of the books are not properly edited and eventually become substandard when compared with foreign products. The extent to which book publishing standard has fallen in Nigeria is alarming. Often Nigerian publishers have been blamed for this. It is instructive that none of the books mentioned had been published in Nigeria. It was discovered that most students in tertiary institution depend on dictations from their lectures and /or handouts. A science lecturer in one of the Nigeria universities, who had been a victim of handout sales scandal, told DAILY INDEPENDENT the reality of campus challenges in relation to books; I was forced to dictate notes slowly to students who hung on my every word in the absence of textbooks in a library that had, to all intent and purpose, stopped buying new books when the local currency was devalued. But what other alternative does one have?<br><br>Adapted from DAILY INDEPENDENT, Monday, 20 August, 2007",
+    "image": "",
+    "answer": "d",
+    "solution": "From the passage, we understand that Nigerians prefer to read foreign books.",
+    "examtype": "utme",
+    "examyear": "2012",
+    "questionNub": 6,
+    "hasPassage": 1,
+    "category": "passage-b"
   }
 ]
