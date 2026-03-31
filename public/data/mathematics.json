@@ -4656,5 +4656,549 @@
     "solution": "Evaluate ∫<sub>0</sub><sup>π/2</sup>   sin xdx = -cosx|π/2\n\n\n= -(cos<sup>π/2</sup> - cos0) = -(0-1) = 1",
     "examtype": "utme",
     "examyear": "2016"
+  },
+  {
+    "id": 362,
+    "question": "How many possible ways are there of seating seven people P,Q,R,S,T,U and V at a circular table",
+    "option": {
+      "a": "360",
+      "b": "720",
+      "c": "2520",
+      "d": "5040",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "b",
+    "solution": "(n - 1)! = (7 - 1)!\n= 6!\n= 6*5*4*3*2*1\n= 720 ways",
+    "examtype": "utme",
+    "examyear": "2005"
+  },
+  {
+    "id": 452,
+    "question": "Given\nP = {1, 3, 5, 7, 9, 11}\nand Q = {2, 4, 6, 8, 10, 12}. Determine the relationship between P and Q",
+    "option": {
+      "a": "P∩Q = ∅",
+      "b": "P ⊂ Q",
+      "c": " Q⊂P",
+      "d": "P = Q",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "a",
+    "solution": "P = {1, 3, 5, 7, 9, 11}\nQ = {2, 4, 6, 8, 1, 12}\nP∩Q = {1, 3, 5, 7, 9, 11}∩{2, 4, 6, 8, 1, 12}\n= {} = ∅",
+    "examtype": "utme",
+    "examyear": "2007"
+  },
+  {
+    "id": 989,
+    "question": "If P(2, m) is the midpoint of the line joining Q(m, n) and R(n, -4), find the values of m and n.",
+    "option": {
+      "a": " m = 0, n = 4",
+      "b": "m = 4, n = 0",
+      "c": " m = 2, n = 2",
+      "d": "m = -2, n = 4",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "a",
+    "solution": "Q(m, n) and R(n, -4)\n\nMidpoint : P(2, m)\n\n⟹ (m+n/2,n − 4/2 )= (2,m)\nm + n = 2 × 2 ⟹ m + n = 4...(i)\nn − 4 = 2 × m ⟹ n − 4 =2m...(ii)\nSolving (i) and (ii) simultaneously,\n\nm = 0 and n = 4.",
+    "examtype": "utme",
+    "examyear": "2019"
+  },
+  {
+    "id": 803,
+    "question": "The value x in the figure given is",
+    "option": {
+      "a": "110°",
+      "b": "100°",
+      "c": "70°",
+      "d": "130°",
+      "e": null
+    },
+    "section": "",
+    "image": "https://res.cloudinary.com/aloc-ng/image/upload/v1716131414/ALOC-Questions/Mathematics/2013/2013_MATH_JAMB_Q34_sbzuwd.jpg",
+    "answer": "d",
+    "solution": "Sum of the angles in a triangle = 180°\n\n180° - x + 60 + 70 = 180\n\n130° - x = 180° - 180° = 0°\n\nx = 130°",
+    "examtype": "utme",
+    "examyear": "2013"
+  },
+  {
+    "id": 502,
+    "question": "Find the derivative of y=x<sup>7</sup> −x<sup>7</sup>/ x<sup>4</sup>",
+    "option": {
+      "a": " x(x<sup>2</sup> -1)",
+      "b": "3x(x<sup>2</sup> -1)",
+      "c": "3x<sup>2</sup> -1",
+      "d": "7x<sup>6</sup> -5x<sup>4</sup> ",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "c",
+    "solution": "y=(x<sup>7</sup> -x<sup>5</sup> )/x<sup>4</sup>.   y=x<sup>7</sup> /x<sup>4</sup>  ÷ x<sup>5</sup> /x<sup>4</sup>.   y=x<sup>3</sup> -x. dy/dx=3x<sup>2</sup> -1",
+    "examtype": "utme",
+    "examyear": "2008"
+  },
+  {
+    "id": 1270,
+    "question": "Simplify 6(1/12) − 2¾ + 1½",
+    "option": {
+      "a": "3(5/6)",
+      "b": "4(5/6)",
+      "c": "2(1/6)",
+      "d": "1/3",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "b",
+    "solution": "6½ − 2¾ + 1½\n\n73/12 − 11/4 + 3/2\n\n[(73 − 33 + 18) ÷ (12)]\n\n58/12\n\n29/6\n\n4(5/6)",
+    "examtype": "utme",
+    "examyear": "2015"
+  },
+  {
+    "id": 601,
+    "question": "If 9x<sup>2</sup>  + 6xy + 4y<sup>2</sup>  is a factor of 27x<sup>3</sup>  - 8y<sup>3</sup> , find the other factor.",
+    "option": {
+      "a": "2y + 3x",
+      "b": " 2y - 3x",
+      "c": "3x + 2y",
+      "d": " 3x - 2y",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "d",
+    "solution": "27x<sup>3</sup>  - 8y<sup>3</sup> = (3x - 2y)3\n\nBut 9x<sup>2</sup>  + 6xy + 4y<sup>2</sup>  = (3x +2y)2\n\nSo, 27x<sup>3</sup>  - 8y<sup>3</sup>  = (3x - 2y)(3x - 2y)<sup>2</sup> \n\nHence the other factor is 3x - 2y",
+    "examtype": "utme",
+    "examyear": "2010"
+  },
+  {
+    "id": 1273,
+    "question": "Given that S and T are sets of real numbers such that S = {x : 0 ≤\n x ≤ 5} and T = {x : − 2 < x < 3} Find S ∪ T",
+    "option": {
+      "a": "−3 < x < ≤3",
+      "b": "−2< x < ≤5",
+      "c": " 2< x < ≥ −5",
+      "d": "−1< x ≥ ≤2",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "b",
+    "solution": "S = {0, 1, 2, 3, 4, 5}\n\nT = {− 1, 0, 1, 2}\n\nS ∪ T = {− 1, 0, 1, 2, 3, 4, 5 }\n\n⇒ − 2 < x ≤ 5",
+    "examtype": "utme",
+    "examyear": "2015"
+  },
+  {
+    "id": 477,
+    "question": "The cost of kerosene per liter increased from N60 to N85. What is the percentage rate of increase?",
+    "option": {
+      "a": " 42%",
+      "b": " 41%",
+      "c": "40%",
+      "d": "25%",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "a",
+    "solution": "N85 - N60 = N25 increase\n∴percentage increase 25/60 × 100/1 = 125/3 = 41.67 = 42",
+    "examtype": "utme",
+    "examyear": "2008"
+  },
+  {
+    "id": 458,
+    "question": "The volume of a hemispherical bowl is 718(2/3)\n. Find its radius .",
+    "option": {
+      "a": " 4.0 cm",
+      "b": " 5.6 cm",
+      "c": "7.0 cm",
+      "d": "3.8 cm",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "c",
+    "solution": "Volume of bow   2/3 πr<sup>2</sup> 718 2/3=2/3 πr<sup>2</sup>  2156/3=2/3×22/7×r<sup>3</sup> ∴ r<sup>3</sup>=(2156×3×7)/(3×2×22) r<sup>3</sup>=343 r=∛343.  r=7.0cm",
+    "examtype": "utme",
+    "examyear": "2007"
+  },
+  {
+    "id": 902,
+    "question": "Find ∫(x<sup>2</sup>  + 3x − 5)dx",
+    "option": {
+      "a": "x3/3  - 3x2/2 - 5x + k",
+      "b": "x3/3 - 3x2/2\n + 5x + k",
+      "c": "x3/3  + 3x2/2 - 5x + k",
+      "d": "x3/3  + 3x2/2\n + 5x + k",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "c",
+    "solution": "∫x<sup>n</sup>dx = x<sub>n+1</sub>/n+1\n\n\n∫dx = x + k\n\nwhere k is constant\n\n∫(x<sup>2</sup>  + 3x − 5)dx\n\n∫x<sup>2</sup>  dx + ∫3xdx − ∫5dx\n\n(2<sub>2</sub> + 1)/(2 + 1)\n + 3x<sup>1+1</sup>/(1+1)\n − 5x + k\n\nx<sub>3</sub>/3 + 3x<sub>2</sub>/2 − 5x + k",
+    "examtype": "utme",
+    "examyear": "2017"
+  },
+  {
+    "id": 734,
+    "question": "U is inversely proportional to the cube of V and U = 81 when V = 2. Find U when V = 3",
+    "option": {
+      "a": "24",
+      "b": "27",
+      "c": "32",
+      "d": "36",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "a",
+    "solution": "U  ∝ 1/V<sup>3</sup>\n\n\nU = k/V<sup>3</sup>\n\n\nk = UV<sup>3</sup>\n\n\nk = 81 x 2<sup>3</sup>\n = 81 x 8\n\nWhen V = 3,\n\nU = k/V<sup>3</sup>\n\n\nU = 81×8/3<sup>3</sup>\n\n\nU = 81×8/27\n = 24",
+    "examtype": "utme",
+    "examyear": "2012"
+  },
+  {
+    "id": 532,
+    "question": "A polynomial in x whose roots are 4/3 and -3/5 is?",
+    "option": {
+      "a": "15x<sup>2</sup> - 11x – 12",
+      "b": " 15x<sup>2</sup> + 11x – 12",
+      "c": "12x<sup>2</sup> - x – 12",
+      "d": "12x<sup>2</sup> + 11x – 15",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "a",
+    "solution": "If 4/3 and -3/5 are roots of a polynomial\nImply x = 4/3 and - 3/5\n3x = 4 and 5x = -3\n∴3x-4 = 0 and 5x+3 = 0 are factors\n(3x-4)(5x+3) = 0 product of the factors\n15x2 + 9x – 20x – 12 = 0 By expansion\n15x2 - 11x – 12 = 0",
+    "examtype": "utme",
+    "examyear": "2009"
+  },
+  {
+    "id": 324,
+    "question": "Simplify 3(1/2) - (2(1/3) * 1(1/4) + 3/5",
+    "option": {
+      "a": "2(11/60)",
+      "b": " 2(1/60)",
+      "c": "1(11/60)",
+      "d": "1(1/60)",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "c",
+    "solution": "3(1/2) - (2(1/3) * 1(1/4)) + 3/5\n= 7/2 - (7/3 * 5/4) + 3/5\n= 7/2 - 35/12 + 3/5\n= L.C.M = 60\n= (210 - 175 + 36)/60\n= 71/60\n= 1(11/60)",
+    "examtype": "utme",
+    "examyear": "2005"
+  },
+  {
+    "id": 650,
+    "question": "Find the equation of a line perpendicular to line 2y = 5x + 4 which passes through (4, 2).",
+    "option": {
+      "a": "5y - 2x -18 = 0",
+      "b": "5y + 2x - 18 = 0",
+      "c": " 5y - 2x + 18 = 0",
+      "d": "5y + 2x - 2 = 0",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "b",
+    "solution": "2y = 5x + 4 (4, 2)\n\ny = 5x/2 + 4 comparing with\n\ny = mx + e\n\nm = 5/2\n\n\nSince they are perpendicular\n\nm<sub>1</sub>m<sub>2</sub> = -1\n\nm<sub>2</sub> = −1/m<sub>1</sub> = -1\n\n5/2 = -1 x 2/5\n\n\nThe equator of the line is thus\n\ny = mn + c (4, 2)\n\n2 = -2/5(4) + c\n\n2/1 + 8/5 = c\n\nc = 18/5\ny = -2/5x + 18/5\n5y = -2x + 18\n\nor 5y + 2x - 18 = 0",
+    "examtype": "utme",
+    "examyear": "2011"
+  },
+  {
+    "id": 744,
+    "question": "Calculate the volume of a cuboid of length 0.76cm, breadth 2.6cm and height 0.82cm.",
+    "option": {
+      "a": "3.92cm<sup>3</sup>",
+      "b": " 2.13cm<sup>3</sup>",
+      "c": "1.97cm<sup>3</sup>",
+      "d": "1.62cm<sup>3</sup>",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "d",
+    "solution": "Volume of cuboid = L x b x h\n\n= 0.76cm x 2.6cm x 0.82cm\n\n= 1.62cm<sup>3</sup>",
+    "examtype": "utme",
+    "examyear": "2012"
+  },
+  {
+    "id": 297,
+    "question": "What is the integral value of x which satisfy the inequality -1 < 3 -2x \n  ≤ 5?",
+    "option": {
+      "a": "-1. 0, 1, 2",
+      "b": "-2, 1, 0 , -1",
+      "c": "0, 1, 2",
+      "d": "-1, 0, 1",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "d",
+    "solution": "-1 < 3 -2x and 3 - 2x ≤\n 5\n2x < 3 + 1 and -2x ≤\n 5 - 3\n2x < 4 and -2x ≤\n 2\nx < 2 and x ≥\n 2/-2 = x ≥\n -1\nIf -1 ≤\n x < 2\nit implies that x = -1, 0, 1",
+    "examtype": "utme",
+    "examyear": "2004"
+  },
+  {
+    "id": 544,
+    "question": "A regular polygon has 150º as the size of each interior angle. How many sides does it have?",
+    "option": {
+      "a": "12",
+      "b": "10",
+      "c": "9",
+      "d": "8",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "a",
+    "solution": "Sum of interior angles of a polygon = each interior ∠ x n\n(n-2)180 = 150 x n\n180n - 360 = 150n\n180n-150n = 360\n30n = 360\nn = 360/30\nn = 12 sides\n",
+    "examtype": "utme",
+    "examyear": "2009"
+  },
+  {
+    "id": 400,
+    "question": "In the diagram above, find the value of x",
+    "option": {
+      "a": "55°",
+      "b": "50°",
+      "c": "45°",
+      "d": "40°",
+      "e": null
+    },
+    "section": "",
+    "image": "https://res.cloudinary.com/aloc-ng/image/upload/v1715542717/ALOC-Questions/Mathematics/2006/MATH_JAMB_2006_Q29_as5nyb.jpg",
+    "answer": "c",
+    "solution": "y = 55 (alternate angles)\nx = x (same reason)\n260 + y + x = 360 (∠s at a point)\n260 + 55 + x = 360\n315 + x = 360\nx = 360 - 315\nx = 45°",
+    "examtype": "utme",
+    "examyear": "2006"
+  },
+  {
+    "id": 410,
+    "question": "Find the value of k if the expression kx3 + x2 - 5x - 2 leaves a remainder 2 when it is divided by 2x + 1",
+    "option": {
+      "a": "10",
+      "b": " 8",
+      "c": "-10",
+      "d": "-8",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "c",
+    "solution": "F(x) = Q x D + R\nKx3 + x2 - 5x – 2 = Q(2x+1)+R\nIf 2x+1 = 0 implies x = -1/2\n∴k(-1/2)<sup>3</sup> + (-1/2)<sup>2</sup> -5(-1/2) -2\n= Q(2(-1/2) + 1) +2\nK(-1/8) + 1/4 + 5/2 - 2 = Q(-1+1)+2\n-k/8 + 1/4 + 5/2 - 2 = 0+2\n(-k+2+20-16) / 8 = 2\n(-k+6) / 8 = 2\n-k+6 = 2*8\n-k+6 = 16\n-k = 16-6\n-k = 10\n∴k = -10",
+    "examtype": "utme",
+    "examyear": "2006"
+  },
+  {
+    "id": 113,
+    "question": "In the diagram, If < RPS = 50°, < RPQ = 30° and pq = QR, Find the value of < prs",
+    "option": {
+      "a": "50°",
+      "b": " 60°",
+      "c": "70°",
+      "d": "80<sup>o</sup>",
+      "e": null
+    },
+    "section": "",
+    "image": "https://res.cloudinary.com/aloc-ng/image/upload/v1710691930/ALOC-Questions/Mathematics/2000/question-42_jnvogc.jpg",
+    "answer": "c",
+    "solution": "< QPR = < PRQ = 30° (PQ = QR)\n\n< SPQ + < QRS = 180° (supplementary)\n\n80 + < QRS = 180° = < QRS = 180° - 80° = 100°\n\n< QRP + < PRS = 100° = 30o + < PRS = 100°\n\n= < PRS = 100° - 30° = 70°",
+    "examtype": "utme",
+    "examyear": "2000"
+  },
+  {
+    "id": 455,
+    "question": "Calculate the length of an arc of a circle diameter 14 cm, which substends an angle of 90o at the center of the circle",
+    "option": {
+      "a": "7π/2 cm",
+      "b": "7π cm",
+      "c": "14π cm",
+      "d": " 7π/4 cm",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "a",
+    "solution": "Length of an arc = θ/360 x 2πr\n90/360 x 2 x π x 7\n= 7π/2",
+    "examtype": "utme",
+    "examyear": "2007"
+  },
+  {
+    "id": 879,
+    "question": "Simplify 3<sup>n−1</sup> ×  (27<sup>n+1</sup>)/81<sup>n</sup>",
+    "option": {
+      "a": "32<sup>2n</sup>",
+      "b": "9",
+      "c": "3<sup>n</sup>",
+      "d": "3<sup>n + 1</sup>",
+      "e": null
+    },
+    "section": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n  <mfrac>\n    <msup>\n      <mn>27</mn>\n      <mrow class=\"MJX-TeXAtom-ORD\">\n        <mi>n</mi>\n        <mo>+</mo>\n        <mn>1</mn>\n      </mrow>\n    </msup>\n    <msup>\n      <mn>81</mn>\n      <mi>n</mi>\n    </msup>\n  </mfrac>\n</math>",
+    "image": "",
+    "answer": "b",
+    "solution": "3<sup>n - 1</sup>\n × (27<sup>n + 1</sup>/8n<sup>n</sup>)\n\n\n= 3<sup>n - 1</sup>\n ×  (3<sup>3(n + 1)</sup>)/3<sup>4n</sup>\n\n\n= 3<sup>(n−1+3n+3−4n)</sup>\n\n\n= 3<sup>4n−4n−1+3</sup>\n\n\n= 3<sup>2</sup>\n\n\n= 9",
+    "examtype": "utme",
+    "examyear": "2017"
+  },
+  {
+    "id": 1242,
+    "question": "Simplify log<sub>10</sub> 1.5 + 3 log<sub>10</sub> 2 − log<sub>10</sub> 0.3",
+    "option": {
+      "a": "log<sub>10</sub>4",
+      "b": "log<sub>10</sub>40",
+      "c": "log<sub>10</sub>-40",
+      "d": "log<sub>10</sub>4<sup>-</sup>",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "b",
+    "solution": "log<sub>10</sub>1.5 + 3 log<sub>10</sub>2 − llog<sub>10</sub>0.3\n\nlog<sub>10</sub>1.5 +log<sub>10</sub>23 −log<sub>10</sub>0.3\n\n[log<sub>10</sub>(1.5 × 23) ÷log<sub>10</sub>0.3]\n\n[log<sub>10</sub>(15/10 × 8 ) ÷ log10( 3/10)]\n\nlog<sub>10</sub>(15/10 × 8 × 10/3 )\n\nlog<sub>10</sub>40",
+    "examtype": "utme",
+    "examyear": "2015"
+  },
+  {
+    "id": 1239,
+    "question": "If three staff of Myschool Limited agreed to share their salary arrears in the ration of their ages, which are 18 years, 20 years, 22 years respectively. If the sum of the money collected is N120,000.00K, How much does the second staff received?",
+    "option": {
+      "a": "N36,000",
+      "b": "N44,000",
+      "c": "N40,000",
+      "d": " N15,000",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "c",
+    "solution": "Total of their ages: 18 + 20 + 22 = 60\n\nThe second staff will get 20/60 × 120,000\n= N40,000.00K",
+    "examtype": "utme",
+    "examyear": "2015"
+  },
+  {
+    "id": 374,
+    "question": "If the mean of five consecutive integers is 30, find the largest of the numbers",
+    "option": {
+      "a": "28",
+      "b": "30",
+      "c": "32",
+      "d": "34",
+      "e": null
+    },
+    "section": "Solution: <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n  <mfrac>\n    <mrow>\n      <mo stretchy=\"false\">(</mo>\n      <mi>a</mi>\n      <mo>+</mo>\n      <mi>a</mi>\n      <mo>+</mo>\n      <mn>1</mn>\n      <mo>+</mo>\n      <mi>a</mi>\n      <mo>+</mo>\n      <mn>2</mn>\n      <mo>+</mo>\n      <mi>a</mi>\n      <mo>+</mo>\n      <mn>3</mn>\n      <mo>+</mo>\n      <mi>a</mi>\n      <mo>+</mo>\n      <mn>4</mn>\n      <mo stretchy=\"false\">)</mo>\n    </mrow>\n    <mn>5</mn>\n  </mfrac>\n  <mspace linebreak=\"newline\"></mspace>\n  <mn>30</mn>\n  <mo>=</mo>\n  <mfrac>\n    <mrow>\n      <mn>5</mn>\n      <mi>a</mi>\n      <mo>+</mo>\n      <mn>10</mn>\n    </mrow>\n    <mn>5</mn>\n  </mfrac>\n  <mspace linebreak=\"newline\"></mspace>\n  <mn>30</mn>\n  <mo>&#xD7;</mo>\n  <mn>5</mn>\n  <mo>=</mo>\n  <mn>5</mn>\n  <mi>a</mi>\n  <mo>+</mo>\n  <mn>10</mn>\n  <mspace linebreak=\"newline\"></mspace>\n  <mn>5</mn>\n  <mi>a</mi>\n  <mo>=</mo>\n  <mn>150</mn>\n  <mo>&#x2212;</mo>\n  <mn>10</mn>\n  <mspace linebreak=\"newline\"></mspace>\n  <mn>5</mn>\n  <mi>a</mi>\n  <mo>=</mo>\n  <mn>140</mn>\n  <mspace linebreak=\"newline\"></mspace>\n  <mi>a</mi>\n  <mo>=</mo>\n  <mn>28</mn>\n  <mspace linebreak=\"newline\"></mspace>\n  <mo>&#x2234;</mo>\n  <mi>a</mi>\n  <mo>+</mo>\n  <mn>4</mn>\n  <mo>=</mo>\n  <mn>28</mn>\n  <mo>+</mo>\n  <mn>4</mn>\n  <mspace linebreak=\"newline\"></mspace>\n  <mo>=</mo>\n  <mn>32</mn>\n</math>",
+    "image": "",
+    "answer": "c",
+    "solution": "((a+a+1+a+2+a+3+a+4))/5 30=(5a+10)/5 30×5=5a+105a=150-105a=140a=28∴a+4=28+4=32",
+    "examtype": "utme",
+    "examyear": "2006"
+  },
+  {
+    "id": 304,
+    "question": "The length L of a simple pendulum varies directly as the square of its period T. If a pendulum with period 4 sec. is 64 cm long, find the length of pendulum whose period is 9 sec",
+    "option": {
+      "a": "96 cm",
+      "b": "324 cm",
+      "c": " 36 cm",
+      "d": "144 cm",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "b",
+    "solution": "L∝T <sup>2</sup>\nL=kT <sup>2</sup>\nk=L/T <sup>2</sup>\nwhen T = 4, L = 64.\n\nk=64/4 <sup>2</sup>=4\nL=4T <sup>2</sup>\nwhen T = 9,\n\nL=4×9 <sup>2</sup>=324cm",
+    "examtype": "utme",
+    "examyear": "2004"
+  },
+  {
+    "id": 976,
+    "question": "Given sin58° = cos p°, find p.",
+    "option": {
+      "a": "48°",
+      "b": " 58°",
+      "c": "32°",
+      "d": "52°",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "c",
+    "solution": "sinθ = cos(90 − θ)\nsinθ = cos(90 − 58)\n=  cos32",
+    "examtype": "utme",
+    "examyear": "2019"
+  },
+  {
+    "id": 438,
+    "question": "The solution of the quadratic inequality (x<sup>3</sup> + x - 12) ≥ 0 is",
+    "option": {
+      "a": " x ≥ -3 or x ≤ 4",
+      "b": "x ≥ 3 or x ≥ -4",
+      "c": "x ≤ 3 or x v -4",
+      "d": "x ≥ 3 or x ≤ -4",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "b",
+    "solution": "(x<sup>3</sup> + x - 12) ≥ 0\n(x + 4)(x - 3) ≥ 0\nEither x + 4 ≥ 0 implies x ≥ -4\nOr x - 3 ≥ 0 implies x ≥ 3\n∴ x ≥ 3 or x ≥ -4",
+    "examtype": "utme",
+    "examyear": "2007"
+  },
+  {
+    "id": 122,
+    "question": "Evaluate 21.05347 - 1.6324 x 0.43 to 3 decimal places",
+    "option": {
+      "a": "20.98",
+      "b": "20.351",
+      "c": "20.981",
+      "d": "20.352",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "d",
+    "solution": "Hint: Use BODMAS, in other words, do multiplication of the second and the last first before subtracting value obtained from the first.",
+    "examtype": "utme",
+    "examyear": "2001"
+  },
+  {
+    "id": 795,
+    "question": "If the variance of 3+x, 6, 4, x and 7-x is 4 and the mean is 5, find the standard deviation",
+    "option": {
+      "a": "√3",
+      "b": "2",
+      "c": "3",
+      "d": "√2",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "b",
+    "solution": "Let δ<sup>2</sup> and δ denote the variance and standard deviation of the distribution respectively.\n\nBut δ<sup>2</sup> = 4 (given)\n\nHence δ = √4 = 2",
+    "examtype": "utme",
+    "examyear": "2013"
+  },
+  {
+    "id": 629,
+    "question": "Simplify √2+1/√3)(√2-1/√3",
+    "option": {
+      "a": "7/3",
+      "b": "5/3",
+      "c": "5/2",
+      "d": "3/2",
+      "e": null
+    },
+    "section": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n  <msqrt>\n    <mn>2</mn>\n  </msqrt>\n  <mo>+</mo>\n  <mfrac>\n    <mn>1</mn>\n    <msqrt>\n      <mn>3</mn>\n    </msqrt>\n  </mfrac>\n  <mo stretchy=\"false\">)</mo>\n  <mo stretchy=\"false\">(</mo>\n  <msqrt>\n    <mn>2</mn>\n  </msqrt>\n  <mo>&#x2212;<!-- − --></mo>\n  <mfrac>\n    <mn>1</mn>\n    <msqrt>\n      <mn>3</mn>\n    </msqrt>\n  </mfrac>\n</math>",
+    "image": "",
+    "answer": "b",
+    "solution": "√2+1/√3)(√2-1/√3.    √4-√2/√3+√2/√3-1/√9 = 2 - 1/3\n\n\n= (16−1)/3\n\n\n= 5/3",
+    "examtype": "utme",
+    "examyear": "2011"
   }
 ]
