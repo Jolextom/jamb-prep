@@ -129,7 +129,7 @@
     "id": 141,
     "question": "What volume of 0.5 mol dm-3 H2SO4 will exactly neutralize 20 cm3 of 0.1 mol dm-3 NaOH solution?",
     "answer": "a",
-    "solution": "Equation: H2SO4 + 2NaOH -> Na2SO4 + 2H2O. Use nA/nB = (MA*VA)/(MB*VB). 1/2 = (0.5 * VA) / (0.1 * 20). 0.5 * VA = 1. VA = 2.0 cm3.",
+    "solution": "Equation: H2SO4 + 2NaOH -> Na2SO4 + 2H2O. Use (CaVa)/(CbVb) = (na/nb). Therefore, (0.5 * Va) / (0.1 * 20) = 1/2. Cross multiplying gives: 1.0 * Va = 2.0. Therefore, Va = 2.0 cm3.",
     "options": {
       "a": "2.0 cm3",
       "b": "5.0 cm3",
@@ -444,7 +444,7 @@
     "id": 139,
     "question": "Calcium tetraoxosulphate(VI) dissolves in water only sparingly to form a",
     "answer": "a",
-    "solution": "Calcium tetraoxosulphate(VI) (CaSO4) is sparingly soluble. The small amount that does dissolve forms a true solution, though it is very dilue.",
+    "solution": "Calcium tetraoxosulphate(VI) (CaSO4) is sparingly soluble. The small amount that does dissolve forms a true solution, though it is very dilute.",
     "options": {
       "a": "Solution",
       "b": "Suspension",
