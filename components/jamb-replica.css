@@ -108,11 +108,17 @@ body { font-family: var(--font-outfit), Arial, Helvetica, sans-serif; font-size:
 }
 
 .q-header {
-  display: flex; justify-content: space-between; align-items: center;
-  padding-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
   border-bottom: 1px solid #ddd;
   margin-bottom: 14px;
+  gap: 12px;
 }
+.q-header-top-row { flex: 1; }
+.q-header-bottom-row { display: flex; gap: 8px; align-items: center; }
 .q-number-badge {
   background: #003366;
   color: white;
@@ -522,10 +528,19 @@ body { font-family: var(--font-outfit), Arial, Helvetica, sans-serif; font-size:
     gap: 4px;
   }
   
-  .calc-popup {
-    top: 155px;
-    right: 15px;
+  .q-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+    padding-bottom: 14px !important;
   }
+  .q-header-top-row { width: 100% !important; }
+  .q-header-bottom-row { 
+    width: 100% !important; 
+    justify-content: space-between !important; 
+  }
+  .q-header-bottom-row .calc-btn { flex: 1; text-align: center; }
+  .q-header-bottom-row .primary-nav-top { flex: 1.2; }
 }
 
 .mobile-only { display: none; }

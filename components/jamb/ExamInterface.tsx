@@ -342,10 +342,12 @@ export default function ExamInterface({
       <div className="exam-body" style={{ scrollMarginTop: "80px" }}>
         <div className="question-panel" id="q-panel-top">
           <div className="q-header">
-            <span className="q-number-badge">
-              Question {curQIdx + 1} of {currentQuestions.length} — {currentSubject} ({currentQuestion.yr})
-            </span>
-            <div style={{ display: "flex", gap: "8px", marginLeft: "auto" }}>
+            <div className="q-header-top-row">
+              <span className="q-number-badge">
+                Question {curQIdx + 1} of {currentQuestions.length} — {currentSubject} ({currentQuestion.yr})
+              </span>
+            </div>
+            <div className="q-header-bottom-row">
               <button 
                 className="calc-btn" 
                 onClick={() => navigate(-1)} 
