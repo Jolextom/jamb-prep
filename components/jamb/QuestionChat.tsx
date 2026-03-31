@@ -83,6 +83,19 @@ export default function QuestionChat({ candidateName, questionContext, questionI
         }),
       });
 
+      // Track the activity for Admin Dashboard
+      if (res.ok) {
+        fetch("/api/admin", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ 
+            type: "chat", 
+            name: candidateName, 
+            detail: text.substring(0, 100) 
+          }),
+        }).catch(() => {});
+      }
+
       if (!res.ok) {
         let errText = "Something went wrong. Please try again.";
         try {

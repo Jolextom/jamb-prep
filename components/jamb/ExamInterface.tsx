@@ -345,10 +345,38 @@ export default function ExamInterface({
             <span className="q-number-badge">
               Question {curQIdx + 1} of {currentQuestions.length} — {currentSubject} ({currentQuestion.yr})
             </span>
-            <button className="calc-btn" onClick={toggleCalc} style={{ marginLeft: "auto", padding: "6px 12px", border: "1px solid #c8d8f0", background: "#f8fafc", borderRadius: "18px", fontSize: "12px", fontWeight: "600", color: "#003366", cursor: "pointer", display: "flex", alignItems: "center", gap: "6px" }}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="4" y="2" width="16" height="20" rx="2" ry="2" /><line x1="8" y1="6" x2="16" y2="6" /><line x1="16" y1="14" x2="16" y2="14" /><line x1="8" y1="10" x2="8" y2="10" /><line x1="12" y1="10" x2="12" y2="10" /><line x1="16" y1="10" x2="16" y2="10" /><line x1="8" y1="14" x2="8" y2="14" /><line x1="12" y1="14" x2="12" y2="14" /><line x1="8" y1="18" x2="8" y2="18" /><line x1="12" y1="18" x2="12" y2="18" /><line x1="16" y1="18" x2="16" y2="18" /></svg>
-              Calculator
-            </button>
+            <div style={{ display: "flex", gap: "8px", marginLeft: "auto" }}>
+              <button 
+                className="calc-btn" 
+                onClick={() => navigate(-1)} 
+                disabled={curSubIdx === 0 && curQIdx === 0}
+                style={{ padding: "6px 14px", fontWeight: "800" }}
+              >
+                Previous
+              </button>
+              <button 
+                className="calc-btn primary-nav-top" 
+                onClick={() => navigate(1)}
+                style={{ 
+                  padding: "6px 14px", 
+                  fontWeight: "800", 
+                  background: "#003366", 
+                  color: "white", 
+                  border: "none",
+                  borderRadius: "18px"
+                }}
+              >
+                {curSubIdx === activeSubjects.length - 1 && curQIdx === currentQuestions.length - 1
+                  ? (isExamMode ? "Finish" : "Exit Session")
+                  : curQIdx === currentQuestions.length - 1 && curSubIdx < activeSubjects.length - 1
+                    ? `${activeSubjects[curSubIdx + 1]}`
+                    : "Next"}
+              </button>
+              <button className="calc-btn" onClick={toggleCalc} style={{ padding: "6px 12px", border: "1px solid #c8d8f0", background: "#f8fafc", borderRadius: "18px", fontSize: "12px", fontWeight: "600", color: "#003366", cursor: "pointer", display: "flex", alignItems: "center", gap: "8px" }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="4" y="2" width="16" height="20" rx="2" ry="2" /><line x1="8" y1="6" x2="16" y2="6" /><line x1="16" y1="14" x2="16" y2="14" /><line x1="8" y1="10" x2="8" y2="10" /><line x1="12" y1="10" x2="12" y2="10" /><line x1="16" y1="10" x2="16" y2="10" /><line x1="8" y1="14" x2="8" y2="14" /><line x1="12" y1="14" x2="12" y2="14" /><line x1="8" y1="18" x2="8" y2="18" /><line x1="12" y1="18" x2="12" y2="18" /><line x1="16" y1="18" x2="16" y2="18" /></svg>
+                <span className="desktop-only" style={{ fontSize: "12px", fontWeight: "700" }}>Calculator</span>
+              </button>
+            </div>
           </div>
 
           <div className={currentQuestion.hasPassage === 1 ? "split-screen" : "single-column"}>

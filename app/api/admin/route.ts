@@ -44,7 +44,8 @@ async function redisSet(data: RateData) {
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const key = searchParams.get("key");
-  const reset = searchParams.get("reset");
+  const resolve = searchParams.get("resolve");
+  const resetUser = searchParams.get("resetUser");
 
   if (key !== ADMIN_SECRET) {
     return new NextResponse("Unauthorized", { status: 401 });
@@ -67,12 +68,35 @@ export async function GET(req: NextRequest) {
     }
   }
 
+  // Handle Resolve Report
+  if (resolve) {
+    data.reports = (data.reports || []).filter((r: any) => r.rid !== resolve);
+    if (isRedis) await redisSet(data);
+    else fs.writeFileSync(RATE_FILE, JSON.stringify(data, null, 2));
+    
+    return new NextResponse(null, {
+      status: 302,
+      headers: { Location: `/api/admin?key=${key}` },
+    });
+  }
+
+  // Handle Reset Individual User
+  if (resetUser && isRedis) {
+    const cleanName = resetUser.trim().replace(/[^a-zA-Z0-9]/g, "_");
+    await redis.del(`jolextom_rate_limit_${cleanName}`);
+    return new NextResponse(null, {
+      status: 302,
+      headers: { Location: `/api/admin?key=${key}&msg=reset_ok` },
+    });
+  }
+
+  const reset = searchParams.get("reset");
   if (reset === "1") {
     if (isRedis) {
-      await redisSet({ ...data, count: 0, sessionCount: 0, history: [], reports: [] });
+      await redisSet({ ...data, count: 0, sessionCount: 0 });
     } else {
       try {
-        fs.writeFileSync(RATE_FILE, JSON.stringify({ ...data, count: 0, sessionCount: 0, history: [], reports: [] }, null, 2));
+        fs.writeFileSync(RATE_FILE, JSON.stringify({ ...data, count: 0, sessionCount: 0 }, null, 2));
       } catch (e) {
         isReadOnly = true;
       }
@@ -276,6 +300,48 @@ export async function GET(req: NextRequest) {
             </div>
           </div>
 
+          <!-- Usage Analytics Section -->
+          <div class="section-card" style="border-top: 4px solid var(--warning);">
+            <div class="section-header">
+              <h2 class="section-title">Student AI Engagement</h2>
+              <span class="badge" style="background: #fffbeb; color: var(--warning);">Active Today</span>
+            </div>
+            <div class="section-body">
+              <div style="padding: 16px; overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                  <thead>
+                    <tr style="text-align: left; border-bottom: 2px solid #f1f5f9;">
+                      <th style="padding: 12px; color: var(--muted);">CANDIDATE NAME</th>
+                      <th style="padding: 12px; color: var(--muted);">EST. AI REQUESTS</th>
+                      <th style="padding: 12px; text-align: right; color: var(--muted);">ACTIONS</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${(() => {
+                      const users: Record<string, number> = {};
+                      data.history?.forEach((h: any) => {
+                        if (h.type === 'chat') users[h.name] = (users[h.name] || 0) + 1;
+                      });
+                      const sorted = Object.entries(users).sort((a, b) => b[1] - a[1]);
+                      return sorted.length > 0 ? sorted.map(([name, count]) => `
+                        <tr style="border-bottom: 1px solid #f1f5f9;">
+                          <td style="padding: 12px; font-weight: 700;">${name}</td>
+                          <td style="padding: 12px;"><span class="badge" style="background: #eff6ff; color: #3b82f6;">${count} requests</span></td>
+                          <td style="padding: 12px; text-align: right;">
+                            <a href="/api/admin?key=${key}&resetUser=${encodeURIComponent(name)}" 
+                               style="color: var(--danger); text-decoration: none; font-weight: 800; font-size: 11px; padding: 4px 8px; border: 1px solid #fee2e2; border-radius: 6px;"
+                               onclick="return confirm('Reset daily AI limit for ${name}?')">RESET LIMIT</a>
+                          </td>
+                        </tr>
+                      `).join('') : '<tr><td colspan="3" style="padding: 24px; text-align: center; color: var(--muted);">No AI activity tracked yet.</td></tr>';
+                    })()}
+                  </tbody>
+                </table>
+                <p style="font-size: 11px; color: var(--muted); margin-top: 15px; font-weight: 600;">* Individual limits are cached for 24hrs; Resetting clears their usage count immediately.</p>
+              </div>
+            </div>
+          </div>
+
           <!-- Question Reports Section -->
           <div class="section-card" style="border-top: 4px solid var(--danger);">
             <div class="section-header">
@@ -288,11 +354,14 @@ export async function GET(req: NextRequest) {
                   <div class="content">
                     <div class="top-line">
                       <span class="item-name">${r.name || 'Student'} flaged #${r.id} (${r.subject || 'Unknown'})</span>
-                      <span class="item-time">${r.time || ''}</span>
+                      <a href="/api/admin?key=${key}&resolve=${r.rid}" 
+                         style="background: var(--success); color: white; text-decoration: none; font-size: 10px; font-weight: 900; padding: 4px 10px; border-radius: 6px; box-shadow: 0 2px 4px rgba(5, 150, 105, 0.2);"
+                         onclick="return confirm('Mark this report as resolved?')">RESOLVE</a>
                     </div>
                     <div class="item-detail">
                       <span style="display: block; font-weight: 800; font-size: 11px; margin-bottom: 4px; color: var(--danger);">${r.type}</span>
                       "${r.comment || 'No comment'}"
+                      <span style="display: block; font-size: 10px; color: var(--muted); margin-top: 4px;">ID: ${r.rid || 'Legacy'} — ${r.time}</span>
                     </div>
                   </div>
                 </div>
@@ -303,9 +372,10 @@ export async function GET(req: NextRequest) {
           <!-- Student Feedback Section -->
           <div class="section-card" style="border-top: 4px solid var(--success);">
             <div class="section-header">
-              <h2 class="section-title">Student Feedback</h2>
-              <span class="badge" style="background: #ecfdf5; color: var(--success);">${data.history?.filter(h => h.type === 'feedback').length || 0} New</span>
+              <h2 class="section-title">Student Feedback Archive</h2>
+              <span class="badge" style="background: #ecfdf5; color: var(--success);">${data.history?.filter(h => h.type === 'feedback').length || 0} Total</span>
             </div>
+            <p style="padding: 0 24px; font-size: 11px; color: var(--muted); font-weight: 600; margin-top: -10px;">* Feedback is persistent and NOT cleared by the daily reset.</p>
             <div class="section-body">
               ${data.history && data.history.filter(h => h.type === 'feedback').length > 0 ? data.history.filter(h => h.type === 'feedback').map((f: any) => `
                 <div class="item">
@@ -327,8 +397,8 @@ export async function GET(req: NextRequest) {
           <!-- Live Activity Feed -->
           <div class="section-card" style="border-top: 4px solid var(--primary);">
             <div class="section-header">
-              <h2 class="section-title">Live Activity Feed</h2>
-              <span class="item-time">Last 100 entries</span>
+              <h2 class="section-title">Live Session Feed</h2>
+              <span class="item-time">Sessions & Chat Activity</span>
             </div>
             <div class="section-body">
               ${data.history && data.history.length > 0 ? data.history.filter(h => h.type !== 'feedback').map((h: any) => `
@@ -385,7 +455,8 @@ export async function POST(req: NextRequest) {
     }
 
     if (type === 'report') {
-      data.reports = [{ ...detail, time, name: name || "Student" }, ...(data.reports || [])].slice(0, 50);
+      const rid = Math.random().toString(36).substring(2, 9).toUpperCase();
+      data.reports = [{ ...detail, rid, time, name: name || "Student" }, ...(data.reports || [])].slice(0, 50);
     } else {
       if (type === 'chat') data.count = (data.count || 0) + 1;
       if (type === 'session') data.sessionCount = (data.sessionCount || 0) + 1;

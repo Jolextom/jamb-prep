@@ -116,9 +116,10 @@ body { font-family: var(--font-outfit), Arial, Helvetica, sans-serif; font-size:
 .q-number-badge {
   background: #003366;
   color: white;
-  padding: 3px 12px;
+  padding: 4px 10px;
   border-radius: 3px;
-  font-size: 12px; font-weight: bold;
+  font-size: 11px; font-weight: bold;
+  white-space: nowrap;
 }
 .flag-btn {
   display: flex; align-items: center; gap: 5px;
@@ -261,6 +262,21 @@ body { font-family: var(--font-outfit), Arial, Helvetica, sans-serif; font-size:
   font-size: 12px; cursor: pointer;
 }
 .calc-btn:hover { background: #e5e5e5; }
+
+.primary-nav-top {
+  background: #003366 !important;
+  color: white !important;
+  border: none !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.primary-nav-top:hover {
+  background: #004488 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,51,102,0.3);
+}
+.primary-nav-top:active {
+  transform: translateY(0);
+}
 
 .navigator-panel {
   width: 260px;
