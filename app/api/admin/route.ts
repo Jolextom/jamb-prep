@@ -15,6 +15,7 @@ interface RateData {
   count: number;         // AI requests count
   sessionCount: number;  // Usage starts count
   history: { type: 'chat' | 'session', name: string, time: string, detail: string }[];
+  reports?: { id: number, subject: string, type: string, comment: string, time: string, name: string }[];
 }
 
 async function redisGet(): Promise<RateData | null> {
@@ -49,7 +50,7 @@ export async function GET(req: NextRequest) {
     return new NextResponse("Unauthorized", { status: 401 });
   }
 
-  let data: RateData = { date: new Date().toISOString().slice(0, 10), count: 0, sessionCount: 0, history: [] };
+  let data: RateData = { date: new Date().toISOString().slice(0, 10), count: 0, sessionCount: 0, history: [], reports: [] };
   let isReadOnly = false;
   let isRedis = !!(process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL);
 
@@ -68,10 +69,10 @@ export async function GET(req: NextRequest) {
 
   if (reset === "1") {
     if (isRedis) {
-      await redisSet({ ...data, count: 0, sessionCount: 0, history: [] });
+      await redisSet({ ...data, count: 0, sessionCount: 0, history: [], reports: [] });
     } else {
       try {
-        fs.writeFileSync(RATE_FILE, JSON.stringify({ ...data, count: 0, sessionCount: 0, history: [] }, null, 2));
+        fs.writeFileSync(RATE_FILE, JSON.stringify({ ...data, count: 0, sessionCount: 0, history: [], reports: [] }, null, 2));
       } catch (e) {
         isReadOnly = true;
       }
@@ -154,7 +155,24 @@ export async function GET(req: NextRequest) {
                   </div>
                   <div class="detail">${h.detail || h.question || ''}</div>
                 </div>
-              `).join('') : '<div style="color: #94a3b8; font-weight: 500;">No history yet today.</div>'}
+              `).join('') : '<div style="color: #94a3b8; font-weight: 500; margin-bottom: 30px;">No history yet today.</div>'}
+            </div>
+
+            <h2 style="color: #ef4444; border-top: 1px solid #eee; pt: 20px; margin-top: 30px;">⚠️ Question Reports (${data.reports?.length || 0})</h2>
+             <div class="history-list">
+              ${data.reports && data.reports.length > 0 ? data.reports.map((r: any) => `
+                <div class="history-item" style="border-left: 4px solid #ef4444;">
+                  <div class="history-header">
+                    <span class="history-badge badge-warn" style="background: #ef4444; color: white;">REPORT</span>
+                    <span class="name">${r.name || 'Student'} flaged #${r.id} (${r.subject})</span>
+                    <span class="time">at ${r.time || ''}</span>
+                  </div>
+                  <div class="detail" style="font-style: normal; font-weight: 700; color: #b91c1c;">
+                    Type: ${r.type}<br/>
+                    <span style="color: #475569; font-weight: 500;">"${r.comment}"</span>
+                  </div>
+                </div>
+              `).join('') : '<div style="color: #94a3b8; font-weight: 500;">No error reports yet. Question bank looks clean!</div>'}
             </div>
           </div>
         </div>
@@ -173,7 +191,7 @@ export async function POST(req: NextRequest) {
     const today = new Date().toISOString().slice(0, 10);
     const time = new Date().toLocaleTimeString('en-NG', { hour: '2-digit', minute: '2-digit' });
 
-    let data: RateData = { date: today, count: 0, sessionCount: 0, history: [] };
+    let data: RateData = { date: today, count: 0, sessionCount: 0, history: [], reports: [] };
     
     const redisData = await redisGet();
     if (redisData) {
@@ -187,13 +205,16 @@ export async function POST(req: NextRequest) {
 
     // Reset if new day
     if (data.date !== today) {
-      data = { date: today, count: 0, sessionCount: 0, history: [] };
+      data = { date: today, count: 0, sessionCount: 0, history: [], reports: [] };
     }
 
-    if (type === 'chat') data.count = (data.count || 0) + 1;
-    if (type === 'session') data.sessionCount = (data.sessionCount || 0) + 1;
-
-    data.history = [{ type, name: name || "Unknown", time, detail: detail || "" }, ...(data.history || [])].slice(0, 100);
+    if (type === 'report') {
+      data.reports = [{ ...detail, time, name: name || "Student" }, ...(data.reports || [])].slice(0, 50);
+    } else {
+      if (type === 'chat') data.count = (data.count || 0) + 1;
+      if (type === 'session') data.sessionCount = (data.sessionCount || 0) + 1;
+      data.history = [{ type, name: name || "Unknown", time, detail: detail || "" }, ...(data.history || [])].slice(0, 100);
+    }
 
     if (!!(process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL)) {
       await redisSet(data);

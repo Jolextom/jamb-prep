@@ -44,9 +44,10 @@ export default function QuestionChat({ candidateName, questionContext, questionI
     setInput("");
   }, [questionId, history]);
 
-  useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  // Remove the auto-scroll that was pulling the page down unexpectedly
+  // useEffect(() => {
+  //   bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  // }, [messages]);
 
   const userMessageCount = messages.filter((m) => m.role === "user").length;
   const isAtLimit = userMessageCount >= MAX_MESSAGES;

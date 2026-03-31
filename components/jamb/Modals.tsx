@@ -31,6 +31,7 @@ interface ModalsProps {
   importAIReview: (json: string) => void;
   aiModalOpen: boolean;
   closeAiModal: () => void;
+  onNewSession: () => void;
 }
 
 export default function Modals({
@@ -54,7 +55,8 @@ export default function Modals({
   onReview,
   importAIReview,
   aiModalOpen,
-  closeAiModal
+  closeAiModal,
+  onNewSession
 }: ModalsProps) {
   const [pasteValue, setPasteValue] = React.useState("");
   const [error, setError] = React.useState<string | null>(null);
@@ -149,7 +151,7 @@ export default function Modals({
                   See Answers & Explanations
                 </button>
 
-                <button className="nav-btn" onClick={() => window.location.reload()} style={{ width: "100%", padding: "12px" }}>
+                <button className="nav-btn" onClick={onNewSession} style={{ width: "100%", padding: "12px" }}>
                   Start New Session
                 </button>
               </div>

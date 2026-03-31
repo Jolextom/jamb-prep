@@ -14,86 +14,37 @@ interface RateData {
   history: { name: string; time: string; question: string } [];
 }
 
-async function redisGet(): Promise<RateData | null> {
+async function checkAndIncrementUserRate(name: string, question: string): Promise<boolean> {
   const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
-  if (!url) return null;
+  if (!url) return true; // No rate limit if Redis is not configured
+
+  const cleanName = (name || "Unknown").trim().replace(/[^a-zA-Z0-9]/g, "_");
+  const userKey = `jolextom_rate_limit_${cleanName}`;
+  const historyKey = "jolextom_chat_history_v2";
 
   try {
-    return await redis.get("jamb_rate_limit");
-  } catch (err) {
-    console.error("Redis Get Error:", err);
-    return null;
-  }
-}
+    // 1. Log to the global history list (LPOP/RPUSH pattern is best for Redis but we'll stick to a list)
+    const time = new Date().toLocaleTimeString('en-NG', { hour: '2-digit', minute: '2-digit' });
+    const logEntry = JSON.stringify({ name: name || "Unknown", time, question: question.substring(0, 100) });
+    await redis.lpush(historyKey, logEntry);
+    await redis.ltrim(historyKey, 0, 99); // Keep only last 100 entries
 
-async function redisSet(data: RateData) {
-  const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
-  if (!url) return;
-
-  try {
-    await redis.set("jamb_rate_limit", data);
-  } catch (err) {
-    console.error("Redis Set Error:", err);
-  }
-}
-
-async function loadRate(): Promise<RateData> {
-  // Try Redis first
-  const redisData = await redisGet();
-  if (redisData) return redisData;
-
-  // Fallback to local file
-  try {
-    if (fs.existsSync(RATE_FILE)) {
-      return JSON.parse(fs.readFileSync(RATE_FILE, "utf-8"));
+    // 2. Increment user counter
+    // INCR returns the value AFTER incrementing
+    const current = await redis.incr(userKey);
+    
+    // 3. If new key (current === 1), set expiration (86400s = 1 day)
+    if (current === 1) {
+      await redis.expire(userKey, 86400);
     }
-  } catch {}
-  return { date: "", count: 0, history: [] };
-}
 
-async function saveRate(data: RateData) {
-  // Save to Redis if available
-  const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
-  if (url) {
-    await redisSet(data);
-    return;
-  }
-
-  // Otherwise save to local file
-  try {
-    const dir = path.dirname(RATE_FILE);
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(RATE_FILE, JSON.stringify(data, null, 2));
-  } catch (err) {
-    console.warn("Local save failed (expected on Vercel if Redis not setup):", err);
-  }
-}
-
-function getTodayString() {
-  return new Date().toISOString().slice(0, 10);
-}
-
-async function checkAndIncrementRate(name: string, question: string): Promise<boolean> {
-  const today = getTodayString();
-  const data = await loadRate();
-  const time = new Date().toLocaleTimeString('en-NG', { hour: '2-digit', minute: '2-digit' });
-
-  // Log to history
-  const newEntry = { name: name || "Unknown", time, question: question.replace(/\n/g, " ") };
-  const history = [newEntry, ...(data.history || [])].slice(0, 100);
-
-  if (data.date !== today) {
-    // New day — reset
-    await saveRate({ date: today, count: 1, history });
+    // A limit of 50 per user per day is much more reasonable than 200 shared by everyone
+    if (current > 50) return false;
     return true;
+  } catch (err) {
+    console.error("Redis Rate Limit Error:", err);
+    return true; // don't block users if Redis is failing
   }
-
-  if (data.count >= DAILY_CAP) {
-    return false;
-  }
-
-  await saveRate({ date: today, count: data.count + 1, history });
-  return true;
 }
 
 export async function POST(req: NextRequest) {
@@ -103,7 +54,7 @@ export async function POST(req: NextRequest) {
 
   // Rate limit check
   console.log(`[Chat API] Request from ${candidateName} for query: ${userQuery.substring(0, 50)}...`);
-  if (!(await checkAndIncrementRate(candidateName, userQuery))) {
+  if (!(await checkAndIncrementUserRate(candidateName, userQuery))) {
     return NextResponse.json(
       { error: "Daily usage limit reached. Please try again tomorrow." },
       { status: 429 }
@@ -122,22 +73,48 @@ export async function POST(req: NextRequest) {
   // Keep only last 6 messages to limit token usage
   const recentMessages = messages.slice(-6);
 
-  const systemPrompt = `You are a high-performance JAMB Exam Coach. Your goal is to help students solve questions with extreme speed and accuracy.
+  // Subject Extraction Logic
+  let subjectGuide = "Provide a logical breakdown and a helpful 'Speed Hack' or 'Pro Tip'.";
+  let subjectName = "General";
+  
+  try {
+    let context;
+    if (typeof questionContext === 'string' && questionContext.trim().startsWith('{')) {
+      context = JSON.parse(questionContext);
+    } else {
+       // Handle legacy string format or simple string
+       context = { q: questionContext };
+    }
+    
+    // Support both long and short keys: 'subject'/'s' or 'examtype'
+    subjectName = context.s || context.subject || context.examtype || "General";
+    const subjectLower = subjectName.toLowerCase();
+    
+    if (subjectLower.includes("english")) {
+      subjectGuide = `Focus: Phonics (IPA), Concord, Lexis. Explaining vowel/consonant symbols is high-value. Avoid 'homophone' unless identical.`;
+    } else if (subjectLower.includes("math") || subjectLower.includes("phys")) {
+      subjectGuide = `Focus on formula application and "Calculative Shortcuts". 
+      - Show how to eliminate options by looking at the last digit or unit magnitude.
+      - Keep calculation steps extremely lean.`;
+    } else if (subjectLower.includes("govt") || subjectLower.includes("history") || subjectLower.includes("crk")) {
+      subjectGuide = `Focus on historical context and "Keyword Association". 
+      - Link dates/names to the core principle. 
+      - Explain the 'Why' behind a policy or event simply.`;
+    }
+  } catch (e) {
+    console.warn("[Chat API] Failed to parse questionContext for subject awareness.");
+  }
 
-QUESTION CONTEXT:
-${questionContext}
-
-YOUR STYLE:
-1. **Be Conversational**: Act like a real person who knows the shortcuts. Don't use robotic headers like "*Speed First*" or "*The Why*".
-2. **Speed is King**: Always aim to show how to get the answer in <30 seconds. Use tricks, keyword association, or elimination as your tactics.
-3. **Strategic Elimination**: Only mention specific options if there's a "trick" that makes them obviously wrong or if elimination is the fastest path. Don't waste time narrating the elimination of every option if the direct logic is already clear.
-4. **Direct and Punchy**: Small questions get small answers. Complex ones get a quick tactical breakdown. Focus on the core logic.
-5. **Authoritative**: Use Nigerian secondary school level English (official, but encouraging).
-
-RULES:
-- Limit response to 2-3 concise paragraphs or bullet points max.
-- Always be clear about which option is correct.
-- Stay strictly on the topic of this specific question.`;
+  const systemPrompt = `Elite JAMB Coach DNA:
+- Acc: 99.9% | Speed: 2x | Tone: Expert Mentor.
+- Context: ${questionContext}
+- Data Source: Use "Solution"/"sol" as truth but NEVER copy verbatim.
+- Rules:
+  1. Subject Logic: ${subjectGuide}
+  2. Coach Breakdown: Logical, conversational explanation. Answer direct questions first.
+  3. Alternatives: Briefly explain why other options are incorrect.
+  4. Speed Hack ⚡: ONLY if tactical (pattern/elimination). NO summaries. If redundant, SKIP.
+  5. Formatting: Bold key terms. Max 2-3 brief paragraphs. NO filler.`;
 
   const groqMessages = [
     { role: "system", content: systemPrompt },
@@ -151,10 +128,10 @@ RULES:
       Authorization: `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      model: "llama-3.1-8b-instant",
+      model: "llama-3.3-70b-versatile",
       messages: groqMessages,
-      max_tokens: 2048,
-      temperature: 0.4,
+      max_tokens: 800, // Increased room for deep explanations
+      temperature: 0.5,
       stream: true,
     }),
   });

@@ -244,7 +244,7 @@ export default function JambReplica() {
   }, []);
 
   // Fetch Logic (Local Edition)
-  const startExam = async () => {
+  const startExam = async (forcedTimeSecs?: number) => {
     const selected = Object.entries(configs)
       .filter(([name, c]) => c.selected && availableSubjects.includes(name))
       .map(([name]) => name);
@@ -343,7 +343,8 @@ export default function JambReplica() {
       setActiveSubjects(selected);
       
       if (sessionMode === 'EXAM') {
-        setTotalSecs(totalQuestionsTotal * 40); // 40s per question for Exam
+        const timeToSet = typeof forcedTimeSecs === 'number' ? forcedTimeSecs : (totalQuestionsTotal * 40);
+        setTotalSecs(timeToSet);
         setTimerRunning(true);
       } else {
         setTotalSecs(0); // Unlimited time for Practice
@@ -381,18 +382,38 @@ export default function JambReplica() {
     if (sessionMode === 'PRACTICE') {
       localStorage.removeItem("jamb_prep_session");
       localStorage.removeItem("jamb_prep_chats");
-      
-      // Cleanly reset the React state to exit back to Setup
+
+      // Compute practice scores and show the result modal
+      let total = 0;
+      let correct = 0;
+      const resBreakdown: string[] = [];
+      const diagnosticPayload: any[] = [];
+
+      activeSubjects.forEach((s, sIdx) => {
+        const qList = qbState[s] || [];
+        let sc = 0;
+        qList.forEach((q, qIdx) => {
+          const userAnswer = answers[key(sIdx, qIdx)];
+          if (userAnswer === q.a) sc++;
+          else {
+            diagnosticPayload.push({
+              subject: s, question: q.q, options: q.options,
+              chosen_option: userAnswer || "Skipped", correct_option: q.a,
+            });
+          }
+        });
+        resBreakdown.push(`${s}: ${sc}/${qList.length}`);
+        total += qList.length;
+        correct += sc;
+      });
+
+      const calculatedJamb = Math.round((correct / (total || 1)) * 400);
+      setFinalScore(correct);
+      setJambScore(calculatedJamb);
+      setBreakdown(resBreakdown);
+      setDiagnosticJSON(JSON.stringify(diagnosticPayload, null, 2));
       setIsFinished(true);
-      setExamStarted(false);
-      setHasSavedSession(false);
-      setResumePromptOpen(false);
-      setAnswers({});
-      setChatHistories({});
-      setTotalSecs(0);
-      setCurSubIdx(0);
-      setCurQIdx(0);
-      setView('SETUP');
+      setResultModalOpen(true);
       return;
     }
 
@@ -636,6 +657,22 @@ ${JSON.stringify(sessionData, null, 2)}`;
     setCurQIdx(0);
   };
 
+  const onNewSession = () => {
+    setIsFinished(false);
+    setExamStarted(false);
+    setHasSavedSession(false);
+    setResumePromptOpen(false);
+    setResultModalOpen(false);
+    setAnswers({});
+    setChatHistories({});
+    setTotalSecs(0);
+    setCurSubIdx(0);
+    setCurQIdx(0);
+    setIsReview(false);
+    setReviewAnswers({});
+    setView('SETUP');
+  };
+
   return (
     <div className="jamb-replica-root">
       {view === 'SETUP' ? (
@@ -645,7 +682,8 @@ ${JSON.stringify(sessionData, null, 2)}`;
             setConfigs={setConfigs}
             sessionMode={sessionMode}
             setSessionMode={setSessionMode}
-            startExam={startExam}
+            startExam={() => startExam()}
+            startExamWithTime={(t) => startExam(t)}
             resumeExam={resumeExam}
             enterReview={() => setAiModalOpen(true)}
             hasSavedSession={hasSavedSession}
@@ -693,6 +731,7 @@ ${JSON.stringify(sessionData, null, 2)}`;
           hacks={reviewHacks}
           chatHistories={chatHistories}
           setChatHistories={setChatHistories}
+          onNewSession={onNewSession}
         />
       )}
 
@@ -723,6 +762,7 @@ ${JSON.stringify(sessionData, null, 2)}`;
         onResumeSession={resumeExam}
         onClearSession={clearSession}
         onReview={onReviewPerformance}
+        onNewSession={onNewSession}
         importAIReview={importAIReview}
         aiModalOpen={aiModalOpen}
         closeAiModal={() => setAiModalOpen(false)}

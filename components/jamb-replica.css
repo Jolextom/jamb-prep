@@ -341,25 +341,51 @@ body { font-family: var(--font-outfit), Arial, Helvetica, sans-serif; font-size:
 .c-btn.eq { background: #cc3300; grid-column: span 2; }
 .c-btn.clr { background: #994400; }
 
-/* Modal */
+/* Modal Overlay */
 .modal-bg {
-  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.6);
-  display: none; align-items: center; justify-content: center;
-  z-index: 200;
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  width: 100vw; 
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  display: none; 
+  align-items: center; 
+  justify-content: center;
+  z-index: 9999;
 }
 .modal-bg.open { display: flex; }
+
+/* Modal Box - Centered to Viewport */
 .modal-box {
-  background: white; border-radius: 6px;
-  padding: 24px; max-width: 380px; width: 90%;
+  background: white; 
+  border-radius: 12px;
+  padding: 32px; 
+  max-width: 420px; 
+  width: 90%;
   text-align: center;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  position: relative;
+  /* Ensure it doesn't get pushed by page content */
+  margin: auto; 
 }
-.modal-box h3 { color: #003366; margin-bottom: 12px; font-size: 16px; }
-.modal-box p { font-size: 13px; color: #555; line-height: 1.6; margin-bottom: 20px; }
-.modal-btns { display: flex; gap: 10px; justify-content: center; }
-.modal-btns button { padding: 8px 24px; border-radius: 4px; font-size: 14px; font-weight: bold; cursor: pointer; border: none; }
-.modal-cancel { background: #eee; color: #333; }
-.modal-confirm { background: #cc0000; color: white; }
+.modal-box h3 { color: #003366; margin-bottom: 15px; font-size: 18px; font-weight: 800; }
+.modal-box p { font-size: 14px; color: #475569; line-height: 1.6; margin-bottom: 24px; font-weight: 500; }
+.modal-btns { display: flex; gap: 12px; justify-content: center; }
+.modal-btns button { 
+  padding: 10px 24px; 
+  border-radius: 8px; 
+  font-size: 14px; 
+  font-weight: 800; 
+  cursor: pointer; 
+  border: none; 
+  transition: all 0.2s;
+}
+.modal-cancel { background: #f1f5f9; color: #1e293b; }
+.modal-cancel:hover { background: #e2e8f0; }
+.modal-confirm { background: #ef4444; color: white; }
+.modal-confirm:hover { background: #dc2626; transform: translateY(-1px); }
 
 .info-bar {
   background: #003366; color: #cce4ff;
@@ -466,4 +492,37 @@ body { font-family: var(--font-outfit), Arial, Helvetica, sans-serif; font-size:
     top: 125px;
     right: 15px;
   }
+}
+
+/* Animated Ask AI Button */
+.ask-ai-tiny-btn {
+  padding: 4px 12px;
+  background: #003366;
+  color: white;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 0 8px rgba(0,51,102,0.4);
+  transform: scale(1);
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  animation: ai-rainbow-glow 4s linear infinite;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+@keyframes ai-rainbow-glow {
+  0% { box-shadow: 0 0 5px rgba(0,51,102,0.4); }
+  20% { box-shadow: 0 0 10px rgba(59, 130, 246, 0.6); }
+  40% { box-shadow: 0 0 10px rgba(16, 185, 129, 0.6); }
+  60% { box-shadow: 0 0 10px rgba(249, 115, 22, 0.6); }
+  80% { box-shadow: 0 0 10px rgba(139, 92, 246, 0.6); }
+  100% { box-shadow: 0 0 5px rgba(0,51,102,0.4); }
+}
+
+.ask-ai-tiny-btn:hover {
+  transform: scale(1.1) translateY(-1px);
+  background: #004488;
+  box-shadow: 0 4px 12px rgba(0,51,102,0.6);
 }

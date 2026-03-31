@@ -19,6 +19,7 @@ interface SetupScreenProps {
   isDataReady: boolean;
   candidateName: string;
   setCandidateName: (v: string) => void;
+  startExamWithTime?: (timeSecs: number) => void;
 }
 
 export default function SetupScreen({
@@ -36,9 +37,31 @@ export default function SetupScreen({
   availableCounts,
   isDataReady,
   candidateName,
-  setCandidateName
+  setCandidateName,
+  startExamWithTime
 }: SetupScreenProps) {
   
+  const [timeModifier, setTimeModifier] = React.useState(1.0); // 1.0 = 100% time
+
+  // Sync counts when mode is toggled
+  React.useEffect(() => {
+    setConfigs(prev => {
+      const next = { ...prev };
+      SUBJECT_METADATA.forEach(m => {
+        if (next[m.name]) {
+          if (sessionMode === 'EXAM' && m.fixedExamCount) {
+            next[m.name] = { ...next[m.name], count: m.fixedExamCount };
+          } else if (sessionMode === 'PRACTICE') {
+            next[m.name] = { ...next[m.name], count: 10 };
+          }
+        }
+      });
+      return next;
+    });
+    // Reset time modifier when switching modes
+    if (sessionMode === 'PRACTICE') setTimeModifier(1.0);
+  }, [sessionMode, setConfigs]);
+
   const toggleSubject = (name: string) => {
     setConfigs((prev) => {
       const isSelected = prev[name].selected;
@@ -54,6 +77,24 @@ export default function SetupScreen({
       ...prev,
       [name]: { ...prev[name], count },
     }));
+  };
+
+  // Time Calculation
+  // JAMB Standard: 180 questions in 120 minutes = ~40 seconds per question
+  const baseSecondsPerQuestion = 40;
+  const totalQuestions = Object.values(configs)
+    .filter(c => c.selected)
+    .reduce((acc, c) => acc + c.count, 0);
+  
+  const calculatedSeconds = Math.floor(totalQuestions * baseSecondsPerQuestion * timeModifier);
+  const displayMins = Math.floor(calculatedSeconds / 60);
+
+  const handleStart = () => {
+    if (startExamWithTime) {
+      startExamWithTime(calculatedSeconds);
+    } else {
+      startExam();
+    }
   };
 
   // Only show subjects that have local JSON data
@@ -102,11 +143,15 @@ export default function SetupScreen({
           
           <div className="setup-grid" style={{ display: "grid", gap: "30px" }}>
             
-            <div className="subjects-section">
+            <div className="subjects-section" style={{ gridColumn: "1 / -1" }}>
               <h3 style={{ fontSize: "14px", textTransform: "uppercase", color: "#666", marginBottom: "15px", letterSpacing: "1px" }}>
-                Active Subjects ({availableSubjects.length} available)
+                Select Subjects ({availableSubjects.length} available)
               </h3>
-              <div style={{ display: "flex", flexDirection: "column", gap: "8px", maxHeight: "400px", overflowY: "auto", paddingRight: "10px" }}>
+              <div style={{ 
+                display: "grid", 
+                gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", 
+                gap: "12px" 
+              }}>
                 {filteredSubjects.length === 0 && !isDataReady && (
                   <div style={{ padding: "20px", color: "#888", fontStyle: "italic" }}>Detecting local question banks...</div>
                 )}
@@ -150,17 +195,25 @@ export default function SetupScreen({
                       
                       {isReady && (
                         <div style={{ display: "flex", alignItems: "center", gap: "10px", paddingLeft: "28px" }}>
-                          <span style={{ fontSize: "12px", color: "#666" }}>Questions:</span>
+                          <span style={{ fontSize: "12px", color: "#666" }}>Items:</span>
                           <input 
                             type="number" 
                             min={1} 
                             max={availableCounts[s.name] || 60} 
                             value={conf.count} 
+                            disabled={sessionMode === 'EXAM'}
                             onChange={(e) => {
                               const val = Math.min(parseInt(e.target.value) || 0, availableCounts[s.name] || 60);
                               updateCount(s.name, val);
                             }}
-                            style={{ width: "60px", padding: "4px", borderRadius: "4px", border: "1px solid #ccc" }}
+                            style={{ 
+                              width: "60px", 
+                              padding: "4px", 
+                              borderRadius: "4px", 
+                              border: "1px solid #ccc",
+                              background: sessionMode === 'EXAM' ? "#eee" : "#fff",
+                              fontWeight: "bold"
+                            }}
                           />
                         </div>
                       )}
@@ -170,25 +223,97 @@ export default function SetupScreen({
               </div>
             </div>
 
-            <div className="mode-section" style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-              <div style={{ background: "#f9f9f9", padding: "12px", borderRadius: "8px", border: "1px dashed #ccc" }}>
-                <h3 style={{ fontSize: "12px", textTransform: "uppercase", color: "#666", marginBottom: "10px" }}>Session Mode</h3>
-                <div style={{ display: "flex", gap: "10px" }}>
+            <div className="mode-section" style={{ 
+              display: "flex", 
+              flexDirection: "column", 
+              gap: "15px", 
+              alignItems: "center",  // Center children on desktop
+              gridColumn: "1 / -1", // Span full width to allow centering
+              marginTop: "20px"
+            }}>
+              <div style={{ 
+                background: "#f9f9f9", 
+                padding: "20px", 
+                borderRadius: "12px", 
+                border: "1px dashed #00336644",
+                width: "100%",
+                maxWidth: "500px" // Keep fixed feel but centered
+              }}>
+                <h3 style={{ fontSize: "11px", fontWeight: "900", textTransform: "uppercase", color: "#003366", marginBottom: "12px", textAlign: "center", letterSpacing: "1px" }}>
+                  Session Mode
+                </h3>
+                <div style={{ display: "flex", gap: "10px", marginBottom: "15px" }}>
                   <button 
                     className={`nav-btn ${sessionMode === 'EXAM' ? 'primary' : ''}`}
                     onClick={() => setSessionMode('EXAM')}
-                    style={{ flex: 1, fontSize: "12px", padding: "10px" }}
+                    style={{ 
+                      flex: 1, 
+                      fontSize: "13px", 
+                      padding: "12px",
+                      boxShadow: sessionMode === 'EXAM' ? "0 4px 12px rgba(0,51,102,0.2)" : "none"
+                    }}
                   >
                     EXAM MODE
                   </button>
                   <button 
                     className={`nav-btn ${sessionMode === 'PRACTICE' ? 'primary' : ''}`}
                     onClick={() => setSessionMode('PRACTICE')}
-                    style={{ flex: 1, fontSize: "12px", padding: "10px" }}
+                    style={{ 
+                      flex: 1, 
+                      fontSize: "13px", 
+                      padding: "12px",
+                      boxShadow: sessionMode === 'PRACTICE' ? "0 4px 12px rgba(0,51,102,0.2)" : "none"
+                    }}
                   >
                     PRACTICE MODE
                   </button>
                 </div>
+
+                {sessionMode === 'EXAM' && (
+                  <div style={{ padding: "15px", background: "#fff", borderRadius: "10px", border: "1px solid #e2e8f0" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px" }}>
+                      <span style={{ fontSize: "11px", fontWeight: "900", color: "#64748b", textTransform: "uppercase" }}>Challenge Level</span>
+                      <span style={{ fontSize: "12px", fontWeight: "900", color: timeModifier < 1 ? "#ef4444" : "#003366" }}>
+                        {timeModifier === 1 ? "STANDARD" : (timeModifier === 0.75 ? "FAST ⚡" : (timeModifier === 0.5 ? "ELITE 🔥" : "GOD MODE 🏆"))}
+                      </span>
+                    </div>
+                    
+                    <div style={{ position: "relative", padding: "0 10px" }}>
+                      <input 
+                        type="range" 
+                        min="0.25" 
+                        max="1.0" 
+                        step="0.25" 
+                        value={timeModifier}
+                        onChange={(e) => setTimeModifier(parseFloat(e.target.value))}
+                        style={{ 
+                          width: "100%", 
+                          cursor: "pointer", 
+                          accentColor: "#003366",
+                          height: "6px",
+                          borderRadius: "3px"
+                        }}
+                      />
+                      <div style={{ display: "flex", justifyContent: "space-between", marginTop: "8px", fontSize: "10px", color: "#94a3b8", fontWeight: "700" }}>
+                        <span>GOD</span>
+                        <span>ELITE</span>
+                        <span>FAST</span>
+                        <span>STD</span>
+                      </div>
+                    </div>
+
+                    <div style={{ display: "flex", justifyContent: "space-between", marginTop: "20px", paddingTop: "15px", borderTop: "2px solid #f1f5f9" }}>
+                      <div style={{ textAlign: "left" }}>
+                        <div style={{ fontSize: "9px", color: "#94a3b8", fontWeight: "800", textTransform: "uppercase" }}>Questions</div>
+                        <div style={{ fontSize: "20px", fontWeight: "900", color: "#1e293b" }}>{totalQuestions}</div>
+                      </div>
+                      <div style={{ textAlign: "right" }}>
+                        <div style={{ fontSize: "9px", color: "#94a3b8", fontWeight: "800", textTransform: "uppercase" }}>Time Limit</div>
+                        <div style={{ fontSize: "20px", fontWeight: "900", color: "#003366" }}>{displayMins} MINS</div>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {fetchError && (
@@ -197,24 +322,27 @@ export default function SetupScreen({
                 </div>
               )}
 
-              <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: "12px", width: "100%", maxWidth: "500px" }}>
                 <button 
                   className="nav-btn primary" 
-                  onClick={startExam} 
+                  onClick={handleStart} 
                   disabled={isLoading || !candidateName.trim() || !anySelected} 
-                  style={{ padding: "15px", fontSize: "16px", fontWeight: "800" }}
+                  style={{ 
+                    padding: "18px", 
+                    fontSize: "18px", 
+                    fontWeight: "900", 
+                    letterSpacing: "1px",
+                    boxShadow: "0 10px 20px rgba(0,51,102,0.15)"
+                  }}
                 >
-                  {isLoading ? "Loading Questions..." : "GENERATE NEW EXAM"}
+                  {isLoading ? "PREPARING..." : "START NOW"}
                 </button>
                 <div style={{ display: "flex", gap: "10px" }}>
                     {hasSavedSession && (
-                        <button className="nav-btn" onClick={resumeExam} style={{ flex: 1, background: "#008000", color: "white" }}>
-                            RESUME PREVIOUS
+                        <button className="nav-btn" onClick={resumeExam} style={{ flex: 1, background: "#059669", color: "white", padding: "12px" }}>
+                            CONTINUE PREVIOUS
                         </button>
                     )}
-                    {/* <button className="nav-btn" onClick={enterReview} style={{ flex: 1, background: "#cc8800", color: "white" }}>
-                        MASTER PERFORMANCE
-                    </button> */}
                 </div>
               </div>
               
