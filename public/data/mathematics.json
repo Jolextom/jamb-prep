@@ -2882,7 +2882,7 @@
       "d": "3/2",
       "e": null
     },
-    "section": "SOLUTION: <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n  <msup>\n    <mn>16</mn>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mfrac>\n        <mrow>\n          <mo>&#x2212;<!-- − --></mo>\n          <mn>1</mn>\n        </mrow>\n        <mn>2</mn>\n      </mfrac>\n    </mrow>\n  </msup>\n  <mo>&#x00D7;<!-- × --></mo>\n  <msup>\n    <mn>4</mn>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mfrac>\n        <mrow>\n          <mo>&#x2212;<!-- − --></mo>\n          <mn>1</mn>\n        </mrow>\n        <mn>2</mn>\n      </mfrac>\n    </mrow>\n  </msup>\n  <mo>&#x00D7;<!-- × --></mo>\n  <msup>\n    <mn>27</mn>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mfrac>\n        <mn>1</mn>\n        <mn>3</mn>\n      </mfrac>\n    </mrow>\n  </msup>\n  <mspace linebreak=\"newline\" />\n  <mo>=</mo>\n  <mfrac>\n    <mn>1</mn>\n    <msup>\n      <mn>16</mn>\n      <mrow class=\"MJX-TeXAtom-ORD\">\n        <mfrac>\n          <mn>1</mn>\n          <mn>2</mn>\n        </mfrac>\n      </mrow>\n    </msup>\n  </mfrac>\n  <mo>&#x00D7;<!-- × --></mo>\n  <mfrac>\n    <mn>1</mn>\n    <msup>\n      <mn>4</mn>\n      <mrow class=\"MJX-TeXAtom-ORD\">\n        <mfrac>\n          <mn>1</mn>\n          <mn>2</mn>\n        </mfrac>\n      </mrow>\n    </msup>\n  </mfrac>\n  <mo>&#x00D7;<!-- × --></mo>\n  <msup>\n    <mn>27</mn>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mfrac>\n        <mn>1</mn>\n        <mn>3</mn>\n      </mfrac>\n    </mrow>\n  </msup>\n  <mspace linebreak=\"newline\" />\n  <mo>=</mo>\n  <mfrac>\n    <mn>1</mn>\n    <msqrt>\n      <mn>16</mn>\n    </msqrt>\n  </mfrac>\n  <mo>&#x00D7;<!-- × --></mo>\n  <mfrac>\n    <mn>1</mn>\n    <msqrt>\n      <mn>4</mn>\n    </msqrt>\n  </mfrac>\n  <mo>&#x00D7;<!-- × --></mo>\n  <mi>s</mi>\n  <mi>q</mi>\n  <mi>r</mi>\n  <mi>t</mi>\n  <mo stretchy=\"false\">[</mo>\n  <mn>3</mn>\n  <mo stretchy=\"false\">]</mo>\n  <mrow class=\"MJX-TeXAtom-ORD\">\n    <mn>27</mn>\n  </mrow>\n  <mspace linebreak=\"newline\" />\n  <mo>=</mo>\n  <mfrac>\n    <mn>1</mn>\n    <mn>4</mn>\n  </mfrac>\n  <mo>&#x00D7;<!-- × --></mo>\n  <mfrac>\n    <mn>1</mn>\n    <mn>2</mn>\n  </mfrac>\n  <mo>&#x00D7;<!-- × --></mo>\n  <mfrac>\n    <mn>3</mn>\n    <mn>1</mn>\n  </mfrac>\n  <mspace linebreak=\"newline\" />\n  <mo>=</mo>\n  <mfrac>\n    <mn>3</mn>\n    <mn>8</mn>\n  </mfrac>\n</math>",
+    "section": "",
     "image": "",
     "answer": "a",
     "solution": "16<sup>(-1/2)</sup> × 4<sup>(-1/2)</sup> ×27<sup>(1/3)</sup>=1/16<sup>(1/2)</sup> × 1/4<sup>(1/2)</sup>) × 27 <sup>(1/3)</sup>=1/√16×1/√4 × sqrt[3]27 = 1/4 × 1/2 × 3/1 = 3/8",
@@ -2916,7 +2916,7 @@
       "d": " 40 m",
       "e": null
     },
-    "section": "SOLUTION:<math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n  <mi>T</mi>\n  <mi>a</mi>\n  <mi>n</mi>\n  <mn>30</mn>\n  <mo>=</mo>\n  <mfrac>\n    <mi>h</mi>\n    <mn>40</mn>\n  </mfrac>\n  <mspace linebreak=\"newline\" />\n  <mfrac>\n    <mn>1</mn>\n    <msqrt>\n      <mn>3</mn>\n    </msqrt>\n  </mfrac>\n  <mo>=</mo>\n  <mfrac>\n    <mi>h</mi>\n    <mn>40</mn>\n  </mfrac>\n  <mspace linebreak=\"newline\" />\n  <mi>h</mi>\n  <msqrt>\n    <mn>3</mn>\n  </msqrt>\n  <mo>=</mo>\n  <mn>40</mn>\n  <mspace linebreak=\"newline\" />\n  <mi>h</mi>\n  <mo>=</mo>\n  <mfrac>\n    <mn>40</mn>\n    <msqrt>\n      <mn>3</mn>\n    </msqrt>\n  </mfrac>\n  <mspace linebreak=\"newline\" />\n  <mi>h</mi>\n  <mo>=</mo>\n  <mfrac>\n    <mn>40</mn>\n    <msqrt>\n      <mn>3</mn>\n    </msqrt>\n  </mfrac>\n  <mo>&#x00D7;<!-- × --></mo>\n  <mfrac>\n    <msqrt>\n      <mn>3</mn>\n    </msqrt>\n    <msqrt>\n      <mn>3</mn>\n    </msqrt>\n  </mfrac>\n  <mspace linebreak=\"newline\" />\n  <mi>h</mi>\n  <mo>=</mo>\n  <mfrac>\n    <mrow>\n      <mn>40</mn>\n      <msqrt>\n        <mn>3</mn>\n      </msqrt>\n    </mrow>\n    <mn>3</mn>\n  </mfrac>\n</math>",
+    "section": "",
     "image": "https://res.cloudinary.com/aloc-ng/image/upload/v1715545089/ALOC-Questions/Mathematics/2007/JAMB_2007_Q40_solution_kjvuqf.jpg",
     "answer": "a",
     "solution": "Tan30=h/40  1/√3=h/40 h√3=40h=40/√3 h=40/√3×√3/√3 h=(40√3)/3",
@@ -3902,7 +3902,7 @@
       "d": "1",
       "e": null
     },
-    "section": "SOLUTION: <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n  <mi>a</mi>\n  <mo>=</mo>\n  <mfrac>\n    <mn>1</mn>\n    <mn>2</mn>\n  </mfrac>\n  <mspace linebreak=\"newline\" />\n  <mi>r</mi>\n  <mo>=</mo>\n  <mfrac>\n    <mfrac>\n      <mn>1</mn>\n      <mn>6</mn>\n    </mfrac>\n    <mfrac>\n      <mn>1</mn>\n      <mn>2</mn>\n    </mfrac>\n  </mfrac>\n  <mo>=</mo>\n  <mfrac>\n    <mn>1</mn>\n    <mn>6</mn>\n  </mfrac>\n  <mo>&#x00D7;<!-- × --></mo>\n  <mfrac>\n    <mn>2</mn>\n    <mn>1</mn>\n  </mfrac>\n  <mo>=</mo>\n  <mfrac>\n    <mn>1</mn>\n    <mn>3</mn>\n  </mfrac>\n  <mspace linebreak=\"newline\" />\n  <msub>\n    <mi>S</mi>\n    <mi mathvariant=\"normal\">&#x221E;<!-- ∞ --></mi>\n  </msub>\n  <mo>=</mo>\n  <mfrac>\n    <mi>a</mi>\n    <mrow>\n      <mn>1</mn>\n      <mo>&#x2212;<!-- − --></mo>\n      <mi>r</mi>\n    </mrow>\n  </mfrac>\n  <mspace linebreak=\"newline\" />\n  <msub>\n    <mi>S</mi>\n    <mi mathvariant=\"normal\">&#x221E;<!-- ∞ --></mi>\n  </msub>\n  <mo>=</mo>\n  <mfrac>\n    <mfrac>\n      <mn>1</mn>\n      <mn>2</mn>\n    </mfrac>\n    <mrow>\n      <mn>1</mn>\n      <mo>&#x2212;<!-- − --></mo>\n      <mfrac>\n        <mn>1</mn>\n        <mn>3</mn>\n      </mfrac>\n    </mrow>\n  </mfrac>\n  <mspace linebreak=\"newline\" />\n  <mo>=</mo>\n  <mfrac>\n    <mfrac>\n      <mn>1</mn>\n      <mn>2</mn>\n    </mfrac>\n    <mfrac>\n      <mn>3</mn>\n      <mn>2</mn>\n    </mfrac>\n  </mfrac>\n  <mspace linebreak=\"newline\" />\n  <mo>=</mo>\n  <mfrac>\n    <mn>1</mn>\n    <mn>2</mn>\n  </mfrac>\n  <mo>&#x00D7;<!-- × --></mo>\n  <mfrac>\n    <mn>3</mn>\n    <mn>2</mn>\n  </mfrac>\n  <mspace linebreak=\"newline\" />\n  <mo>=</mo>\n  <mfrac>\n    <mn>3</mn>\n    <mn>4</mn>\n  </mfrac>\n</math>",
+    "section": "",
     "image": "",
     "answer": "c",
     "solution": "a=1/2 r=(1/6)/(1/2)=1/6×2/1=1/3 S_∞=a/(1-r) S_∞=(1/2)/(1-1/3)=(1/2)/(3/2)=1/2×3/2=3/4",
@@ -5092,7 +5092,7 @@
       "d": "34",
       "e": null
     },
-    "section": "Solution: <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n  <mfrac>\n    <mrow>\n      <mo stretchy=\"false\">(</mo>\n      <mi>a</mi>\n      <mo>+</mo>\n      <mi>a</mi>\n      <mo>+</mo>\n      <mn>1</mn>\n      <mo>+</mo>\n      <mi>a</mi>\n      <mo>+</mo>\n      <mn>2</mn>\n      <mo>+</mo>\n      <mi>a</mi>\n      <mo>+</mo>\n      <mn>3</mn>\n      <mo>+</mo>\n      <mi>a</mi>\n      <mo>+</mo>\n      <mn>4</mn>\n      <mo stretchy=\"false\">)</mo>\n    </mrow>\n    <mn>5</mn>\n  </mfrac>\n  <mspace linebreak=\"newline\"></mspace>\n  <mn>30</mn>\n  <mo>=</mo>\n  <mfrac>\n    <mrow>\n      <mn>5</mn>\n      <mi>a</mi>\n      <mo>+</mo>\n      <mn>10</mn>\n    </mrow>\n    <mn>5</mn>\n  </mfrac>\n  <mspace linebreak=\"newline\"></mspace>\n  <mn>30</mn>\n  <mo>&#xD7;</mo>\n  <mn>5</mn>\n  <mo>=</mo>\n  <mn>5</mn>\n  <mi>a</mi>\n  <mo>+</mo>\n  <mn>10</mn>\n  <mspace linebreak=\"newline\"></mspace>\n  <mn>5</mn>\n  <mi>a</mi>\n  <mo>=</mo>\n  <mn>150</mn>\n  <mo>&#x2212;</mo>\n  <mn>10</mn>\n  <mspace linebreak=\"newline\"></mspace>\n  <mn>5</mn>\n  <mi>a</mi>\n  <mo>=</mo>\n  <mn>140</mn>\n  <mspace linebreak=\"newline\"></mspace>\n  <mi>a</mi>\n  <mo>=</mo>\n  <mn>28</mn>\n  <mspace linebreak=\"newline\"></mspace>\n  <mo>&#x2234;</mo>\n  <mi>a</mi>\n  <mo>+</mo>\n  <mn>4</mn>\n  <mo>=</mo>\n  <mn>28</mn>\n  <mo>+</mo>\n  <mn>4</mn>\n  <mspace linebreak=\"newline\"></mspace>\n  <mo>=</mo>\n  <mn>32</mn>\n</math>",
+    "section": "",
     "image": "",
     "answer": "c",
     "solution": "((a+a+1+a+2+a+3+a+4))/5 30=(5a+10)/5 30×5=5a+105a=150-105a=140a=28∴a+4=28+4=32",
@@ -6016,90 +6016,5 @@
     "solution": "X * Y = 2X - 3Y + 2\n2*3 = 2(2) - 3(3) + 2\n=4-9+2\n= -3\nBut -3 does not belong to positive integer",
     "examtype": "utme",
     "examyear": "2008"
-  },
-  {
-    "id": 827,
-    "question": "From the diagram above, Find the value of < ROP",
-    "option": {
-      "a": "110°",
-      "b": "70°",
-      "c": "95°",
-      "d": "85°",
-      "e": null
-    },
-    "section": "",
-    "image": "https://res.cloudinary.com/aloc-ng/image/upload/v1724002970/ALOC-Questions/Mathematics/2016/MATH_JAMB_2016_Q9_blukmd.jpg",
-    "answer": "c",
-    "solution": "< ROP = 95° (Exterior angle of cyclic quadrilateral)",
-    "examtype": "utme",
-    "examyear": "2016"
-  },
-  {
-    "id": 197,
-    "question": "Find the equation of the set of points which are equidistant from the parallel lines x = 1 and x = 7",
-    "option": {
-      "a": " y = 3",
-      "b": "x = 3",
-      "c": " x = 4",
-      "d": "y = 4",
-      "e": null
-    },
-    "section": "",
-    "image": "",
-    "answer": "c",
-    "solution": "The line equidistant from x = 1 and x = 7 is\n\nx = (1+7)/2 ⟹ x = 4",
-    "examtype": "utme",
-    "examyear": "2002"
-  },
-  {
-    "id": 515,
-    "question": "The probability of picking a letter T from the word OBSTRUCTION is?",
-    "option": {
-      "a": " 1/11",
-      "b": "2/11",
-      "c": " 3/11",
-      "d": "4/11",
-      "e": null
-    },
-    "section": "",
-    "image": "",
-    "answer": "b",
-    "solution": "OBSTRUCTION\nTotal possible outcome = 11\nNumber of chance of getting T = 2\nP(picking T) = 2/11",
-    "examtype": "utme",
-    "examyear": "2008"
-  },
-  {
-    "id": 800,
-    "question": "A basket contains 9 apples, 8 bananas and 7 oranges. A fruit is picked from the basket, find the probability that it is neither an apple nor an orange.",
-    "option": {
-      "a": "3/8",
-      "b": "1/3",
-      "c": "7/24",
-      "d": "2/3",
-      "e": null
-    },
-    "section": "",
-    "image": "",
-    "answer": "b",
-    "solution": "n(apples) = 9\nn(bananas) = 8\nn(oranges) = 7\n\nn(ε) = 24\n\nHence Prob(not apple, nor orange) = Prob(banana) = 8/24\n = 1/3",
-    "examtype": "utme",
-    "examyear": "2013"
-  },
-  {
-    "id": 404,
-    "question": "If the locus of the points which are equidistant from point P and Q meets line PQ at point N, then PN equals",
-    "option": {
-      "a": "NQ",
-      "b": "1/4NQ",
-      "c": " 2NQ",
-      "d": "1/2NQ",
-      "e": null
-    },
-    "section": "",
-    "image": "",
-    "answer": "a",
-    "solution": "Locus of point equidistant from points P and q is a perpendicular bisector of the straight joining P and Q\n∴PN = NQ",
-    "examtype": "utme",
-    "examyear": "2006"
   }
 ]
