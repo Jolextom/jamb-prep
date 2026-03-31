@@ -17,6 +17,7 @@ import ExamInterface from "./jamb/ExamInterface";
 import Calculator from "./jamb/Calculator";
 import Modals from "./jamb/Modals";
 import "./jamb-replica.css";
+import useCheckUpdate from "@/lib/hooks/useCheckUpdate";
 
 export default function JambReplica() {
   // Navigation State
@@ -57,6 +58,16 @@ export default function JambReplica() {
   const [isLoading, setIsLoading] = useState(false);
   const [qbState, setQbState] = useState<Record<string, Question[]>>({});
   const [fetchError, setFetchError] = useState<string | null>(null);
+
+  // Update check
+  const updateAvailable = useCheckUpdate();
+
+  useEffect(() => {
+    if (updateAvailable && view === 'SETUP' && !isLoading && !examStarted) {
+      console.log("🚀 Update available! Performing silent refresh...");
+      window.location.reload();
+    }
+  }, [updateAvailable, view, isLoading, examStarted]);
 
   // Chat Persistence State
   const [chatHistories, setChatHistories] = useState<Record<number, any[]>>(() => {
