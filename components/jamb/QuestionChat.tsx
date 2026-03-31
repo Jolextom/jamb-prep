@@ -45,17 +45,22 @@ export default function QuestionChat({ candidateName, questionContext, questionI
     setInput("");
   }, [questionId, history]);
 
-  // Remove the auto-scroll that was pulling the page down unexpectedly
-  // useEffect(() => {
-  //   bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  // }, [messages]);
-
   const userMessageCount = messages.filter((m) => m.role === "user").length;
   const isAtLimit = userMessageCount >= MAX_MESSAGES;
 
   const sendSpecificMessage = async (overrideText?: string) => {
     const text = overrideText || input.trim();
     if (!text || isLoading || isAtLimit) return;
+
+    // Clear draft for this question upon sending
+    try {
+      const draftsState = localStorage.getItem("jamb_chat_drafts");
+      if (draftsState) {
+        const drafts = JSON.parse(draftsState);
+        delete drafts[questionId];
+        localStorage.setItem("jamb_chat_drafts", JSON.stringify(drafts));
+      }
+    } catch(e) {}
 
     const newMessages: Message[] = [...messages, { role: "user", content: text }];
     setMessages(newMessages);
@@ -151,8 +156,6 @@ export default function QuestionChat({ candidateName, questionContext, questionI
       setError("Network error. Please check your connection.");
       setMessages(newMessages.slice(0, -1));
       setIsLoading(false);
-    } finally {
-      // Do not auto-focus here, as it pulls mobile screens down away from the response.
     }
   };
 
@@ -173,7 +176,6 @@ export default function QuestionChat({ candidateName, questionContext, questionI
 
   return (
     <div style={{ marginTop: "16px", width: "100%" }}>
-      {/* Chat panel - Always visible now */}
       <div
           style={{
             border: "1px solid #c8d8f0",
@@ -187,221 +189,262 @@ export default function QuestionChat({ candidateName, questionContext, questionI
           {/* Header */}
           <div
             style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
               padding: "12px 16px",
               background: "linear-gradient(135deg, #003366, #0055a5)",
               color: "white",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center"
             }}
           >
-            <span style={{ fontWeight: "800", fontSize: "13px", letterSpacing: "0.5px" }}>
-              ASK AI
+            <span style={{ fontWeight: "800", fontSize: "12px", letterSpacing: "1px" }}>
+              JAMB AI ASSISTANT
             </span>
-            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-              <span style={{ fontSize: "11px", opacity: 0.75 }}>
-                {userMessageCount}/{MAX_MESSAGES} messages
-              </span>
-            </div>
+            <span style={{ fontSize: "11px", opacity: 0.8 }}>
+              {userMessageCount}/{MAX_MESSAGES} messages
+            </span>
           </div>
 
-          {/* Messages */}
+          {/* Scrollable Area */}
           <div
             style={{
-              height: "260px",
+              height: "300px",
               overflowY: "auto",
-              padding: "16px",
+              padding: "16px 12px",
               display: "flex",
               flexDirection: "column",
-              gap: "12px",
-              background: "#f8faff",
+              gap: "16px",
+              background: "#f0f4f8"
             }}
           >
+            {/* Quick Chips if no messages */}
             {messages.length === 0 && (
-              <div style={{ textAlign: "center", marginTop: "20px", padding: "0 10px" }}>
-                <div style={{ color: "#003366", fontSize: "14px", fontWeight: "600", marginBottom: "6px" }}>
-                  Need a breakdown?
-                </div>
-                <div style={{ color: "#64748b", fontSize: "12px", marginBottom: "20px" }}>
-                  Ask the Pro Coach for speed hacks, concept reviews, or trick explanations.
-                </div>
-                
-                {/* Quick Action Chips */}
+              <div style={{ textAlign: "center", padding: "20px 0" }}>
+                <p style={{ color: "#003366", fontWeight: "600", fontSize: "14px", marginBottom: "4px" }}>Master this concept</p>
+                <p style={{ color: "#64748b", fontSize: "12px", marginBottom: "16px" }}>Use AI to find similar questions or get speed hacks.</p>
                 <div style={{ display: "flex", flexDirection: "column", gap: "8px", alignItems: "center" }}>
-                  {[
-                    "Explain why the others are wrong",
+                   {[
+                    "Challenge me with a similar question",
                     "Give me a speed hack for this",
-                    "Break down the concept step-by-step"
-                  ].map((chip) => (
-                    <button
-                      key={chip}
-                      onClick={() => {
-                        setInput(chip);
-                        // We need to wait for state to update before sending, so we pass the text directly to a slightly modified sendMessage
-                        sendSpecificMessage(chip);
-                      }}
+                    "Explain why the others are wrong"
+                  ].map(q => (
+                    <button 
+                      key={q}
+                      onClick={() => sendSpecificMessage(q)}
                       style={{
-                        background: "#e0f2fe",
-                        color: "#0369a1",
-                        border: "1px solid #bae6fd",
-                        borderRadius: "16px",
+                        background: "white",
+                        border: "1px solid #c8d8f0",
                         padding: "8px 16px",
+                        borderRadius: "20px",
                         fontSize: "12px",
+                        color: "#003366",
                         fontWeight: "600",
+                        width: "fit-content",
                         cursor: "pointer",
-                        transition: "all 0.2s",
-                        width: "100%",
-                        maxWidth: "280px"
+                        boxShadow: "0 2px 4px rgba(0,0,0,0.05)"
                       }}
                     >
-                      {chip}
+                      {q}
                     </button>
                   ))}
                 </div>
               </div>
             )}
 
-            {messages.map((m, i) => (
-              <div
-                key={i}
-                style={{
-                  display: "flex",
-                  justifyContent: m.role === "user" ? "flex-end" : "flex-start",
-                }}
-              >
+            {messages.map((m, i) => {
+              const isAssistant = m.role === "assistant";
+              // Matches A-D followed by text, ending at the next option, a newline, or the end of the message.
+              const optionRegex = /([A-D])[\)\.]\s+([^\n]+?)(?=\s+[A-D][\)\.]|\n|$)/g;
+              const optionsMatches = isAssistant ? [...m.content.matchAll(optionRegex)] : [];
+              
+              return (
                 <div
+                  key={i}
                   style={{
-                    maxWidth: "82%",
-                    padding: "10px 14px",
-                    borderRadius: m.role === "user" ? "18px 18px 4px 18px" : "18px 18px 18px 4px",
-                    background: m.role === "user" ? "#003366" : "#fff",
-                    color: m.role === "user" ? "white" : "#1a1a2e",
-                    fontSize: "14.5px",
-                    lineHeight: "1.6",
-                    boxShadow: "0 1px 4px rgba(0,0,0,0.08)",
-                    border: m.role === "assistant" ? "1px solid #e2e8f0" : "none",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: m.role === "user" ? "flex-end" : "flex-start",
+                    gap: "8px",
+                    width: "100%"
                   }}
-                  className="chat-markdown"
                 >
-                  {m.role === "assistant" ? (
-                    <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
-                      {m.content}
-                    </ReactMarkdown>
-                  ) : (
-                    <span style={{ whiteSpace: "pre-wrap" }}>{m.content}</span>
-                  )}
+                  <div style={{ 
+                    position: "relative", 
+                    maxWidth: "92%",
+                    width: isAssistant ? "fit-content" : "auto", 
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: m.role === "user" ? "flex-end" : "stretch"
+                  }}>
+                    <div
+                      className={isAssistant ? "ai-bubble" : "user-bubble"}
+                      style={{
+                        padding: "12px 18px",
+                        borderRadius: m.role === "user" ? "24px 24px 4px 24px" : "24px 24px 24px 4px",
+                        background: m.role === "user" ? "#003366" : "#fff",
+                        color: m.role === "user" ? "white" : "#111",
+                        fontSize: "14px",
+                        lineHeight: "1.7",
+                        boxShadow: "0 4px 12px rgba(0,0,0,0.06)",
+                        border: isAssistant ? "1px solid #eef2ff" : "none",
+                      }}
+                    >
+                      {isAssistant ? (
+                        <div className="chat-markdown">
+                          <ReactMarkdown 
+                            remarkPlugins={[remarkGfm]} 
+                            rehypePlugins={[rehypeRaw]}
+                            components={{
+                              img: ({node, ...props}) => (
+                                <img {...props} style={{ maxWidth: "100%", borderRadius: "8px", margin: "10px 0" }} />
+                              )
+                            }}
+                          >
+                            {/* Strip the options from the text bubble itself as we show them as buttons instead */}
+                            {m.content
+                              .replace(optionRegex, "")
+                              .replace(/\[!TIP\]/g, "💡")
+                              .replace(/\[!NOTE\]/g, "📝")
+                              .replace(/\[!IMPORTANT\]/g, "🚨")
+                              .replace(/\[!WARNING\]/g, "⚠️")
+                            }
+                          </ReactMarkdown>
+                        </div>
+                      ) : (
+                        <span style={{ whiteSpace: "pre-wrap" }}>{m.content}</span>
+                      )}
+                    </div>
+
+                    {/* Options Grid: Only show for the MOST RECENT assistant message that is a challenge */}
+                    {isAssistant && i === messages.length - 1 && optionsMatches.length > 0 && !isLoading && (m.content.includes("[!TIP]") || m.content.includes("[!NOTE]")) && (
+                      <div style={{ 
+                        display: "grid", 
+                        gridTemplateColumns: optionsMatches.length > 2 ? "repeat(auto-fit, minmax(200px, 1fr))" : "1fr",
+                        gap: "8px", 
+                        marginTop: "10px",
+                        width: "100%"
+                      }}>
+                        {optionsMatches.map((match, idx) => {
+                          const letter = match[1];
+                          const text = match[2];
+                          return (
+                            <button
+                              key={idx}
+                              onClick={() => sendSpecificMessage(`I choose option ${letter}`)}
+                              style={{
+                                padding: "10px 12px",
+                                background: "#fff",
+                                border: "1.5px solid #00336615",
+                                borderRadius: "10px",
+                                fontSize: "13px",
+                                color: "#003366",
+                                fontWeight: "600",
+                                textAlign: "left",
+                                cursor: "pointer",
+                                display: "flex",
+                                gap: "10px",
+                                alignItems: "center",
+                                transition: "all 0.2s"
+                              }}
+                              onMouseEnter={(e) => {
+                                e.currentTarget.style.borderColor = "#003366";
+                                e.currentTarget.style.background = "#f0f7ff";
+                              }}
+                              onMouseLeave={(e) => {
+                                e.currentTarget.style.borderColor = "#00336615";
+                                e.currentTarget.style.background = "#fff";
+                              }}
+                            >
+                              <span style={{ background: "#003366", color: "white", width: "20px", height: "20px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "10px", flexShrink: 0 }}>{letter}</span>
+                              <span>{text}</span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
 
             {isLoading && (
-              <div style={{ display: "flex", justifyContent: "flex-start" }}>
-                <div
-                  style={{
-                    padding: "10px 16px",
-                    borderRadius: "18px 18px 18px 4px",
-                    background: "#fff",
-                    border: "1px solid #e2e8f0",
-                    color: "#888",
-                    fontSize: "13px",
-                  }}
-                >
-                  <span className="typing-dots">Thinking</span>
-                </div>
+              <div style={{ alignSelf: "flex-start", padding: "10px 16px", borderRadius: "18px", background: "#fff", color: "#64748b", fontSize: "13px", border: "1px solid #eef2ff" }}>
+                <span className="typing-dots">AI is thinking</span>
               </div>
             )}
 
             {error && (
-              <div style={{ background: "#fee2e2", color: "#991b1b", padding: "10px 14px", borderRadius: "10px", fontSize: "12px", fontWeight: "600" }}>
+              <div style={{ padding: "10px 16px", background: "#fee2e2", color: "#b91c1c", borderRadius: "12px", fontSize: "12px" }}>
                 {error}
               </div>
             )}
-
             <div ref={bottomRef} />
           </div>
 
-          {/* Input */}
-          <div
-            style={{
-              display: "flex",
-              gap: "8px",
-              padding: "10px 12px",
-              borderTop: "1px solid #e8eef8",
-              background: "#fff",
-              alignItems: "center",
-            }}
-          >
-            <input
+          {/* Input Area */}
+          <div style={{ padding: "12px", background: "#fff", borderTop: "1px solid #eef2ff", display: "flex", gap: "8px" }}>
+            <input 
               ref={inputRef}
               value={input}
               onChange={(e) => {
                 const val = e.target.value;
                 setInput(val);
+                // Persist draft to localStorage
                 try {
-                  const stored = localStorage.getItem("jamb_chat_drafts");
-                  const drafts = stored ? JSON.parse(stored) : {};
-                  if (val.trim()) drafts[questionId] = val;
-                  else delete drafts[questionId];
+                  const draftsState = localStorage.getItem("jamb_chat_drafts");
+                  const drafts = draftsState ? JSON.parse(draftsState) : {};
+                  drafts[questionId] = val;
                   localStorage.setItem("jamb_chat_drafts", JSON.stringify(drafts));
-                } catch(err) {}
+                } catch(e) {}
               }}
               onKeyDown={handleKeyDown}
               placeholder={getPlaceholder()}
               disabled={isLoading || isAtLimit}
               style={{
                 flex: 1,
-                minWidth: 0,
-                padding: "10px 14px",
-                border: "1px solid #c8d8f0",
+                padding: "10px 16px",
                 borderRadius: "24px",
+                border: "1px solid #c8d8f0",
                 fontSize: "14px",
-                outline: "none",
-                background: isAtLimit ? "#f5f5f5" : "#fff",
-                color: "#333",
+                outline: "none"
               }}
             />
-            <button
+            <button 
               onClick={sendMessage}
               disabled={isLoading || isAtLimit || !input.trim()}
               style={{
-                width: "48px",
-                height: "36px",
-                borderRadius: "18px",
-                background: isLoading || isAtLimit || !input.trim() ? "#ccc" : "#003366",
+                padding: "0 16px",
+                borderRadius: "24px",
+                background: (isLoading || isAtLimit || !input.trim()) ? "#cbd5e1" : "#003366",
                 color: "white",
                 border: "none",
-                cursor: isLoading || isAtLimit || !input.trim() ? "not-allowed" : "pointer",
-                fontSize: "11px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexShrink: 0,
-                fontWeight: "bold"
+                fontSize: "12px",
+                fontWeight: "bold",
+                cursor: "pointer"
               }}
             >
-              {isLoading ? "..." : "SEND"}
+              SEND
             </button>
-        </div>
+          </div>
 
-        <style>{`
-          .typing-dots::after {
-            content: '...';
-            animation: dots 1.2s steps(3, end) infinite;
-          }
-          @keyframes dots {
-            0%   { content: '.'; }
-            33%  { content: '..'; }
-            66%  { content: '...'; }
-            100% { content: '.'; }
-          }
-          .chat-markdown p { margin-bottom: 8px; }
-          .chat-markdown p:last-child { margin-bottom: 0; }
-          .chat-markdown strong { font-weight: 700; color: #003366; }
-          .chat-markdown ul { margin-left: 20px; margin-bottom: 8px; }
-          .chat-markdown ol { margin-left: 20px; margin-bottom: 8px; }
-          .chat-markdown li { margin-bottom: 4px; }
-        `}</style>
-        </div>
+          <style>{`
+            .typing-dots::after { content: '...'; animation: dots 1.5s steps(3, end) infinite; }
+            @keyframes dots { 0% { content: '.'; } 33% { content: '..'; } 66% { content: '...'; } 100% { content: '.'; } }
+            .chat-markdown blockquote {
+              margin: 4px 0 12px 0;
+              padding: 8px 12px;
+              background: #f1f5f9;
+              border-left: 4px solid #003366;
+              border-radius: 4px;
+              font-size: 11px;
+              text-transform: uppercase;
+              letter-spacing: 0.5px;
+            }
+            .chat-markdown blockquote p { margin: 0 !important; font-weight: 700; color: #003366; }
+            .chat-markdown p { margin: 0 0 8px 0; }
+            .chat-markdown p:last-child { margin: 0; }
+          `}</style>
       </div>
-    );
+    </div>
+  );
 }

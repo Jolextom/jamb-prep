@@ -101,9 +101,10 @@ export default function JambReplica() {
   const [reviewQuestions, setReviewQuestions] = useState<Question[]>([]);
   const [reviewHacks, setReviewHacks] = useState<Record<number, string>>({});
 
-  // Calculator states
+  const [isDataReady, setIsDataReady] = useState(false);
   const [calcOpen, setCalcOpen] = useState(false);
   const [calcExpr, setCalcExpr] = useState("0");
+  const [calcPos, setCalcPos] = useState({ top: 0, left: 0 });
   const [aiModalOpen, setAiModalOpen] = useState(false);
   const calcRef = useRef<HTMLDivElement>(null);
 
@@ -128,7 +129,6 @@ export default function JambReplica() {
 
   const [availableSubjects, setAvailableSubjects] = useState<string[]>([]);
   const [availableCounts, setAvailableCounts] = useState<Record<string, number>>({});
-  const [isDataReady, setIsDataReady] = useState(false);
   const [hasSavedSession, setHasSavedSession] = useState(false);
   const [resumePromptOpen, setResumePromptOpen] = useState(false);
   // Sync state to localStorage
@@ -738,7 +738,15 @@ ${JSON.stringify(sessionData, null, 2)}`;
           totalSecs={totalSecs}
           formatTime={formatTime}
           openEndModal={() => setEndModalOpen(true)}
-          toggleCalc={() => setCalcOpen(!calcOpen)}
+          toggleCalc={(rect?: DOMRect) => {
+            if (rect) {
+              setCalcPos({ 
+                top: rect.bottom + window.scrollY + 5, 
+                left: Math.max(10, rect.left + window.scrollX - 80) 
+              });
+            }
+            setCalcOpen(!calcOpen);
+          }}
           qbState={qbState}
           isReview={isReview}
           reviewAnswers={reviewAnswers}
@@ -756,6 +764,7 @@ ${JSON.stringify(sessionData, null, 2)}`;
         calcExpr={calcExpr}
         setCalcExpr={setCalcExpr}
         calcRef={calcRef}
+        position={calcPos}
       />
 
       <Modals

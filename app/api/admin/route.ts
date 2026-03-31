@@ -80,10 +80,23 @@ export async function GET(req: NextRequest) {
     });
   }
 
-  // Handle Reset Individual User
-  if (resetUser && isRedis) {
-    const cleanName = resetUser.trim().replace(/[^a-zA-Z0-9]/g, "_");
-    await redis.del(`jolextom_rate_limit_${cleanName}`);
+  // Handle Reset Individual User (Redis Counter + History Cleanup)
+  if (resetUser) {
+    // 1. Clean Redis Counter if it exists
+    if (isRedis) {
+      const cleanName = resetUser.trim().replace(/[^a-zA-Z0-9]/g, "_");
+      await redis.del(`jolextom_rate_limit_${cleanName}`);
+    }
+    
+    // 2. Remove from session history so it clears from the dashboard view
+    const originalHistoryCount = data.history.length;
+    data.history = (data.history || []).filter((h: any) => h.name !== resetUser);
+    
+    if (data.history.length !== originalHistoryCount) {
+       if (isRedis) await redisSet(data);
+       else try { fs.writeFileSync(RATE_FILE, JSON.stringify(data, null, 2)); } catch(e){}
+    }
+
     return new NextResponse(null, {
       status: 302,
       headers: { Location: `/api/admin?key=${key}&msg=reset_ok` },

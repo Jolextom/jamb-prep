@@ -8,13 +8,16 @@ interface CalculatorProps {
   calcExpr: string;
   setCalcExpr: React.Dispatch<React.SetStateAction<string>>;
   calcRef: React.RefObject<HTMLDivElement | null>;
+  position: { top: number; left: number };
 }
 
 export default function Calculator({
   isOpen,
+  onClose,
   calcExpr,
   setCalcExpr,
-  calcRef
+  calcRef,
+  position
 }: CalculatorProps) {
   const calcInput = (v: string) => {
     if (v === "C") {
@@ -45,10 +48,36 @@ export default function Calculator({
     }
   };
 
+  React.useEffect(() => {
+    if (!isOpen) return;
+
+    const handleClickOutside = (e: MouseEvent) => {
+      // If the click is on the calculator-button itself, we let the toggleCalc handle it
+      // but usually the click outside is for closing.
+      // We check if click is outside calcRef
+      if (calcRef.current && !calcRef.current.contains(e.target as Node)) {
+        // Check if it's not the calculator button
+        const target = e.target as HTMLElement;
+        if (!target.closest('.calc-btn')) {
+          onClose();
+        }
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isOpen, onClose, calcRef]);
+
   return (
     <div
       ref={calcRef}
       className={`calc-popup ${isOpen ? "open" : ""}`}
+      style={{
+        position: 'absolute',
+        top: position.top,
+        left: position.left,
+        zIndex: 9999
+      }}
     >
       <div className="calc-display">{calcExpr}</div>
       <div className="calc-grid">

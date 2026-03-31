@@ -39,7 +39,7 @@ interface ExamInterfaceProps {
   totalSecs: number;
   formatTime: (s: number) => string;
   openEndModal: () => void;
-  toggleCalc: () => void;
+  toggleCalc: (rect?: DOMRect) => void;
 
   // Scoring
   qbState: Record<string, Question[]>;
@@ -99,6 +99,55 @@ export default function ExamInterface({
   const [reportType, setReportType] = React.useState("Wrong Answer");
   const [reportComment, setReportComment] = React.useState("");
   const [isReporting, setIsReporting] = React.useState(false);
+
+  // Challenge Me: Find similar questions from the pool using keyword matching
+  const similarCandidates = React.useMemo(() => {
+    const pool = qbState[currentSubject] || [];
+    const others = pool.filter(q => q.id !== currentQuestion.id);
+    
+    // 1. Extract keywords from current question
+    const stopwords = new Set(["the", "a", "an", "is", "of", "to", "in", "and", "by", "for", "with", "from", "on", "at", "it", "that", "this", "which", "are", "causes", "causes", "decrease", "size", "increase", "size"]);
+    const currentWords = (currentQuestion.q?.toLowerCase() || "")
+      .replace(/[^\w\s]/g, "")
+      .split(/\s+/)
+      .filter(w => w.length > 3 && !stopwords.has(w));
+    
+    const currentTopic = currentQuestion.topic?.toLowerCase() || "";
+    
+    const scored = others.map(q => {
+      let score = 0;
+      const qText = q.q?.toLowerCase() || "";
+      const qTopic = q.topic?.toLowerCase() || "";
+      
+      // Topic match (high weight)
+      if (qTopic === currentTopic) score += 5;
+      
+      // Keyword overlaps
+      currentWords.forEach(word => {
+        if (qText.includes(word)) score += 2;
+        if (qTopic.includes(word)) score += 3;
+      });
+      
+      return { q, score };
+    });
+    
+    // Sort by score descending, then random for ties
+    const sorted = scored.sort((a, b) => {
+      if (b.score !== a.score) return b.score - a.score;
+      return Math.random() - 0.5;
+    });
+
+    return sorted
+      .slice(0, 10) // Take top 10 potential candidates
+      .map(({ q }) => ({
+        q: q.q,
+        o: q.options,
+        a: q.a,
+        yr: q.yr,
+        sol: q.solution,
+        image: q.image
+      }));
+  }, [qbState, currentSubject, currentQuestion]);
 
   const handleReportSubmit = async () => {
     setIsReporting(true);
@@ -366,7 +415,11 @@ export default function ExamInterface({
                     ? `${activeSubjects[curSubIdx + 1]}`
                     : "Next"}
               </button>
-              <button className="calc-btn" onClick={toggleCalc} style={{ padding: "6px 12px", border: "1px solid #c8d8f0", background: "#f8fafc", borderRadius: "18px", fontSize: "12px", fontWeight: "600", color: "#003366", cursor: "pointer", display: "flex", alignItems: "center", gap: "8px" }}>
+              <button 
+                className="calc-btn" 
+                onClick={(e) => toggleCalc(e.currentTarget.getBoundingClientRect())} 
+                style={{ padding: "6px 12px", border: "1px solid #c8d8f0", background: "#f8fafc", borderRadius: "18px", fontSize: "12px", fontWeight: "600", color: "#003366", cursor: "pointer", display: "flex", alignItems: "center", gap: "8px" }}
+              >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="4" y="2" width="16" height="20" rx="2" ry="2" /><line x1="8" y1="6" x2="16" y2="6" /><line x1="16" y1="14" x2="16" y2="14" /><line x1="8" y1="10" x2="8" y2="10" /><line x1="12" y1="10" x2="12" y2="10" /><line x1="16" y1="10" x2="16" y2="10" /><line x1="8" y1="14" x2="8" y2="14" /><line x1="12" y1="14" x2="12" y2="14" /><line x1="8" y1="18" x2="8" y2="18" /><line x1="12" y1="18" x2="12" y2="18" /><line x1="16" y1="18" x2="16" y2="18" /></svg>
                 <span style={{ fontSize: "12px", fontWeight: "700" }}>Calculator</span>
               </button>
@@ -510,7 +563,8 @@ export default function ExamInterface({
                       q: currentQuestion.q,
                       o: currentQuestion.options,
                       a: currentQuestion.a,
-                      sol: currentQuestion.solution
+                      sol: currentQuestion.solution,
+                      similarCandidates // Injecting the candidates for "Challenge Me"
                     })}
                     history={chatHistories[currentQuestion.id] || []}
                     onUpdateMessages={(newMsgs) => setChatHistories(prev => ({ ...prev, [currentQuestion.id]: newMsgs }))}

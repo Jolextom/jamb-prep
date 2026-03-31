@@ -1034,7 +1034,7 @@
     "answer": "a",
     "solution": "The primary vector (carrier) for the 'Yellow Fever' virus is the 'Aedes' (specifically Aedes aegypti) mosquito, identifiable by its white markings on its legs.",
     "options": {
-      "a": "edges mosquito",
+      "a": "Aedes mosquito",
       "b": "anopheles mosquito",
       "c": "tsetse fly",
       "d": "blackly"
@@ -5378,7 +5378,7 @@
   {
     "id": 71,
     "question": "The Scarcity of food causes a sudden decrease in population size by",
-    "answer": "a",
+    "answer": "c",
     "solution": "A sudden and significant 'scarcity of food' will cause a population crash primarily by 'raising the mortality (death) rate' as individuals starve and become more susceptible to disease.",
     "options": {
       "a": "decrease the reproductive rate",
