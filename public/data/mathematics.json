@@ -5200,5 +5200,753 @@
     "solution": "√2+1/√3)(√2-1/√3.    √4-√2/√3+√2/√3-1/√9 = 2 - 1/3\n\n\n= (16−1)/3\n\n\n= 5/3",
     "examtype": "utme",
     "examyear": "2011"
+  },
+  {
+    "id": 637,
+    "question": "Solve the inequality -6(x + 3) ≤ 4(x - 2)",
+    "option": {
+      "a": " x ≤ 2",
+      "b": "x ≥ -1",
+      "c": " x ≥ -2",
+      "d": "x ≤ -1",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "b",
+    "solution": "-6(x + 3) ≤ 4(x - 2)\n\n-6(x +3) ≤ 4(x - 2)\n\n-6x -18 ≤ 4x - 8\n\n-18 + 8 ≤ 4x +6x\n\n-10 ≤ 10x\n\n10x ≥ -10\n\nx ≥ -1",
+    "examtype": "utme",
+    "examyear": "2011"
+  },
+  {
+    "id": 530,
+    "question": "I.S∩T∩W=S II. S ∪ T ∪ W = W\nIII. T ∩ W = S\nIf S⊂T⊂W, which of the above statements are true?",
+    "option": {
+      "a": "I and II",
+      "b": "I and III",
+      "c": " II and III",
+      "d": "I, II and III",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "a",
+    "solution": "If S ⊂ T ⊂ W,\n\nS ∩ T ∩ W = S is true since S ∩ T = S and S ∩ W = S.\n\nS ∪ T ∪ W = W is also true. S ∪ T = T and T ∪ W = W.\n\nHowever, to say that T ∩ W = S is not very true mathematically. Instead, it is safe to say S ⊂ (T ∩ W).",
+    "examtype": "utme",
+    "examyear": "2009"
+  },
+  {
+    "id": 343,
+    "question": "In the diagram above, O is the center of the circle,\n\n∠UOT = 70° and ∠RST = 100°. Calculate ∠RUO.",
+    "option": {
+      "a": "20°",
+      "b": "25°",
+      "c": "50°",
+      "d": "80°",
+      "e": null
+    },
+    "section": "",
+    "image": "https://res.cloudinary.com/aloc-ng/image/upload/v1710702214/ALOC-Questions/Mathematics/2005/math_2005_q22_oa6al3.jpg",
+    "answer": "b",
+    "solution": "∠OUT = ∠OTU = a (Base ∠s of 180 Δ)\n∴ a + a + 70 = 180° (sum of ∠s of a Δ)\n2a = 180° - 70°\n2a = 110°\na = 55°\nBut ∠RUT + ∠RBT = 180° (opposite ∠s of a Cyclic quad)\n∴ x + a = 100 = 180\nx + 55 + 100 = 180\nx = 180 - 155\nx = 25\nso ∠RUO = x = 25°",
+    "examtype": "utme",
+    "examyear": "2005"
+  },
+  {
+    "id": 106,
+    "question": "Find the sum of the range and the mode of the set of numbers 10, 9, 10, 9, 8, 7, 7, 10, 8, 10, 8, 4, 6, 9, 10, 9, 10, 9, 7, 10, 6, 5",
+    "option": {
+      "a": "16",
+      "b": "14",
+      "c": "12",
+      "d": "10",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "a",
+    "solution": "Range = Highest - lowest number => 10-4 = 6\nMode is the number with highest occurrence => Mode = 10\n\nSum = 6 + 10 = 16",
+    "examtype": "utme",
+    "examyear": "2000"
+  },
+  {
+    "id": 1189,
+    "question": "Express the product of 0.00043 and 2000 in standard form.",
+    "option": {
+      "a": " 8.6 x 10<sup>-3</sup>",
+      "b": "8.3 x 10<sup>-2</sup>",
+      "c": "8.6 x 10<sup>-1</sup>",
+      "d": "8.6 x 10",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "c",
+    "solution": "0.00043 x 2000\n\n= 43 x 10<sup>-5</sup> x 2 x 103\n\n= 43 x 2 x 10-5+3\n\n= 86 x 10<sup>-2</sup>\n\n= 8.6 x 10<sup>1</sup> x 10<sup>-2</sup>\n\n= 8.6 x 10<sup>-1</sup>",
+    "examtype": "utme",
+    "examyear": "2014"
+  },
+  {
+    "id": 84,
+    "question": "Evaluate (1/2 - 1/4 - 1/8 - 1/16 + ...) - 1",
+    "option": {
+      "a": "2/3",
+      "b": "zero",
+      "c": "-2/3",
+      "d": "-1",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "c",
+    "solution": "S = a/(1+r), where a = 1/2, r = 1/2.\nS = 1/2 3/2 = 1/2 x 3/2 = 1/3.\n1/3 - 1 = -2/3",
+    "examtype": "utme",
+    "examyear": "2000"
+  },
+  {
+    "id": 936,
+    "question": "A machine valued at N20,000 depreciates by 10% every year. What will be the value of the machine at the end of two years?",
+    "option": {
+      "a": "N16,200",
+      "b": "N14,200",
+      "c": "N12,000",
+      "d": "N8,000",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "a",
+    "solution": "Since it depreciates by 10% At the end of first year, its value = 90% of 20000\n\n= 90/100\n x 20000 =18000\n\n  At the end of second year, its value = 90% of 18000\n\n  = 90/100\n x 18000 = ₦16,200",
+    "examtype": "utme",
+    "examyear": "2018"
+  },
+  {
+    "id": 852,
+    "question": "The nth term of the sequence 3, 9, 27, 81.....is",
+    "option": {
+      "a": "3 x 3n-2",
+      "b": "3 x 3n-1",
+      "c": " 3 x 3n+2",
+      "d": "3 x 3n+1",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "b",
+    "solution": "3,9,27,81,.....\nr = 9/8 = 3\nT<sup>n</sup> = ar<sup>n-1</sup>\n\nT<sup>n</sup> = 3(3<sup>n-1</sup> = 3(3<sup>2</sup>)/3",
+    "examtype": "utme",
+    "examyear": "2016"
+  },
+  {
+    "id": 898,
+    "question": "In how many ways can the word MATHEMATICS be arranged?",
+    "option": {
+      "a": "11!/9!2!",
+      "b": "11!/9!2!2!\n ",
+      "c": "11!/2!2!2!",
+      "d": "11!/2!2!",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "c",
+    "solution": "MATHEMATICS is an eleven-letter word = 11!\n\nThere are 2Ms and 2As and 2Ts\n\nDivide the number of repeating letters\n\n= 11!/2!2!2!",
+    "examtype": "utme",
+    "examyear": "2017"
+  },
+  {
+    "id": 333,
+    "question": "The time taken to do a piece of work is inversely proportional to the number of men employed. If it takes 30 men to do a piece of work in 6 days, how many men are required to do the work in 4 days?",
+    "option": {
+      "a": "20",
+      "b": "35",
+      "c": "45",
+      "d": "60",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "c",
+    "solution": "t = time taken and N = number of men\nt ∝ 1/N\nt = K/N\nK = Nt\nK = 30 * 6\nK = 180\n∴t = 180/N\n4 = 180/N\n4N = 180\nN = 180/4\n45 men",
+    "examtype": "utme",
+    "examyear": "2005"
+  },
+  {
+    "id": 820,
+    "question": "If the mean of 4, y, 8 and 10 is 7. Find Y?",
+    "option": {
+      "a": "6",
+      "b": "10",
+      "c": "7",
+      "d": "9",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "a",
+    "solution": "(4+y+8+10)/4 = 7\n\n22 + y = 4 x 7\n22 + y = 28\ny = 28 - 22 = 6",
+    "examtype": "utme",
+    "examyear": "2016"
+  },
+  {
+    "id": 482,
+    "question": "A book seller sells Mathematics and English books. If 30 customers buy Mathematics books, 20 customers buy English books and 10 customers buy the two books. How many customers has he altogether?",
+    "option": {
+      "a": "30",
+      "b": "40",
+      "c": "50",
+      "d": "60",
+      "e": null
+    },
+    "section": "",
+    "image": "https://res.cloudinary.com/aloc-ng/image/upload/v1715545810/ALOC-Questions/Mathematics/2008/MATH_2008_Q11_SOLUTION_bkcegq.jpg",
+    "answer": "b",
+    "solution": "n(M) only = 30-10 = 20\n\nn(E) only = 20-10 = 10\n\nn(Mâˆ©E) = 10\n\nâˆ´MâˆªE = 20+10+10\n\n= 40",
+    "examtype": "utme",
+    "examyear": "2008"
+  },
+  {
+    "id": 423,
+    "question": "In a basket, there are 6 grapes, 11 bananas and 13 oranges. If one fruit is chosen at random. What is the probability that the fruit is either a grape or a banana",
+    "option": {
+      "a": "6/30",
+      "b": "5/30",
+      "c": " 17/30",
+      "d": "11/30",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "c",
+    "solution": "Number of grapes = 6\nNumber of banana = 11\nNumber of oranges = 13\nTotal = 30\nP(Grape) = 6/30, P(Banana) = 11/30\nP(Orange) = 13/30\n∴P(Either grape or banana) = 6/30 + 11/30\n= 17/30",
+    "examtype": "utme",
+    "examyear": "2007"
+  },
+  {
+    "id": 1168,
+    "question": "The ages of students in a small primary school were recorded in the table below.                                                                               Estimate the median.",
+    "option": {
+      "a": "7.725",
+      "b": "6.225",
+      "c": " 7.5",
+      "d": "6.5",
+      "e": null
+    },
+    "section": "",
+    "image": "https://res.cloudinary.com/aloc-ng/image/upload/v1724007869/ALOC-Questions/Mathematics/2023/MATH_2023_Q32_qhpmgj.jpg",
+    "answer": "a",
+    "solution": "(N + 1)/2  = (107 + 1)/2 th = 54th value i.e the median age is in the interval \"7 - 8\" (29 + 25 = 54)?\n\nMedian = 1<sub>m</sub> + (((∑f)/2 − f<sub>b</sub>) /f<sub>m</sub> )c\n\nl<sub>m</sub>= lower class boundary of the median age = 6.5\n\n∑f = 107\n\nf<sub>b</sub> = sum of all frequencies before the median age = 29\n\nf<sub>m</sub> = frequency of the median age = 40\n\nc = class width = 8.5 - 6.5 = 2\n\nMedian = 6.5 + (((107/2) − 29)/40) x 2\n\n= 6.5 + ((53.5 − 29)/40) x 2\n\n= 6.5 + (24.5/40) x 2\n\n= 6.5 + 1.225\n\n∴\n median age = 7.725\n",
+    "examtype": "utme",
+    "examyear": "2023"
+  },
+  {
+    "id": 970,
+    "question": "The angle of elevation of the top of a tree from a point on the ground 60m away from the foot of the tree is 78°. Find the height of the tree correct to the nearest whole number.",
+    "option": {
+      "a": "148 m",
+      "b": "382 m",
+      "c": "282 m",
+      "d": "248 m",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "c",
+    "solution": "tan78 = h/60\nh = 60tan78\nh = 60 × 4.705 = 282.27m  ≊\n282m to the nearest whole number.",
+    "examtype": "utme",
+    "examyear": "2019"
+  },
+  {
+    "id": 1256,
+    "question": "If A = (−3,5) and B = (4,−1) find the co-ordinate of the mid point",
+    "option": {
+      "a": "2, ½",
+      "b": "½ , 2",
+      "c": "1, ½",
+      "d": " 0, 2",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "b",
+    "solution": "The coordinate of the midpoint is ((−3+4)/2 ,(5+(−1))/2)\n= (1/2,2)",
+    "examtype": "utme",
+    "examyear": "2015"
+  },
+  {
+    "id": 1274,
+    "question": "If an investor invest N450,000 in a certain organization in order to yield X as a return of N25,000. Find the return on an investment of N700,000 by Y in the same organization.",
+    "option": {
+      "a": "N14,950.50K",
+      "b": "N25,150.30K",
+      "c": "N15,000.00K",
+      "d": "N38,888.90K",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "d",
+    "solution": "[Return ÷ Investment] as a ratio ;\n\ni.e The Ratio is Return : Investmen\n\n[(Return1÷ Investment1 ) = (Return2÷Investment2)]\n\nR1 = N 25000\n\nR2 =?\n\nI1 = N450,000,\n\nI1 = N 700000\n\n(25000 ÷ 450000) = (R2 ÷ 700000)\n\nR2 = [(25000 × 700000 ) ÷ 450000]\n\n= N38,888.90K\n\n∴ The return on a investment of Y = N38888.90K",
+    "examtype": "utme",
+    "examyear": "2015"
+  },
+  {
+    "id": 586,
+    "question": "If the area of ΔPQR above is 12√3 cm2, find the value of q?",
+    "option": {
+      "a": "6 cm",
+      "b": "7 cm",
+      "c": "8 cm",
+      "d": " 5 cm",
+      "e": null
+    },
+    "section": "",
+    "image": "https://res.cloudinary.com/aloc-ng/image/upload/v1716128351/ALOC-Questions/Mathematics/2010/MATH_2010_Q15_ofvhf9.jpg",
+    "answer": "a",
+    "solution": "Area of a triangle = 1/2 ab Sinθ\n12√3 = 1/2 x 8 x q sin 60\n12√3 = 4 x q x √3/2\n12√3 = 2q√3\n\nq =12√3/2√3\n\nq = 6",
+    "examtype": "utme",
+    "examyear": "2010"
+  },
+  {
+    "id": 886,
+    "question": "In a regular polygon, each interior angle doubles its corresponding exterior angle. Find the number of sides of the polygon",
+    "option": {
+      "a": "8",
+      "b": "6",
+      "c": "4",
+      "d": "3",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "b",
+    "solution": "2x + x = 180°\n\n3x = 180°\n\nx = 60° (exterior angle of the polygon)\n\nangle = total angle/number of sides\n\n\n60 = 360/n\n\n\nn = 360/60\n\n\nn = 6 sides",
+    "examtype": "utme",
+    "examyear": "2017"
+  },
+  {
+    "id": 1074,
+    "question": "The angle of a sector of a circle, radius 10.5 cm, is 48°, Calculate the perimeter of the sector",
+    "option": {
+      "a": "8.8 cm",
+      "b": "25.4 cm",
+      "c": "25.6 cm",
+      "d": "29.8 cm",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "d",
+    "solution": "Length of Arc AB = θ/360 2πr\n\n= 48/360 x 2(22/7) x 21/2\n\n\n= (4 × 22 × 3)/30 =  88/10\n = 8.8 cm\n\nPerimeter = 8.8 + 2r\n\n= 8.8 + 2(10.5)\n\n= 8.8 + 21\n\n= 29.8 cm",
+    "examtype": "utme",
+    "examyear": "2021"
+  },
+  {
+    "id": 259,
+    "question": "An arc of a circle subtends an angle of 30° on the circumference of a circle of radius 21cm. Find the length of the arc.",
+    "option": {
+      "a": "11cm",
+      "b": "22cm",
+      "c": "44cm",
+      "d": "66cm",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "b",
+    "solution": "θ = 30 x 2(∠ at center twice ∠ at θ)\n∴ θ = 60°\nLength of arc = θ/360 x 2πr = 60/360 x 2 x 22/7 x 21/1 = 22cm\n \n \n \n ",
+    "examtype": "utme",
+    "examyear": "2003"
+  },
+  {
+    "id": 315,
+    "question": "PQRSTV is a regular polygon of side 7 cm inscribed in a circle. Find the circumference of the circle PQRSTV.",
+    "option": {
+      "a": "56 cm",
+      "b": "22 cm",
+      "c": "42 cm",
+      "d": "44 cm",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "d",
+    "solution": "Each interior Angle of the polygon =\t(n-2)\t180\n_n\n\n=\t(6-2)\t180\n_6\n\n= 4 x 30\n= 120°\ni.e ∠PQR = 120° ∴ RQD = 120/2 = 60° also\n∴ Δ QOR is equilateral Δ ∴ QO = 7cm\n∴ PO = QO = RO ...... = 7cm radius of the circumference of the circle = 2πr\n= 2 x 22/7 x 7/1\n= 44 cm",
+    "examtype": "utme",
+    "examyear": "2004"
+  },
+  {
+    "id": 599,
+    "question": "Find the equation of a line parallel to y = -4x + 2 passing through (2,3)",
+    "option": {
+      "a": "y + 4x + 11 = 0",
+      "b": " y - 4x - 11 = 0",
+      "c": " y + 4x - 11 = 0",
+      "d": " y - 4x + 11 = 0",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "c",
+    "solution": "By comparing y = mx + c\n\nwith y = -4x + 2,\n\nthe gradient of y = -4x + 2 is m1 = -4\n\nlet the gradient of the line parallel to the given line be m2,\n\nthen, m2 = m1 = -4\n\n(condition for parallelism)\n\nusing, y - y1 = m2(x - x1)\n\nHence the equation of the parallel line is\n\ny - 3 = -4(x-2)\n\ny - 3 = -4 x + 8\n\ny + 4x = 8 + 3\n\ny + 4x = 11\n\ny + 4x - 11 = 0",
+    "examtype": "utme",
+    "examyear": "2010"
+  },
+  {
+    "id": 1227,
+    "question": "A number is chosen at random from 10 to 30 both inclusive. What is the probability that the number is divisible by 3?",
+    "option": {
+      "a": "2/15",
+      "b": "1/10",
+      "c": "1/3",
+      "d": "2/5",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "c",
+    "solution": "Sample space S = {10, 11, 12, ... 30}\n\nLet E denote the event of choosing a number divisible by 3\n\nThen E = {12, 15, 18, 21, 24, 27, 30} and n(E) = 7\n\nProb (E) = n(E)/n(S)\n\n\nProb (E) = 7/21\n\n\nProb (E) = 1/3",
+    "examtype": "utme",
+    "examyear": "2014"
+  },
+  {
+    "id": 749,
+    "question": "If y = x<sup>2</sup>  - 1/x, find δy/δx",
+    "option": {
+      "a": "2x - 1/x<sup>2</sup> ",
+      "b": "2x + x<sup>2</sup> ",
+      "c": " 2x - x<sup>2</sup> ",
+      "d": "2x + 1x<sup>2</sup> ",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "d",
+    "solution": "y = x<sup>2</sup>  - 1/x\n\n\ny = x<sup>2</sup>  - x<sup>-1</sup> \n\nδy/δx = 2x + x<sup>-2</sup> \n\n\nδy/δx = 2x + 1/x<sup>2</sup> ",
+    "examtype": "utme",
+    "examyear": "2012"
+  },
+  {
+    "id": 746,
+    "question": "The distance between the point (4, 3) and the intersection of y = 2x + 4 and y = 7 - x is",
+    "option": {
+      "a": "√13",
+      "b": "3√2",
+      "c": "√26",
+      "d": "10√5",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "b",
+    "solution": "P<sub>1</sub> (4, 3), P<sub>2</sub> (x, y)\n\ny = 2x + 4 .....(1)\n\ny = 7 - x .....(2)\n\nSubstitute (2) in (1)\n\n7 - x = 2x + 4\n\n7 - 4 = 2x + x\n\n3 = 3x\n\nx = 1\n\nSubstitute in eqn (2)\n\ny = 7 - x\n\ny = 7 - 1\n\ny = 6\n\nP<sub>2</sub> (1, 6)\n\nDistance between 2 points is given as\n\nD =√ (x<sub>2</sub>−x<sub>1</sub>)<sup>2</sup>+(y<sub>2</sub> − y<sub>1</sub>)\n\n\nD = √(1−4)<sup>2</sup>+(6−3)<sup>2</sup>\n\n\nD = √(−3)<sup>2</sup>+(3)<sup>2</sup>\n\n\nD = √9+9\n\n\nD = √18\n\n\nD = √9×2\n\n\nD = 3√2",
+    "examtype": "utme",
+    "examyear": "2012"
+  },
+  {
+    "id": 1104,
+    "question": "Simplify 1/(3−√2)\n in the form of p + q√2",
+    "option": {
+      "a": "7/(3 - 1/7√2)",
+      "b": "7/(3 + 1/7√2)",
+      "c": " 3/(7 - 1/7√2)",
+      "d": "3/(7 + √2/7)",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "d",
+    "solution": "Rationalization with conjugate 3+√2\n 1/3−√2\n→ 1∗[3+√2]/[3−√2][3+√2]\n=  3+√2/(9−3√2+3√2+√4)\n=  3+√2/9−2\n →  3+√2/7\n= 3/7\n +  √2/7",
+    "examtype": "utme",
+    "examyear": "2022"
+  },
+  {
+    "id": 1142,
+    "question": "The interior angle of a regular polygon is five times the size of its exterior angle. Identify the polygon.",
+    "option": {
+      "a": " dodecagon",
+      "b": "enneadecagon",
+      "c": " icosagon",
+      "d": "hendecagon",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "a",
+    "solution": "An interior angle of a regular polygon = ((2n−4)×90)/n\n\n\nAn exterior angle of a regular polygon = 360/n\n\n\n((2n−4)×90)/n = 5 ×  360/n (Given)\n= (2n-4) x 90 = 5 x 360\n= 180n - 360 = 1800\n= 180n = 1800 + 360\n= 180n = 2160\n= n = 2160/180 = 12\nThe polygon has 12 sides which is dodecagon",
+    "examtype": "utme",
+    "examyear": "2023"
+  },
+  {
+    "id": 512,
+    "question": "Find the mean deviation of 2, 4, 5, and 9",
+    "option": {
+      "a": "1",
+      "b": "2",
+      "c": "5",
+      "d": "7",
+      "e": null
+    },
+    "section": "",
+    "image": "https://res.cloudinary.com/aloc-ng/image/upload/v1715546297/ALOC-Questions/Mathematics/2008/MATH_2008_Q41_SOLUTION_hoqtce.jpg",
+    "answer": "b",
+    "solution": "X = 20/4\n= 5\nmean deviation = 8/4 = 2",
+    "examtype": "utme",
+    "examyear": "2008"
+  },
+  {
+    "id": 829,
+    "question": "If line p = 5x + 3 is parallel to line p = wx + 5. Find the value of w.",
+    "option": {
+      "a": "7",
+      "b": "3",
+      "c": "6",
+      "d": "5",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "d",
+    "solution": "P = 5x + 3, P = wx + 5\nM1 = 5, M2 = w\nM1 = M2 (parallel lines)\nw = 5",
+    "examtype": "utme",
+    "examyear": "2016"
+  },
+  {
+    "id": 912,
+    "question": "Evaluate 1 − (1/5 x 1(2/3)) + (5 + 1(2/3))",
+    "option": {
+      "a": "4",
+      "b": "3",
+      "c": "22/3",
+      "d": "3(2/3)",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "c",
+    "solution": "1 − (1/5 x 1(2/3)) + (5 + 1(2/3))\n\n1 − (1/5 x 5/3) + (5 + 5/3)\n\n1 − 1/3 + 20/3\n\n= 22/3",
+    "examtype": "utme",
+    "examyear": "2017"
+  },
+  {
+    "id": 198,
+    "question": "A bucket is 12 cm in diameter at the top, 8 cm in diameter at the bottom and 4 cm deep. Calculate its volume.",
+    "option": {
+      "a": "304π/3 cm<sup>3</sup>",
+      "b": "144π cm<sup>3</sup>",
+      "c": "128π cm<sup>3</sup>",
+      "d": " 72π cm<sup>3</sup>",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "a",
+    "solution": "Volume of a frustrum with top of radius R and bottom r and height h = (1/3)π( R<sup>2</sup> + Rr + r<sup>2</sup>)\nV = 1/3π × 4 × (6<sup>2</sup> + 6 × 4 + 4<sup>2</sup>)\n= 304/3πcm<sup>3</sup>",
+    "examtype": "utme",
+    "examyear": "2002"
+  },
+  {
+    "id": 282,
+    "question": "Find the derivatives of (2 + 3x)(1 - x) with respect to x",
+    "option": {
+      "a": "6",
+      "b": "-3",
+      "c": "1-6x",
+      "d": "6x-1",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "c",
+    "solution": "y = (2 + 3x)(i - x)\ny = 2 - 2x + 3x - 3x<sup>2</sup>\ny = 2 + x - 3x<sup>2</sup>\ndy/dxb = 1 - 6x",
+    "examtype": "utme",
+    "examyear": "2004"
+  },
+  {
+    "id": 757,
+    "question": "In how many ways can the letters of the word TOTALITY be arranged?",
+    "option": {
+      "a": "6720",
+      "b": "6270",
+      "c": "6207",
+      "d": " 6027",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "a",
+    "solution": "8!/3!\n \n\n8×7×6×5×4×3×2×1/3×2×1\n\n\n==> 8 x 7 x 6 x 5 x 4 = 6720",
+    "examtype": "utme",
+    "examyear": "2012"
+  },
+  {
+    "id": 137,
+    "question": "A point P moves such that it is equidistant from Points Q and R. Find QR when PR = 8cm and angle PRQ = 30°",
+    "option": {
+      "a": "4√3cm",
+      "b": " 8cm",
+      "c": "8√3cm",
+      "d": "4cm",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "c",
+    "solution": "Hint: Make a sketch of the moving points such that the hypotenuse is 8cm and the adjacent x cm.\n\nCos 30 = x/8\nx = 8 cos 30 = 8√3cm",
+    "examtype": "utme",
+    "examyear": "2001"
+  },
+  {
+    "id": 909,
+    "question": "If (2√3−√2)/(√3+2√2) = m + n √ 6, find the values of m and n respectively",
+    "option": {
+      "a": "1, − 2",
+      "b": "− 2, n = 1",
+      "c": "−2/5 , 1",
+      "d": "2/3",
+      "e": null
+    },
+    "section": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n  <mfrac>\n    <mrow>\n      <mn>2</mn>\n      <msqrt>\n        <mn>3</mn>\n      </msqrt>\n      <mo>&#x2212;<!-- − --></mo>\n      <msqrt>\n        <mn>2</mn>\n      </msqrt>\n    </mrow>\n    <mrow>\n      <msqrt>\n        <mn>3</mn>\n      </msqrt>\n      <mo>+</mo>\n      <mn>2</mn>\n      <msqrt>\n        <mn>2</mn>\n      </msqrt>\n    </mrow>\n  </mfrac>\n</math>",
+    "image": "",
+    "answer": "b",
+    "solution": "(2√3−√2)/(√3+2√2) = m + n √ 6\n\n(2√3 − √2)/(√3 + 2√2)\n x (√3 − 2√2)/(√3 − √2)\n\n\n\n[2√3(√3 − 2√2) − √2(√3 − 2√2)]/[√3(√3 − 2√2) + 2√2(√3 − 2√2)]\n\n\n(2 × 3 − 4√6 − 6 + 2 × 2)/(3−2√6 + 2√6 − 4 × )2\n\n\n= (6 − 4√6 − √6 + 4)/(3−8)\n\n\n=( 0−4√6 − 6)/5\n\n\n= (10−5√6)/5\n\n\n= − 2 + √6\n\n∴ m + n√6= − 2 + √6\n\nm = − 2, n = 1",
+    "examtype": "utme",
+    "examyear": "2017"
+  },
+  {
+    "id": 888,
+    "question": "Simplify 4√27 + 5√12 − 3√75",
+    "option": {
+      "a": "7",
+      "b": "-7",
+      "c": "-7√3",
+      "d": "7√3",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "d",
+    "solution": "4√27 + 5√12 − 3√75\n\n= 4√3 × 9 + 5√3 × 4 − 3√3 × 25\n\n= 4 × 3√3 + 5 × 2√3 − 3 × 5√3\n= 12√3 + 10√3 − 15√3\n\n\n= (12 + 10 − 15)√3\n\n= 7√3",
+    "examtype": "utme",
+    "examyear": "2017"
+  },
+  {
+    "id": 475,
+    "question": "Express 123456 to 3 significant figures",
+    "option": {
+      "a": " 123000",
+      "b": "124000",
+      "c": "125000",
+      "d": "126000",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "a",
+    "solution": "NB: This is a correction to the solution in the video lesson.\n123456 ≊\n 123000.",
+    "examtype": "utme",
+    "examyear": "2008"
+  },
+  {
+    "id": 1191,
+    "question": "If log7.5 = 0.8751, evaluate 2 log75 + log750",
+    "option": {
+      "a": "6.6252",
+      "b": "6.6253",
+      "c": "66.252",
+      "d": "66.253",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "b",
+    "solution": "If log 7.5 = 0.8751\nThen 2log75 + log750\n= 2(1.8751) + 2.8751\n= 3.7502 + 2.8751\n= 6.6253",
+    "examtype": "utme",
+    "examyear": "2014"
+  },
+  {
+    "id": 1084,
+    "question": "Simplify 2log 2/5 -log72/125 + log 9",
+    "option": {
+      "a": "1 - 4 log3",
+      "b": "-1 + 2 log 3",
+      "c": "-1 + 5 log2",
+      "d": " 1 - 2log 2",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "d",
+    "solution": "2log 2/5 - log72/125 + log 9\n\n[2/5)2 x 9] = log 4/25 x 9/1 x 125/72\n\n= log 72/125\n\n= log 5/2= log 10/4\n\n= log 10 - log 4\n\n= log10  - log2<sup>2</sup>\n\n= 1 - 2 log2",
+    "examtype": "utme",
+    "examyear": "2021"
+  },
+  {
+    "id": 543,
+    "question": "Find the acute angle between the straight lines y = x and y = √3x",
+    "option": {
+      "a": "15°",
+      "b": "30°",
+      "c": "45°",
+      "d": "60°",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "a",
+    "solution": "y = x, Gradient (m1) = 1\ny = √3x gradient (m2) = √3                       tanθ = (m<sub>2</sub> -m<sub>1</sub> )/(1+m<sub>2</sub>  m<sub>1</sub> ).  tanθ = (√3-1)/(1+√3×1)=(1.73-1)/(1+1.73)=0.73/2.73 = 0.268.   θ = Tan<sup>-1</sup> (0.268)\n= 15°",
+    "examtype": "utme",
+    "examyear": "2009"
+  },
+  {
+    "id": 336,
+    "question": "The diagram above is the graph of the function f(x). Determined the range of values of x for which f(x) ≤ 0",
+    "option": {
+      "a": "x ≤ 2",
+      "b": "0 ≤\n x ≤\n 2",
+      "c": "-2 ≤\n x ≤\n 0, x ≥\n 2",
+      "d": " x ≤\n -2, 0 ≤\n x ≤\n 2",
+      "e": null
+    },
+    "section": "",
+    "image": "https://res.cloudinary.com/aloc-ng/image/upload/v1710702037/ALOC-Questions/Mathematics/2005/math_2005_q15_h5gfn6.jpg",
+    "answer": "c",
+    "solution": "The graph of the function f(x) is a curve that starts at (-2,0) and ends at (2,0) with a peak at (0,1). The range of values of x for which f(x) ≥ 0 is the interval where the graph of the function is above or touches the x-axis. From the given graph, we can see that this interval is [-2, 2]. Therefore, the correct answer is -2 ≤ x ≤ 0, x ≥ 2",
+    "examtype": "utme",
+    "examyear": "2005"
+  },
+  {
+    "id": 1184,
+    "question": "Find the compound interest (CI) on ₦15,700 for 2 years at 8% per annum compounded annually.",
+    "option": {
+      "a": " ₦6,212.48",
+      "b": "₦2,834.48",
+      "c": " ₦18,312.48",
+      "d": " ₦2,612.48",
+      "e": null
+    },
+    "section": "",
+    "image": "",
+    "answer": "d",
+    "solution": "Principal (P) = ₦15,700\n\nRate (R) = 8\n\nNumber of years (t) = 2\n\nA = P (1 + R/100)<sup>t</sup>\n⇒ A = 15700 (1 + 8/100)<sup>2</sup>\n⇒ A = 15700 (1 + 0.08)<sup>2</sup>\n⇒ A = 15700 (1.08)<sup>2</sup>\n⇒ A = 15700  x 1.1664\n\n⇒ A = ₦18,312.48\n\nTotal amount, A = ₦18,312.48\n\nA = P + CI\n\n⇒ CI = A - P\n\n⇒ CI = 18,312.48 - 15,700\n\n∴ CI = ₦2,612.48",
+    "examtype": "utme",
+    "examyear": "2023"
+  },
+  {
+    "id": 168,
+    "question": "Find the value of θ in the diagram",
+    "option": {
+      "a": " 60°",
+      "b": "100°",
+      "c": "120°",
+      "d": "30°",
+      "e": null
+    },
+    "section": "",
+    "image": "https://res.cloudinary.com/aloc-ng/image/upload/v1710696860/ALOC-Questions/Mathematics/2001/JAMB_2001_Q_47_ecac79.jpg",
+    "answer": "c",
+    "solution": "Using cosine formula (t√3)<sup>2</sup> = t<sup>2</sup> + t<sup>2</sup> - 2t<sup>2</sup> cosθ\n\n\n3t<sup>2</sup> = 2t<sup>2</sup> - 2t<sup>2</sup> cosθ\n = 2t<sup>2</sup>(1 - cosθ)\n\n1 - cosθ\n = 3t<sup>2</sup> / 2t<sup>2</sup>\n = 3/2\n\n\ncos = 1 - 3/2 = − 1/2\n\n\nθ = cos<sup>-1</sup>(-1/2)          = 120° and 240°\n\nN.B 0 ≥ θ 360\n ",
+    "examtype": "utme",
+    "examyear": "2001"
   }
 ]

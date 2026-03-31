@@ -12518,5 +12518,305 @@
     "questionNub": 54,
     "hasPassage": 0,
     "category": "others"
+  },
+  {
+    "id": 959,
+    "question": "When his car tyre ......... on the way, he did not know what to do.",
+    "option": {
+      "a": "has burst",
+      "b": "had burst",
+      "c": "\nbursted ",
+      "d": "burst",
+      "e": ""
+    },
+    "section": "<b>In each of the questions 64 to 83, choose the option that best completes the gap(s).</b> \n",
+    "image": "",
+    "answer": "d",
+    "solution": "When his car tyre burst on the way, he did not know what to do.\n\nAlthough bursted is not a word in English, some writers erroneously use it as a past tense or past participle for burst. As mentioned above, burst is itself the past tense form of this verb, making bursted unnecessary and incorrect.",
+    "examtype": "utme",
+    "examyear": "2011",
+    "questionNub": 64,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1053,
+    "question": "Every human being is <u>vulnerable</u> to communicable diseases.",
+    "option": {
+      "a": "liable",
+      "b": "lifted",
+      "c": "immuned",
+      "d": "close",
+      "e": ""
+    },
+    "section": "In each of the questions 51 to 65 choose the option <b>nearest in meaning</b> to the underlined word or phrase.",
+    "image": "",
+    "answer": "a",
+    "solution": "Someone who is vulnerable is weak and without protection, with the result that they are easily hurt physically or emotionally.\n\nLiable; likely to experience (something undesirable).",
+    "examtype": "utme",
+    "examyear": "2012",
+    "questionNub": 59,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1525,
+    "question": " The Flying Eagles put up a <i>plucky</i> defence against their opponents",
+    "option": {
+      "a": "strong",
+      "b": "weak",
+      "c": "careless",
+      "d": "tactful",
+      "e": ""
+    },
+    "section": "Choose the option opposite in meaning to the word(s) or phrase in italics. ",
+    "image": "",
+    "answer": "b",
+    "solution": "Plucky means showing courage in difficult situations.\n\nWeak means lacking energy or force.",
+    "examtype": "utme",
+    "examyear": "2018",
+    "questionNub": 42,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1258,
+    "question": "The full meaning of IPO is ______",
+    "option": {
+      "a": " Independent Police Officer",
+      "b": " International Police Officer",
+      "c": "Investigating Police Officer",
+      "d": " Investigative Police Officer",
+      "e": ""
+    },
+    "section": "This question is based on Khadijat Abubakar Jalli's novel, \"The Life Changer\"",
+    "image": "",
+    "answer": "c",
+    "solution": "See page 25",
+    "examtype": "utme",
+    "examyear": "2022",
+    "questionNub": 5,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1392,
+    "question": "After three months of ....5.... treatment, she regained her will to live.",
+    "option": {
+      "a": "Intensive",
+      "b": "Healthy",
+      "c": "Safe",
+      "d": "Heavy",
+      "e": ""
+    },
+    "section": "Choose the most appropriate option for each group for questions <br><br>\nAlice, a small fragile-looking Ugandan mother, is dying of AIDS. She lives with her son and daughter in a tin-roofed shack on the .....1... of Kampala. When her husband died of AIDS in 1987, Alice discovered she was HIV positive. Frequent ...2..... of sickness forced her to give up her embroidery job. She was so depressed that she just wanted to eat. ....3.... by a neighbour, the mobile care unit from Nsambya hospital went to her home. They convinced her to start taking proper ..4....... After three months of ....5.... treatment, she regained her will to live. The AIDS time bomb .....6... on relentlessly. The World Health Organization ....7.... that 1.8 million Ugandans are HIV positive, nearly one in eight of the total population. The Ugandan AIDS Commission set up by President Museveni ..8...... the spread of the disease. However, under-porting and the lack of post-mortem and ...9..... makes it impossible to establish exact figures. No one ....10.... that it is a disaster far worse than the years of civil war. ",
+    "image": "",
+    "answer": "a",
+    "solution": "ntensive means thorough and is usually used to describe a situation involving a lot of effort or activity.",
+    "examtype": "utme",
+    "examyear": "2019",
+    "questionNub": 19,
+    "hasPassage": 1,
+    "category": "passage-b"
+  },
+  {
+    "id": 1782,
+    "question": "All the candidates looked <u>aghast</u> at the reading of the questions.",
+    "option": {
+      "a": "Relaxed.",
+      "b": "Fulfilled.",
+      "c": "Dismayed.",
+      "d": "Satisfied.",
+      "e": ""
+    },
+    "section": "Choose the option <b>nearest</b> in meaning to the underlined word or phrase.",
+    "image": "",
+    "answer": "c",
+    "solution": "ghast; filled with horror or shock.",
+    "examtype": "utme",
+    "examyear": "2014",
+    "questionNub": 23,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1283,
+    "question": "Choose the word that has a different stress pattern",
+    "option": {
+      "a": "embrace",
+      "b": "suspect(V)",
+      "c": "member",
+      "d": "project(V)",
+      "e": ""
+    },
+    "section": "",
+    "image": "",
+    "answer": "c",
+    "solution": "All the other options are stressed on the second syllable except suspend that is stressed on the first syllable.",
+    "examtype": "utme",
+    "examyear": "2022",
+    "questionNub": 30,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1486,
+    "question": "How does the author try to explain this ‘destructive stage'?",
+    "option": {
+      "a": " It is the last stage in child development",
+      "b": "The child wants to displease his parents",
+      "c": " It grows out of the child's recent experiences of sudden falls",
+      "d": "The child is just going through a destructive stage",
+      "e": ""
+    },
+    "section": "In order to approach the problem of anxiety in play, let us consider the problem of anxiety in play, let us consider the activity of building and destroying a tower. Many a mother thinks that her little son is in a 'destructive stage' or even has a 'destructive personality' because after building a big, big tower, the boy cannot follow her advice to leave the tower for Daddy to see, but instead must kick it and make it collapse. The almost manic pleasure with which children watch the collapse in a second of the product of long play-labour has puzzled many, especially since the child does not appreciate it at all if his tower falls by accident or by a helpful uncle’s hand. He, the builder, must destroy it himself. This game, I should think, arises from the not so distant experience of sudden falls at the very time when standing upright on wobbly legs afforded a new and fascinating perspective on existence. The child who consequently learns to make a tower 'stand up' enjoys causing the same tower to waver and collapse; in addition to the active mastery over a previously passive event, it makes one feel stronger to know that there is somebody weaker ---- and towers, unlike little sister, can't cry and call, 'Mummy!'",
+    "image": "",
+    "answer": "c",
+    "solution": "The author explains the destructive stage by creating a supposition of a child's destructive personality born out of the experience of sudden falls at the very time when standing upright on wobbly legs",
+    "examtype": "utme",
+    "examyear": "2018",
+    "questionNub": 3,
+    "hasPassage": 1,
+    "category": "passage-a"
+  },
+  {
+    "id": 1409,
+    "question": "Vacancies in the company will be notified by .....",
+    "option": {
+      "a": "Bulletin",
+      "b": "Publication",
+      "c": "Publicity",
+      "d": "advertisement",
+      "e": ""
+    },
+    "section": "",
+    "image": "",
+    "answer": "d",
+    "solution": "Apparently, advertisement is the most viable means by which a company publicize vacancy ",
+    "examtype": "utme",
+    "examyear": "2019",
+    "questionNub": 36,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1212,
+    "question": "In question number 19 above choose the best option from letters A- E that best complete the gap",
+    "option": {
+      "a": "laid",
+      "b": "born",
+      "c": "delivered",
+      "d": "produced",
+      "e": "donated"
+    },
+    "section": "In the passage below, the numbered gaps (11-20) indicate missing words. From the options lettered A- E the most appropriate option. <br><br>\nThe head of the -11- is called the queen bee. She is -12-than the rest of the bees. Her main task in the colony is to lay eggs. Most of the other bees are the -13- bees. These bees collect nectar and -14- from flowers. The nectar that is carried by the worker bees is deposited on the hive and then -15- into honey. The worker bees also help to look after the young bees. As soon as they are -16-, the worker bees feed the young bees with pollen and nectar. The third type of bee found in the colony is the -17- or male bee. The main task of such a bee is to -18- with a new queen. The queen bee has a life span of about three years. During this period, she would have - 19- more than half a million eggs. When the queen bee is dying, a new queen would be groomed. This new queen will eventually take over the duties of the old queen when the -20- dies. ",
+    "image": "",
+    "answer": "a",
+    "solution": "The appropriate verb is ''laid'",
+    "examtype": "utme",
+    "examyear": "2021",
+    "questionNub": 19,
+    "hasPassage": 1,
+    "category": "passage-c"
+  },
+  {
+    "id": 1288,
+    "question": "Choose the option that has the same consonant sound as the one represented by the letter(s) underlined.\n\nNa<u>t</u>ional\n\n\n",
+    "option": {
+      "a": "sugar",
+      "b": "raise",
+      "c": "glass",
+      "d": "tree",
+      "e": ""
+    },
+    "section": "",
+    "image": "",
+    "answer": "a",
+    "solution": "Both have the /ʃ/ sound.",
+    "examtype": "utme",
+    "examyear": "2022",
+    "questionNub": 35,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1794,
+    "question": "He went to the restaurant to enjoy the special _____.",
+    "option": {
+      "a": "Chef.",
+      "b": "Suite.",
+      "c": "Cuisine.",
+      "d": "A la carte.",
+      "e": ""
+    },
+    "section": "Choose the option that best complete the gap.",
+    "image": "",
+    "answer": "c",
+    "solution": "He went to the restaurant to enjoy the special Cuisine.\n\nCuisine; food cooked in a certain way.",
+    "examtype": "utme",
+    "examyear": "2014",
+    "questionNub": 35,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1317,
+    "question": "One of the arguments in the passage is that academic playwrights_______",
+    "option": {
+      "a": "express themselves only in foreign languages",
+      "b": " serve as a catalyst in the society's appreciation of theatre",
+      "c": "work against the common man's appreciation of theatre",
+      "d": "make theatre popular in traditional societies",
+      "e": ""
+    },
+    "section": "Theatre in the recent past used to be a very popular art in traditional African society. It used to be a point of intersection where members of the community not only come to entertain themselves, 'but join heads together'. In the traditional context of African drama, therefore, theatre was popular and respectable institution which preserved the people's culture and tradition. Theatre was popular with the people because it emphasized community participation, peace and progress. The presentations focused on the people's lives, their aspirations, fears, and hopes. But today, the situation is different. Theatre is becoming very unpopular. <br><br>\nAfrica of the present age is pre-occupied with many problems yearning for immediate solutions. The continent is facing hydra- head challenges - challenges on the political, social, and economic scenes. In a world where Science and Technology are seen as the solutions to these problems, little attention is paid to the arts. Literature generally, and drama in particular is often rated very low on the utility-scale. Many Africa today look at drama and theatre as a mere thing of fun, a joke so to say.  <br><br>\nElitism is another barrier that militates against the appreciation of theatre as a communal art. Folk theatre is appreciated by a negligible number of people, contemporary focus is on literary theatre. Unfortunately, literary theatre only pretends to serve the interest of its society while in reality, it has a foreign audience in mind. The use of European and American theatrical conventions by our academic playwrights can bear witness to this anomaly.  <br><br>\nThe popularity of the literary African theatre is further marred by the medium of communication as most literary dramas in Africa are written in foreign languages which are not understood by many Africans. The question often asked is whether the artist should climb down to the level of his community of stay at his exalted height and wait for the community to gradually move up to him. ",
+    "image": "",
+    "answer": "a",
+    "solution": "In the passage, paragraph 3 and 4 tells us about the use of  European and American theatrical convention as well as the use of foreign languages by African academic playwright in writing. \n\nOption A is the correct answer.",
+    "examtype": "utme",
+    "examyear": "2020",
+    "questionNub": 4,
+    "hasPassage": 1,
+    "category": "passage-a"
+  },
+  {
+    "id": 1457,
+    "question": "The novelist noted that stereoscopic people should be",
+    "option": {
+      "a": " condemned for their bad thinking",
+      "b": " encouraged by admonition",
+      "c": "corrected of their bad thinking",
+      "d": " challenged to take up social responsibilities",
+      "e": ""
+    },
+    "section": "<b>Questions below are based on Bolaji Abdullahi's \"Sweet Sixteen\"</b>",
+    "image": "",
+    "answer": "c",
+    "solution": "The novelist acclaimed that stereoscopic persons are only victims of bad thinking and shouldn't be condemned in return for their ignorance. They should rather be corrected.",
+    "examtype": "utme",
+    "examyear": "2019",
+    "questionNub": 84,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1817,
+    "question": "Keep.",
+    "option": {
+      "a": "Dead.",
+      "b": "Reap.",
+      "c": "Seethe.",
+      "d": "Threat.",
+      "e": ""
+    },
+    "section": "Choose the option that rhymes with the given word.",
+    "image": "",
+    "answer": "b",
+    "solution": "keep; /kiːp/\nreap; /riːp/",
+    "examtype": "utme",
+    "examyear": "2014",
+    "questionNub": 58,
+    "hasPassage": 0,
+    "category": "others"
   }
 ]
