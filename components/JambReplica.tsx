@@ -541,6 +541,8 @@ export default function JambReplica() {
   // Click outside calculator
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
+      // If clicking the toggle button itself, let the button's onClick handle it (toggle)
+      if ((e.target as HTMLElement).closest(".calc-btn")) return;
       if (calcRef.current && !calcRef.current.contains(e.target as Node)) setCalcOpen(false);
     };
     if (calcOpen) document.addEventListener("mousedown", handleClick);

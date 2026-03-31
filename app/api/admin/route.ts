@@ -14,7 +14,7 @@ interface RateData {
   date: string;
   count: number;         // AI requests count
   sessionCount: number;  // Usage starts count
-  history: { type: 'chat' | 'session', name: string, time: string, detail: string }[];
+  history: { type: 'chat' | 'session' | 'feedback', name: string, time: string, detail: any }[];
   reports?: { id: number, subject: string, type: string, comment: string, time: string, name: string }[];
 }
 
@@ -90,91 +90,267 @@ export async function GET(req: NextRequest) {
     <!DOCTYPE html>
     <html>
       <head>
-        <title>JAMB AI Admin 2026</title>
+        <title>JAMB Prep Admin 2026</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
         <style>
-          body { font-family: 'Outfit', sans-serif; padding: 40px 20px; background: #f8fafc; color: #0f172a; margin: 0; }
-          .container { max-width: 800px; margin: 0 auto; }
-          .card { background: white; padding: 32px; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
-          h1 { margin-top: 0; font-size: 24px; font-weight: 800; border-bottom: 2px solid #e2e8f0; padding-bottom: 16px; margin-bottom: 8px; color: #0f172a; }
-          .date-row { font-size: 13px; color: #64748b; font-weight: 500; margin-bottom: 24px; }
-          .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
-          .stat-box { background: #f1f5f9; padding: 24px; border-radius: 12px; border: 1px solid #e2e8f0; text-align: center; transition: transform 0.2s; }
-          .stat-box:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-          .stat-val { font-size: 40px; font-weight: 800; color: #3b82f6; line-height: 1; }
-          .stat-lab { font-size: 11px; font-weight: 800; color: #64748b; margin-top: 8px; text-transform: uppercase; letter-spacing: 1px; }
-          .badge { display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 800; text-transform: uppercase; margin-bottom: 16px; letter-spacing: 0.5px; }
-          .badge-warn { background: #fef2f2; color: #b91c1c; border: 1px solid #fee2e2; }
-          .badge-success { background: #f0fdf4; color: #166534; border: 1px solid #dcfce7; }
-          .badge-chat { background: #dbeafe; color: #1e40af; }
-          .badge-session { background: #fef3c7; color: #92400e; }
-          .history-item { border: 1px solid #e2e8f0; border-radius: 10px; margin-bottom: 12px; background: #ffffff; transition: box-shadow 0.2s; overflow: hidden; }
-          .history-item:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
-          .history-header { display: flex; align-items: center; padding: 12px 16px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; }
-          .history-badge { padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: 800; text-transform: uppercase; margin-right: 12px; letter-spacing: 0.5px; }
-          .name { font-weight: 700; color: #0f172a; font-size: 14px; }
-          .time { font-size: 12px; color: #94a3b8; font-weight: 500; margin-left: auto; }
-          .detail { padding: 16px; color: #334155; font-size: 14px; line-height: 1.5; font-weight: 500; font-style: italic; }
-          .btn-reset { display: block; width: 100%; text-align: center; background: #ef4444; color: white; padding: 14px; border-radius: 8px; text-decoration: none; font-weight: 700; margin-top: 10px; margin-bottom: 32px; border: none; cursor: pointer; transition: background 0.2s; font-size: 14px; }
-          .btn-reset:hover { background: #dc2626; }
-          h2 { font-size: 18px; font-weight: 800; margin-bottom: 16px; color: #0f172a; }
+          :root {
+            --primary: #003366;
+            --success: #059669;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --bg: #f8fafc;
+            --text: #0f172a;
+            --muted: #64748b;
+          }
+          * { box-sizing: border-box; }
+          body { 
+            font-family: 'Outfit', sans-serif; 
+            padding: 20px; 
+            background: var(--bg); 
+            color: var(--text); 
+            margin: 0; 
+            -webkit-font-smoothing: antialiased;
+          }
+          .container { max-width: 1000px; margin: 0 auto; }
+          
+          /* Header Styling */
+          .header { 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+          }
+          .logo-group { display: flex; align-items: center; gap: 15px; }
+          .logo-circle { 
+            width: 45px; 
+            height: 45px; 
+            background: var(--primary); 
+            color: white; 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-weight: 900; 
+            font-size: 10px;
+            box-shadow: 0 4px 12px rgba(0, 51, 102, 0.3);
+          }
+          .logo-text h1 { margin: 0; font-size: 18px; font-weight: 900; color: var(--primary); }
+          .logo-text p { margin: 0; font-size: 11px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+
+          /* KPI Section */
+          .kpi-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+            gap: 20px; 
+            margin-bottom: 30px; 
+          }
+          .kpi-card { 
+            background: white; 
+            padding: 24px; 
+            border-radius: 20px; 
+            border: 1px solid #e2e8f0; 
+            display: flex; 
+            flex-direction: column;
+            gap: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          }
+          .kpi-card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
+          .kpi-val { font-size: 36px; font-weight: 900; color: var(--primary); line-height: 1; }
+          .kpi-lab { font-size: 11px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+          .kpi-icon { font-size: 24px; margin-bottom: 5px; }
+
+          /* Content Sections */
+          .section-card { 
+            background: white; 
+            border-radius: 24px; 
+            border: 1px solid #e2e8f0; 
+            overflow: hidden; 
+            margin-bottom: 30px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+          }
+          .section-header { 
+            padding: 20px 24px; 
+            background: #fff; 
+            border-bottom: 1px solid #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+          }
+          .section-title { margin: 0; font-size: 16px; font-weight: 800; color: var(--text); display: flex; align-items: center; gap: 10px; }
+          .section-body { padding: 4px; }
+
+          /* History Items */
+          .item { 
+            display: flex; 
+            align-items: flex-start; 
+            padding: 16px 20px; 
+            border-bottom: 1px solid #f1f5f9; 
+            gap: 16px;
+            transition: background 0.2s;
+          }
+          .item:hover { background: #f8fafc; }
+          .item:last-child { border-bottom: none; }
+          .icon-box { 
+            width: 40px; 
+            height: 40px; 
+            border-radius: 12px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            flex-shrink: 0; 
+            font-size: 18px;
+          }
+          .icon-chat { background: #eff6ff; color: #3b82f6; }
+          .icon-session { background: #fffbeb; color: #f59e0b; }
+          .icon-feedback { background: #ecfdf5; color: #10b981; }
+          .icon-report { background: #fef2f2; color: #ef4444; }
+
+          .content { flex: 1; min-width: 0; }
+          .top-line { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+          .item-name { font-weight: 700; font-size: 14px; color: var(--text); }
+          .item-time { font-size: 12px; color: var(--muted); font-weight: 500; }
+          .item-detail { font-size: 13px; color: #475569; font-weight: 500; line-height: 1.5; }
+          .badge { font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; }
+
+          /* Utils */
+          .btn-reset { 
+            padding: 10px 20px; 
+            border-radius: 12px; 
+            background: var(--danger); 
+            color: white; 
+            text-decoration: none; 
+            font-weight: 800; 
+            font-size: 13px;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+          }
+          .btn-reset:hover { background: #dc2626; transform: scale(1.05); }
+          .empty { padding: 40px; text-align: center; color: var(--muted); font-weight: 500; font-size: 14px; }
+          
+          @media (max-width: 600px) {
+            .header { flex-direction: column; gap: 20px; text-align: center; }
+            .logo-group { flex-direction: column; gap: 10px; }
+            .stats-grid { grid-template-columns: 1fr; }
+          }
         </style>
       </head>
       <body>
         <div class="container">
-          <div class="card">
-            <h1>JAMB AI Usage Monitor 2026</h1>
-            <div class="date-row">Session Date: ${data.date}</div>
-            <div class="stats-grid">
-              <div class="stat-box">
-                <div class="stat-val">${data.count || 0}</div>
-                <div class="stat-lab">AI CHATS</div>
-              </div>
-              <div class="stat-box">
-                <div class="stat-val">${data.sessionCount || 0}</div>
-                <div class="stat-lab">SESSIONS</div>
+          <header class="header">
+            <div class="logo-group">
+              <div class="logo-circle">JAMB</div>
+              <div class="logo-text">
+                <h1>Admin Dashboard</h1>
+                <p>UTME 2026 AI Oversight</p>
               </div>
             </div>
-            
-            ${isRedis ? '<div class="badge badge-success">✓ Cloud Priority: Upstash Redis Active</div>' : ''}
-            ${searchParams.get('err') === 'readonly' && !isRedis ? '<div class="badge badge-warn">⚠️ Ephemeral Storage (Vercel): Data will reset on server restart</div>' : ''}
-
-            <a href="/api/admin?key=${key}&reset=1" class="btn-reset" onclick="return confirm('Reset count to zero?')">Reset Daily Limit</a>
-            
-            <h2>Recent Activity (Last 100)</h2>
-            <div class="history-list">
-              ${data.history && data.history.length > 0 ? data.history.map((h: any) => `
-                <div class="history-item">
-                  <div class="history-header">
-                    <span class="history-badge ${h.type === 'session' ? 'badge-session' : 'badge-chat'}">${h.type || 'chat'}</span>
-                    <span class="name">${h.name || 'Unknown'}</span>
-                    <span class="time">at ${h.time || ''}</span>
-                  </div>
-                  <div class="detail">${h.detail || h.question || ''}</div>
-                </div>
-              `).join('') : '<div style="color: #94a3b8; font-weight: 500; margin-bottom: 30px;">No history yet today.</div>'}
+            <div style="display: flex; gap: 12px;">
+              <a href="/api/admin?key=${key}&reset=1" class="btn-reset" onclick="return confirm('Reset all daily metrics?')">Reset Day</a>
             </div>
+          </header>
 
-            <h2 style="color: #ef4444; border-top: 1px solid #eee; pt: 20px; margin-top: 30px;">⚠️ Question Reports (${data.reports?.length || 0})</h2>
-             <div class="history-list">
-              ${data.reports && data.reports.length > 0 ? data.reports.map((r: any) => `
-                <div class="history-item" style="border-left: 4px solid #ef4444;">
-                  <div class="history-header">
-                    <span class="history-badge badge-warn" style="background: #ef4444; color: white;">REPORT</span>
-                    <span class="name">${r.name || 'Student'} flaged #${r.id} (${r.subject})</span>
-                    <span class="time">at ${r.time || ''}</span>
-                  </div>
-                  <div class="detail" style="font-style: normal; font-weight: 700; color: #b91c1c;">
-                    Type: ${r.type}<br/>
-                    <span style="color: #475569; font-weight: 500;">"${r.comment}"</span>
-                  </div>
-                </div>
-              `).join('') : '<div style="color: #94a3b8; font-weight: 500;">No error reports yet. Question bank looks clean!</div>'}
+          <div class="kpi-grid">
+            <div class="kpi-card">
+              <div class="kpi-val">${data.count || 0}</div>
+              <div class="kpi-lab">AI Requests</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-val">${data.sessionCount || 0}</div>
+              <div class="kpi-lab">Total Sessions</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-val">${data.reports?.length || 0}</div>
+              <div class="kpi-lab">Data Reports</div>
+            </div>
+            <div class="kpi-card" style="border-color: #10b98122; background: #ecfdf544;">
+              <div class="kpi-val" style="color: var(--success);">${data.history?.filter(h => h.type === 'feedback').length || 0}</div>
+              <div class="kpi-lab">Feedbacks</div>
             </div>
           </div>
+
+          <!-- Question Reports Section -->
+          <div class="section-card" style="border-top: 4px solid var(--danger);">
+            <div class="section-header">
+              <h2 class="section-title">Question Reports</h2>
+              <span class="badge" style="background: #fef2f2; color: var(--danger);">${data.reports?.length || 0} Issues</span>
+            </div>
+            <div class="section-body">
+              ${data.reports && data.reports.length > 0 ? data.reports.map((r: any) => `
+                <div class="item">
+                  <div class="content">
+                    <div class="top-line">
+                      <span class="item-name">${r.name || 'Student'} flaged #${r.id} (${r.subject || 'Unknown'})</span>
+                      <span class="item-time">${r.time || ''}</span>
+                    </div>
+                    <div class="item-detail">
+                      <span style="display: block; font-weight: 800; font-size: 11px; margin-bottom: 4px; color: var(--danger);">${r.type}</span>
+                      "${r.comment || 'No comment'}"
+                    </div>
+                  </div>
+                </div>
+              `).join('') : '<div class="empty">Question bank looks clean! No pending reports.</div>'}
+            </div>
+          </div>
+
+          <!-- Student Feedback Section -->
+          <div class="section-card" style="border-top: 4px solid var(--success);">
+            <div class="section-header">
+              <h2 class="section-title">Student Feedback</h2>
+              <span class="badge" style="background: #ecfdf5; color: var(--success);">${data.history?.filter(h => h.type === 'feedback').length || 0} New</span>
+            </div>
+            <div class="section-body">
+              ${data.history && data.history.filter(h => h.type === 'feedback').length > 0 ? data.history.filter(h => h.type === 'feedback').map((f: any) => `
+                <div class="item">
+                  <div class="content">
+                    <div class="top-line">
+                      <span class="item-name">${f.name || 'Anonymous'}</span>
+                      <span class="item-time">${f.time || ''}</span>
+                    </div>
+                    <div class="item-detail">
+                       <span style="display: block; font-weight: 800; font-size: 11px; margin-bottom: 4px; color: var(--success);">${(f.detail as any)?.type || 'General'}</span>
+                       "${(f.detail as any)?.comment || ''}"
+                    </div>
+                  </div>
+                </div>
+              `).join('') : '<div class="empty">No feedback yet. Your students are working hard!</div>'}
+            </div>
+          </div>
+
+          <!-- Live Activity Feed -->
+          <div class="section-card" style="border-top: 4px solid var(--primary);">
+            <div class="section-header">
+              <h2 class="section-title">Live Activity Feed</h2>
+              <span class="item-time">Last 100 entries</span>
+            </div>
+            <div class="section-body">
+              ${data.history && data.history.length > 0 ? data.history.filter(h => h.type !== 'feedback').map((h: any) => `
+                <div class="item">
+                  <div class="content">
+                    <div class="top-line">
+                      <span class="item-name">${h.name || 'Candidate'}</span>
+                      <span class="item-time">${h.time || ''}</span>
+                    </div>
+                    <div class="item-detail" style="font-family: monospace; font-size: 12px; color: var(--muted);">
+                      ${h.type === 'session' ? 'Started a new JAMB Prep session' : (h.detail || 'Asked AI for help')}
+                    </div>
+                  </div>
+                </div>
+              `).join('') : '<div class="empty">Dashboard is live! Waiting for students to connect...</div>'}
+            </div>
+          </div>
+
+          <footer style="text-align: center; padding: 40px; color: var(--muted); font-size: 13px; font-weight: 600;">
+            <p>JAMB Prep Cloud Admin — V2.1 Premium Redesign</p>
+            <p style="opacity: 0.5;">Active Date: ${data.date} | Redis Storage: ${isRedis ? 'CONNECTED' : 'LOCAL'}</p>
+          </footer>
         </div>
       </body>
     </html>

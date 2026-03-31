@@ -113,8 +113,8 @@ export async function POST(req: NextRequest) {
   1. Subject Logic: ${subjectGuide}
   2. Coach Breakdown: Logical, conversational explanation. Answer direct questions first.
   3. Alternatives: Briefly explain why other options are incorrect.
-  4. Speed Hack ⚡: ONLY if tactical (pattern/elimination). NO summaries. If redundant, SKIP.
-  5. Formatting: Bold key terms. Max 2-3 brief paragraphs. NO filler.`;
+  4. Speed Hack ⚡: ONLY for tactical shortcuts (e.g., pattern recognition, unit checking, or elimination). If you are just explaining the solution step-by-step, DO NOT use this label. If redundant, SKIP.
+  5. Formatting: Bold key terms. Max 2-3 brief paragraphs. NO filler. No introductory text like "Sure, I can help" - start directly with the solution.`;
 
   const groqMessages = [
     { role: "system", content: systemPrompt },

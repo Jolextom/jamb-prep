@@ -127,6 +127,33 @@ export default function ExamInterface({
     }
   };
 
+  const [feedbackOpen, setFeedbackOpen] = React.useState(false);
+  const [feedbackType, setFeedbackType] = React.useState("❤️ Testimonial / Praise");
+  const [feedbackComment, setFeedbackComment] = React.useState("");
+  const [isSendingFeedback, setIsSendingFeedback] = React.useState(false);
+
+  const handleFeedbackSubmit = async () => {
+    setIsSendingFeedback(true);
+    try {
+      await fetch("/api/admin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          type: "feedback",
+          name: candidateName,
+          detail: { type: feedbackType, comment: feedbackComment }
+        })
+      });
+      alert("Feedback received! Thank you for your support.");
+      setFeedbackOpen(false);
+      setFeedbackComment("");
+    } catch (e) {
+      alert("Failed to send feedback. Please try again.");
+    } finally {
+      setIsSendingFeedback(false);
+    }
+  };
+
   const showSolutionNow = isReview || (isPracticeMode && !!answers[currentKey]) || currentQuestion.isReviewable;
 
   // Snap to top ONLY when the question ID actually changes (avoids scrolling on option clicks)
@@ -495,7 +522,7 @@ export default function ExamInterface({
           </div>
         </div>
 
-        <div className="navigator-panel">
+        <div className="navigator-panel" style={{ alignSelf: "flex-start" }}>
           <div className="nav-panel-title">Question Navigator</div>
           <div className="progress-bar">
             <div className="progress-fill" style={{ width: `${progressPct}%` }}></div>
@@ -510,8 +537,6 @@ export default function ExamInterface({
               const ans = effectiveAnswers[k];
               let cls = "q-bubble";
 
-              // In practice mode, if it's answered, we ALWAYS show if it's correct or incorrect.
-              // In exam mode, we only show correct/incorrect if isReview is true.
               const shouldShowStatus = isReview || currentQuestion.isReviewable || (isPracticeMode && !!ans);
 
               if (shouldShowStatus) {
@@ -541,6 +566,34 @@ export default function ExamInterface({
             )}
             <div className="legend-row"><div className="legend-dot una"></div> Not Attempted</div>
           </div>
+
+          {/* Desktop Version: Send Feedback Button (Repurposed from New Session) */}
+          <div className="desktop-only" style={{ marginTop: "40px", paddingTop: "0" }}>
+            <p style={{ margin: "0 0 16px 0", fontSize: "14px", fontWeight: "900", color: "#003366", textAlign: "center" }}>
+              Enjoying the AI Tutor? Help us build the perfect prep tool! 🚀
+            </p>
+            <button 
+              className="nav-btn primary" 
+              onClick={() => setFeedbackOpen(true)} 
+              style={{ width: "100%", padding: "14px", fontSize: "14.5px", fontWeight: "900", textTransform: "uppercase" }}
+            >
+              Send Feedback
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Version: Extreme Bottom Feedback Button */}
+        <div className="mobile-only" style={{ width: "100%", background: "#f0f7ff", padding: "20px 16px", borderTop: "2px dashed #00336633", marginTop: "auto" }}>
+          <p style={{ margin: "0 0 15px 0", fontSize: "13px", fontWeight: "800", color: "#003366", textAlign: "center" }}>
+            Enjoying the AI Tutor? Help us build the perfect prep tool! 🚀
+          </p>
+          <button 
+            className="nav-btn primary" 
+            onClick={() => setFeedbackOpen(true)} 
+            style={{ width: "100%", padding: "14px", fontSize: "14.5px", fontWeight: "900", textTransform: "uppercase" }}
+          >
+            Send Feedback
+          </button>
         </div>
       </div>
 
@@ -585,6 +638,53 @@ export default function ExamInterface({
                 disabled={isReporting}
               >
                 {isReporting ? "Sending..." : "Submit Report"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Feedback Modal */}
+      {feedbackOpen && (
+        <div className="modal-bg open">
+          <div className="modal-box" style={{ textAlign: "left" }}>
+            <h3>Share Your Experience</h3>
+            <p>Your feedback helps us build the best JAMB Prep tool for Nigerian students. What's on your mind?</p>
+
+            <div style={{ marginBottom: "16px" }}>
+              <label style={{ display: "block", fontSize: "11px", fontWeight: "900", color: "#64748b", textTransform: "uppercase", marginBottom: "8px" }}>Feedback Category</label>
+              <select
+                value={feedbackType}
+                onChange={(e) => setFeedbackType(e.target.value)}
+                style={{ width: "100%", padding: "10px", borderRadius: "8px", border: "1px solid #e2e8f0", background: "#f8fafc", fontWeight: "600" }}
+              >
+                <option>🚀 Feature Request</option>
+                <option>🎨 Design/UI Suggestion</option>
+                <option>🐞 General Bug</option>
+                <option>❤️ Testimonial / Praise</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+            <div style={{ marginBottom: "20px" }}>
+              <label style={{ display: "block", fontSize: "11px", fontWeight: "900", color: "#64748b", textTransform: "uppercase", marginBottom: "8px" }}>Details</label>
+              <textarea
+                placeholder="Tell us more..."
+                value={feedbackComment}
+                onChange={(e) => setFeedbackComment(e.target.value)}
+                style={{ width: "100%", padding: "12px", borderRadius: "8px", border: "1px solid #e2e8f0", minHeight: "100px", fontSize: "14px", fontWeight: "500" }}
+              />
+            </div>
+
+            <div className="modal-btns">
+              <button className="modal-cancel" onClick={() => setFeedbackOpen(false)}>Cancel</button>
+              <button
+                className="modal-confirm"
+                style={{ background: "#003366" }}
+                onClick={handleFeedbackSubmit}
+                disabled={isSendingFeedback || !feedbackComment.trim()}
+              >
+                {isSendingFeedback ? "Sending..." : "Submit Feedback"}
               </button>
             </div>
           </div>

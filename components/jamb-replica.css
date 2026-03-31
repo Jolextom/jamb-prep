@@ -314,7 +314,7 @@ body { font-family: var(--font-outfit), Arial, Helvetica, sans-serif; font-size:
 /* Calculator */
 .calc-popup {
   position: absolute; z-index: 100;
-  top: 115px; right: 280px;
+  top: 165px; right: 280px;
   background: #333; border-radius: 6px;
   padding: 10px; width: 180px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.4);
@@ -427,7 +427,7 @@ body { font-family: var(--font-outfit), Arial, Helvetica, sans-serif; font-size:
 /* Mobile Responsive Overrides */
 @media (max-width: 768px) {
   /* Setup Screen */
-  .setup-wrapper { padding: 4px !important; }
+  .setup-wrapper { padding: 0 !important; }
   .setup-container { padding: 0 !important; border: none !important; box-shadow: none !important; }
   .setup-content { padding: 8px !important; }
   .setup-grid { grid-template-columns: 1fr !important; gap: 12px !important; }
@@ -460,6 +460,9 @@ body { font-family: var(--font-outfit), Arial, Helvetica, sans-serif; font-size:
   .q-grid::-webkit-scrollbar-track { background: #eee; }
   .q-grid::-webkit-scrollbar-thumb { background: #003366; border-radius: 4px; }
 
+  .mobile-only { display: block !important; }
+  .desktop-only { display: none !important; }
+
   .legend { 
     flex-direction: row !important; 
     flex-wrap: wrap; 
@@ -481,7 +484,6 @@ body { font-family: var(--font-outfit), Arial, Helvetica, sans-serif; font-size:
   .option-row { padding: 6px 10px; }
   .option-text { font-size: 14px; }
   
-  
   .option-status-container {
     flex-direction: column;
     align-items: flex-end;
@@ -489,10 +491,13 @@ body { font-family: var(--font-outfit), Arial, Helvetica, sans-serif; font-size:
   }
   
   .calc-popup {
-    top: 125px;
+    top: 155px;
     right: 15px;
   }
 }
+
+.mobile-only { display: none; }
+.desktop-only { display: block; }
 
 /* Animated Ask AI Button */
 .ask-ai-tiny-btn {
