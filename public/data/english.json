@@ -12858,5 +12858,65 @@
     "questionNub": 62,
     "hasPassage": 1,
     "category": "passage-a"
+  },
+  {
+    "id": 1104,
+    "question": "Choose the most appropriate answer in the numbered 12",
+    "option": {
+      "a": "exhaustion",
+      "b": "eruption",
+      "c": "expulsion",
+      "d": "insurrection",
+      "e": ""
+    },
+    "section": "The passage below has gaps numbered 16 to 25. Immediately following each gap, four options are provided. Choose the most appropriate option for each gap. <br><br>Whatever may be its wider implications, the explosion of hydrogen bomb is, for the meteorologist, simply another atmospheric disturbance. It should therefore be classed with certain rare natural.....11...... (A. programmes B. occurrences C. resources D. laws), such as volcanic ....12... But there are certain features of a man-made disturbance that requires special examination. As with all events on this ....13...It is impossible to describe what happens in details. However we can be reasonably sure of the main effects, and most impressive of these arises from ....14...The immediate result of the ....15....is that the air surrounding the bomb is raised very rapidly to an enormously high.....16....The hot gases expand violently as great........17.....compressing the air around them into what is called .....18......or blast wave that is responsible for much of terrible destructive power of the weapon.<br><br>Another kind of wave arises because of the weight of the air. The force of the explosion lifts the ....19... (A. atmosphere B. space C. height D. form around the bomb. The gravity waves can also resemble ordinary.....20..... (A. stream B. lake C. ocean D. river) waves. Waves of this type are normally felt by human beings and they have their effect on the weather.<br><br>Adapted from Ayoola K. (2007) University for All Students, Lagos, Nigeria: Olive Free Venture",
+    "image": "",
+    "answer": "b",
+    "solution": "Eruption; an act or instance of erupting. Example a volcano eruption",
+    "examtype": "utme",
+    "examyear": "2013",
+    "questionNub": 12,
+    "hasPassage": 1,
+    "category": "passage-c"
+  },
+  {
+    "id": 1796,
+    "question": "The guard spent all the night pacing _____.",
+    "option": {
+      "a": "To and fro.",
+      "b": "From and to.",
+      "c": "Fro and to.",
+      "d": "To and from.",
+      "e": ""
+    },
+    "section": "Choose the option that best complete the gap.",
+    "image": "",
+    "answer": "a",
+    "solution": "To and fro as is both a noun, verb and an adverb. It means a constant movement backwards and forwards or from side to side. constant movement backwards and forwards. Example \"she cradled him, rocking him to and fro\"\n\nsynonyms: from place to place · around · about · to and fro · hither and thither ·",
+    "examtype": "utme",
+    "examyear": "2014",
+    "questionNub": 37,
+    "hasPassage": 0,
+    "category": "others"
+  },
+  {
+    "id": 1741,
+    "question": "This question is from the novel The Last Days at Forcados High school.\n\nWhat was the name of Jimi’s elder brother who stays abroad?",
+    "option": {
+      "a": "Wole",
+      "b": "Femi",
+      "c": "Ansa",
+      "d": "Jolly",
+      "e": ""
+    },
+    "section": "",
+    "image": "",
+    "answer": "b",
+    "solution": "Femi was the name of Jimi’s elder brother who lives abroad while Wole was the Jimi’s brother who stole (went away) with their father (Mr solade’s ) money.\n\nSee page 8 and 51",
+    "examtype": "utme",
+    "examyear": "2015",
+    "questionNub": 54,
+    "hasPassage": 0,
+    "category": "others"
   }
 ]
