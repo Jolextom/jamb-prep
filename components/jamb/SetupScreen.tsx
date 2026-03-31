@@ -52,7 +52,7 @@ export default function SetupScreen({
           if (sessionMode === 'EXAM' && m.fixedExamCount) {
             next[m.name] = { ...next[m.name], count: m.fixedExamCount };
           } else if (sessionMode === 'PRACTICE') {
-            next[m.name] = { ...next[m.name], count: 10 };
+            next[m.name] = { ...next[m.name], count: Math.min(10, m.fixedExamCount || 60) };
           }
         }
       });
@@ -230,11 +230,12 @@ export default function SetupScreen({
                           <input
                             type="number"
                             min={1}
-                            max={availableCounts[s.name] || 60}
+                            max={Math.min(availableCounts[s.name] || 60, 60)}
                             value={conf.count}
                             disabled={sessionMode === 'EXAM'}
                             onChange={(e) => {
-                              const val = Math.min(parseInt(e.target.value) || 0, availableCounts[s.name] || 60);
+                              const maxVal = Math.min(availableCounts[s.name] || 60, 60);
+                              const val = Math.min(parseInt(e.target.value) || 0, maxVal);
                               updateCount(s.name, val);
                             }}
                             style={{

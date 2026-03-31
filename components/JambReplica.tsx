@@ -28,7 +28,7 @@ export default function JambReplica() {
   const [configs, setConfigs] = useState<SubjectConfigs>(() => {
     const initial: SubjectConfigs = {};
     SUBJECT_METADATA.forEach((m) => {
-      initial[m.name] = { selected: false, count: 10 };
+      initial[m.name] = { selected: false, count: Math.min(10, m.fixedExamCount || 60) };
     });
     return initial;
   });
@@ -241,8 +241,9 @@ export default function JambReplica() {
           setConfigs(prev => {
             const next = { ...prev };
             Object.keys(next).forEach(name => {
-              if (counts[name] && next[name].count > counts[name]) {
-                next[name].count = counts[name];
+              const maxAllowed = Math.min(counts[name] || 60, 60);
+              if (next[name].count > maxAllowed) {
+                next[name].count = maxAllowed;
               }
             });
             return next;
