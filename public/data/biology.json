@@ -444,7 +444,7 @@
     "id": 243,
     "question": "A marine protozoan is likely to have no contractile vacuole  mainly because the cytoplasm is",
     "answer": "a",
-    "solution": "Marine protozoans live in a hypertonic environment (seawater). Since water tends to move out of their cells by osmosis rather than in, they typically 'lack contractile vacuoles', which are mainly for expelling excess water.",
+    "solution": "Marine protozoans live in a salty environment. Because their cytoplasm is 'isotonic to sea water' (having the same solute concentration), there is no net influx of excess water, meaning they do not need a contractile vacuole to pump water out.",
     "options": {
       "a": "isotonic to sea water",
       "b": "hypotonic to sea water",
@@ -611,7 +611,7 @@
   {
     "id": 181,
     "question": "An example of a sex-linked  trait is the",
-    "answer": "c",
+    "answer": "b",
     "solution": "A sex-linked trait is one whose gene is located on a sex chromosome (usually X). 'Possession of facial hair in adult humans' (hirsutism) or baldness can be sex-influenced or sex-linked traits depending on the species.",
     "options": {
       "a": "ability to roll the tongue",
@@ -1577,7 +1577,7 @@
   {
     "id": 33,
     "question": "If the pair of alleles for baidness is given as Bb, a female carrier will be denoted by",
-    "answer": "a",
+    "answer": "d",
     "solution": "As a sex-linked trait, baldness is carried on the X chromosome. A 'female carrier' is represented by the genotype 'XBXb'—one normal allele and one allele for baldness.",
     "options": {
       "a": "XbY",
@@ -2085,7 +2085,7 @@
     "solution": "Euglena is a unique organism with both plant and animal features. Its primary plant-like feature is the possession of 'chloroplasts' or a 'chlorophyll-containing pigment spot', allowing it to photosynthesize.",
     "options": {
       "a": "Pellicle",
-      "b": "pigment sport",
+      "b": "chloroplast",
       "c": "large vacuole",
       "d": "gullet"
     },
@@ -2270,7 +2270,7 @@
   {
     "id": 1,
     "question": "In the egg of bird, the embryo is located in the",
-    "answer": "d",
+    "answer": "b",
     "solution": "In a bird's egg, the 'Embryo' develops specifically within the 'germinal disc' located on the surface of the 'Yolk', which provides the necessary nutrients for its development.",
     "options": {
       "a": "Chalaza",
@@ -2984,7 +2984,7 @@
   {
     "id": 339,
     "question": "If the cross of a red  flowered plant with a white flowered plant produces a pink flowered plant, it is an example of",
-    "answer": "d",
+    "answer": "a",
     "solution": "In genetics, color expression in certain flowers (like 4 o'clock plants) where a red x white cross yields pink is a classic example of 'Incomplete Dominance' or 'Co-dominance' in some contexts.",
     "options": {
       "a": "incomplete dominance",
@@ -3914,7 +3914,7 @@
       "a": "cell wall",
       "b": "lignin",
       "c": "cellulose",
-      "d": "chitia"
+      "d": "chitin"
     },
     "section": "",
     "image": "",
@@ -7016,8 +7016,8 @@
   {
     "id": 358,
     "question": "Which of the following organisms is both parasitic and  autotrophic?",
-    "answer": "a",
-    "solution": "A plant that captures insects for nutrients yet possesses chlorophyll to make glucose (like the 'Sundew') is both 'parasitic' (specifically insectivorous) and 'autotrophic'.",
+    "answer": "b",
+    "solution": "Loranthus (a type of mistletoe) is a hemiparasite; it is 'parasitic' because it draws water and minerals from its host tree, but also 'autotrophic' because it possesses chlorophyll and photosynthesizes.",
     "options": {
       "a": "Sundew",
       "b": "Loranthus",
@@ -7168,7 +7168,7 @@
     "options": {
       "a": "scaly body",
       "b": "slimy body",
-      "c": "steam lined body",
+      "c": "streamlined body",
       "d": "lateral line"
     },
     "section": "",
