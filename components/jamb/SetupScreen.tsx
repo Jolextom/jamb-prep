@@ -73,9 +73,10 @@ export default function SetupScreen({
   };
 
   const updateCount = (name: string, count: number) => {
+    const safeCount = Math.max(1, count || 1);
     setConfigs((prev) => ({
       ...prev,
-      [name]: { ...prev[name], count },
+      [name]: { ...prev[name], count: safeCount },
     }));
   };
 
@@ -90,6 +91,14 @@ export default function SetupScreen({
   const displayMins = Math.floor(calculatedSeconds / 60);
 
   const handleStart = () => {
+    const selectedWithInvalidCount = Object.entries(configs).some(
+      ([name, c]) => availableSubjects.includes(name) && c.selected && (!Number.isFinite(c.count) || c.count < 1)
+    );
+    if (selectedWithInvalidCount || totalQuestions < 1) {
+      alert("Please choose at least 1 question for each selected subject.");
+      return;
+    }
+
     if (startExamWithTime) {
       startExamWithTime(calculatedSeconds);
     } else {
@@ -235,7 +244,7 @@ export default function SetupScreen({
                             disabled={sessionMode === 'EXAM'}
                             onChange={(e) => {
                               const maxVal = Math.min(availableCounts[s.name] || 60, 60);
-                              const val = Math.min(parseInt(e.target.value) || 0, maxVal);
+                              const val = Math.max(1, Math.min(parseInt(e.target.value) || 1, maxVal));
                               updateCount(s.name, val);
                             }}
                             style={{
@@ -358,7 +367,7 @@ export default function SetupScreen({
                 <button
                   className="nav-btn primary"
                   onClick={handleStart}
-                  disabled={isLoading || !candidateName.trim() || !anySelected}
+                  disabled={isLoading || !candidateName.trim() || !anySelected || totalQuestions < 1}
                   style={{
                     padding: "18px",
                     fontSize: "18px",

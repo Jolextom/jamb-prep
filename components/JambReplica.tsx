@@ -267,6 +267,12 @@ export default function JambReplica() {
       return;
     }
 
+    const invalidSelection = selected.some((name) => !configs[name] || configs[name].count < 1);
+    if (invalidSelection) {
+      alert("Please choose at least 1 question for each selected subject.");
+      return;
+    }
+
     setIsLoading(true);
     setFetchError(null);
     const newQB: Record<string, Question[]> = {};
@@ -410,8 +416,15 @@ export default function JambReplica() {
         });
       }
 
+      const activeWithQuestions = selected.filter((name) => (newQB[name] || []).length > 0);
+      if (activeWithQuestions.length === 0) {
+        alert("No questions available for your current filters. Please increase question count or adjust subjects.");
+        setIsLoading(false);
+        return;
+      }
+
       setQbState(newQB);
-      setActiveSubjects(selected);
+      setActiveSubjects(activeWithQuestions);
 
       if (sessionMode === 'EXAM') {
         const timeToSet = typeof forcedTimeSecs === 'number' ? forcedTimeSecs : (totalQuestionsTotal * 40);

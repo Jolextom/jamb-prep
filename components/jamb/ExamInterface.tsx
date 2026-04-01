@@ -95,14 +95,42 @@ export default function ExamInterface({
   isPracticeMode = false,
   onNewSession = () => window.location.reload()
 }: ExamInterfaceProps) {
+  const imageBaseUrl = (process.env.NEXT_PUBLIC_QUESTION_IMAGE_BASE_URL || "").replace(/\/$/, "");
+
   const formatRichText = React.useCallback((input?: string) => {
     if (!input) return "";
 
-    // Preserve existing HTML data while also rendering markdown emphasis.
+    // Keep HTML intact but reduce raw LaTeX control tokens that hurt readability in plain HTML rendering.
     return input
+      .replace(/\\left\s*/g, "")
+      .replace(/\\right\s*/g, "")
+      .replace(/\\\(/g, "(")
+      .replace(/\\\)/g, ")")
+      .replace(/\\\[/g, "[")
+      .replace(/\\\]/g, "]")
       .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
       .replace(/(^|[^*])\*(?!\s)([^*]+?)\*(?!\*)/g, "$1<em>$2</em>");
   }, []);
+
+  const resolveImageSrc = React.useCallback((raw?: string) => {
+    const value = (raw || "").trim();
+    if (!value) return "";
+
+    if (/^(https?:)?\/\//i.test(value) || value.startsWith("data:")) {
+      return value;
+    }
+
+    if (value.startsWith("/")) {
+      return value;
+    }
+
+    if (imageBaseUrl) {
+      return `${imageBaseUrl}/${value}`;
+    }
+
+    // Local fallback for copied assets under public/images.
+    return `/images/${value}`;
+  }, [imageBaseUrl]);
 
   const [reportModalOpen, setReportModalOpen] = React.useState(false);
   const [reportType, setReportType] = React.useState("Wrong Answer");
@@ -122,19 +150,23 @@ export default function ExamInterface({
       .filter(w => w.length > 3 && !stopwords.has(w));
 
     const currentTopic = currentQuestion.topic?.toLowerCase() || "";
+    const currentSubTopic = currentQuestion.sub_topic?.toLowerCase() || "";
 
     const scored = others.map(q => {
       let score = 0;
       const qText = q.q?.toLowerCase() || "";
       const qTopic = q.topic?.toLowerCase() || "";
+      const qSubTopic = q.sub_topic?.toLowerCase() || "";
 
       // Topic match (high weight)
-      if (qTopic === currentTopic) score += 5;
+      if (qTopic && qTopic === currentTopic) score += 8;
+      if (currentSubTopic && qSubTopic === currentSubTopic) score += 6;
 
       // Keyword overlaps
       currentWords.forEach(word => {
         if (qText.includes(word)) score += 2;
         if (qTopic.includes(word)) score += 3;
+        if (qSubTopic.includes(word)) score += 2;
       });
 
       return { q, score };
@@ -147,14 +179,17 @@ export default function ExamInterface({
     });
 
     return sorted
-      .slice(0, 10) // Take top 10 potential candidates
+      .slice(0, 8) // Keep compact for token efficiency
       .map(({ q }) => ({
-        q: q.q,
-        o: q.options,
+        q: (q.q || "").slice(0, 280),
+        o: Object.fromEntries(
+          Object.entries(q.options || {}).map(([k, v]) => [k, String(v || "").slice(0, 100)])
+        ),
         a: q.a,
         yr: q.yr,
-        sol: q.solution,
-        image: q.image
+        topic: q.topic || "",
+        sub_topic: q.sub_topic || "",
+        image: q.image || ""
       }));
   }, [qbState, currentSubject, currentQuestion]);
 
@@ -213,6 +248,7 @@ export default function ExamInterface({
   };
 
   const showSolutionNow = isReview || (isPracticeMode && !!answers[currentKey]) || currentQuestion.isReviewable;
+  const resolvedImageSrc = resolveImageSrc(currentQuestion.image);
 
 
   // Ref to AI chat section for smooth scrolling
@@ -473,13 +509,16 @@ export default function ExamInterface({
                 }}
               />
 
-              {currentQuestion.image && (
+              {resolvedImageSrc && (
                 <div style={{ marginBottom: "20px" }}>
                   <img
-                    src={currentQuestion.image}
+                    src={resolvedImageSrc}
                     alt="Question visual"
                     className="max-w-full h-auto my-4 rounded border"
                     style={{ display: "block", maxWidth: "100%", height: "auto" }}
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).style.display = "none";
+                    }}
                   />
                 </div>
               )}
@@ -569,9 +608,12 @@ export default function ExamInterface({
                     questionId={currentQuestion.id}
                     questionContext={JSON.stringify({
                       s: currentSubject,
+                      topic: currentQuestion.topic || "",
+                      sub_topic: currentQuestion.sub_topic || "",
                       q: currentQuestion.q,
                       o: currentQuestion.options,
                       a: currentQuestion.a,
+                      selected_main_option: answers[currentKey] || "",
                       sol: currentQuestion.solution,
                       similarCandidates // Injecting the candidates for "Challenge Me"
                     })}

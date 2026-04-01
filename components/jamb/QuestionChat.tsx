@@ -10,6 +10,16 @@ interface Message {
   content: string;
 }
 
+interface ChallengeOption {
+  letter: "A" | "B" | "C" | "D";
+  text: string;
+}
+
+interface ParsedChallenge {
+  options: ChallengeOption[];
+  cleanedContent: string;
+}
+
 interface QuestionChatProps {
   candidateName: string;
   questionContext: string; // Question + options + correct answer + solution
@@ -168,10 +178,56 @@ export default function QuestionChat({ candidateName, questionContext, questionI
     }
   };
 
-  const optionRegex = /([A-D])[\)\.]\s+([^\n]+?)(?=\s+[A-D][\)\.]|\n|$)/g;
+  const optionLineRegex = /^\s*([A-D])[\)\.]\s+(.+?)\s*$/;
 
   const isChallengeMessage = (content: string) =>
-    (content.includes("[!TIP]") || content.includes("[!NOTE]")) && [...content.matchAll(optionRegex)].length > 0;
+    (content.includes("[!TIP]") || content.includes("[!NOTE]")) && /\bA[\)\.]\s+/m.test(content);
+
+  const parseChallengeMessage = (content: string): ParsedChallenge => {
+    const lines = content.split(/\r?\n/);
+    const candidates: { lineIndex: number; letter: "A" | "B" | "C" | "D"; text: string }[] = [];
+
+    lines.forEach((line, idx) => {
+      const match = line.match(optionLineRegex);
+      if (!match) return;
+      const letter = match[1] as "A" | "B" | "C" | "D";
+      candidates.push({ lineIndex: idx, letter, text: match[2].trim() });
+    });
+
+    let chosenStart = -1;
+    for (let i = 0; i <= candidates.length - 4; i++) {
+      const seq = candidates.slice(i, i + 4);
+      const isOrderedABCD =
+        seq[0].letter === "A" &&
+        seq[1].letter === "B" &&
+        seq[2].letter === "C" &&
+        seq[3].letter === "D";
+      const isContiguousLines =
+        seq[1].lineIndex === seq[0].lineIndex + 1 &&
+        seq[2].lineIndex === seq[1].lineIndex + 1 &&
+        seq[3].lineIndex === seq[2].lineIndex + 1;
+
+      if (isOrderedABCD && isContiguousLines) {
+        chosenStart = i;
+      }
+    }
+
+    if (chosenStart === -1) {
+      return { options: [], cleanedContent: content };
+    }
+
+    const chosen = candidates.slice(chosenStart, chosenStart + 4);
+    const removeLineIndices = new Set(chosen.map((item) => item.lineIndex));
+
+    return {
+      options: chosen.map((item) => ({ letter: item.letter, text: item.text })),
+      cleanedContent: lines
+        .filter((_, idx) => !removeLineIndices.has(idx))
+        .join("\n")
+        .replace(/\n{3,}/g, "\n\n")
+        .trim(),
+    };
+  };
 
   const isOptionSelectionMessage = (content: string) =>
     /\b(i\s*choose\s*option|option\s*[A-D]\b|my\s*answer\s*is\s*[A-D]\b|i\s*pick\s*[A-D]\b)\b/i.test(content);
@@ -188,7 +244,7 @@ export default function QuestionChat({ candidateName, questionContext, questionI
 
   const latestChallengeOptions =
     latestChallengeIndex >= 0
-      ? [...messages[latestChallengeIndex].content.matchAll(optionRegex)]
+      ? parseChallengeMessage(messages[latestChallengeIndex].content).options
       : [];
 
   const isLatestChallengeResolved = (() => {
@@ -298,7 +354,10 @@ export default function QuestionChat({ candidateName, questionContext, questionI
 
           {messages.map((m, i) => {
             const isAssistant = m.role === "assistant";
-            const optionsMatches = isAssistant ? [...m.content.matchAll(optionRegex)] : [];
+            const parsedChallenge = isAssistant && isChallengeMessage(m.content)
+              ? parseChallengeMessage(m.content)
+              : { options: [], cleanedContent: m.content };
+            const optionsMatches = parsedChallenge.options;
 
             return (
               <div
@@ -345,8 +404,7 @@ export default function QuestionChat({ candidateName, questionContext, questionI
                         >
                           {/* Only strip options from challenge messages; leave regular responses intact */}
                           {isChallengeMessage(m.content)
-                            ? m.content
-                              .replace(optionRegex, "")
+                            ? parsedChallenge.cleanedContent
                               .replace(/\[!TIP\]/g, "💡")
                               .replace(/\[!NOTE\]/g, "📝")
                               .replace(/\[!IMPORTANT\]/g, "🚨")
@@ -372,8 +430,8 @@ export default function QuestionChat({ candidateName, questionContext, questionI
                       width: "100%"
                     }}>
                       {optionsMatches.map((match, idx) => {
-                        const letter = match[1];
-                        const text = match[2];
+                        const letter = match.letter;
+                        const text = match.text;
                         return (
                           <button
                             key={idx}
@@ -444,8 +502,8 @@ export default function QuestionChat({ candidateName, questionContext, questionI
             </span>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
               {latestChallengeOptions.map((match, idx) => {
-                const letter = match[1];
-                const text = match[2];
+                const letter = match.letter;
+                const text = match.text;
                 return (
                   <button
                     key={`sticky-${idx}`}
