@@ -120,13 +120,26 @@ export async function GET(req: NextRequest) {
 
   // Handle Reset Individual User (Only reset limits, keep history/name)
   if (resetUser) {
+    // Count user's chat requests and deduct from global count
+    const userChatCount = (data.history || []).filter(
+      (h) => h.type === "chat" && h.name === resetUser,
+    ).length;
+    if (userChatCount > 0) {
+      data.count = Math.max(0, (data.count || 0) - userChatCount);
+    }
+
     // Clean Redis Counter if it exists
     if (isRedis) {
       const cleanName = resetUser.trim().replace(/[^a-zA-Z0-9]/g, "_");
       await redis.del(`jolextom_rate_limit_${cleanName}`);
+      await redisSet(data);
+    } else {
+      try {
+        fs.writeFileSync(RATE_FILE, JSON.stringify(data, null, 2));
+      } catch (e) {
+        console.error("Error saving data after user reset:", e);
+      }
     }
-
-    // Do NOT remove history - we only reset the limits, not the student record
 
     return new NextResponse(null, {
       status: 302,

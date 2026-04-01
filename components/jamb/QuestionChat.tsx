@@ -343,13 +343,17 @@ export default function QuestionChat({ candidateName, questionContext, questionI
                             )
                           }}
                         >
-                          {/* Strip the options from the text bubble itself as we show them as buttons instead */}
-                          {m.content
-                            .replace(optionRegex, "")
-                            .replace(/\[!TIP\]/g, "💡")
-                            .replace(/\[!NOTE\]/g, "📝")
-                            .replace(/\[!IMPORTANT\]/g, "🚨")
-                            .replace(/\[!WARNING\]/g, "⚠️")
+                          {/* Only strip options from challenge messages; leave regular responses intact */}
+                          {isChallengeMessage(m.content)
+                            ? m.content
+                              .replace(optionRegex, "")
+                              .replace(/\[!TIP\]/g, "💡")
+                              .replace(/\[!NOTE\]/g, "📝")
+                              .replace(/\[!IMPORTANT\]/g, "🚨")
+                              .replace(/\[!WARNING\]/g, "⚠️")
+                            : m.content
+                              .replace(/\[!IMPORTANT\]/g, "🚨")
+                              .replace(/\[!WARNING\]/g, "⚠️")
                           }
                         </ReactMarkdown>
                       </div>
