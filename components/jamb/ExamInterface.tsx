@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import katex from "katex";
 import { Question } from "./types";
 import QuestionChat from "./QuestionChat";
 
@@ -45,8 +46,8 @@ interface ExamInterfaceProps {
   qbState: Record<string, Question[]>;
 
   // Chat Persistence
-  chatHistories: Record<number, any[]>;
-  setChatHistories: React.Dispatch<React.SetStateAction<Record<number, any[]>>>;
+  chatHistories: Record<number, Array<{ role: "user" | "assistant"; content: string }>>;
+  setChatHistories: React.Dispatch<React.SetStateAction<Record<number, Array<{ role: "user" | "assistant"; content: string }>>>>;
 
   // Review Mode Props
   isReview?: boolean;
@@ -65,13 +66,10 @@ export default function ExamInterface({
   totalQuestionsCount,
   isExamMode,
   finalScore = 0,
-  totalQuestions: totalQCount = 0,
   jambScore = 0,
   breakdown = [],
   curSubIdx,
   curQIdx,
-  setCurSubIdx,
-  setCurQIdx,
   switchSubject,
   navigate,
   jumpTo,
@@ -96,6 +94,63 @@ export default function ExamInterface({
   onNewSession = () => window.location.reload()
 }: ExamInterfaceProps) {
   const imageBaseUrl = (process.env.NEXT_PUBLIC_QUESTION_IMAGE_BASE_URL || "").replace(/\/$/, "");
+
+  const decodeHtmlEntities = React.useCallback((raw: string) => {
+    if (!raw || typeof window === "undefined") return raw;
+    const textarea = document.createElement("textarea");
+    textarea.innerHTML = raw;
+    return textarea.value;
+  }, []);
+
+  const normalizeEscapedMathDelimiters = React.useCallback((raw: string) => {
+    if (!raw) return "";
+    return raw
+      .replace(/\\\\\(/g, "\\(")
+      .replace(/\\\\\)/g, "\\)")
+      .replace(/\\\\\[/g, "\\[")
+      .replace(/\\\\\]/g, "\\]");
+  }, []);
+
+  const cleanLatexExpression = React.useCallback((expr: string) => {
+    return expr
+      .replace(/&nbsp;|&#160;|\u00A0/g, " ")
+      .replace(/\s+/g, " ")
+      .replace(/\\(frac|dfrac|tfrac)\s*\{/g, "\\$1{")
+      .replace(/\\sqrt\s*\{/g, "\\sqrt{")
+      .replace(/\\sqrt\s+([A-Za-z0-9]+)/g, "\\sqrt{$1}")
+      .replace(/\\times(?!\s)/g, "\\times ")
+      .trim();
+  }, []);
+
+  const renderLatexInline = React.useCallback((expr: string, displayMode: boolean) => {
+    const cleaned = cleanLatexExpression(expr);
+    if (!cleaned) return "";
+
+    // Keep malformed shorthand like ^{2} as readable fallback text instead of an error box.
+    if (/^[\^_]/.test(cleaned)) {
+      return cleaned;
+    }
+
+    return katex.renderToString(cleaned, {
+      throwOnError: false,
+      strict: "ignore",
+      displayMode,
+      output: "html"
+    });
+  }, [cleanLatexExpression]);
+
+  const renderMathSegments = React.useCallback((raw: string) => {
+    if (!raw) return "";
+
+    let text = normalizeEscapedMathDelimiters(raw);
+
+    text = text.replace(/\\\[([\s\S]*?)\\\]/g, (_match, expr: string) => renderLatexInline(expr, true));
+    text = text.replace(/\\\(([\s\S]*?)\\\)/g, (_match, expr: string) => renderLatexInline(expr, false));
+    text = text.replace(/\$\$([\s\S]*?)\$\$/g, (_match, expr: string) => renderLatexInline(expr, true));
+    text = text.replace(/(^|[^\\])\$([^$\n]+?)\$/g, (_match, prefix: string, expr: string) => `${prefix}${renderLatexInline(expr, false)}`);
+
+    return text;
+  }, [normalizeEscapedMathDelimiters, renderLatexInline]);
 
   const normalizeLatex = React.useCallback((raw: string) => {
     if (!raw) return "";
@@ -157,11 +212,16 @@ export default function ExamInterface({
   const formatRichText = React.useCallback((input?: string) => {
     if (!input) return "";
 
-    // Keep HTML intact but convert common LaTeX-style fragments to readable plain text/HTML.
-    return normalizeLatex(input)
+    // Render valid math notation first, then normalize malformed leftovers.
+    let text = renderMathSegments(decodeHtmlEntities(input));
+    if (text.includes("\\")) {
+      text = normalizeLatex(text);
+    }
+
+    return text
       .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
       .replace(/(^|[^*])\*(?!\s)([^*]+?)\*(?!\*)/g, "$1<em>$2</em>");
-  }, [normalizeLatex]);
+  }, [decodeHtmlEntities, normalizeLatex, renderMathSegments]);
 
   const resolveImageSrc = React.useCallback((raw?: string) => {
     const value = (raw || "").trim();
@@ -281,7 +341,7 @@ export default function ExamInterface({
       alert("Report sent! Thank you for helping us stay accurate.");
       setReportModalOpen(false);
       setReportComment("");
-    } catch (e) {
+    } catch {
       alert("Failed to send report. Please try again.");
     } finally {
       setIsReporting(false);
@@ -308,7 +368,7 @@ export default function ExamInterface({
       alert("Feedback received! Thank you for your support.");
       setFeedbackOpen(false);
       setFeedbackComment("");
-    } catch (e) {
+    } catch {
       alert("Failed to send feedback. Please try again.");
     } finally {
       setIsSendingFeedback(false);
@@ -335,7 +395,7 @@ export default function ExamInterface({
   const currentSubAnsweredCount = currentQuestions.filter((_, i) => answers[key(curSubIdx, i)]).length;
   const progressPct = Math.round((currentSubAnsweredCount / (currentQuestions.length || 1)) * 100);
   const validOptions = Object.entries(currentQuestion?.options || {})
-    .filter(([_, text]) => text && String(text).trim() !== "")
+    .filter(([, text]) => text && String(text).trim() !== "")
     .map(([letter]) => letter.toUpperCase());
 
   // In review mode, use reviewAnswers if provided
@@ -578,7 +638,8 @@ export default function ExamInterface({
               />
 
               {resolvedImageSrc && (
-                <div style={{ marginBottom: "20px" }}>
+                <div style={{ marginBottom: "20px", position: "relative", width: "100%", height: "auto" }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={resolvedImageSrc}
                     alt="Question visual"
@@ -593,7 +654,7 @@ export default function ExamInterface({
 
               <div className="options">
                 {Object.entries(currentQuestion.options || {})
-                  .filter(([_, text]) => text && String(text).trim() !== "")
+                  .filter(([, text]) => text && String(text).trim() !== "")
                   .map(([letter, text]) => {
                     const upperLetter = letter.toUpperCase();
                     const isSelected = effectiveAnswers[currentKey] === upperLetter;
@@ -797,7 +858,7 @@ export default function ExamInterface({
         <div className="modal-bg open">
           <div className="modal-box" style={{ textAlign: "left" }}>
             <h3>Report Question Error</h3>
-            <p>Help us maintain 100% accuracy for JAMB Prep 2026. What's wrong with this question?</p>
+            <p>Help us maintain 100% accuracy for JAMB Prep 2026. What&apos;s wrong with this question?</p>
 
             <div style={{ marginBottom: "16px" }}>
               <label style={{ display: "block", fontSize: "11px", fontWeight: "900", color: "#64748b", textTransform: "uppercase", marginBottom: "8px" }}>Issue Type</label>
@@ -844,7 +905,7 @@ export default function ExamInterface({
         <div className="modal-bg open">
           <div className="modal-box" style={{ textAlign: "left" }}>
             <h3>Share Your Experience</h3>
-            <p>Your feedback helps us build the best JAMB Prep tool for Nigerian students. What's on your mind?</p>
+            <p>Your feedback helps us build the best JAMB Prep tool for Nigerian students. What&apos;s on your mind?</p>
 
             <div style={{ marginBottom: "16px" }}>
               <label style={{ display: "block", fontSize: "11px", fontWeight: "900", color: "#64748b", textTransform: "uppercase", marginBottom: "8px" }}>Feedback Category</label>
