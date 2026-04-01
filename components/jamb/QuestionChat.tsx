@@ -168,6 +168,51 @@ export default function QuestionChat({ candidateName, questionContext, questionI
     }
   };
 
+  const optionRegex = /([A-D])[\)\.]\s+([^\n]+?)(?=\s+[A-D][\)\.]|\n|$)/g;
+
+  const isChallengeMessage = (content: string) =>
+    (content.includes("[!TIP]") || content.includes("[!NOTE]")) && [...content.matchAll(optionRegex)].length > 0;
+
+  const isOptionSelectionMessage = (content: string) =>
+    /\b(i\s*choose\s*option|option\s*[A-D]\b|my\s*answer\s*is\s*[A-D]\b|i\s*pick\s*[A-D]\b)\b/i.test(content);
+
+  const latestChallengeIndex = (() => {
+    for (let i = messages.length - 1; i >= 0; i--) {
+      const msg = messages[i];
+      if (msg.role === "assistant" && isChallengeMessage(msg.content)) {
+        return i;
+      }
+    }
+    return -1;
+  })();
+
+  const latestChallengeOptions =
+    latestChallengeIndex >= 0
+      ? [...messages[latestChallengeIndex].content.matchAll(optionRegex)]
+      : [];
+
+  const isLatestChallengeResolved = (() => {
+    if (latestChallengeIndex < 0) return true;
+    let userSelectedOption = false;
+
+    for (let i = latestChallengeIndex + 1; i < messages.length; i++) {
+      const msg = messages[i];
+      if (msg.role === "user" && isOptionSelectionMessage(msg.content)) {
+        userSelectedOption = true;
+      }
+      if (msg.role === "assistant" && userSelectedOption) {
+        return true;
+      }
+    }
+    return false;
+  })();
+
+  const shouldShowStickyChallengeOptions =
+    latestChallengeIndex >= 0 &&
+    !isLatestChallengeResolved &&
+    latestChallengeIndex !== messages.length - 1 &&
+    latestChallengeOptions.length > 0;
+
   const getPlaceholder = () => {
     if (isAtLimit) return "Limit reached.";
     if (messages.length === 0) return "Have a question about this question?";
@@ -253,8 +298,6 @@ export default function QuestionChat({ candidateName, questionContext, questionI
 
             {messages.map((m, i) => {
               const isAssistant = m.role === "assistant";
-              // Matches A-D followed by text, ending at the next option, a newline, or the end of the message.
-              const optionRegex = /([A-D])[\)\.]\s+([^\n]+?)(?=\s+[A-D][\)\.]|\n|$)/g;
               const optionsMatches = isAssistant ? [...m.content.matchAll(optionRegex)] : [];
               
               return (
@@ -315,8 +358,8 @@ export default function QuestionChat({ candidateName, questionContext, questionI
                       )}
                     </div>
 
-                    {/* Options Grid: Only show for the MOST RECENT assistant message that is a challenge */}
-                    {isAssistant && i === messages.length - 1 && optionsMatches.length > 0 && !isLoading && (m.content.includes("[!TIP]") || m.content.includes("[!NOTE]")) && (
+                    {/* Keep options visible for the latest unresolved challenge, even after follow-up user text. */}
+                    {isAssistant && i === latestChallengeIndex && optionsMatches.length > 0 && !isLoading && !isLatestChallengeResolved && (
                       <div style={{ 
                         display: "grid", 
                         gridTemplateColumns: optionsMatches.length > 2 ? "repeat(auto-fit, minmax(200px, 1fr))" : "1fr",
@@ -380,6 +423,50 @@ export default function QuestionChat({ candidateName, questionContext, questionI
             )}
             <div ref={bottomRef} />
           </div>
+
+          {shouldShowStickyChallengeOptions && (
+            <div
+              style={{
+                padding: "10px 12px",
+                background: "#f8fafc",
+                borderTop: "1px solid #e2e8f0",
+                display: "flex",
+                flexDirection: "column",
+                gap: "8px"
+              }}
+            >
+              <span style={{ fontSize: "12px", color: "#003366", fontWeight: 700 }}>
+                Still on the last challenge? Pick an option quickly:
+              </span>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                {latestChallengeOptions.map((match, idx) => {
+                  const letter = match[1];
+                  const text = match[2];
+                  return (
+                    <button
+                      key={`sticky-${idx}`}
+                      onClick={() => sendSpecificMessage(`I choose option ${letter}`)}
+                      disabled={isLoading}
+                      style={{
+                        padding: "8px 10px",
+                        background: "white",
+                        border: "1px solid #c8d8f0",
+                        borderRadius: "999px",
+                        fontSize: "12px",
+                        color: "#003366",
+                        fontWeight: "600",
+                        cursor: isLoading ? "not-allowed" : "pointer",
+                        opacity: isLoading ? 0.7 : 1
+                      }}
+                      title={text}
+                    >
+                      {letter}) {text.length > 42 ? `${text.slice(0, 42)}...` : text}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
           {/* Input Area */}
           <div style={{ padding: "12px", background: "#fff", borderTop: "1px solid #eef2ff", display: "flex", gap: "8px" }}>

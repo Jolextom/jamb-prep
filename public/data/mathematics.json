@@ -85,7 +85,7 @@
   },
   {
     "id": 447,
-    "question": "Evaluate ((05652)<sup>2</sup> - (04375)<sup>2</sup>)/0.04 correct to three significant figures",
+    "question": "Evaluate ((0.5625)<sup>2</sup> - (0.4375)<sup>2</sup>)/0.04 correct to three significant figures",
     "answer": "b",
     "solution": "((0.5652<sup>2</sup>-(0.4375)<sup>2</sup>)/0.04  ((0.5625+0.4375)(0.5625-0.4375))/0.04  (1.000×0.125)/0.04=3.125=3.13",
     "options": {
@@ -234,7 +234,7 @@
     "id": 815,
     "question": "Integrate 1+x/x<sup>3</sup>dx",
     "answer": "b",
-    "solution": "∫1+x/x<sup>3<sup> dx\n= ∫(1/x<sup>3</sup> + x/x<sup>3</sup>)dx\n= ∫(x<sup>-3</sup> + x<sup>-2</sup>)dx\n= −1/2x<sup>2</sup> − 1/x + k",
+    "solution": "∫1+x/x<sup>3</sup> dx\n= ∫(1/x<sup>3</sup> + x/x<sup>3</sup>)dx\n= ∫(x<sup>-3</sup> + x<sup>-2</sup>)dx\n= −1/2x<sup>2</sup> − 1/x + k",
     "options": {
       "a": "2x<sup>2</sup>−(1/x) + k",
       "b": "−1/2x<sup>2</sup> −1/x + k",
@@ -253,7 +253,7 @@
   },
   {
     "id": 225,
-    "question": "Find (1/0.06 ÷ 1/0.042\n)<sup>=1</sup> , correct to two decimal \nplaces",
+    "question": "Find (1/0.06 ÷ 1/0.042\n)<sup>-1</sup> , correct to two decimal \nplaces",
     "answer": "a",
     "solution": "(1/0.06 ÷ 1/0.042)<sup>-1</sup>\n= (100/6 ÷ 1000/42) <sup>-1</sup>\n= (1006×421000)<sup>-1</sup>\n= (7/10)<sup>-1</sup>\n= 10/7\n= 1.4285 ≊ 1.43.",
     "options": {
@@ -297,7 +297,7 @@
     "id": 1001,
     "question": "Simplify 81<sup>(−3/4)</sup> x 25<sup>(1/2)</sup>\n x 243<sup>2/5</sup>",
     "answer": "d",
-    "solution": "81<sup>(−34)</sup>\n x 25<sup>(1/2)<?sub>\n x 243<sup>(2/5)</sup>\n= (4√81)<sup>−3</sup> × √25 × (5√243)<sup>2</sup>\n= 5×3<sup>2</sup>/3<sup>3</sup>= 5/3",
+    "solution": "81<sup>(−34)</sup>\n x 25<sup>(1/2)</sup>\n x 243<sup>(2/5)</sup>\n= (4√81)<sup>−3</sup> × √25 × (5√243)<sup>2</sup>\n= 5×3<sup>2</sup>/3<sup>3</sup>= 5/3",
     "options": {
       "a": "2/5",
       "b": "3/5",
@@ -465,7 +465,7 @@
     "id": 654,
     "question": "Find the mode of the above distribution.",
     "answer": "d",
-    "solution": "Mode = L<sub>1</sub> + (D<sub>1</sub/D<sub>1</sub>+D<sub>2</sub>)C\n\nD<sub>1</sub> = frequency of modal class - frequency of the class before it\n\nD<sub>1</sub> = 5 - 2 = 3\n\nD<sub>2</sub> = frequency of modal class - frequency of the class that offers it\n\nD<sub>2</sub> = 5 - 3 = 2\n\nL<sub>1</sub> = lower class boundary of the modal class\n\nL<sub>1</sub> = 5 - 5\n\nC is the class width = 8 - 5.5 = 3\n\nMode = L<sub>1</sub> + (D<sub>1</sub>/D<sub>1</sub>+D<sub>2</sub>)C\n\n= 5.5 + 3/(2+3)C\n\n= 5.5 + 3/5 x 3\n\n= 5.5 + 9/5\n\n= 5.5 + 1.8\n\n= 7.3 ≈ = 7",
+    "solution": "Mode = L<sub>1</sub> + (D<sub>1</sub>/D<sub>1</sub>+D<sub>2</sub>)C\n\nD<sub>1</sub> = frequency of modal class - frequency of the class before it\n\nD<sub>1</sub> = 5 - 2 = 3\n\nD<sub>2</sub> = frequency of modal class - frequency of the class that offers it\n\nD<sub>2</sub> = 5 - 3 = 2\n\nL<sub>1</sub> = lower class boundary of the modal class\n\nL<sub>1</sub> = 5 - 5\n\nC is the class width = 8 - 5.5 = 3\n\nMode = L<sub>1</sub> + (D<sub>1</sub>/D<sub>1</sub>+D<sub>2</sub>)C\n\n= 5.5 + 3/(2+3)C\n\n= 5.5 + 3/5 x 3\n\n= 5.5 + 9/5\n\n= 5.5 + 1.8\n\n= 7.3 ≈ = 7",
     "options": {
       "a": "9",
       "b": "8",
@@ -547,7 +547,7 @@
   },
   {
     "id": 128,
-    "question": "Evaluate (0.14<sup>2</sup> x 0.275) 7(0.02) to 3 decimal places.",
+    "question": "Evaluate (0.14<sup>2</sup> x 0.275) / (7 x 0.02) to 3 decimal places.",
     "answer": "a",
     "solution": "(0.14<sup>2</sup> x 0.275) 7(0.02) = (0.14 x 0.14 x 0.275)/(7 x 0.02) = (0.14 x 0.14 x 0.275)/(0.14)\n\n=0.14 x 0.275 = 0.0385 Approx. 0.039",
     "options": {
@@ -610,7 +610,7 @@
   },
   {
     "id": 580,
-    "question": "If ∣∣∣x237∣∣∣ = 15, find the value of x",
+    "question": "If |x  2| |3  7| = 15, find the value of x",
     "answer": "a",
     "solution": "x x 7 - 2 x 3 = 15\n7x - 6 = 15\n7x = 15+6\n7x = 21\nx = 21/7\nx = 3",
     "options": {
@@ -677,10 +677,10 @@
     "answer": "a",
     "solution": "y - 4x + 3 = 0\n\nWhen y = 0, 0 - 4x + 3 = 0\n\nThen -4x = -3\n\nx = 3/4\n\nSo the line cuts the x-axis at point (3/4, 0).\n\nWhen x = 0, y - 4(0) + 3 = 0\n\nThen y + 3 = 0\n\ny = -3\n\nSo the line cuts the y-axis at the point (0, -3)\n\nHence the midpoint of the line y - 4x + 3 = 0, which lies between the x-axis and the y-axis is;\n\n[1/2(x<sub>1</sub> +x<sub>2</sub> ),1/2(y<sub>1</sub> +y<sub>2</sub> )]\n\n\n[1/2(3/4+0),1/2(0+−3)]\n\n\n[1/2(3/4),1/2(−3)]\n\n\n[3/8,−3/2]",
     "options": {
-      "a": "N/A",
-      "b": "N/A (Alt 1)",
-      "c": "N/A (Alt)",
-      "d": "N/A (Alt) (Alt 2)"
+      "a": "(3/8, -3/2)",
+      "b": "(3/8, 3/2)",
+      "c": "(-3/8, -3/2)",
+      "d": "(-3/8, 3/2)"
     },
     "section": "",
     "image": "https://res.cloudinary.com/aloc-ng/image/upload/v1725206600/ALOC-Questions/Mathematics/2014/Screenshot_2024-09-01_at_5.03.09_PM_qxstzm.png",
@@ -908,7 +908,7 @@
     "answer": "d",
     "solution": "Let the positive integers be 1, 2, ,3, 4, .....n\n∴ a = 1, d = 1 and n = n\nSn = n/2(2a + (n-1)d)\n= n/2 (2 + n – 1)\n= 1/2n(n + 1)",
     "options": {
-      "a": "1/2 n(n-1) (Alt)",
+      "a": "1/2 n(n-1)",
       "b": "n(n+1)",
       "c": "n(n-1)",
       "d": "1/2 n(n-1)"
@@ -1646,7 +1646,7 @@
       "a": "5P−MX+5/M",
       "b": "5P−MX−5/M",
       "c": "5P+MX+5/M",
-      "d": "÷(5P+MX-5)/M"
+      "d": "(5P+MX-5)/M"
     },
     "section": "",
     "image": "",
@@ -1809,7 +1809,7 @@
     "id": 307,
     "question": "Find P, if 451<sub>6</sub> - P<sub>7</sub> = 305<sub>6</sub>",
     "answer": "b",
-    "solution": "451 <sub>6</sub> - P <sub>7</sub> = 305 <sub>6</sub>\nP <sub>7</sub> = 451 <sub>6</sub> - 305 <sub>6</sub>\nP <sub>7</sub = 142<sub>6</sub>\nconvert 142<sub>6</sub>\n= 1 * 6<sup>2</sup> + 4 * 6<sup>1</sup> + 2 * 6<sup>0</sup>\n= 36 + 24 + 2\n= 62\nConvert 62<sub>10</sub>  to base 7\n62/7 = 8 R 6\n8/7 = 1 R 1\n1/7 = 0 R 1\n∴ P <sub>7</sub = 116<sub>7</sub",
+    "solution": "451 <sub>6</sub> - P <sub>7</sub> = 305 <sub>6</sub>\nP <sub>7</sub> = 451 <sub>6</sub> - 305 <sub>6</sub>\nP <sub>7</sub> = 142<sub>6</sub>\nconvert 142<sub>6</sub>\n= 1 * 6<sup>2</sup> + 4 * 6<sup>1</sup> + 2 * 6<sup>0</sup>\n= 36 + 24 + 2\n= 62\nConvert 62<sub>10</sub>  to base 7\n62/7 = 8 R 6\n8/7 = 1 R 1\n1/7 = 0 R 1\n∴ P <sub>7</sub> = 116<sub>7</sub",
     "options": {
       "a": "62<sub>7</sub>",
       "b": "116<sub>7</sub>",
@@ -2752,7 +2752,7 @@
   },
   {
     "id": 434,
-    "question": "Determine the value of ∫<supb>0</sub><sup>(π/2)</sup>(-2cosx)dx",
+    "question": "Determine the value of ∫<sub>0</sub><sup>(π/2)</sup>(-2cosx)dx",
     "answer": "a",
     "solution": "∫<sub>0</sub><sup>(π/2)</sup>(-2cosx)dx=[-2sinx+c]<sub>0</sub><sup>(π/2)</sup>=(-2sin π/2 + c + 2sin0 - c) = -2sin90 + c + 2sin0 - c.= -2(1) + 2(0) = -2",
     "options": {
@@ -2969,7 +2969,7 @@
       "a": "7!/3!",
       "b": "7!/4!",
       "c": "7!/3!4!",
-      "d": "7!/3!4! (Alt)"
+      "d": "7!/3!4!"
     },
     "section": "",
     "image": "",

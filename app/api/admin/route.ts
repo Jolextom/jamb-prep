@@ -5,17 +5,43 @@ import { Redis } from "@upstash/redis";
 
 const redis = Redis.fromEnv();
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 const RATE_FILE = path.join(process.cwd(), "rate_limit.json");
 const ADMIN_SECRET = process.env.ADMIN_SECRET || "jamb_secret_2025";
 
 interface RateData {
   date: string;
-  count: number;         // AI requests count
-  sessionCount: number;  // Usage starts count
-  history: { type: 'chat' | 'session' | 'feedback', name: string, time: string, detail: any }[];
-  reports?: { id: number, subject: string, type: string, comment: string, time: string, name: string }[];
+  count: number; // AI requests count
+  sessionCount: number; // Usage starts count
+  history: HistoryItem[];
+  reports?: ReportItem[];
+}
+
+type HistoryType = "chat" | "session" | "feedback";
+
+interface FeedbackDetail {
+  type?: string;
+  comment?: string;
+}
+
+type HistoryDetail = string | FeedbackDetail;
+
+interface HistoryItem {
+  type: HistoryType;
+  name: string;
+  time: string;
+  detail: HistoryDetail;
+}
+
+interface ReportItem {
+  id: number;
+  subject: string;
+  type: string;
+  comment: string;
+  time: string;
+  name: string;
+  rid?: string;
 }
 
 async function redisGet(): Promise<RateData | null> {
@@ -51,9 +77,16 @@ export async function GET(req: NextRequest) {
     return new NextResponse("Unauthorized", { status: 401 });
   }
 
-  let data: RateData = { date: new Date().toISOString().slice(0, 10), count: 0, sessionCount: 0, history: [], reports: [] };
-  let isReadOnly = false;
-  let isRedis = !!(process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL);
+  let data: RateData = {
+    date: new Date().toISOString().slice(0, 10),
+    count: 0,
+    sessionCount: 0,
+    history: [],
+    reports: [],
+  };
+  const isRedis = !!(
+    process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL
+  );
 
   // Try Redis first
   const redisData = await redisGet();
@@ -70,32 +103,30 @@ export async function GET(req: NextRequest) {
 
   // Handle Resolve Report
   if (resolve) {
-    data.reports = (data.reports || []).filter((r: any) => r.rid !== resolve);
-    if (isRedis) await redisSet(data);
-    else fs.writeFileSync(RATE_FILE, JSON.stringify(data, null, 2));
-    
-    return new NextResponse(null, {
-      status: 302,
-      headers: { Location: `/api/admin?key=${key}` },
-    });
+    try {
+      data.reports = (data.reports || []).filter((r) => r.rid !== resolve);
+      if (isRedis) await redisSet(data);
+      else fs.writeFileSync(RATE_FILE, JSON.stringify(data, null, 2));
+
+      return new NextResponse(null, {
+        status: 302,
+        headers: { Location: `/api/admin?key=${key}&msg=report_resolved` },
+      });
+    } catch (err) {
+      console.error("Error resolving report:", err);
+      return new NextResponse("Error resolving report", { status: 500 });
+    }
   }
 
-  // Handle Reset Individual User (Redis Counter + History Cleanup)
+  // Handle Reset Individual User (Only reset limits, keep history/name)
   if (resetUser) {
-    // 1. Clean Redis Counter if it exists
+    // Clean Redis Counter if it exists
     if (isRedis) {
       const cleanName = resetUser.trim().replace(/[^a-zA-Z0-9]/g, "_");
       await redis.del(`jolextom_rate_limit_${cleanName}`);
     }
-    
-    // 2. Remove from session history so it clears from the dashboard view
-    const originalHistoryCount = data.history.length;
-    data.history = (data.history || []).filter((h: any) => h.name !== resetUser);
-    
-    if (data.history.length !== originalHistoryCount) {
-       if (isRedis) await redisSet(data);
-       else try { fs.writeFileSync(RATE_FILE, JSON.stringify(data, null, 2)); } catch(e){}
-    }
+
+    // Do NOT remove history - we only reset the limits, not the student record
 
     return new NextResponse(null, {
       status: 302,
@@ -105,22 +136,36 @@ export async function GET(req: NextRequest) {
 
   const reset = searchParams.get("reset");
   if (reset === "1") {
-    if (isRedis) {
-      await redisSet({ ...data, count: 0, sessionCount: 0 });
-    } else {
-      try {
-        fs.writeFileSync(RATE_FILE, JSON.stringify({ ...data, count: 0, sessionCount: 0 }, null, 2));
-      } catch (e) {
-        isReadOnly = true;
+    try {
+      const resetData: RateData = {
+        date: data.date,
+        count: 0,
+        sessionCount: 0,
+        history: (data.history || []).filter((h) => h.type === "feedback"),
+        reports: data.reports || [],
+      };
+
+      if (isRedis) {
+        await redisSet(resetData);
+      } else {
+        fs.writeFileSync(RATE_FILE, JSON.stringify(resetData, null, 2));
       }
+
+      return new NextResponse(null, {
+        status: 302,
+        headers: { Location: `/api/admin?key=${key}&msg=day_reset` },
+      });
+    } catch (e) {
+      console.error("Error resetting day:", e);
+      return new NextResponse(null, {
+        status: 302,
+        headers: { Location: `/api/admin?key=${key}&err=readonly` },
+      });
     }
-    // Redirect back to admin dashboard to clear the reset param
-    const errParam = isReadOnly ? '&err=readonly' : '';
-    return new NextResponse(null, {
-      status: 302,
-      headers: { Location: `/api/admin?key=${key}${errParam}` },
-    });
   }
+
+  const msg = searchParams.get("msg");
+  const err = searchParams.get("err");
 
   // Premium HTML Dashboard for beautiful viewing on mobile/web
   const html = `
@@ -278,6 +323,15 @@ export async function GET(req: NextRequest) {
             .stats-grid { grid-template-columns: 1fr; }
           }
         </style>
+         <script>
+           function handleAction(url, message) {
+             if (confirm(message)) {
+               window.location.href = url;
+               return false;
+             }
+             return false;
+           }
+         </script>
       </head>
       <body>
         <div class="container">
@@ -290,9 +344,12 @@ export async function GET(req: NextRequest) {
               </div>
             </div>
             <div style="display: flex; gap: 12px;">
-              <a href="/api/admin?key=${key}&reset=1" class="btn-reset" onclick="return confirm('Reset all daily metrics?')">Reset Day</a>
+              <a href="#" class="btn-reset" onclick="return handleAction('/api/admin?key=${key}&reset=1', 'Reset all daily metrics? (Feedback and reports will be preserved)')">Reset Day</a>
             </div>
           </header>
+
+          ${msg ? `<div style="padding: 16px 20px; margin-bottom: 20px; border-radius: 12px; background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; font-weight: 600; font-size: 14px;">✓ ${msg === "report_resolved" ? "Report marked as resolved!" : msg === "reset_ok" ? "Student limit reset successfully!" : msg === "day_reset" ? "Daily metrics reset - feedback and reports preserved!" : "Action completed!"}</div>` : ""}
+          ${err ? `<div style="padding: 16px 20px; margin-bottom: 20px; border-radius: 12px; background: #fef2f2; border: 1px solid #fecaca; color: #7f1d1d; font-weight: 600; font-size: 14px;">✗ ${err === "readonly" ? "File system is read-only. Using Redis instead." : "An error occurred."}</div>` : ""}
 
           <div class="kpi-grid">
             <div class="kpi-card">
@@ -308,7 +365,7 @@ export async function GET(req: NextRequest) {
               <div class="kpi-lab">Data Reports</div>
             </div>
             <div class="kpi-card" style="border-color: #10b98122; background: #ecfdf544;">
-              <div class="kpi-val" style="color: var(--success);">${data.history?.filter(h => h.type === 'feedback').length || 0}</div>
+              <div class="kpi-val" style="color: var(--success);">${data.history?.filter((h) => h.type === "feedback").length || 0}</div>
               <div class="kpi-lab">Feedbacks</div>
             </div>
           </div>
@@ -332,21 +389,30 @@ export async function GET(req: NextRequest) {
                   <tbody>
                     ${(() => {
                       const users: Record<string, number> = {};
-                      data.history?.forEach((h: any) => {
-                        if (h.type === 'chat') users[h.name] = (users[h.name] || 0) + 1;
+                      data.history?.forEach((h) => {
+                        if (h.type === "chat")
+                          users[h.name] = (users[h.name] || 0) + 1;
                       });
-                      const sorted = Object.entries(users).sort((a, b) => b[1] - a[1]);
-                      return sorted.length > 0 ? sorted.map(([name, count]) => `
+                      const sorted = Object.entries(users).sort(
+                        (a, b) => b[1] - a[1],
+                      );
+                      return sorted.length > 0
+                        ? sorted
+                            .map(
+                              ([name, count]) => `
                         <tr style="border-bottom: 1px solid #f1f5f9;">
                           <td style="padding: 12px; font-weight: 700;">${name}</td>
                           <td style="padding: 12px;"><span class="badge" style="background: #eff6ff; color: #3b82f6;">${count} requests</span></td>
                           <td style="padding: 12px; text-align: right;">
-                            <a href="/api/admin?key=${key}&resetUser=${encodeURIComponent(name)}" 
-                               style="color: var(--danger); text-decoration: none; font-weight: 800; font-size: 11px; padding: 4px 8px; border: 1px solid #fee2e2; border-radius: 6px;"
-                               onclick="return confirm('Reset daily AI limit for ${name}?')">RESET LIMIT</a>
+                             <a href="#" 
+                               style="color: var(--danger); text-decoration: none; font-weight: 800; font-size: 11px; padding: 4px 8px; border: 1px solid #fee2e2; border-radius: 6px; cursor: pointer;"
+                               onclick="return handleAction('/api/admin?key=${key}&resetUser=${encodeURIComponent(name)}', 'Reset daily AI limit for ${name}? (Their history and AI chat records will be preserved)')">RESET LIMIT</a>
                           </td>
                         </tr>
-                      `).join('') : '<tr><td colspan="3" style="padding: 24px; text-align: center; color: var(--muted);">No AI activity tracked yet.</td></tr>';
+                      `,
+                            )
+                            .join("")
+                        : '<tr><td colspan="3" style="padding: 24px; text-align: center; color: var(--muted);">No AI activity tracked yet.</td></tr>';
                     })()}
                   </tbody>
                 </table>
@@ -362,23 +428,31 @@ export async function GET(req: NextRequest) {
               <span class="badge" style="background: #fef2f2; color: var(--danger);">${data.reports?.length || 0} Issues</span>
             </div>
             <div class="section-body">
-              ${data.reports && data.reports.length > 0 ? data.reports.map((r: any) => `
+              ${
+                data.reports && data.reports.length > 0
+                  ? data.reports
+                      .map(
+                        (r) => `
                 <div class="item">
                   <div class="content">
                     <div class="top-line">
-                      <span class="item-name">${r.name || 'Student'} flaged #${r.id} (${r.subject || 'Unknown'})</span>
-                      <a href="/api/admin?key=${key}&resolve=${r.rid}" 
-                         style="background: var(--success); color: white; text-decoration: none; font-size: 10px; font-weight: 900; padding: 4px 10px; border-radius: 6px; box-shadow: 0 2px 4px rgba(5, 150, 105, 0.2);"
-                         onclick="return confirm('Mark this report as resolved?')">RESOLVE</a>
+                      <span class="item-name">${r.name || "Student"} flaged #${r.id} (${r.subject || "Unknown"})</span>
+                       <a href="#" 
+                         style="background: var(--success); color: white; text-decoration: none; font-size: 10px; font-weight: 900; padding: 4px 10px; border-radius: 6px; box-shadow: 0 2px 4px rgba(5, 150, 105, 0.2); cursor: pointer;"
+                         onclick="return handleAction('/api/admin?key=${key}&resolve=${r.rid}', 'Mark this report as resolved and remove it from the queue?')">RESOLVE</a>
                     </div>
                     <div class="item-detail">
                       <span style="display: block; font-weight: 800; font-size: 11px; margin-bottom: 4px; color: var(--danger);">${r.type}</span>
-                      "${r.comment || 'No comment'}"
-                      <span style="display: block; font-size: 10px; color: var(--muted); margin-top: 4px;">ID: ${r.rid || 'Legacy'} — ${r.time}</span>
+                      "${r.comment || "No comment"}"
+                      <span style="display: block; font-size: 10px; color: var(--muted); margin-top: 4px;">ID: ${r.rid || "Legacy"} — ${r.time}</span>
                     </div>
                   </div>
                 </div>
-              `).join('') : '<div class="empty">Question bank looks clean! No pending reports.</div>'}
+              `,
+                      )
+                      .join("")
+                  : '<div class="empty">Question bank looks clean! No pending reports.</div>'
+              }
             </div>
           </div>
 
@@ -386,24 +460,34 @@ export async function GET(req: NextRequest) {
           <div class="section-card" style="border-top: 4px solid var(--success);">
             <div class="section-header">
               <h2 class="section-title">Student Feedback Archive</h2>
-              <span class="badge" style="background: #ecfdf5; color: var(--success);">${data.history?.filter(h => h.type === 'feedback').length || 0} Total</span>
+              <span class="badge" style="background: #ecfdf5; color: var(--success);">${data.history?.filter((h) => h.type === "feedback").length || 0} Total</span>
             </div>
             <p style="padding: 0 24px; font-size: 11px; color: var(--muted); font-weight: 600; margin-top: -10px;">* Feedback is persistent and NOT cleared by the daily reset.</p>
             <div class="section-body">
-              ${data.history && data.history.filter(h => h.type === 'feedback').length > 0 ? data.history.filter(h => h.type === 'feedback').map((f: any) => `
+              ${
+                data.history &&
+                data.history.filter((h) => h.type === "feedback").length > 0
+                  ? data.history
+                      .filter((h) => h.type === "feedback")
+                      .map(
+                        (f) => `
                 <div class="item">
                   <div class="content">
                     <div class="top-line">
-                      <span class="item-name">${f.name || 'Anonymous'}</span>
-                      <span class="item-time">${f.time || ''}</span>
+                      <span class="item-name">${f.name || "Anonymous"}</span>
+                      <span class="item-time">${f.time || ""}</span>
                     </div>
                     <div class="item-detail">
-                       <span style="display: block; font-weight: 800; font-size: 11px; margin-bottom: 4px; color: var(--success);">${(f.detail as any)?.type || 'General'}</span>
-                       "${(f.detail as any)?.comment || ''}"
+                       <span style="display: block; font-weight: 800; font-size: 11px; margin-bottom: 4px; color: var(--success);">${typeof f.detail === "object" && f.detail ? f.detail.type || "General" : "General"}</span>
+                       "${typeof f.detail === "object" && f.detail ? f.detail.comment || "" : ""}"
                     </div>
                   </div>
                 </div>
-              `).join('') : '<div class="empty">No feedback yet. Your students are working hard!</div>'}
+              `,
+                      )
+                      .join("")
+                  : '<div class="empty">No feedback yet. Your students are working hard!</div>'
+              }
             </div>
           </div>
 
@@ -414,25 +498,34 @@ export async function GET(req: NextRequest) {
               <span class="item-time">Sessions & Chat Activity</span>
             </div>
             <div class="section-body">
-              ${data.history && data.history.length > 0 ? data.history.filter(h => h.type !== 'feedback').map((h: any) => `
+              ${
+                data.history && data.history.length > 0
+                  ? data.history
+                      .filter((h) => h.type !== "feedback")
+                      .map(
+                        (h) => `
                 <div class="item">
                   <div class="content">
                     <div class="top-line">
-                      <span class="item-name">${h.name || 'Candidate'}</span>
-                      <span class="item-time">${h.time || ''}</span>
+                      <span class="item-name">${h.name || "Candidate"}</span>
+                      <span class="item-time">${h.time || ""}</span>
                     </div>
                     <div class="item-detail" style="font-family: monospace; font-size: 12px; color: var(--muted);">
-                      ${h.type === 'session' ? 'Started a new JAMB Prep session' : (h.detail || 'Asked AI for help')}
+                      ${h.type === "session" ? "Started a new JAMB Prep session" : h.detail || "Asked AI for help"}
                     </div>
                   </div>
                 </div>
-              `).join('') : '<div class="empty">Dashboard is live! Waiting for students to connect...</div>'}
+              `,
+                      )
+                      .join("")
+                  : '<div class="empty">Dashboard is live! Waiting for students to connect...</div>'
+              }
             </div>
           </div>
 
           <footer style="text-align: center; padding: 40px; color: var(--muted); font-size: 13px; font-weight: 600;">
             <p>JAMB Prep Cloud Admin — V2.1 Premium Redesign</p>
-            <p style="opacity: 0.5;">Active Date: ${data.date} | Redis Storage: ${isRedis ? 'CONNECTED' : 'LOCAL'}</p>
+            <p style="opacity: 0.5;">Active Date: ${data.date} | Redis Storage: ${isRedis ? "CONNECTED" : "LOCAL"}</p>
           </footer>
         </div>
       </body>
@@ -448,10 +541,19 @@ export async function POST(req: NextRequest) {
   try {
     const { type, name, detail } = await req.json();
     const today = new Date().toISOString().slice(0, 10);
-    const time = new Date().toLocaleTimeString('en-NG', { hour: '2-digit', minute: '2-digit' });
+    const time = new Date().toLocaleTimeString("en-NG", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
 
-    let data: RateData = { date: today, count: 0, sessionCount: 0, history: [], reports: [] };
-    
+    let data: RateData = {
+      date: today,
+      count: 0,
+      sessionCount: 0,
+      history: [],
+      reports: [],
+    };
+
     const redisData = await redisGet();
     if (redisData) {
       data = { ...data, ...redisData };
@@ -462,18 +564,34 @@ export async function POST(req: NextRequest) {
       } catch {}
     }
 
-    // Reset if new day
+    // Reset if new day (but preserve feedback and reports)
     if (data.date !== today) {
-      data = { date: today, count: 0, sessionCount: 0, history: [], reports: [] };
+      const feedback = (data.history || []).filter(
+        (h) => h.type === "feedback",
+      );
+      const reports = data.reports || [];
+      data = {
+        date: today,
+        count: 0,
+        sessionCount: 0,
+        history: feedback, // Keep feedback
+        reports: reports, // Keep reports
+      };
     }
 
-    if (type === 'report') {
+    if (type === "report") {
       const rid = Math.random().toString(36).substring(2, 9).toUpperCase();
-      data.reports = [{ ...detail, rid, time, name: name || "Student" }, ...(data.reports || [])].slice(0, 50);
+      data.reports = [
+        { ...detail, rid, time, name: name || "Student" },
+        ...(data.reports || []),
+      ].slice(0, 50);
     } else {
-      if (type === 'chat') data.count = (data.count || 0) + 1;
-      if (type === 'session') data.sessionCount = (data.sessionCount || 0) + 1;
-      data.history = [{ type, name: name || "Unknown", time, detail: detail || "" }, ...(data.history || [])].slice(0, 100);
+      if (type === "chat") data.count = (data.count || 0) + 1;
+      if (type === "session") data.sessionCount = (data.sessionCount || 0) + 1;
+      data.history = [
+        { type, name: name || "Unknown", time, detail: detail || "" },
+        ...(data.history || []),
+      ].slice(0, 100);
     }
 
     if (!!(process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL)) {
@@ -485,7 +603,7 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json({ success: true });
-  } catch (err) {
+  } catch {
     return NextResponse.json({ error: "Failed to track" }, { status: 500 });
   }
 }
