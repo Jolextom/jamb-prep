@@ -6642,8 +6642,8 @@
     "solution": "The word 'departmentalize' is stressed on the fourth syllable: de-part-men-TAI-ize (/ ˌdiːpɑːrtməntəˈlaɪz /).",
     "options": {
       "a": "departMENtalize",
-      "b": "dePARTmentalize (Alt)",
-      "c": "DEpartmentalize (Alt) (Alt)",
+      "b": "dePARTmentalize",
+      "c": "DEpartmentalize",
       "d": "departmenTAIize"
     },
     "section": "choose the appropriate stress pattern from the options. The syllables are written in capital letters",
@@ -7357,7 +7357,7 @@
     "options": {
       "a": "MEIodramatic",
       "b": "meLOdramatic",
-      "c": "meloDRAmatic (Alt)",
+      "c": "meloDRAmatic",
       "d": "melodraMAtic."
     },
     "section": "choose the appropriate stress pattern from the options. The syllables are written in capital letters.",
@@ -9140,7 +9140,7 @@
     "answer": "c",
     "solution": "The correct answer is ‘C’ received because it is properly spelt and means ‘to get, to be given something’. The others are not properly spelt.",
     "options": {
-      "a": "received (Alt)",
+      "a": "received",
       "b": "receipt",
       "c": "received",
       "d": "recceived"
@@ -9161,7 +9161,7 @@
     "answer": "d",
     "solution": "The word 'privilege' (A) is the correct spelling for a special right, advantage, or immunity granted or available only to a particular person or group.",
     "options": {
-      "a": "privilege (Alt)",
+      "a": "privilege",
       "b": "privelege",
       "c": "previlege",
       "d": "privilege"
@@ -10253,9 +10253,9 @@
     "answer": "d",
     "solution": "|ju|DI|cia|ry|",
     "options": {
-      "a": "judiCIAry (Alt)",
-      "b": "judiciaRY (Alt) (Alt 2)",
-      "c": "JUdiciary (Alt) (Alt)",
+      "a": "judiCIAry",
+      "b": "judiciaRY",
+      "c": "JUdiciary",
       "d": "juDIciary"
     },
     "section": "",
