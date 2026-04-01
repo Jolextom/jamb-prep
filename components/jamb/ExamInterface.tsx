@@ -239,6 +239,26 @@ export default function ExamInterface({
     return text;
   }, []);
 
+  const normalizePlainMath = React.useCallback((raw: string) => {
+    if (!raw) return "";
+
+    return raw
+      .replace(/([A-Za-z0-9)\]])\^\{([^{}]+)\}/g, "$1<sup>$2</sup>")
+      .replace(/([A-Za-z0-9)\]])\^([A-Za-z0-9+-]+)/g, "$1<sup>$2</sup>")
+      .replace(/([A-Za-z0-9)\]])_\{([^{}]+)\}/g, "$1<sub>$2</sub>")
+      .replace(/([A-Za-z0-9)\]])_([A-Za-z0-9]+)/g, "$1<sub>$2</sub>");
+  }, []);
+
+  const normalizePlainMathInTextNodes = React.useCallback((html: string) => {
+    if (!html) return "";
+
+    // Only normalize text nodes; never mutate attributes or tag names.
+    return html
+      .split(/(<[^>]+>)/g)
+      .map((part) => (part.startsWith("<") ? part : normalizePlainMath(part)))
+      .join("");
+  }, [normalizePlainMath]);
+
   const remapEmbeddedImageSources = React.useCallback((html: string) => {
     if (!html) return "";
 
@@ -276,13 +296,11 @@ export default function ExamInterface({
         (normalizedFromEncoded ? imageAliases[normalizedFromEncoded] : "") ||
         imageAliases[normalizedFromDecoded] ||
         filename;
-      const mappedSrc = imageBaseUrl
-        ? `${imageBaseUrl}/${mappedFilename}`
-        : `/images/${mappedFilename}`;
+      const mappedSrc = `/images/${mappedFilename}`;
 
       return `src=${quote}${mappedSrc}${quote}`;
     });
-  }, [imageAliases, imageBaseUrl]);
+  }, [imageAliases]);
 
   const formatRichText = React.useCallback((input?: string) => {
     if (!input) return "";
@@ -297,8 +315,10 @@ export default function ExamInterface({
       .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
       .replace(/(^|[^*])\*(?!\s)([^*]+?)\*(?!\*)/g, "$1<em>$2</em>");
 
+    text = normalizePlainMathInTextNodes(text);
+
     return remapEmbeddedImageSources(text);
-  }, [decodeHtmlEntities, normalizeLatex, remapEmbeddedImageSources, renderMathSegments]);
+  }, [decodeHtmlEntities, normalizeLatex, normalizePlainMathInTextNodes, remapEmbeddedImageSources, renderMathSegments]);
 
   const resolveImageSrc = React.useCallback((raw?: string) => {
     const value = (raw || "").trim();
@@ -332,11 +352,7 @@ export default function ExamInterface({
       return mappedValue;
     }
 
-    if (imageBaseUrl) {
-      return `${imageBaseUrl}/${mappedValue}`;
-    }
-
-    // Local fallback for copied assets under public/images.
+    // Use local static images first; this avoids Cloudinary miss flicker/hide.
     return `/images/${mappedValue}`;
   }, [imageAliases, imageBaseUrl]);
 
@@ -726,7 +742,26 @@ export default function ExamInterface({
                     className="max-w-full h-auto my-4 rounded border"
                     style={{ display: "block", maxWidth: "100%", height: "auto" }}
                     onError={(e) => {
-                      (e.currentTarget as HTMLImageElement).style.display = "none";
+                      const img = e.currentTarget as HTMLImageElement;
+                      if (img.dataset.fallbackTried === "1") {
+                        img.style.display = "none";
+                        return;
+                      }
+
+                      img.dataset.fallbackTried = "1";
+
+                      try {
+                        const parsed = new URL(img.src, window.location.origin);
+                        const fileName = parsed.pathname.split("/").pop() || "";
+                        if (fileName) {
+                          img.src = `/images/${fileName}`;
+                          return;
+                        }
+                      } catch {
+                        // Hide only when no safe fallback path is available.
+                      }
+
+                      img.style.display = "none";
                     }}
                   />
                 </div>
