@@ -95,6 +95,15 @@ export default function ExamInterface({
   isPracticeMode = false,
   onNewSession = () => window.location.reload()
 }: ExamInterfaceProps) {
+  const formatRichText = React.useCallback((input?: string) => {
+    if (!input) return "";
+
+    // Preserve existing HTML data while also rendering markdown emphasis.
+    return input
+      .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+      .replace(/(^|[^*])\*(?!\s)([^*]+?)\*(?!\*)/g, "$1<em>$2</em>");
+  }, []);
+
   const [reportModalOpen, setReportModalOpen] = React.useState(false);
   const [reportType, setReportType] = React.useState("Wrong Answer");
   const [reportComment, setReportComment] = React.useState("");
@@ -432,7 +441,7 @@ export default function ExamInterface({
                 <div className="passage-header">Reading Passage</div>
                 <div
                   className="passage-content whitespace-pre-wrap"
-                  dangerouslySetInnerHTML={{ __html: currentQuestion.section || "" }}
+                  dangerouslySetInnerHTML={{ __html: formatRichText(currentQuestion.section) }}
                 />
               </div>
             )}
@@ -452,7 +461,7 @@ export default function ExamInterface({
                     borderLeft: "4px solid #003366",
                     borderRadius: "0 4px 4px 0"
                   }}
-                  dangerouslySetInnerHTML={{ __html: currentQuestion.section }}
+                  dangerouslySetInnerHTML={{ __html: formatRichText(currentQuestion.section) }}
                 />
               )}
 
@@ -460,7 +469,7 @@ export default function ExamInterface({
                 className="q-text whitespace-pre-wrap"
                 style={{ fontWeight: "600", marginBottom: "20px", fontSize: "17px", lineHeight: "1.6" }}
                 dangerouslySetInnerHTML={{
-                  __html: currentQuestion.q || (currentQuestion.hasPassage === 1 ? "" : currentQuestion.section) || "No question text available."
+                  __html: formatRichText(currentQuestion.q || (currentQuestion.hasPassage === 1 ? "" : currentQuestion.section) || "No question text available.")
                 }}
               />
 
@@ -506,7 +515,7 @@ export default function ExamInterface({
                         <div
                           className="option-text"
                           style={{ fontSize: "15px", fontWeight: "600" }}
-                          dangerouslySetInnerHTML={{ __html: text }}
+                          dangerouslySetInnerHTML={{ __html: formatRichText(text) }}
                         />
                         <div className="option-status-container" style={{ display: "flex", alignItems: "center", gap: "8px", marginLeft: "auto" }}>
                           {showSolutionNow && isCorrect && <span className="option-badge badge-correct">● Correct Answer</span>}
@@ -547,7 +556,7 @@ export default function ExamInterface({
                   <div
                     className="whitespace-pre-wrap"
                     style={{ fontSize: "15px", lineHeight: "1.6", color: "#003366", fontWeight: "600" }}
-                    dangerouslySetInnerHTML={{ __html: stripEmojis(hacks[currentQuestion.id] || currentQuestion.solution || "No explanation provided.") }}
+                    dangerouslySetInnerHTML={{ __html: formatRichText(stripEmojis(hacks[currentQuestion.id] || currentQuestion.solution || "No explanation provided.")) }}
                   />
                 </div>
               )}
