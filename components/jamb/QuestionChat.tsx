@@ -32,7 +32,7 @@ export default function QuestionChat({ candidateName, questionContext, questionI
   useEffect(() => {
     setMessages(history);
     setError(null);
-    
+
     try {
       const draftsState = localStorage.getItem("jamb_chat_drafts");
       if (draftsState) {
@@ -40,8 +40,8 @@ export default function QuestionChat({ candidateName, questionContext, questionI
         setInput(drafts[questionId] || "");
         return;
       }
-    } catch(e) {}
-    
+    } catch (e) { }
+
     setInput("");
   }, [questionId, history]);
 
@@ -60,7 +60,7 @@ export default function QuestionChat({ candidateName, questionContext, questionI
         delete drafts[questionId];
         localStorage.setItem("jamb_chat_drafts", JSON.stringify(drafts));
       }
-    } catch(e) {}
+    } catch (e) { }
 
     const newMessages: Message[] = [...messages, { role: "user", content: text }];
     setMessages(newMessages);
@@ -76,7 +76,7 @@ export default function QuestionChat({ candidateName, questionContext, questionI
         delete drafts[questionId];
         localStorage.setItem("jamb_chat_drafts", JSON.stringify(drafts));
       }
-    } catch(e) {}
+    } catch (e) { }
 
     try {
       const res = await fetch("/api/chat", {
@@ -94,12 +94,12 @@ export default function QuestionChat({ candidateName, questionContext, questionI
         fetch("/api/admin", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ 
-            type: "chat", 
-            name: candidateName, 
-            detail: text.substring(0, 100) 
+          body: JSON.stringify({
+            type: "chat",
+            name: candidateName,
+            detail: text.substring(0, 100)
           }),
-        }).catch(() => {});
+        }).catch(() => { });
       }
 
       if (!res.ok) {
@@ -107,7 +107,7 @@ export default function QuestionChat({ candidateName, questionContext, questionI
         try {
           const data = await res.json();
           if (data.error) errText = data.error;
-        } catch(e) {}
+        } catch (e) { }
         setError(errText);
         setMessages(newMessages.slice(0, -1)); // remove the user message on error
         setIsLoading(false);
@@ -127,11 +127,11 @@ export default function QuestionChat({ candidateName, questionContext, questionI
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
-        
+
         buffer += decoder.decode(value, { stream: true });
         const chunks = buffer.split('\n\n');
         buffer = chunks.pop() || "";
-        
+
         for (const chunk of chunks) {
           const trimmedChunk = chunk.trim();
           if (trimmedChunk.startsWith('data: ') && trimmedChunk !== 'data: [DONE]') {
@@ -222,299 +222,299 @@ export default function QuestionChat({ candidateName, questionContext, questionI
   return (
     <div style={{ marginTop: "16px", width: "100%" }}>
       <div
+        style={{
+          border: "1px solid #c8d8f0",
+          borderRadius: "16px",
+          overflow: "hidden",
+          boxShadow: "0 4px 20px rgba(0,51,102,0.12)",
+          background: "#fff",
+          width: "100%",
+        }}
+      >
+        {/* Header */}
+        <div
           style={{
-            border: "1px solid #c8d8f0",
-            borderRadius: "16px",
-            overflow: "hidden",
-            boxShadow: "0 4px 20px rgba(0,51,102,0.12)",
-            background: "#fff",
-            width: "100%",
+            padding: "12px 16px",
+            background: "linear-gradient(135deg, #003366, #0055a5)",
+            color: "white",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center"
           }}
         >
-          {/* Header */}
-          <div
-            style={{
-              padding: "12px 16px",
-              background: "linear-gradient(135deg, #003366, #0055a5)",
-              color: "white",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center"
-            }}
-          >
-            <span style={{ fontWeight: "800", fontSize: "12px", letterSpacing: "1px" }}>
-              JAMB AI ASSISTANT
-            </span>
-            <span style={{ fontSize: "11px", opacity: 0.8 }}>
-              {userMessageCount}/{MAX_MESSAGES} messages
-            </span>
-          </div>
+          <span style={{ fontWeight: "800", fontSize: "12px", letterSpacing: "1px" }}>
+            JAMB AI ASSISTANT
+          </span>
+          <span style={{ fontSize: "11px", opacity: 0.8 }}>
+            {userMessageCount}/{MAX_MESSAGES} messages
+          </span>
+        </div>
 
-          {/* Scrollable Area */}
-          <div
-            style={{
-              height: "300px",
-              overflowY: "auto",
-              padding: "16px 12px",
-              display: "flex",
-              flexDirection: "column",
-              gap: "16px",
-              background: "#f0f4f8"
-            }}
-          >
-            {/* Quick Chips if no messages */}
-            {messages.length === 0 && (
-              <div style={{ textAlign: "center", padding: "20px 0" }}>
-                <p style={{ color: "#003366", fontWeight: "600", fontSize: "14px", marginBottom: "4px" }}>Master this concept</p>
-                <p style={{ color: "#64748b", fontSize: "12px", marginBottom: "16px" }}>Use AI to find similar questions or get speed hacks.</p>
-                <div style={{ display: "flex", flexDirection: "column", gap: "8px", alignItems: "center" }}>
-                   {[
-                    "Challenge me with a similar question",
-                    "Give me a speed hack for this",
-                    "Explain why the others are wrong"
-                  ].map(q => (
-                    <button 
-                      key={q}
-                      onClick={() => sendSpecificMessage(q)}
-                      style={{
-                        background: "white",
-                        border: "1px solid #c8d8f0",
-                        padding: "8px 16px",
-                        borderRadius: "20px",
-                        fontSize: "12px",
-                        color: "#003366",
-                        fontWeight: "600",
-                        width: "fit-content",
-                        cursor: "pointer",
-                        boxShadow: "0 2px 4px rgba(0,0,0,0.05)"
-                      }}
-                    >
-                      {q}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {messages.map((m, i) => {
-              const isAssistant = m.role === "assistant";
-              const optionsMatches = isAssistant ? [...m.content.matchAll(optionRegex)] : [];
-              
-              return (
-                <div
-                  key={i}
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: m.role === "user" ? "flex-end" : "flex-start",
-                    gap: "8px",
-                    width: "100%"
-                  }}
-                >
-                  <div style={{ 
-                    position: "relative", 
-                    maxWidth: "92%",
-                    width: isAssistant ? "fit-content" : "auto", 
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: m.role === "user" ? "flex-end" : "stretch"
-                  }}>
-                    <div
-                      className={isAssistant ? "ai-bubble" : "user-bubble"}
-                      style={{
-                        padding: "12px 18px",
-                        borderRadius: m.role === "user" ? "24px 24px 4px 24px" : "24px 24px 24px 4px",
-                        background: m.role === "user" ? "#003366" : "#fff",
-                        color: m.role === "user" ? "white" : "#111",
-                        fontSize: "14px",
-                        lineHeight: "1.7",
-                        boxShadow: "0 4px 12px rgba(0,0,0,0.06)",
-                        border: isAssistant ? "1px solid #eef2ff" : "none",
-                      }}
-                    >
-                      {isAssistant ? (
-                        <div className="chat-markdown">
-                          <ReactMarkdown 
-                            remarkPlugins={[remarkGfm]} 
-                            rehypePlugins={[rehypeRaw]}
-                            components={{
-                              img: ({node, ...props}) => (
-                                <img {...props} style={{ maxWidth: "100%", borderRadius: "8px", margin: "10px 0" }} />
-                              )
-                            }}
-                          >
-                            {/* Strip the options from the text bubble itself as we show them as buttons instead */}
-                            {m.content
-                              .replace(optionRegex, "")
-                              .replace(/\[!TIP\]/g, "💡")
-                              .replace(/\[!NOTE\]/g, "📝")
-                              .replace(/\[!IMPORTANT\]/g, "🚨")
-                              .replace(/\[!WARNING\]/g, "⚠️")
-                            }
-                          </ReactMarkdown>
-                        </div>
-                      ) : (
-                        <span style={{ whiteSpace: "pre-wrap" }}>{m.content}</span>
-                      )}
-                    </div>
-
-                    {/* Keep options visible for the latest unresolved challenge, even after follow-up user text. */}
-                    {isAssistant && i === latestChallengeIndex && optionsMatches.length > 0 && !isLoading && !isLatestChallengeResolved && (
-                      <div style={{ 
-                        display: "grid", 
-                        gridTemplateColumns: optionsMatches.length > 2 ? "repeat(auto-fit, minmax(200px, 1fr))" : "1fr",
-                        gap: "8px", 
-                        marginTop: "10px",
-                        width: "100%"
-                      }}>
-                        {optionsMatches.map((match, idx) => {
-                          const letter = match[1];
-                          const text = match[2];
-                          return (
-                            <button
-                              key={idx}
-                              onClick={() => sendSpecificMessage(`I choose option ${letter}`)}
-                              style={{
-                                padding: "10px 12px",
-                                background: "#fff",
-                                border: "1.5px solid #00336615",
-                                borderRadius: "10px",
-                                fontSize: "13px",
-                                color: "#003366",
-                                fontWeight: "600",
-                                textAlign: "left",
-                                cursor: "pointer",
-                                display: "flex",
-                                gap: "10px",
-                                alignItems: "center",
-                                transition: "all 0.2s"
-                              }}
-                              onMouseEnter={(e) => {
-                                e.currentTarget.style.borderColor = "#003366";
-                                e.currentTarget.style.background = "#f0f7ff";
-                              }}
-                              onMouseLeave={(e) => {
-                                e.currentTarget.style.borderColor = "#00336615";
-                                e.currentTarget.style.background = "#fff";
-                              }}
-                            >
-                              <span style={{ background: "#003366", color: "white", width: "20px", height: "20px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "10px", flexShrink: 0 }}>{letter}</span>
-                              <span>{text}</span>
-                            </button>
-                          );
-                        })}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-
-            {isLoading && (
-              <div style={{ alignSelf: "flex-start", padding: "10px 16px", borderRadius: "18px", background: "#fff", color: "#64748b", fontSize: "13px", border: "1px solid #eef2ff" }}>
-                <span className="typing-dots">AI is thinking</span>
-              </div>
-            )}
-
-            {error && (
-              <div style={{ padding: "10px 16px", background: "#fee2e2", color: "#b91c1c", borderRadius: "12px", fontSize: "12px" }}>
-                {error}
-              </div>
-            )}
-            <div ref={bottomRef} />
-          </div>
-
-          {shouldShowStickyChallengeOptions && (
-            <div
-              style={{
-                padding: "10px 12px",
-                background: "#f8fafc",
-                borderTop: "1px solid #e2e8f0",
-                display: "flex",
-                flexDirection: "column",
-                gap: "8px"
-              }}
-            >
-              <span style={{ fontSize: "12px", color: "#003366", fontWeight: 700 }}>
-                Still on the last challenge? Pick an option quickly:
-              </span>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
-                {latestChallengeOptions.map((match, idx) => {
-                  const letter = match[1];
-                  const text = match[2];
-                  return (
-                    <button
-                      key={`sticky-${idx}`}
-                      onClick={() => sendSpecificMessage(`I choose option ${letter}`)}
-                      disabled={isLoading}
-                      style={{
-                        padding: "8px 10px",
-                        background: "white",
-                        border: "1px solid #c8d8f0",
-                        borderRadius: "999px",
-                        fontSize: "12px",
-                        color: "#003366",
-                        fontWeight: "600",
-                        cursor: isLoading ? "not-allowed" : "pointer",
-                        opacity: isLoading ? 0.7 : 1
-                      }}
-                      title={text}
-                    >
-                      {letter}) {text.length > 42 ? `${text.slice(0, 42)}...` : text}
-                    </button>
-                  );
-                })}
+        {/* Scrollable Area */}
+        <div
+          style={{
+            height: "300px",
+            overflowY: "auto",
+            padding: "16px 12px",
+            display: "flex",
+            flexDirection: "column",
+            gap: "16px",
+            background: "#f0f4f8"
+          }}
+        >
+          {/* Quick Chips if no messages */}
+          {messages.length === 0 && (
+            <div style={{ textAlign: "center", padding: "20px 0" }}>
+              <p style={{ color: "#003366", fontWeight: "600", fontSize: "14px", marginBottom: "4px" }}>Master this concept</p>
+              <p style={{ color: "#64748b", fontSize: "12px", marginBottom: "16px" }}>Use AI to find similar questions or get speed hacks.</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px", alignItems: "center" }}>
+                {[
+                  "Challenge me with a similar question",
+                  "Give me a speed hack for this",
+                  "Explain why the others are wrong"
+                ].map(q => (
+                  <button
+                    key={q}
+                    onClick={() => sendSpecificMessage(q)}
+                    style={{
+                      background: "white",
+                      border: "1px solid #c8d8f0",
+                      padding: "8px 16px",
+                      borderRadius: "20px",
+                      fontSize: "12px",
+                      color: "#003366",
+                      fontWeight: "600",
+                      width: "fit-content",
+                      cursor: "pointer",
+                      boxShadow: "0 2px 4px rgba(0,0,0,0.05)"
+                    }}
+                  >
+                    {q}
+                  </button>
+                ))}
               </div>
             </div>
           )}
 
-          {/* Input Area */}
-          <div style={{ padding: "12px", background: "#fff", borderTop: "1px solid #eef2ff", display: "flex", gap: "8px" }}>
-            <input 
-              ref={inputRef}
-              value={input}
-              onChange={(e) => {
-                const val = e.target.value;
-                setInput(val);
-                // Persist draft to localStorage
-                try {
-                  const draftsState = localStorage.getItem("jamb_chat_drafts");
-                  const drafts = draftsState ? JSON.parse(draftsState) : {};
-                  drafts[questionId] = val;
-                  localStorage.setItem("jamb_chat_drafts", JSON.stringify(drafts));
-                } catch(e) {}
-              }}
-              onKeyDown={handleKeyDown}
-              placeholder={getPlaceholder()}
-              disabled={isLoading || isAtLimit}
-              style={{
-                flex: 1,
-                padding: "10px 16px",
-                borderRadius: "24px",
-                border: "1px solid #c8d8f0",
-                fontSize: "14px",
-                outline: "none"
-              }}
-            />
-            <button 
-              onClick={sendMessage}
-              disabled={isLoading || isAtLimit || !input.trim()}
-              style={{
-                padding: "0 16px",
-                borderRadius: "24px",
-                background: (isLoading || isAtLimit || !input.trim()) ? "#cbd5e1" : "#003366",
-                color: "white",
-                border: "none",
-                fontSize: "12px",
-                fontWeight: "bold",
-                cursor: "pointer"
-              }}
-            >
-              SEND
-            </button>
-          </div>
+          {messages.map((m, i) => {
+            const isAssistant = m.role === "assistant";
+            const optionsMatches = isAssistant ? [...m.content.matchAll(optionRegex)] : [];
 
-          <style>{`
+            return (
+              <div
+                key={i}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: m.role === "user" ? "flex-end" : "flex-start",
+                  gap: "8px",
+                  width: "100%"
+                }}
+              >
+                <div style={{
+                  position: "relative",
+                  maxWidth: "92%",
+                  width: isAssistant ? "fit-content" : "auto",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: m.role === "user" ? "flex-end" : "stretch"
+                }}>
+                  <div
+                    className={isAssistant ? "ai-bubble" : "user-bubble"}
+                    style={{
+                      padding: "12px 18px",
+                      borderRadius: m.role === "user" ? "24px 24px 4px 24px" : "24px 24px 24px 4px",
+                      background: m.role === "user" ? "#003366" : "#fff",
+                      color: m.role === "user" ? "white" : "#111",
+                      fontSize: "14px",
+                      lineHeight: "1.7",
+                      boxShadow: "0 4px 12px rgba(0,0,0,0.06)",
+                      border: isAssistant ? "1px solid #eef2ff" : "none",
+                    }}
+                  >
+                    {isAssistant ? (
+                      <div className="chat-markdown">
+                        <ReactMarkdown
+                          remarkPlugins={[remarkGfm]}
+                          rehypePlugins={[rehypeRaw]}
+                          components={{
+                            img: ({ node, ...props }) => (
+                              <img {...props} style={{ maxWidth: "100%", borderRadius: "8px", margin: "10px 0" }} />
+                            )
+                          }}
+                        >
+                          {/* Strip the options from the text bubble itself as we show them as buttons instead */}
+                          {m.content
+                            .replace(optionRegex, "")
+                            .replace(/\[!TIP\]/g, "💡")
+                            .replace(/\[!NOTE\]/g, "📝")
+                            .replace(/\[!IMPORTANT\]/g, "🚨")
+                            .replace(/\[!WARNING\]/g, "⚠️")
+                          }
+                        </ReactMarkdown>
+                      </div>
+                    ) : (
+                      <span style={{ whiteSpace: "pre-wrap" }}>{m.content}</span>
+                    )}
+                  </div>
+
+                  {/* Keep options visible for the latest unresolved challenge, even after follow-up user text. */}
+                  {isAssistant && i === latestChallengeIndex && optionsMatches.length > 0 && !isLoading && !isLatestChallengeResolved && (
+                    <div style={{
+                      display: "grid",
+                      gridTemplateColumns: optionsMatches.length > 2 ? "repeat(auto-fit, minmax(200px, 1fr))" : "1fr",
+                      gap: "8px",
+                      marginTop: "10px",
+                      width: "100%"
+                    }}>
+                      {optionsMatches.map((match, idx) => {
+                        const letter = match[1];
+                        const text = match[2];
+                        return (
+                          <button
+                            key={idx}
+                            onClick={() => sendSpecificMessage(`I choose option ${letter}`)}
+                            style={{
+                              padding: "10px 12px",
+                              background: "#fff",
+                              border: "1.5px solid #00336615",
+                              borderRadius: "10px",
+                              fontSize: "13px",
+                              color: "#003366",
+                              fontWeight: "600",
+                              textAlign: "left",
+                              cursor: "pointer",
+                              display: "flex",
+                              gap: "10px",
+                              alignItems: "center",
+                              transition: "all 0.2s"
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.borderColor = "#003366";
+                              e.currentTarget.style.background = "#f0f7ff";
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.borderColor = "#00336615";
+                              e.currentTarget.style.background = "#fff";
+                            }}
+                          >
+                            <span style={{ background: "#003366", color: "white", width: "20px", height: "20px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "10px", flexShrink: 0 }}>{letter}</span>
+                            <span>{text}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+
+          {isLoading && (
+            <div style={{ alignSelf: "flex-start", padding: "10px 16px", borderRadius: "18px", background: "#fff", color: "#64748b", fontSize: "13px", border: "1px solid #eef2ff" }}>
+              <span className="typing-dots">AI is thinking</span>
+            </div>
+          )}
+
+          {error && (
+            <div style={{ padding: "10px 16px", background: "#fee2e2", color: "#b91c1c", borderRadius: "12px", fontSize: "12px" }}>
+              {error}
+            </div>
+          )}
+          <div ref={bottomRef} />
+        </div>
+
+        {shouldShowStickyChallengeOptions && (
+          <div
+            style={{
+              padding: "10px 12px",
+              background: "#f8fafc",
+              borderTop: "1px solid #e2e8f0",
+              display: "flex",
+              flexDirection: "column",
+              gap: "8px"
+            }}
+          >
+            <span style={{ fontSize: "12px", color: "#003366", fontWeight: 700 }}>
+              Still on the last challenge? Pick an option quickly:
+            </span>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+              {latestChallengeOptions.map((match, idx) => {
+                const letter = match[1];
+                const text = match[2];
+                return (
+                  <button
+                    key={`sticky-${idx}`}
+                    onClick={() => sendSpecificMessage(`I choose option ${letter}`)}
+                    disabled={isLoading}
+                    style={{
+                      padding: "8px 10px",
+                      background: "white",
+                      border: "1px solid #c8d8f0",
+                      borderRadius: "999px",
+                      fontSize: "12px",
+                      color: "#003366",
+                      fontWeight: "600",
+                      cursor: isLoading ? "not-allowed" : "pointer",
+                      opacity: isLoading ? 0.7 : 1
+                    }}
+                    title={text}
+                  >
+                    {letter}) {text.length > 42 ? `${text.slice(0, 42)}...` : text}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Input Area */}
+        <div style={{ padding: "12px", background: "#fff", borderTop: "1px solid #eef2ff", display: "flex", gap: "8px" }}>
+          <input
+            ref={inputRef}
+            value={input}
+            onChange={(e) => {
+              const val = e.target.value;
+              setInput(val);
+              // Persist draft to localStorage
+              try {
+                const draftsState = localStorage.getItem("jamb_chat_drafts");
+                const drafts = draftsState ? JSON.parse(draftsState) : {};
+                drafts[questionId] = val;
+                localStorage.setItem("jamb_chat_drafts", JSON.stringify(drafts));
+              } catch (e) { }
+            }}
+            onKeyDown={handleKeyDown}
+            placeholder={getPlaceholder()}
+            disabled={isLoading || isAtLimit}
+            style={{
+              flex: 1,
+              padding: "10px 16px",
+              borderRadius: "24px",
+              border: "1px solid #c8d8f0",
+              fontSize: "14px",
+              outline: "none"
+            }}
+          />
+          <button
+            onClick={sendMessage}
+            disabled={isLoading || isAtLimit || !input.trim()}
+            style={{
+              padding: "0 16px",
+              borderRadius: "24px",
+              background: (isLoading || isAtLimit || !input.trim()) ? "#cbd5e1" : "#003366",
+              color: "white",
+              border: "none",
+              fontSize: "12px",
+              fontWeight: "bold",
+              cursor: "pointer"
+            }}
+          >
+            SEND
+          </button>
+        </div>
+
+        <style>{`
             .typing-dots::after { content: '...'; animation: dots 1.5s steps(3, end) infinite; }
             @keyframes dots { 0% { content: '.'; } 33% { content: '..'; } 66% { content: '...'; } 100% { content: '.'; } }
             .chat-markdown blockquote {
