@@ -296,11 +296,13 @@ export default function ExamInterface({
         (normalizedFromEncoded ? imageAliases[normalizedFromEncoded] : "") ||
         imageAliases[normalizedFromDecoded] ||
         filename;
-      const mappedSrc = `/images/${mappedFilename}`;
+      const mappedSrc = imageBaseUrl
+        ? `${imageBaseUrl}/${mappedFilename}`
+        : `/images/${mappedFilename}`;
 
       return `src=${quote}${mappedSrc}${quote}`;
     });
-  }, [imageAliases]);
+  }, [imageAliases, imageBaseUrl]);
 
   const formatRichText = React.useCallback((input?: string) => {
     if (!input) return "";
@@ -349,10 +351,21 @@ export default function ExamInterface({
     }
 
     if (mappedValue.startsWith("/")) {
+      if (/^\/images\//i.test(mappedValue) || /\/storage\/classroom\/editor_images\//i.test(mappedValue)) {
+        const filename = mappedValue.split("/").pop() || "";
+        const mappedFilename = (filename && imageAliases[filename]) ? imageAliases[filename] : filename;
+        if (mappedFilename) {
+          if (imageBaseUrl) return `${imageBaseUrl}/${mappedFilename}`;
+          return `/images/${mappedFilename}`;
+        }
+      }
       return mappedValue;
     }
 
-    // Use local static images first; this avoids Cloudinary miss flicker/hide.
+    if (imageBaseUrl) {
+      return `${imageBaseUrl}/${mappedValue}`;
+    }
+
     return `/images/${mappedValue}`;
   }, [imageAliases, imageBaseUrl]);
 
