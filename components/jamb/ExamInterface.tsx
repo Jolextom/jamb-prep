@@ -97,26 +97,94 @@ export default function ExamInterface({
 }: ExamInterfaceProps) {
   const imageBaseUrl = (process.env.NEXT_PUBLIC_QUESTION_IMAGE_BASE_URL || "").replace(/\/$/, "");
 
-  const formatRichText = React.useCallback((input?: string) => {
-    if (!input) return "";
+  const normalizeLatex = React.useCallback((raw: string) => {
+    if (!raw) return "";
 
-    // Keep HTML intact but reduce raw LaTeX control tokens that hurt readability in plain HTML rendering.
-    return input
+    let text = raw;
+
+    const replaceFrac = (value: string): string => {
+      const fracRegex = /\\frac\s*\{([^{}]+)\}\s*\{([^{}]+)\}/g;
+      let updated = value;
+      let prev = "";
+      while (updated !== prev) {
+        prev = updated;
+        updated = updated.replace(fracRegex, "($1)/($2)");
+      }
+      return updated;
+    };
+
+    text = replaceFrac(text)
+      .replace(/\\dfrac\s*\{([^{}]+)\}\s*\{([^{}]+)\}/g, "($1)/($2)")
+      .replace(/\\tfrac\s*\{([^{}]+)\}\s*\{([^{}]+)\}/g, "($1)/($2)")
+      .replace(/\\sqrt\s*\{([^{}]+)\}/g, "sqrt($1)")
+      .replace(/\\times/g, "x")
+      .replace(/\\cdot/g, "*")
+      .replace(/\\div/g, "/")
+      .replace(/\\pm/g, "+/-")
+      .replace(/\\mp/g, "-/+")
+      .replace(/\\leq/g, "<=")
+      .replace(/\\geq/g, ">=")
+      .replace(/\\neq/g, "!=")
+      .replace(/\\therefore/g, "therefore")
+      .replace(/\\because/g, "because")
+      .replace(/\\alpha/g, "alpha")
+      .replace(/\\beta/g, "beta")
+      .replace(/\\gamma/g, "gamma")
+      .replace(/\\theta/g, "theta")
+      .replace(/\\lambda/g, "lambda")
+      .replace(/\\omega/g, "omega")
+      .replace(/\\mu/g, "mu")
+      .replace(/\\pi/g, "pi")
+      .replace(/\^\{([^{}]+)\}/g, "<sup>$1</sup>")
+      .replace(/_\{([^{}]+)\}/g, "<sub>$1</sub>")
+      .replace(/\^([A-Za-z0-9+-])/g, "<sup>$1</sup>")
+      .replace(/_([A-Za-z0-9+-])/g, "<sub>$1</sub>")
       .replace(/\\left\s*/g, "")
       .replace(/\\right\s*/g, "")
       .replace(/\\\(/g, "(")
       .replace(/\\\)/g, ")")
       .replace(/\\\[/g, "[")
       .replace(/\\\]/g, "]")
+      .replace(/\\,/g, " ")
+      .replace(/\\;/g, " ")
+      .replace(/\\!/g, "")
+      .replace(/\\\s+/g, " ")
+      .replace(/\\(?![nrt])/g, "");
+
+    return text;
+  }, []);
+
+  const formatRichText = React.useCallback((input?: string) => {
+    if (!input) return "";
+
+    // Keep HTML intact but convert common LaTeX-style fragments to readable plain text/HTML.
+    return normalizeLatex(input)
       .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
       .replace(/(^|[^*])\*(?!\s)([^*]+?)\*(?!\*)/g, "$1<em>$2</em>");
-  }, []);
+  }, [normalizeLatex]);
 
   const resolveImageSrc = React.useCallback((raw?: string) => {
     const value = (raw || "").trim();
     if (!value) return "";
 
-    if (/^(https?:)?\/\//i.test(value) || value.startsWith("data:")) {
+    if (value.startsWith("data:")) {
+      return value;
+    }
+
+    if (/^https?:\/\//i.test(value)) {
+      // Prefer local cache for myschool-hosted images when available in public/images.
+      try {
+        const parsed = new URL(value);
+        if (parsed.hostname === "myschool.ng" || parsed.hostname === "www.myschool.ng") {
+          const filename = parsed.pathname.split("/").pop() || "";
+          if (filename) {
+            if (imageBaseUrl) return `${imageBaseUrl}/${filename}`;
+            return `/images/${filename}`;
+          }
+        }
+      } catch {
+        // Keep original URL if parsing fails.
+      }
       return value;
     }
 

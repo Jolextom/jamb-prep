@@ -44,4 +44,5 @@ rate_limit.json
 /json_data/
 /json_data_strict_only/
 /output_images/
+/public/images/
 /scripts/*.py
