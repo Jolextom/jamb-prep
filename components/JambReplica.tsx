@@ -284,6 +284,13 @@ export default function JambReplica() {
 
         let allQuestions: any[] = await res.json();
 
+        // 0. Golden CBT range: serve 2010+ only.
+        allQuestions = allQuestions.filter((q) => {
+          const rawYear = q.examyear ?? q.yr;
+          const year = Number(String(rawYear ?? "").trim());
+          return Number.isFinite(year) && year >= 2010;
+        });
+
         // 1. Filter out questions with passages for English (too long/time consuming)
         // 2. Filter out novel-based questions (prescribed texts)
         if (metadata.slug === "english" || metadata.slug === "englishlit") {
@@ -301,34 +308,79 @@ export default function JambReplica() {
           });
         }
 
-        // 3. STRATIFIED RANDOMIZATION (Topic Spreading)
-        const questionsByTopic: Record<string, any[]> = {};
-        allQuestions.forEach(q => {
-          const t = q.topic || "General";
-          if (!questionsByTopic[t]) questionsByTopic[t] = [];
-          questionsByTopic[t].push(q);
-        });
+        // 3. High-yield sampling: 70% from heavy repeated topics, 30% from minor topics.
+        const pickStratifiedByTopic = (pool: any[], count: number): any[] => {
+          if (count <= 0 || pool.length === 0) return [];
 
-        const topicNames = Object.keys(questionsByTopic);
-        const targetCount = Math.min(config.count, allQuestions.length);
-        const picked: any[] = [];
-
-        if (topicNames.length > 0 && targetCount > 0) {
-          // Shuffle each topic group first
-          topicNames.forEach(t => {
-            questionsByTopic[t] = fisherYatesShuffle(questionsByTopic[t]);
+          const grouped: Record<string, any[]> = {};
+          pool.forEach((q) => {
+            const t = q.topic || "General";
+            if (!grouped[t]) grouped[t] = [];
+            grouped[t].push(q);
           });
 
-          // Round-robin picking to ensure spread
+          const topicNames = Object.keys(grouped);
+          topicNames.forEach((t) => {
+            grouped[t] = fisherYatesShuffle(grouped[t]);
+          });
+
+          const out: any[] = [];
           let topicIdx = 0;
-          while (picked.length < targetCount) {
+          while (out.length < count) {
             const t = topicNames[topicIdx % topicNames.length];
-            const q = questionsByTopic[t].pop();
-            if (q) picked.push(q);
+            const q = grouped[t].pop();
+            if (q) out.push(q);
 
             topicIdx++;
-            // Safety break if we've cycled through all and found nothing (shouldn't happen given targetCount check)
-            if (topicIdx > targetCount * 10) break;
+            if (topicIdx > count * 10) break;
+          }
+          return out;
+        };
+
+        const targetCount = Math.min(config.count, allQuestions.length);
+        let picked: any[] = [];
+
+        if (targetCount > 0) {
+          const topicCounts: Record<string, number> = {};
+          allQuestions.forEach((q) => {
+            const t = (q.topic || "").toString().trim();
+            if (!t) return;
+            topicCounts[t] = (topicCounts[t] || 0) + 1;
+          });
+
+          const sortedTopics = Object.entries(topicCounts).sort((a, b) => b[1] - a[1]);
+          const highYieldTopicCount = sortedTopics.length > 0
+            ? Math.max(1, Math.ceil(sortedTopics.length * 0.3))
+            : 0;
+          const highYieldTopics = new Set(
+            sortedTopics.slice(0, highYieldTopicCount).map(([topic]) => topic)
+          );
+
+          const topicKey = (q: { topic?: unknown }) => (q.topic || "").toString().trim();
+          const highYieldPool = allQuestions.filter((q) => {
+            const t = topicKey(q);
+            return t && highYieldTopics.has(t);
+          });
+          const minorPool = allQuestions.filter((q) => {
+            const t = topicKey(q);
+            return !t || !highYieldTopics.has(t);
+          });
+
+          const highTarget = Math.min(Math.round(targetCount * 0.7), highYieldPool.length);
+          const minorTarget = Math.min(targetCount - highTarget, minorPool.length);
+
+          picked = [
+            ...pickStratifiedByTopic(highYieldPool, highTarget),
+            ...pickStratifiedByTopic(minorPool, minorTarget),
+          ];
+
+          // Fill any remainder from leftovers while keeping randomness.
+          if (picked.length < targetCount) {
+            const pickedKeys = new Set(picked.map((q) => `${q.id || ""}::${q.question || ""}`));
+            const leftovers = fisherYatesShuffle(
+              allQuestions.filter((q) => !pickedKeys.has(`${q.id || ""}::${q.question || ""}`))
+            );
+            picked = [...picked, ...leftovers.slice(0, targetCount - picked.length)];
           }
         }
 

@@ -40,3 +40,8 @@ yarn-error.log*
 *.tsbuildinfo
 # jamb-prep specific
 rate_limit.json
+/lib/database.db
+/json_data/
+/json_data_strict_only/
+/output_images/
+/scripts/*.py

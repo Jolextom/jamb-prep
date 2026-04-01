@@ -5,7 +5,7 @@ export const SUBJECT_METADATA = [
   { name: "Physics", slug: "physics", default: 40, fixedExamCount: 40, isReady: true },
   { name: "Chemistry", slug: "chemistry", default: 40, fixedExamCount: 40, isReady: true },
   { name: "Biology", slug: "biology", default: 40, fixedExamCount: 40, isReady: true },
-  { name: "Economics", slug: "economics", default: 40, fixedExamCount: 40, isReady: false },
+  { name: "Economics", slug: "economics", default: 40, fixedExamCount: 40, isReady: true },
   { name: "Government", slug: "government", default: 40, fixedExamCount: 40, isReady: true },
   { name: "Commerce", slug: "commerce", default: 40, fixedExamCount: 40, isReady: false },
   { name: "Accounting", slug: "accounting", default: 40, fixedExamCount: 40, isReady: false },
