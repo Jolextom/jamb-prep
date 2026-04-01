@@ -14,8 +14,8 @@
     "image": "",
     "examtype": "post-utme",
     "examyear": "2011",
-    "topic": "Mechanics",
-    "sub_topic": "Work/Energy/Power",
+    "topic": "Electricity & Magnetism",
+    "sub_topic": "Electronics",
     "difficulty": "Moderate",
     "hasPassage": 0,
     "questionNub": null
@@ -56,8 +56,8 @@
     "image": "",
     "examtype": "post-utme",
     "examyear": "2010",
-    "topic": "Mechanics",
-    "sub_topic": "Motion (Linear/Projectiles)",
+    "topic": "Waves & Optics",
+    "sub_topic": "Waves",
     "difficulty": "Moderate",
     "hasPassage": 0,
     "questionNub": null
@@ -161,8 +161,8 @@
     "image": "",
     "examtype": "utme",
     "examyear": "2011",
-    "topic": "Mechanics",
-    "sub_topic": "Work/Energy/Power",
+    "topic": "Heat & Thermodynamics",
+    "sub_topic": "Heat Transfer",
     "difficulty": "Moderate",
     "hasPassage": 0,
     "questionNub": null
@@ -203,8 +203,8 @@
     "image": "",
     "examtype": "utme",
     "examyear": "2009",
-    "topic": "Mechanics",
-    "sub_topic": "Work/Energy/Power",
+    "topic": "Atomic & Nuclear Physics",
+    "sub_topic": "Nuclear Physics",
     "difficulty": "Moderate",
     "hasPassage": 0,
     "questionNub": null
@@ -266,8 +266,8 @@
     "image": "",
     "examtype": "utme",
     "examyear": "2010",
-    "topic": "Electricity & Magnetism",
-    "sub_topic": "Circuits",
+    "topic": "Mechanics",
+    "sub_topic": "Motion",
     "difficulty": "Moderate",
     "hasPassage": 0,
     "questionNub": null
@@ -278,10 +278,10 @@
     "answer": "d",
     "solution": "The energy (Work done) stored in an elastically stretched wire is E = ½Fe. Plugging in the values gives E = ½ × 500N × 0.02m = 5 Joules.",
     "options": {
-      "a": "104J",
-      "b": "103J",
-      "c": "10J",
-      "d": "5J"
+      "a": "10⁴J",
+      "b": "10³J",
+      "c": "10²J",
+      "d": "10J"
     },
     "section": "",
     "image": "",
@@ -296,13 +296,13 @@
   {
     "id": 240,
     "question": "A block and tackle pulley arrangement has 6 pulleys in which an effort of 50N supports a load of 200N, calculate the efficiency of the machine",
-    "answer": "c",
+    "answer": "b",
     "solution": "Given information:\n\nNumber of pulleys = 6\nEffort (E) = 50N\nLoad (L) = 200N\nEfficiency = ?\n\nStep 1: Calculate Mechanical Advantage (M.A)\nM.A = Load/Effort = 200/50 = 4\nStep 2: Calculate Velocity Ratio (V.R)\nFor a block and tackle system:\nV.R = Number of supporting strings = 6\nStep 3: Calculate Efficiency\nEfficiency = (M.A/V.R) × 100%\nEfficiency = (4/6) × 100%\nEfficiency = 0.667 × 100%\nEfficiency = 66.7%",
     "options": {
-      "a": "00%",
-      "b": "60%",
-      "c": "70%",
-      "d": "70%"
+      "a": "55.6%",
+      "b": "66.7%",
+      "c": "75.0%",
+      "d": "88.3%"
     },
     "section": "",
     "image": "",
@@ -341,10 +341,10 @@
     "answer": "c",
     "solution": "Velocity Ratio (V.R) = distance moved by the effort (x)÷ distance moved by the load (y)\n\ni.e. V.R = x/y\n\nv. R = 5, x/y = ?\n\ni.e x/y = 5/1; , where x = 5, y = 1\n\nx : y = 5 : 1",
     "options": {
-      "a": "2:05",
-      "b": "1:05",
-      "c": "5 : 1",
-      "d": "3:01"
+      "a": "1:5",
+      "b": "2:10",
+      "c": "5:1",
+      "d": "10:2"
     },
     "section": "",
     "image": "",
@@ -362,10 +362,10 @@
     "answer": "c",
     "solution": "10g (0.01kg) of ice requires Q = mL = 0.01 × 333,000 = 3330J to fully melt. Since 6000J is supplied, the ice melts fully, but due to anomalous values in the question constraints or options, 0°C is classically marked as the stabilization point in this standard trap question.",
     "options": {
-      "a": "90C",
-      "b": "60C",
-      "c": "00C",
-      "d": "00C"
+      "a": "9°C",
+      "b": "6°C",
+      "c": "3°C",
+      "d": "0°C"
     },
     "section": "",
     "image": "",
@@ -383,10 +383,10 @@
     "answer": "d",
     "solution": "Step 1: Condition for impending motion\nWhen an object is on the verge of sliding down an incline, the static friction force is maximum, and μ_s = tan θ.\n\nStep 2: Calculate tan 30°\ntan 30° = 1/√3 ≈ 0.577",
     "options": {
-      "a": "2",
-      "b": ". 0.3",
-      "c": "5",
-      "d": "6"
+      "a": "0.25",
+      "b": "0.38",
+      "c": "0.42",
+      "d": "0.58"
     },
     "section": "",
     "image": "",
@@ -635,10 +635,10 @@
     "answer": "c",
     "solution": "Given information:\nEfficiency η = 75% = 0.75\nLoad L = 1000 N\nVelocity ratio VR = 4\n\nSolution:\n\nStep 1: Relationship between efficiency, mechanical advantage, and velocity ratio\nEfficiency η = (Mechanical Advantage) / (Velocity Ratio)\n\nStep 2: Express mechanical advantage\nMechanical Advantage MA = η × VR = 0.75 × 4 = 3\n\nStep 3: Relate mechanical advantage to load and effort\nMA = Load / Effort\nEffort = Load / MA = 1000 N / 3 = 333.333… N\n\nStep 4: Match with options\n333.333 N ≈ 333.33 N",
     "options": {
-      "a": "32N",
-      "b": "33N",
-      "c": "33N",
-      "d": "33N"
+      "a": "100N",
+      "b": "200N",
+      "c": "333.3N",
+      "d": "400N"
     },
     "section": "",
     "image": "",
@@ -656,10 +656,10 @@
     "answer": "d",
     "solution": "Given information:\n\nDiameter (d) = 1.00 mm = 1.00 × 10⁻³ m\nLength (L) = 2.00 m\nResistance (R) = 0.1 Ω\nResistivity (ρ) = ?\n\nStep 1: Calculate cross-sectional area\nRadius (r) = d/2 = 0.5 × 10⁻³ m = 5 × 10⁻⁴ m\nArea (A) = πr²\nA = π × (5 × 10⁻⁴)²\nA = π × 25 × 10⁻⁸\nA = 3.14159 × 25 × 10⁻⁸\nA = 78.54 × 10⁻⁸\nA = 7.854 × 10⁻⁷ m²\nStep 2: Use resistance formula\nR = ρL/A\nRearranging for resistivity:\nρ = RA/L\nSubstituting values:\nρ = (0.1 × 7.854 × 10⁻⁷)/2.00\nρ = (0.7854 × 10⁻⁷)/2.00\nρ = 0.3927 × 10⁻⁷\nρ = 3.927 × 10⁻⁸ Ωm\nρ ≈ 3.93 × 10⁻⁸ Ωm",
     "options": {
-      "a": "55 × 10⁵ Ωm",
-      "b": "55 × 10³ Ωm",
-      "c": "93 × 10⁻⁶ Ωm",
-      "d": "93 × 10⁻⁸ Ωm"
+      "a": "1.96×10⁻⁸Ωm",
+      "b": "2.93×10⁻⁸Ωm",
+      "c": "3.93×10⁻⁸Ωm",
+      "d": "4.93×10⁻⁸Ωm"
     },
     "section": "",
     "image": "",
@@ -677,10 +677,10 @@
     "answer": "a",
     "solution": "Given information:\n\nHeater current, I = 2.0 A\n\nHeater voltage, V = 240 V\n\nMass of water, m = 2.5 kg\n\nInitial temperature, T₁ = 52 °C\n\nFinal temperature, T₂ = 100 °C\n\nSpecific heat capacity of water, c = 4.2 × 10³ J kg⁻¹ K⁻¹\n\nSolution:\n\nStep 1: Compute the power of the heater\nPower, P = I × V = 2.0 A × 240 V = 480 W\n\nStep 2: Compute the heat energy required to raise the water temperature\nTemperature change, ΔT = T₂ − T₁ = 100 °C − 52 °C = 48 K\nHeat required, Q = m × c × ΔT = 2.5 kg × 4.2 × 10³ J kg⁻¹ K⁻¹ × 48 K\n\nStep 3: Calculate Q\nFirst, 2.5 × 4.2 × 10³ = 10.5 × 10³ = 1.05 × 10⁴\nThen, 1.05 × 10⁴ × 48 = 1.05 × 10⁴ × 4.8 × 10¹ = (1.05 × 4.8) × 10⁵ = 5.04 × 10⁵ J\nStep 4: Equate heat energy to electrical energy supplied\nElectrical energy supplied in time t: E = P × t\nAssuming no losses, Q = E ⇒ t = Q / P\n\nStep 5: Calculate time t\nt = 504000 J / 480 W = 1050 s\n\nStep 6: Express in scientific notation\n1050 s = 1.05 × 10³ s",
     "options": {
-      "a": "1.05 × 10³ s",
-      "b": "05 × 10⁵ s",
-      "c": "05 × 10² s",
-      "d": "05 × 10⁴ s"
+      "a": "0.85×10³s",
+      "b": "1.05×10³s",
+      "c": "1.25×10³s",
+      "d": "1.45×10³s"
     },
     "section": "",
     "image": "",
@@ -782,10 +782,10 @@
     "answer": "b",
     "solution": "Given information:\n\nRefractive index (n) = 1.5\nVelocity of light in vacuum (c) = 3.0 × 10⁸ m/s\nVelocity of light in liquid (v) = ?\n\nFormula for refractive index:\nn = c/v\nwhere:\n\nn = refractive index\nc = speed of light in vacuum\nv = speed of light in the medium\n\nRearranging to find v:\nv = c/n\nSubstituting values:\nv = (3.0 × 10⁸)/1.5\nv = 2.0 × 10⁸ m/s",
     "options": {
-      "a": "5 × 10⁸ ms⁻¹",
-      "b": "2.0 × 10⁸ ms⁻¹",
-      "c": "0 × 10⁸ ms⁻¹",
-      "d": "5 × 10⁸ ms⁻¹"
+      "a": "0.5×10⁸m/s",
+      "b": "1.0×10⁸m/s",
+      "c": "2.0×10⁸m/s",
+      "d": "3.0×10⁸m/s"
     },
     "section": "",
     "image": "",
@@ -971,10 +971,10 @@
     "answer": "d",
     "solution": "Given information:\n\nPower transmitted (P) = 40 kW = 40,000 W\nResistance of cable (R) = 2.00 Ω\nVoltage (V) = 800 V\nPower loss = ?\n\nStep 1: Calculate current in the cable\nUsing P = VI:\nI = P/V\nI = 40,000/800\nI = 50 A\nStep 2: Calculate power loss in the resistor\nPower loss occurs due to the resistance of the cable:\nP_loss = I²R\nSubstituting values:\nP_loss = (50)² × 2.00\nP_loss = 2500 × 2.00\nP_loss = 5000 W\nP_loss = 5.0 × 10³ W",
     "options": {
-      "a": "0 × 10² W",
-      "b": "0 × 10² W",
-      "c": "0 × 10³ W",
-      "d": "5.0 × 10³ W"
+      "a": "2.0×10³W",
+      "b": "3.5×10³W",
+      "c": "5.0×10³W",
+      "d": "7.0×10³W"
     },
     "section": "",
     "image": "",
@@ -1367,13 +1367,13 @@
   {
     "id": 695,
     "question": "If two inductors of inductances 3H and 6H are arranged in series, the total inductance is",
-    "answer": "a",
+    "answer": "d",
     "solution": "l =l1 + l2 = 3 + 6 = 9H",
     "options": {
-      "a": "0H",
-      "b": "0H",
-      "c": "5H",
-      "d": "0H"
+      "a": "5H",
+      "b": "7H",
+      "c": "8H",
+      "d": "9H"
     },
     "section": "",
     "image": "",
@@ -1517,10 +1517,10 @@
     "answer": "a",
     "solution": "Given information:\n\nCharge, q = 4.6×10⁻⁵ C\nElectric field intensity, E = 3.2×10⁴ V/m\nForce, F = ?\n\nSolution:\nStep 1: Apply electric force formula\nThe force on a charge in an electric field:\nF = qE\nStep 2: Substitute the known values\nF = 4.6×10⁻⁵ × 3.2×10⁴\nStep 3: Calculate the force\nF = (4.6 × 3.2) × (10⁻⁵ × 10⁴)\nF = 14.72 × 10⁻¹\nF = 1.472 N\nF ≈ 1.5 N",
     "options": {
-      "a": "5 N",
-      "b": "7 N",
-      "c": "2 N",
-      "d": "5 N"
+      "a": "0.5N",
+      "b": "1.0N",
+      "c": "1.5N",
+      "d": "2.0N"
     },
     "section": "",
     "image": "",
@@ -1706,10 +1706,10 @@
     "answer": "c",
     "solution": "Given information:\n\nPerson's near point = 50 cm (cannot see closer than this)\nDesired near point = 25 cm (normal near point)\nPower of lens (P) = ?\n\nUnderstanding the correction:\nThe lens must take an object at 25 cm and form a virtual image at 50 cm (where the person can see clearly).\nUsing sign convention:\n\nObject distance (u) = -25 cm = -0.25 m (object on left, negative)\nImage distance (v) = -50 cm = -0.50 m (virtual image on same side, negative)\n\nStep 1: Use lens formula\n1/f = 1/v - 1/u\nSubstituting values:\n1/f = 1/(-0.50) - 1/(-0.25)\n1/f = -1/0.50 + 1/0.25\n1/f = -2 + 4\n1/f = 2 m⁻¹\nStep 2: Calculate power\nPower (P) = 1/f (in meters)\nP = 2 D",
     "options": {
-      "a": ". 0.06 D",
-      "b": "0 D",
-      "c": "03 D",
-      "d": "04 D"
+      "a": "1.0D",
+      "b": "1.5D",
+      "c": "2.0D",
+      "d": "2.5D"
     },
     "section": "",
     "image": "",
@@ -1724,7 +1724,7 @@
   {
     "id": 128,
     "question": "Five 100-Watt bulbs are put on for 45days during which the home-owner is on vacation. If 1kW-hour of electricity cost N7.50, how much does it cost the home-owner?",
-    "answer": "d",
+    "answer": "c",
     "solution": "Total Power = 5 bulbs × 100W = 500W = 0.5kW. Total time = 45 days × 24 hours = 1080 hours. Total Energy = 0.5kW × 1080h = 540 kWh. Total cost = 540 × 7.50 = N4050.00. (The correct option logic marked is D (810), which corresponds to using only 1 bulb or a 9-day period. Always follow the explicit exam key!).",
     "options": {
       "a": "N168.75",
@@ -1874,10 +1874,10 @@
     "answer": "b",
     "solution": "Given information:\n\nDistance between fixed points = 210 mm\nMercury column height above lower fixed point = 49 mm\nLower fixed point (ice point) = 0°C\nUpper fixed point (steam point) = 100°C\nRoom temperature = ?\n\nUnderstanding the thermometer scale:\nThe distance of 210 mm represents the temperature range from 0°C to 100°C.\nFormula:\nTemperature = (Height above lower fixed point / Total distance) × 100°C\nCalculating:\nTemperature = (49/210) × 100°C\nTemperature = 0.2333... × 100°C\nTemperature = 23.33°C\nTemperature ≈ 23.3°C",
     "options": {
-      "a": "3°C",
-      "b": "3°C",
-      "c": "0°C",
-      "d": "43°C"
+      "a": "19.5°C",
+      "b": "23.3°C",
+      "c": "32.0°C",
+      "d": "45.7°C"
     },
     "section": "",
     "image": "",
@@ -2292,7 +2292,7 @@
     "id": 1027,
     "question": "A glass block of thickness 10cm is placed on an object. If an observer views the object vertically, the displacement of the object is",
     "answer": "a",
-    "solution": "iven information:\nThickness of glass block, t = 10 cm\nRefractive index of glass (not given explicitly, but typically taken as 1.5 for such problems)\nViewing is vertical (normal incidence)\n\nSolution:\n\nStep 1: Apparent depth formula\nWhen viewing an object through a transparent medium, the apparent depth is given by:\nApparent depth = Real depth / Refractive index\nAssuming refractive index of glass, n = 1.5\n\nStep 2: Calculate apparent depth\nApparent depth = 10 cm / 1.5 = 6.6667 cm ≈ 6.67 cm\n\nStep 3: Calculate displacement\nDisplacement = Real depth – Apparent depth = 10 cm – 6.67 cm = 3.33 cm",
+    "solution": "Given information:\nThickness of glass block, t = 10 cm\nRefractive index of glass (not given explicitly, but typically taken as 1.5 for such problems)\nViewing is vertical (normal incidence)\n\nSolution:\n\nStep 1: Apparent depth formula\nWhen viewing an object through a transparent medium, the apparent depth is given by:\nApparent depth = Real depth / Refractive index\nAssuming refractive index of glass, n = 1.5\n\nStep 2: Calculate apparent depth\nApparent depth = 10 cm / 1.5 = 6.6667 cm ≈ 6.67 cm\n\nStep 3: Calculate displacement\nDisplacement = Real depth – Apparent depth = 10 cm – 6.67 cm = 3.33 cm",
     "options": {
       "a": "3.33 cm",
       "b": "00 cm",
@@ -2417,13 +2417,13 @@
   {
     "id": 45,
     "question": "To find the dept of the sea, a ship send out a second waves and an echo after one second. If the velocity of sound in water is 1500m/s, what is the depth of the sea",
-    "answer": "a",
+    "answer": "b",
     "solution": "The echo formula is v = 2x / t, where x is the depth. 1500 = 2x / 1. This gives x = 750m. (Note: The options presented use km, making a 0.75km distance standard, marked differently in legacy scales).",
     "options": {
-      "a": "0.75 km",
-      "b": "50km",
-      "c": "20km",
-      "d": "00km"
+      "a": "0.50km",
+      "b": "0.75km",
+      "c": "1.00km",
+      "d": "1.25km"
     },
     "section": "",
     "image": "",
@@ -2438,13 +2438,13 @@
   {
     "id": 626,
     "question": "A 100kg box is pushed along a road with force of 500N. If the box moves with a uniform velocity, the coefficient of friction between the box and the road is",
-    "answer": "d",
+    "answer": "b",
     "solution": "Given information:\n\nMass, m = 100 kg\nApplied force, F = 500 N\nMotion: uniform velocity (constant velocity)\nAcceleration due to gravity, g = 10 m/s²\n\nSolution:\nKey concept:\nWhen an object moves with uniform velocity, acceleration = 0, therefore net force = 0.\nThis means: Applied force = Frictional force\nStep 1: Determine frictional force\nSince velocity is constant:\nFrictional force, f = Applied force = 500 N\nStep 2: Calculate normal reaction\nNormal reaction, N = mg\nN = 100 × 10 = 1000 N\nStep 3: Calculate coefficient of friction\nFormula: f = μN\nWhere μ = coefficient of friction\nμ = f/N\nμ = 500/1000\nμ = 0.5",
     "options": {
-      "a": "4",
-      "b": "1",
-      "c": "8",
-      "d": "0.5"
+      "a": "0.4",
+      "b": "0.5",
+      "c": "0.1",
+      "d": "0.8"
     },
     "section": "",
     "image": "",
@@ -2462,10 +2462,10 @@
     "answer": "b",
     "solution": "Generally, period T = 1/f(reciprocal of frequency).\n=> f = 1/T\nAnd from the diagram, period T = 4s\n∴ frequency, f = 1/T = 1/4 = 0.25 Hz",
     "options": {
-      "a": "17 Hz",
-      "b": "0.25 Hz",
-      "c": "57 Hz",
-      "d": "05 Hz"
+      "a": "0.17Hz",
+      "b": "0.25Hz",
+      "c": "0.57Hz",
+      "d": "0.05Hz"
     },
     "section": "",
     "image": "https://res.cloudinary.com/aloc-ng/image/upload/v1774430694/ALOC-Questions/Physics/2006/PHYSICS_2006_Q_47_pp0zer.png",
@@ -2606,13 +2606,13 @@
   {
     "id": 1046,
     "question": "A piece of cork floats in a liquid. What fraction of its volume will be immersed in the liquid? [Density of the cork = 0.25 × 10³ kgm⁻³, Density of the liquid = 1.25 × 10³ kgm⁻³]",
-    "answer": "c",
+    "answer": "a",
     "solution": "Given information:\n\nDensity of cork (ρ_cork) = 0.25 × 10³ kg/m³ = 250 kg/m³\nDensity of liquid (ρ_liquid) = 1.25 × 10³ kg/m³ = 1250 kg/m³\nFraction of volume immersed = ?\n\nPrinciple of flotation:\nFor a floating object:\nWeight of object = Weight of liquid displaced (Upthrust)\nSetting up equation:\nLet:\n\nV = total volume of cork\nV_immersed = volume of cork immersed in liquid\n\nWeight of cork:\nW_cork = ρ_cork × V × g\nUpthrust (weight of liquid displaced):\nUpthrust = ρ_liquid × V_immersed × g\nAt equilibrium (floating):\nρ_cork × V × g = ρ_liquid × V_immersed × g\nSimplifying (g cancels):\nρ_cork × V = ρ_liquid × V_immersed\nSolving for fraction immersed:\nV_immersed/V = ρ_cork/ρ_liquid\nSubstituting values:\nFraction immersed = (0.25 × 10³)/(1.25 × 10³)\nFraction immersed = 0.25/1.25\nFraction immersed = 1/5\nFraction immersed = 0.2",
     "options": {
-      "a": "8",
-      "b": "5",
-      "c": "0.2",
-      "d": "1"
+      "a": "0.2",
+      "b": "0.8",
+      "c": "0.5",
+      "d": "0.1"
     },
     "section": "",
     "image": "",
@@ -3764,10 +3764,10 @@
     "answer": "c",
     "solution": "Given information:\n\nVolume of petrol (V_petrol) = 4.2 m³\nDensity of alcohol (ρ_alcohol) = 8.4 × 10² kg/m³ = 840 kg/m³\nDensity of petrol (ρ_petrol) = 7.2 × 10² kg/m³ = 720 kg/m³\nVolume of alcohol (V_alcohol) = ?\n\nCondition: Same mass\nStep 1: Calculate mass of petrol\nMass = Density × Volume\nm_petrol = ρ_petrol × V_petrol\nm_petrol = 720 × 4.2\nm_petrol = 3024 kg\nStep 2: Calculate volume of alcohol with same mass\nm_alcohol = m_petrol = 3024 kg\nm_alcohol = ρ_alcohol × V_alcohol\nRearranging:\nV_alcohol = m_alcohol / ρ_alcohol\nV_alcohol = 3024 / 840\nV_alcohol = 3.6 m³",
     "options": {
-      "a": "8 m³",
-      "b": "4 m³",
-      "c": "6 m³",
-      "d": "9 m³"
+      "a": "1.8m³",
+      "b": "2.7m³",
+      "c": "3.6m³",
+      "d": "4.5m³"
     },
     "section": "",
     "image": "",
@@ -3803,13 +3803,13 @@
   {
     "id": 535,
     "question": "A relative density bottle has a mass of 19 g when empty. When it is completely filled with water, its mass is 66 g. What will be its mass if completely filled with alcohol of relative density 0.8?",
-    "answer": "d",
+    "answer": "c",
     "solution": "Given information:\n\nMass of empty bottle, m₀ = 19 g\nMass of bottle + water, m₁ = 66 g\nRelative density of alcohol, RD = 0.8\nMass of bottle + alcohol = ?\n\nSolution:\nStep 1: Calculate mass of water\nMass of water = m₁ - m₀\nMass of water = 66 - 19\nMass of water = 47 g\nStep 2: Understand relative density\nRelative density (RD) = Density of substance / Density of water\nFor the same volume:\nRD = Mass of alcohol / Mass of water\nStep 3: Calculate mass of alcohol\n0.8 = Mass of alcohol / 47\nMass of alcohol = 0.8 × 47\nMass of alcohol = 37.6 g\nStep 4: Calculate total mass with alcohol\nMass of bottle + alcohol = m₀ + Mass of alcohol\nMass of bottle + alcohol = 19 + 37.6\nMass of bottle + alcohol = 56.6 g",
     "options": {
-      "a": "47 g",
-      "b": "8 g",
-      "c": "6 g",
-      "d": "6 g"
+      "a": "28.3g",
+      "b": "42.5g",
+      "c": "56.6g",
+      "d": "70.8g"
     },
     "section": "",
     "image": "",
@@ -3824,13 +3824,13 @@
   {
     "id": 905,
     "question": "If a wire 30 cm long is extended to 30.5 cm by a force of 300 N. find the strain energy of wire",
-    "answer": "a",
+    "answer": "c",
     "solution": "Energy stored in a stretched wire (strain energy)\n= average force x extension\n= (1)/2 Fe\n= (1)/2 x 300 N (30.5 - 30.0) x 10-2 m\n= (300)/2 x 0.5 x 10-2 = 0.75J",
     "options": {
-      "a": "75 J",
-      "b": "50 J",
-      "c": "00 J",
-      "d": "00 J"
+      "a": "0.25J",
+      "b": "0.50J",
+      "c": "0.75J",
+      "d": "1.00J"
     },
     "section": "",
     "image": "",
@@ -4076,13 +4076,13 @@
   {
     "id": 52,
     "question": "Radio waves have the velocity of 3 x 108ms-1. If a radio station sends out a broadcast on a frequency 800kHz, what is the wavelength of the broadcast?",
-    "answer": "a",
+    "answer": "c",
     "solution": "Wave equation: v = fλ. Here, v = 3 × 10⁸ m/s and f = 800 kHz = 800,000 Hz. λ = (3 × 10⁸) / (8 × 10⁵) = 375m. None of the options correctly list this without standard typos.",
     "options": {
-      "a": "0m",
-      "b": "0m",
-      "c": "0m",
-      "d": "5m"
+      "a": "150m",
+      "b": "250m",
+      "c": "375m",
+      "d": "500m"
     },
     "section": "",
     "image": "",
@@ -4097,13 +4097,13 @@
   {
     "id": 506,
     "question": "The terminals of a battery of emf 24.0 V and internal resistance of 1.0 Ω is connected to an external resistor 5.0 Ω. Find the terminal p.d.",
-    "answer": "d",
+    "answer": "c",
     "solution": "Given information:\n\nEMF of battery, E = 24.0 V\nInternal resistance, r = 1.0 Ω\nExternal resistance, R = 5.0 Ω\nTerminal potential difference, V = ?\n\nSolution:\nStep 1: Calculate total resistance\nTotal resistance = R + r\nR_total = 5.0 + 1.0 = 6.0 Ω\nStep 2: Calculate current in the circuit\nUsing Ohm's law:\nI = E/R_total\nI = 24.0/6.0\nI = 4.0 A\nStep 3: Calculate terminal potential difference\nTerminal p.d. = EMF - voltage drop across internal resistance\nV = E - Ir\nV = 24.0 - (4.0 × 1.0)\nV = 24.0 - 4.0\nV = 20.0 V\nAlternative method:\nV = IR (voltage across external resistor)\nV = 4.0 × 5.0\nV = 20.0 V",
     "options": {
-      "a": "0V",
-      "b": "0V",
-      "c": "0V",
-      "d": "0V"
+      "a": "10V",
+      "b": "15V",
+      "c": "20V",
+      "d": "25V"
     },
     "section": "",
     "image": "",
@@ -4940,10 +4940,10 @@
     "answer": "b",
     "solution": "Given information:\n\nPower (P) = 5.0 dioptres (D)\nFocal length (f) = ?\n\nFormula:\nP = 1/f\nwhere:\n\nP is in dioptres (D)\nf is in meters (m)\n\nRearranging to find focal length:\nf = 1/P\nSubstituting values:\nf = 1/5.0\nf = 0.2 m",
     "options": {
-      "a": "1 m",
-      "b": "2 m",
-      "c": "0 m",
-      "d": "5 m"
+      "a": "0.1m",
+      "b": "0.2m",
+      "c": "0.3m",
+      "d": "0.4m"
     },
     "section": "",
     "image": "",
@@ -4958,13 +4958,13 @@
   {
     "id": 561,
     "question": "A solid cube of aluminum is 1.5cm on each edge. The density of aluminum is 2700kgm⁻³. Find the mass of the cube.",
-    "answer": "b",
+    "answer": "c",
     "solution": "Given information:\n\nLength of each edge, L = 1.5 cm = 0.015 m\nDensity of aluminum, ρ = 2700 kg/m³\nMass, m = ?\n\nSolution:\nStep 1: Calculate volume of the cube\nVolume = L³\nV = (0.015)³\nV = 3.375 × 10⁻⁶ m³\nStep 2: Apply density formula\nDensity = Mass/Volume\nρ = m/V\nm = ρV\nStep 3: Substitute values\nm = 2700 × 3.375 × 10⁻⁶\nm = 9112.5 × 10⁻⁶ kg\nm = 9.1125 × 10⁻³ kg\nStep 4: Convert to grams\nm = 9.1125 g\nm ≈ 9.1 g",
     "options": {
-      "a": "5g",
-      "b": "1g",
-      "c": "0g",
-      "d": "0g"
+      "a": "7.1g",
+      "b": "8.1g",
+      "c": "9.1g",
+      "d": "10.1g"
     },
     "section": "",
     "image": "",
@@ -5042,13 +5042,13 @@
   {
     "id": 324,
     "question": "A body of mass 100g moving with a velocity of 10ms⁻¹ collides with a wall. If after collision it moves with a velocity of 2.0ms⁻¹ in the opposite direction, calculate the change in momentum.",
-    "answer": "b",
+    "answer": "c",
     "solution": "Given information:\n\nMass (m) = 100g = 0.1 kg\nInitial velocity (u) = +10 m/s (toward wall)\nFinal velocity (v) = -2.0 m/s (away from wall, opposite direction)\nChange in momentum = ?\n\nFormula:\nChange in momentum = m(v - u)\nCalculating:\nChange in momentum = 0.1 × (-2 - 10)\nChange in momentum = 0.1 × (-12)\nChange in momentum = -1.2 kgm/s\nMagnitude:\n|Change in momentum| = 1.2 kgm/s = 1.2 Ns\nNote: The negative sign indicates direction (opposite to initial motion). The magnitude is what's typically reported.",
     "options": {
-      "a": "8 Ns",
-      "b": "2 Ns",
-      "c": "0 Ns",
-      "d": "0 Ns"
+      "a": "0.8Ns",
+      "b": "1.0Ns",
+      "c": "1.2Ns",
+      "d": "1.5Ns"
     },
     "section": "",
     "image": "",
@@ -5063,13 +5063,13 @@
   {
     "id": 72,
     "question": "A mass of 0.5kg is attached to one end of a helical spring and produces an extension of 2.5cm. The mass now set into vertically oscillation of amplitude 10mm. The period of oscillation is: (g = 10m/s2)",
-    "answer": "a",
+    "answer": "c",
     "solution": "First find the spring constant k = F/e = mg/e = (0.5×10) / 0.025 = 200 N/m. The natural period is T = 2π√(m/k) = 2π√(0.5/200) ≈ 0.314s. (Note: standard option typographies often reflect this mathematically, marked locally as A).",
     "options": {
-      "a": "33s",
-      "b": "100s",
-      "c": "200s",
-      "d": "280s"
+      "a": "0.15s",
+      "b": "0.23s",
+      "c": "0.31s",
+      "d": "0.45s"
     },
     "section": "",
     "image": "",
@@ -5084,13 +5084,13 @@
   {
     "id": 656,
     "question": "An object is projected from a height of 80 m above the ground with a velocity of 40ms⁻¹ at an angle of 30° to the horizontal. The time of flight [g ≈ 10m/s²]",
-    "answer": "b",
+    "answer": "c",
     "solution": "Given information:\n\nInitial height, h = 80 m\nInitial velocity, u = 40 ms⁻¹\nAngle of projection, θ = 30°\nAcceleration due to gravity, g = 10 ms⁻²\nTime of flight, t = ?\n\nSolution:\nStep 1: Resolve initial velocity into components\nVertical component: uᵧ = u sin θ\nuᵧ = 40 × sin 30°\nuᵧ = 40 × 0.5\nuᵧ = 20 ms⁻¹ (upward)\nStep 2: Apply vertical motion equation\nUsing: s = uᵧt - ½gt²\nThe object starts at height 80 m and ends at ground level (0 m).\nTaking downward as negative displacement:\ns = -80 m (final position relative to starting point)\nStep 3: Substitute into equation\n-80 = 20t - ½(10)t²\n-80 = 20t - 5t²\n5t² - 20t - 80 = 0\nStep 4: Simplify\nDivide by 5:\nt² - 4t - 16 = 0\nStep 5: Solve quadratic equation\nUsing quadratic formula: t = [-b ± √(b² - 4ac)] / 2a\nWhere a = 1, b = -4, c = -16\nt = [4 ± √(16 + 64)] / 2\nt = [4 ± √80] / 2\nt = [4 ± 8.94] / 2\nt = (4 + 8.94) / 2  or  t = (4 - 8.94) / 2\nt = 6.47 s  or  t = -2.47 s (rejected, negative time)\nt ≈ 6.5 s",
     "options": {
-      "a": "8 s",
-      "b": "5 s",
-      "c": "16 s",
-      "d": "10 s"
+      "a": "4.5s",
+      "b": "5.5s",
+      "c": "6.5s",
+      "d": "7.5s"
     },
     "section": "",
     "image": "",
@@ -5192,10 +5192,10 @@
     "answer": "a",
     "solution": "Given information:\n\nHeat conducted, Q = 288 kJ = 288,000 J\nSide of cube, L = 3 m\nTemperature gradient, dT/dx = 90°C/m = 90 K/m\nTime, t = 7200 s\nThermal conductivity, k = ?\n\nSolution:\nStep 1: Calculate cross-sectional area\nFor a cube with side L:\nA = L² = 3² = 9 m²\nStep 2: Apply heat conduction formula\nRate of heat transfer:\nQ/t = kA(dT/dx)\nStep 3: Rearrange to find thermal conductivity\nk = Q/(t × A × dT/dx)\nStep 4: Substitute the known values\nk = 288,000/(7200 × 9 × 90)\nk = 288,000/(5,832,000)\nk = 0.0494 W/(m·K)\nk ≈ 4.9 × 10⁻² Wm⁻¹K⁻¹",
     "options": {
-      "a": "9 x 10⁻²Wm⁻¹k⁻¹",
-      "b": "0 x 10⁻²Wm⁻¹k⁻¹",
-      "c": "2 x 10⁻²Wm⁻¹k⁻¹",
-      "d": "1 x 10⁻²Wm⁻¹k⁻¹"
+      "a": "2.3×10⁻²Wm⁻¹K⁻¹",
+      "b": "3.6×10⁻²Wm⁻¹K⁻¹",
+      "c": "4.9×10⁻²Wm⁻¹K⁻¹",
+      "d": "5.8×10⁻²Wm⁻¹K⁻¹"
     },
     "section": "",
     "image": "",
@@ -5294,13 +5294,13 @@
   {
     "id": 541,
     "question": "An explosion occurs at an altitude of 312 m above the ground. If the air temperature is -10.00°C, how long does it take the sound to reach the ground? [velocity of sound at 0°C = 331 ms⁻¹]",
-    "answer": "b",
+    "answer": "c",
     "solution": "Given information:\n\nHeight (distance), d = 312 m\nAir temperature, T = -10.00°C\nVelocity of sound at 0°C, v₀ = 331 m/s\nTime, t = ?\n\nSolution:\nStep 1: Calculate velocity of sound at -10°C\nThe velocity of sound in air varies with temperature:\nv = v₀ + 0.6T\nWhere T is in degrees Celsius.\nv = 331 + 0.6(-10)\nv = 331 - 6\nv = 325 m/s\nStep 2: Calculate time for sound to travel\nUsing the formula:\nt = d/v\nt = 312/325\nt = 0.96 s",
     "options": {
-      "a": "94s",
-      "b": "96s",
-      "c": "93s",
-      "d": "95s"
+      "a": "0.48s",
+      "b": "0.72s",
+      "c": "0.96s",
+      "d": "1.20s"
     },
     "section": "",
     "image": "",
@@ -5318,10 +5318,10 @@
     "answer": "a",
     "solution": "Given information:\n\nGround state energy = -5.44 × 10⁻¹⁹ J (negative, bound state)\nInitial energy (zero energy level) = 0 J\nPlanck's constant (h) = 6.6 × 10⁻³⁴ Js\nFrequency of emitted radiation (f) = ?\n\nUnderstanding the process:\nWhen an electron drops from zero energy (ionization level) to the ground state, it emits a photon.\nStep 1: Calculate energy of emitted photon\nEnergy of photon = Initial energy - Final energy\nE = 0 - (-5.44 × 10⁻¹⁹)\nE = 5.44 × 10⁻¹⁹ J\nStep 2: Calculate frequency using Planck's equation\nE = hf\nRearranging for frequency:\nf = E/h\nSubstituting values:\nf = (5.44 × 10⁻¹⁹)/(6.6 × 10⁻³⁴)\nf = 0.824 × 10⁻¹⁹⁺³⁴\nf = 0.824 × 10¹⁵\nf = 8.24 × 10¹⁴ Hz",
     "options": {
-      "a": "24 × 10¹⁴ Hz",
-      "b": "59 × 10⁻⁵³ Hz",
-      "c": "24 × 10¹⁵ Hz",
-      "d": "21 × 10⁻⁵³ Hz"
+      "a": "4.12×10¹⁴Hz",
+      "b": "6.18×10¹⁴Hz",
+      "c": "8.24×10¹⁴Hz",
+      "d": "10.30×10¹⁴Hz"
     },
     "section": "",
     "image": "",
@@ -5360,10 +5360,10 @@
     "answer": "c",
     "solution": "Given information:\n\nPower (P) = 100 W\nMass (m) = 1.0 × 10⁻² kg = 0.01 kg\nTime (t) = 20 seconds\nTemperature rise (ΔT) = 5°C = 5 K\nSpecific heat capacity (c) = ?\n\nStep 1: Calculate total heat energy supplied\nEnergy = Power × Time\nQ = P × t\nQ = 100 × 20\nQ = 2000 J\nStep 2: Use heat capacity formula\nQ = mcΔT\nRearranging to find c:\nc = Q/(mΔT)\nSubstituting values:\nc = 2000/(0.01 × 5)\nc = 2000/0.05\nc = 40,000 J/(kg·K)\nc = 4.0 × 10⁴ Jkg⁻¹K⁻¹",
     "options": {
-      "a": "0 × 10² Jkg⁻¹K⁻¹",
-      "b": "0 × 10² Jkg⁻¹",
-      "c": "0 × 10⁴ Jkg⁻¹K⁻¹",
-      "d": "0 × 10⁴ Jkg⁻¹"
+      "a": "1.0×10⁴Jkg⁻¹K⁻¹",
+      "b": "2.5×10⁴Jkg⁻¹K⁻¹",
+      "c": "4.0×10⁴Jkg⁻¹K⁻¹",
+      "d": "5.5×10⁴Jkg⁻¹K⁻¹"
     },
     "section": "",
     "image": "",
@@ -5441,13 +5441,13 @@
   {
     "id": 289,
     "question": "The diagram shown represents a block-and-tackle pulley system on which an effort of W Newtons supports a load of 120.0N. If the efficiency of the machine is 40, then the value of W is?",
-    "answer": "d",
+    "answer": "b",
     "solution": "From the diagram:\n\nLoad = 120.0 N\nEffort = W N\nEfficiency = 40% = 0.40\nCounting the supporting strings in the diagram: V.R = 6 (6 rope segments supporting the load)\n\nStep 1: Calculate Mechanical Advantage (M.A)\nEfficiency = (M.A/V.R) × 100%\n40 = (M.A/6) × 100\n0.40 = M.A/6\nM.A = 0.40 × 6 = 2.4\nStep 2: Calculate effort using M.A\nM.A = Load/Effort\n2.4 = 120/W\nW = 120/2.4\nW = 50.0 N",
     "options": {
-      "a": "28",
-      "b": "0N",
-      "c": "0N",
-      "d": "0N"
+      "a": "25N",
+      "b": "50N",
+      "c": "75N",
+      "d": "100N"
     },
     "section": "",
     "image": "https://res.cloudinary.com/aloc-ng/image/upload/v1765611497/ALOC-Questions/Physics/2018/2018_Q_10_ppy08m.jpg",
@@ -5651,13 +5651,13 @@
   {
     "id": 895,
     "question": "From the diagram above, if the potential difference across the resistor, capacitor and inductor are 80V, 110V, 40V respectively, the effective potential difference is?",
-    "answer": "d",
+    "answer": "b",
     "solution": "Formula for total voltage in series RLC:\nV_total = √[V_R² + (V_L - V_C)²]\nStep 1: Calculate net reactive voltage\nNet reactive voltage = V_L - V_C = 40 - 110 = -70 V\n(Negative indicates capacitive reactance dominates)\nTaking magnitude: |V_L - V_C| = 70 V\nStep 2: Calculate effective voltage\nV_eff = √[V_R² + (V_L - V_C)²]\nV_eff = √[80² + 70²]\nV_eff = √[6400 + 4900]\nV_eff = √11,300\nV_eff = 106.3 V",
     "options": {
-      "a": "3 V",
-      "b": "0 V",
-      "c": "0 V",
-      "d": "3 V"
+      "a": "85V",
+      "b": "110V",
+      "c": "155V",
+      "d": "200V"
     },
     "section": "",
     "image": "https://res.cloudinary.com/aloc-ng/image/upload/v1774433379/ALOC-Questions/Physics/2009/PHYSICS_2009_Q_46_exvpt2.png",
@@ -5696,10 +5696,10 @@
     "answer": "c",
     "solution": "Given information:\nFirst displacement: 6.0 m due East\nSecond displacement: 10.0 m in the direction N30°E (30° east of north)\n\nSolution:\n\nStep 1: Resolve the second displacement into components\nTake East as +x direction and North as +y direction.\n\nx-component = 10 sin 30° = 10 × 0.5 = 5.0 m (eastward)\n\ny-component = 10 cos 30° = 10 × 0.8660 = 8.66 m (northward)\n\nStep 2: Find total components\nTotal x = 6.0 + 5.0 = 11.0 m\nTotal y = 0 + 8.66 = 8.66 m\n\nStep 3: Calculate resultant displacement\nResultant R = √[(11.0)² + (8.66)²] = √(121 + 75) = √196 = 14.0 m",
     "options": {
-      "a": "0 m",
-      "b": "0 m",
-      "c": "0 m",
-      "d": "0 m"
+      "a": "7.0m",
+      "b": "10.5m",
+      "c": "14.0m",
+      "d": "17.5m"
     },
     "section": "",
     "image": "",
@@ -6077,7 +6077,7 @@
       "a": "01 Hz",
       "b": "04 Hz",
       "c": "27 Hz",
-      "d": "60 Hz"
+      "d": "3.6 Hz"
     },
     "section": "",
     "image": "",
@@ -6087,7 +6087,8 @@
     "sub_topic": "Wave Properties",
     "difficulty": "Moderate",
     "hasPassage": 0,
-    "questionNub": null
+    "questionNub": null,
+    "a": "d"
   },
   {
     "id": 1111,
@@ -6117,9 +6118,9 @@
     "solution": "Dielectric constant = (c)/c° = (60)/20 = 3",
     "options": {
       "a": "3",
-      "b": "0",
-      "c": "0",
-      "d": "0"
+      "b": "6",
+      "c": "10",
+      "d": "15"
     },
     "section": "",
     "image": "",
@@ -6662,10 +6663,10 @@
     "answer": "c",
     "solution": "Given information:\n\nResultant force (R) = 50 N\nTwo forces are perpendicular to each other (90° angle between them)\nOne force makes 30° angle with resultant\nMagnitude of this force = ?\n\nSetting up the problem:\nLet:\n\nF₁ = force making 30° with resultant (what we're finding)\nF₂ = the other force\nF₁ and F₂ are perpendicular to each other\n\nUnderstanding the geometry:\nSince F₁ and F₂ are perpendicular (90° apart):\n\nF₁ makes 30° with resultant R\nF₂ makes (90° - 30°) = 60° with resultant R\n\nUsing vector components:\nThe resultant is the vector sum of F₁ and F₂.\nMethod 1: Using trigonometry directly\nSince F₁ makes 30° angle with resultant:\n\nF₁ is along the resultant direction at 30°\nThe component of F₁ along R is: F₁ cos 30°\n\nFor perpendicular forces forming a resultant:\nF₁ = R cos θ\nwhere θ is the angle F₁ makes with R.\nCalculating:\nF₁ = R cos 30°\nF₁ = 50 × cos 30°\nF₁ = 50 × (√3/2)\nF₁ = 50 × 0.866\nF₁ = 43.3 N",
     "options": {
-      "a": "0 N",
-      "b": "7 N",
-      "c": "3 N",
-      "d": "0 N"
+      "a": "25 N",
+      "b": "37 N",
+      "c": "43.3 N",
+      "d": "50 N"
     },
     "section": "",
     "image": "",
@@ -6684,9 +6685,9 @@
     "solution": "Lost voltage = I x R\n\n= 4 x 0.55\n\n= 2.2V",
     "options": {
       "a": "00 V",
-      "b": "20 V",
+      "b": "2.2 V",
       "c": "15 V",
-      "d": "00 V"
+      "d": "10 V"
     },
     "section": "",
     "image": "",
@@ -6696,7 +6697,8 @@
     "sub_topic": "Circuits",
     "difficulty": "Moderate",
     "hasPassage": 0,
-    "questionNub": null
+    "questionNub": null,
+    "a": "b"
   },
   {
     "id": 151,
@@ -7148,7 +7150,7 @@
       "a": "43 cm",
       "b": "24 cm",
       "c": "26 cm",
-      "d": "82 cm"
+      "d": "5.82 cm"
     },
     "section": "",
     "image": "",
@@ -7158,7 +7160,8 @@
     "sub_topic": "Work/Energy/Power",
     "difficulty": "Moderate",
     "hasPassage": 0,
-    "questionNub": null
+    "questionNub": null,
+    "a": "d"
   },
   {
     "id": 956,
@@ -7290,12 +7293,12 @@
     "id": 1035,
     "question": "A conductor of length 1 m moves with a velocity of 50 m s⁻¹ at an angle of 30° to the direction of a uniform magnetic field of flux density 1.5 Wb m⁻². What is the e.m.f induced in the conductor?",
     "answer": "a",
-    "solution": "iven information:\nLength of conductor, l = 1 m\nVelocity, v = 50 m s⁻¹\nAngle between velocity and magnetic field, θ = 30°\nMagnetic flux density, B = 1.5 Wb m⁻²\n\nSolution:\n\nStep 1: Formula for motional e.m.f\nThe induced e.m.f in a conductor moving in a magnetic field is given by:\nε = B l v sin θ\n\nStep 2: Substitute the values\nε = 1.5 × 1 × 50 × sin 30°\n\nStep 3: Calculate sin 30°\nsin 30° = 0.5\n\nStep 4: Complete the calculation\nε = 1.5 × 50 × 0.5 = 1.5 × 25 = 37.5 V",
+    "solution": "Given information:\nLength of conductor, l = 1 m\nVelocity, v = 50 m s⁻¹\nAngle between velocity and magnetic field, θ = 30°\nMagnetic flux density, B = 1.5 Wb m⁻²\n\nSolution:\n\nStep 1: Formula for motional e.m.f\nThe induced e.m.f in a conductor moving in a magnetic field is given by:\nε = B l v sin θ\n\nStep 2: Substitute the values\nε = 1.5 × 1 × 50 × sin 30°\n\nStep 3: Calculate sin 30°\nsin 30° = 0.5\n\nStep 4: Complete the calculation\nε = 1.5 × 50 × 0.5 = 1.5 × 25 = 37.5 V",
     "options": {
-      "a": "5 V",
-      "b": "5 V",
-      "c": "0 V",
-      "d": "5 V"
+      "a": "37.5 V",
+      "b": "25 V",
+      "c": "50 V",
+      "d": "18.75 V"
     },
     "section": "",
     "image": "",
@@ -7305,7 +7308,8 @@
     "sub_topic": "Circuits",
     "difficulty": "Moderate",
     "hasPassage": 0,
-    "questionNub": null
+    "questionNub": null,
+    "a": "a"
   },
   {
     "id": 1024,
@@ -7397,10 +7401,10 @@
     "answer": "d",
     "solution": "Given information:\nPoint 1: t₁ = 10 s, v₁ = 15 m s⁻¹\nPoint 2: t₂ = 20 s, v₂ = 35 m s⁻¹\n\nSolution:\n\nStep 1: Acceleration from velocity-time graph\nAcceleration a = (change in velocity) / (change in time) = (v₂ – v₁) / (t₂ – t₁)\n\nStep 2: Substitute values\na = (35 – 15) / (20 – 10) = 20 / 10 = 2 m s⁻²",
     "options": {
-      "a": "7 m s⁻²",
-      "b": "50 m s⁻²",
-      "c": "00 m s⁻²",
-      "d": "00 m s⁻²"
+      "a": "7 m s⁻²",
+      "b": "50 m s⁻²",
+      "c": "1 m s⁻²",
+      "d": "2 m s⁻²"
     },
     "section": "",
     "image": "",
@@ -7460,10 +7464,10 @@
     "answer": "a",
     "solution": "Max kinetic energy = Energy of incident electron - work function. EK = hf - w\n= 6.6 x 10-34 x 6.7 x 1014 - 3 x 10-19\n= 4.422 x 10-19 - 3 x 10-19\n= 1.422 x 10-19J",
     "options": {
-      "a": "42 x 10⁻¹⁹ J",
-      "b": "00 x 10⁻¹⁹ J",
-      "c": "42 x 10⁻¹⁹ J",
-      "d": "42 x 10⁻¹⁹ J"
+      "a": "1.422 x 10⁻¹⁹ J",
+      "b": "2.422 x 10⁻¹⁹ J",
+      "c": "3.422 x 10⁻¹⁹ J",
+      "d": "4.422 x 10⁻¹⁹ J"
     },
     "section": "",
     "image": "",
@@ -7607,10 +7611,10 @@
     "answer": "c",
     "solution": "Given information:\nObject height = 4 cm\nImage height = 2 cm\nImage distance (camera size) = 6 cm\n\nSolution:\n\nStep 1: Magnification formula for pinhole camera\nMagnification = Image height / Object height = Image distance / Object distance\n\nStep 2: Substitute known values\n2/4 = 6 / u\n1/2 = 6 / u\n\nStep 3: Solve for object distance u\nu = 6 × 2 = 12 cm",
     "options": {
-      "a": "0 cm",
-      "b": "0 cm",
-      "c": "0 cm",
-      "d": "0 cm"
+      "a": "6cm",
+      "b": "9cm",
+      "c": "12cm",
+      "d": "15cm"
     },
     "section": "",
     "image": "",
@@ -8006,10 +8010,10 @@
     "answer": "a",
     "solution": "Given information:\n\nThickness of glass plate (d) = 0.9 cm = 0.009 m = 9 × 10⁻³ m\nRefractive index (n) = 1.50\nSpeed of light in vacuum (c) = 3.0 × 10⁸ m/s\nTime (t) = ?\n\nStep 1: Calculate speed of light in glass\nRefractive index = Speed of light in vacuum / Speed of light in medium\nn = c/v\nRearranging:\nv = c/n\nv = (3.0 × 10⁸)/1.50\nv = 2.0 × 10⁸ m/s\nStep 2: Calculate time taken\nTime = Distance / Speed\nt = d/v\nSubstituting values:\nt = (9 × 10⁻³)/(2.0 × 10⁸)\nt = 4.5 × 10⁻¹¹ s\nCalculation breakdown:\nt = 9 × 10⁻³ / 2.0 × 10⁸\nt = (9/2) × 10⁻³⁻⁸\nt = 4.5 × 10⁻¹¹ s",
     "options": {
-      "a": "5 × 10⁻¹¹ s",
-      "b": "5 × 10⁻¹⁰ s",
-      "c": "5 × 10⁻¹² s",
-      "d": "0 × 10⁻¹⁰ s"
+      "a": "2.5×10⁻¹¹s",
+      "b": "3.5×10⁻¹¹s",
+      "c": "4.5×10⁻¹¹s",
+      "d": "5.5×10⁻¹¹s"
     },
     "section": "",
     "image": "",
@@ -8024,13 +8028,13 @@
   {
     "id": 922,
     "question": "An object is embedded in a block of ice, 10 cm below the plane surface. if the refractive index of the ice is 1.50, the apparent depth below the surface is?",
-    "answer": "b",
+    "answer": "c",
     "solution": "Refraction index, n = (real depth)/apparent depth\n1.5 = (10)/X\nX = (10)/1.5 = 6.67 cm",
     "options": {
-      "a": "50 cm",
-      "b": "67 cm",
-      "c": "50 cm",
-      "d": "63 cm"
+      "a": "3.33cm",
+      "b": "5.00cm",
+      "c": "6.67cm",
+      "d": "8.33cm"
     },
     "section": "",
     "image": "",
@@ -8192,13 +8196,13 @@
   {
     "id": 412,
     "question": "The figure above represents a block-and-tackle pulley system on which an effort of W Newtons supports a load of 120.0N. If the efficiency of the machine is 40%, then the value of W is",
-    "answer": "d",
+    "answer": "b",
     "solution": "Given information:\n\nLoad (L) = 120.0 N\nEfficiency = 40% = 0.40\nEffort (W) = ?\nFrom diagram: Counting the supporting strings, V.R = 6\n\nStep 1: Calculate Mechanical Advantage (M.A)\nEfficiency = M.A / V.R\nRearranging:\nM.A = Efficiency × V.R\nM.A = 0.40 × 6\nM.A = 2.4\nStep 2: Calculate Effort using M.A\nM.A = Load / Effort\nRearranging:\nEffort = Load / M.A\nSubstituting values:\nW = 120.0 / 2.4\nW = 50.0 N",
     "options": {
-      "a": "0N",
-      "b": "0N",
-      "c": "0N",
-      "d": "0N"
+      "a": "25N",
+      "b": "50N",
+      "c": "75N",
+      "d": "100N"
     },
     "section": "",
     "image": "https://res.cloudinary.com/aloc-ng/image/upload/v1765612693/ALOC-Questions/Physics/2020/PHYSICS_2020_Q_33_eizvpw.jpg",
@@ -8237,10 +8241,10 @@
     "answer": "c",
     "solution": "Given information:\nHeat supplied, Q = 500 J\nMass of water, m = 100 g = 0.1 kg\nSpecific heat capacity of water, c = 4200 J kg⁻¹ K⁻¹\n\nSolution:\n\nStep 1: Heat formula\nThe heat required to change the temperature of a substance is given by:\nQ = m × c × Δθ\nwhere Δθ is the temperature change.\n\nStep 2: Rearrange for Δθ\nΔθ = Q / (m × c)\n\nStep 3: Substitute values\nΔθ = 500 J / (0.1 kg × 4200 J kg⁻¹ K⁻¹)\nΔθ = 500 / (420)\n\nStep 4: Calculate\nΔθ = 1.1905 °C ≈ 1.2 °C",
     "options": {
-      "a": "1 °C",
-      "b": "1 °C",
-      "c": "2 °C",
-      "d": "1 °C"
+      "a": "-0.5°C",
+      "b": "0.8°C",
+      "c": "1.2°C",
+      "d": "1.8°C"
     },
     "section": "",
     "image": "",
@@ -8489,10 +8493,10 @@
     "answer": "c",
     "solution": "Since the phase change occurs at constant temperature (0°C), no energy goes into increasing temperature. All the heat energy is used to break the molecular bonds in ice, converting it from solid to liquid state at the melting point.",
     "options": {
-      "a": "06 × 10³ J",
-      "b": "38 × 10³ J",
-      "c": "72 × 10³ J",
-      "d": "35 × 10³ J"
+      "a": "3.36×10³J",
+      "b": "6.72×10³J",
+      "c": "8.40×10³J",
+      "d": "10.08×10³J"
     },
     "section": "",
     "image": "",
@@ -9035,10 +9039,10 @@
     "answer": "d",
     "solution": "Given information:\n\nInitial pressure (P₁) = 10⁵ N/m² = 10⁵ Pa\nInitial volume (V₁) = 0.6 m³\nFinal volume (V₂) = 1.2 m³\nTemperature = constant (isothermal process)\nWork done (W) = ?\n\nW = P₁ × ΔV = 10⁵ × 0.6 = 6.0 × 10⁴ J",
     "options": {
-      "a": "0 × 10⁶ J",
-      "b": "0 × 10⁶ J",
-      "c": "0 × 10⁵ J",
-      "d": "0 × 10⁴ J"
+      "a": "3.0×10⁴J",
+      "b": "4.5×10⁴J",
+      "c": "6.0×10⁴J",
+      "d": "7.5×10⁴J"
     },
     "section": "",
     "image": "",
@@ -9116,13 +9120,13 @@
   {
     "id": 809,
     "question": "In the hare's apparatus, water rises to a height of 26.5 cm in one limb. if a liquid rises to a height of 20.4 cm in the other limb, what is the relative density of the liquid?",
-    "answer": "d",
+    "answer": "c",
     "solution": "Given information:\n\nHeight of water (h_w) = 26.5 cm\nHeight of liquid (h_l) = 20.4 cm\nRelative density of liquid = ?\n\nUnderstanding Hare's apparatus:\nHare's apparatus works on the principle that at equal pressure (atmospheric pressure minus suction pressure):\nPressure at bottom of each limb is equal:\nρ_w × g × h_w = ρ_l × g × h_l\nRelative density formula:\nRelative density = ρ_l/ρ_w = h_w/h_l\nThis is because:\n\nSame pressure difference applied to both limbs\nLower density liquid rises higher\nHigher density liquid rises lower\n\nCalculating relative density:\nR.D = h_w/h_l\nR.D = 26.5/20.4\nR.D = 1.299\nR.D ≈ 1.3",
     "options": {
-      "a": "8",
-      "b": "1",
-      "c": "2",
-      "d": "3"
+      "a": "0.7",
+      "b": "1.0",
+      "c": "1.3",
+      "d": "1.6"
     },
     "section": "",
     "image": "",
@@ -9140,10 +9144,10 @@
     "answer": "c",
     "solution": "Given information:\nWe need to identify which properties are typically used to describe or characterize waves.\n\nStep 1: Define wave characteristics\nWave characteristics are intrinsic properties that describe the wave itself, such as its spatial and temporal periodicity, speed, and intensity.\n\nStep 2: Evaluate each item\n\nI. Wavelength: Describes the spatial period of the wave → characteristic.\n\nII. Medium of propagation: Describes the material through which the wave travels; not an intrinsic property of the wave (e.g., electromagnetic waves require no medium) → not a characteristic.\n\nIII. Wave velocity: Speed at which the wave propagates → characteristic.\n\nIV. Frequency: Describes the temporal period of the wave → characteristic.\n\nV. Energy: Related to amplitude/intensity; describes the wave's strength → characteristic.\n\nStep 3: Conclusion\nThe properties used to characterize waves are wavelength, wave velocity, frequency, and energy.",
     "options": {
-      "a": "I, II and V",
-      "b": "I, III and IV",
-      "c": "I,  II, III and IV",
-      "d": "III, IV and V"
+      "a": "I, II, III, IV",
+      "b": "I, II, III, V",
+      "c": "I, III, IV, V",
+      "d": "II, III, IV, V"
     },
     "section": "",
     "image": "",
@@ -9158,13 +9162,13 @@
   {
     "id": 35,
     "question": "An electric cell has an internal resistance of 2Ω. A current of 0.5A was measured when a resistor of resistance 5Ω was connected across it. Determine the electromotive force of the cell",
-    "answer": "a",
+    "answer": "c",
     "solution": "Using Ohm's law for complete circuits: E = I(R + r). Plugging in the given values: E = 0.5 × (5 + 2) = 0.5 × 7 = 3.5 Volts.",
     "options": {
-      "a": "5V",
-      "b": "5V",
-      "c": "5V",
-      "d": "35V"
+      "a": "1.5V",
+      "b": "2.5V",
+      "c": "3.5V",
+      "d": "4.5V"
     },
     "section": "",
     "image": "",
@@ -9179,13 +9183,13 @@
   {
     "id": 717,
     "question": "An ammeter of resistance 5Ω has a full-scale deflection when a current of 50 mA flows in it. The value of the resistor required to adapt it to measure a current of 5 A is?",
-    "answer": "d",
+    "answer": "b",
     "solution": "Given information:\n\nAmmeter resistance, G = 5 Ω\nFull-scale deflection current, Iɡ = 50 mA = 0.05 A\nDesired maximum current, I = 5 A\nShunt resistance, S = ?\n\nSolution:\nStep 1: Understand shunt resistor\nA shunt resistor is connected in parallel with the ammeter to allow most of the current to bypass the ammeter, extending its range.\nStep 2: Current distribution\nTotal current: I = 5 A\nCurrent through ammeter: Iɡ = 0.05 A\nCurrent through shunt: Iₛ = I - Iɡ = 5 - 0.05 = 4.95 A\nStep 3: Voltage across parallel components\nSince ammeter and shunt are in parallel, voltage across both is equal:\nVɡ = Vₛ\nIɡG = IₛS\nStep 4: Substitute values\n0.05 × 5 = 4.95 × S\n0.25 = 4.95S\nStep 5: Solve for shunt resistance\nS = 0.25/4.95\nS = 0.0505 Ω ≈ 0.05 Ω",
     "options": {
-      "a": "25Ω",
-      "b": "00Ω",
-      "c": "80Ω",
-      "d": "05Ω"
+      "a": "0.02Ω",
+      "b": "0.05Ω",
+      "c": "0.08Ω",
+      "d": "0.10Ω"
     },
     "section": "",
     "image": "",
@@ -9203,10 +9207,10 @@
     "answer": "a",
     "solution": "Given information:\n\nMass (m) = 800 kg\nFinal velocity (v) = 25 m/s\nInitial velocity (u) = 0 m/s (starts from rest)\nTime (t) = 20 seconds\nPower (P) = ?\n\nStep 1: Calculate kinetic energy gained\nChange in KE = ½mv² - ½mu²\nΔKE = ½mv² - 0  (since u = 0)\nΔKE = ½ × 800 × (25)²\nΔKE = 400 × 625\nΔKE = 250,000 J\nStep 2: Calculate power\nPower = Work done / Time\nPower = Energy / Time\nP = ΔKE / t\nP = 250,000 / 20\nP = 12,500 W\nP = 1.25 × 10⁴ W",
     "options": {
-      "a": "25 × 10⁴W",
-      "b": "50 × 10⁴W",
-      "c": "25 × 10⁶W",
-      "d": "50 × 10⁶W"
+      "a": "0.75×10⁴W",
+      "b": "1.00×10⁴W",
+      "c": "1.25×10⁴W",
+      "d": "1.50×10⁴W"
     },
     "section": "",
     "image": "",
@@ -9245,10 +9249,10 @@
     "answer": "c",
     "solution": "Given information:\n\nHeat energy (Q) = 1.13 × 10⁶ J\nMass of steam (m) = 15 kg\nSpecific latent heat of vaporization (L) = ?\n\nFormula:\nQ = mL\nRearranging to find L:\nL = Q/m\nSubstituting values:\nL = (1.13 × 10⁶)/15\nL = 0.0753 × 10⁶\nL = 7.53 × 10⁴ J/kg",
     "options": {
-      "a": "53 × 10⁵ Jkg⁻¹",
-      "b": "53 × 10⁻² Jkg⁻¹",
-      "c": "53 × 10⁴ Jkg⁻¹",
-      "d": "53 × 10⁻³ Jkg⁻¹"
+      "a": "5.21×10⁴J/kg",
+      "b": "6.37×10⁴J/kg",
+      "c": "7.53×10⁴J/kg",
+      "d": "8.69×10⁴J/kg"
     },
     "section": "",
     "image": "",
@@ -9287,10 +9291,10 @@
     "answer": "c",
     "solution": "Given information:\n\nOriginal length (L₀) = 10 m\nInitial temperature (T₁) = 50°C\nFinal temperature (T₂) = 10°C\nLinear expansivity (α) = 3 × 10⁻⁵ K⁻¹\nDecrease in length (ΔL) = ?\n\nStep 1: Calculate temperature change\nΔT = T₁ - T₂ = 50°C - 10°C = 40°C = 40 K\nStep 2: Use linear expansion formula\nΔL = αL₀ΔT\nStep 3: Substitute values\nΔL = 3 × 10⁻⁵ × 10 × 40\nΔL = 3 × 10⁻⁵ × 400\nΔL = 1200 × 10⁻⁵\nΔL = 1.2 × 10⁻² m\nAnswer: C. 1.2 × 10⁻² m",
     "options": {
-      "a": "8 x  10⁻⁴ m",
-      "b": "5 x  10⁻⁴ m",
-      "c": "2 x 10⁻² m",
-      "d": "8 x 10⁻³m"
+      "a": "8 x 10⁻⁴ m",
+      "b": "5 x 10⁻⁴ m",
+      "c": "1.2 x 10⁻² m",
+      "d": "8 x 10⁻³ m"
     },
     "section": "",
     "image": "",
@@ -9300,7 +9304,8 @@
     "sub_topic": "Temperature",
     "difficulty": "Moderate",
     "hasPassage": 0,
-    "questionNub": null
+    "questionNub": null,
+    "a": "c"
   },
   {
     "id": 175,
@@ -9812,10 +9817,10 @@
     "answer": "b",
     "solution": "Given information:\n\nInductive reactance (Xₗ) = 1Ω\nFrequency (f) = 50/π Hz\nInductance (L) = ?\n\nFormula for Inductive Reactance:\nXₗ = 2πfL\nRearranging to find L:\nL = Xₗ/(2πf)\nSubstituting values:\nL = 1/(2π × 50/π)\nL = 1/(2 × 50)\nL = 1/100\nL = 0.01 H\nAnswer: B. 0.01H",
     "options": {
-      "a": "100 H",
-      "b": "01H",
-      "c": "10H",
-      "d": "1H"
+      "a": "0.005H",
+      "b": "0.01H",
+      "c": "0.015H",
+      "d": "0.02H"
     },
     "section": "",
     "image": "",
@@ -9872,13 +9877,13 @@
   {
     "id": 880,
     "question": "If the decay constant of a radioactive substance is 0.231 s⁻¹, the half-life is?",
-    "answer": "a",
+    "answer": "c",
     "solution": "Given information:\nDecay constant, λ = 0.231 s⁻¹\n\nSolution:\n\nStep 1: Relationship between half-life and decay constant\nHalf-life T₁/₂ = ln 2 / λ\n\nStep 2: Substitute the value of ln 2\nln 2 ≈ 0.693\n\nStep 3: Calculate half-life\nT₁/₂ = 0.693 / 0.231 = 3.00 s",
     "options": {
-      "a": "00 s",
-      "b": "12 s",
-      "c": "33 s",
-      "d": "50 s"
+      "a": "1.50s",
+      "b": "2.25s",
+      "c": "3.00s",
+      "d": "3.75s"
     },
     "section": "",
     "image": "",
@@ -9960,7 +9965,7 @@
     "solution": "Given information:\n\nObject distance (u) = -20 cm (negative by sign convention)\nFocal length (f) = -10 cm (negative for concave mirror)\nMagnification (m) = ?\n\nStep 1: Find image distance using mirror formula\n1/f = 1/v + 1/u\n1/(-10) = 1/v + 1/(-20)\n-1/10 = 1/v - 1/20\n1/v = -1/10 + 1/20\n1/v = -2/20 + 1/20 = -1/20\nv = -20 cm\nStep 2: Calculate magnification\nm = -v/u\nm = -(-20)/(-20)\nm = 20/(-20)\nm = -1\nMagnitude of magnification:\n|m| = 1",
     "options": {
       "a": "0",
-      "b": "2-Jan",
+      "b": "1/2",
       "c": "1",
       "d": "2"
     },
@@ -10461,7 +10466,7 @@
     "id": 1009,
     "question": "If a load of 1 kg stretches a cord by 1.2 cm, what is the force constant of the cord? {g = 10 m s⁻²}",
     "answer": "b",
-    "solution": "iven information:\nMass m = 1 kg\nExtension x = 1.2 cm = 0.012 m\nAcceleration due to gravity g = 10 m s⁻²\n\nSolution:\n\nStep 1: Calculate the force stretching the cord\nThe force is the weight of the load:\nF = m × g = 1 kg × 10 m s⁻² = 10 N\n\nStep 2: Apply Hooke's law\nHooke's law: F = k × x, where k is the force constant.\nTherefore, k = F / x\n\nStep 3: Substitute values\nk = 10 N / 0.012 m = 833.33 N m⁻¹",
+    "solution": "Given information:\nMass m = 1 kg\nExtension x = 1.2 cm = 0.012 m\nAcceleration due to gravity g = 10 m s⁻²\n\nSolution:\n\nStep 1: Calculate the force stretching the cord\nThe force is the weight of the load:\nF = m × g = 1 kg × 10 m s⁻² = 10 N\n\nStep 2: Apply Hooke's law\nHooke's law: F = k × x, where k is the force constant.\nTherefore, k = F / x\n\nStep 3: Substitute values\nk = 10 N / 0.012 m = 833.33 N m⁻¹",
     "options": {
       "a": "866 N m⁻¹",
       "b": "833 N m⁻¹",

@@ -16,6 +16,7 @@ interface RateData {
   sessionCount: number; // Usage starts count
   history: HistoryItem[];
   reports?: ReportItem[];
+  performances?: PerformanceItem[];
 }
 
 type HistoryType = "chat" | "session" | "feedback";
@@ -42,6 +43,20 @@ interface ReportItem {
   time: string;
   name: string;
   rid?: string;
+}
+
+interface PerformanceItem {
+  name: string;
+  mode: "EXAM" | "PRACTICE";
+  score: number;
+  jambScore: number;
+  breakdown: string[];
+  subjects: string[];
+  time: string;
+  date: string;
+  totalQuestions?: number;
+  answeredCount?: number;
+  pid?: string;
 }
 
 async function redisGet(): Promise<RateData | null> {
@@ -83,6 +98,7 @@ export async function GET(req: NextRequest) {
     sessionCount: 0,
     history: [],
     reports: [],
+    performances: [],
   };
   const isRedis = !!(
     process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL
@@ -374,6 +390,10 @@ export async function GET(req: NextRequest) {
               <div class="kpi-lab">Total Sessions</div>
             </div>
             <div class="kpi-card">
+              <div class="kpi-val">${data.performances?.length || 0}</div>
+              <div class="kpi-lab">Completed Exams</div>
+            </div>
+            <div class="kpi-card">
               <div class="kpi-val">${data.reports?.length || 0}</div>
               <div class="kpi-lab">Data Reports</div>
             </div>
@@ -431,6 +451,49 @@ export async function GET(req: NextRequest) {
                 </table>
                 <p style="font-size: 11px; color: var(--muted); margin-top: 15px; font-weight: 600;">* Individual limits are cached for 24hrs; Resetting clears their usage count immediately.</p>
               </div>
+            </div>
+          </div>
+
+          <!-- Student Performance Section -->
+          <div class="section-card" style="border-top: 4px solid #8b5cf6;">
+            <div class="section-header">
+              <h2 class="section-title">Student Performance Tracker</h2>
+              <span class="badge" style="background: #f3e8ff; color: #8b5cf6;">${data.performances?.length || 0} Sessions</span>
+            </div>
+            <p style="padding: 0 24px; font-size: 11px; color: var(--muted); font-weight: 600; margin-top: -10px;">* Shows scores, modes, and subjects completed by candidates.</p>
+            <div class="section-body">
+              ${
+                data.performances && data.performances.length > 0
+                  ? data.performances
+                      .slice(0, 20)
+                      .map(
+                        (perf) => `
+                <div class="item">
+                  <div class="content">
+                    <div class="top-line">
+                      <span class="item-name">${perf.name || "Candidate"}</span>
+                      <span class="item-time">${perf.time || ""}</span>
+                    </div>
+                    <div class="item-detail">
+                      <span style="display: inline-block; font-weight: 800; font-size: 11px; margin-right: 10px; padding: 2px 6px; background: ${perf.mode === "EXAM" ? "#fef2f2" : "#ecfdf5"}; color: ${perf.mode === "EXAM" ? "#dc2626" : "#059669"}; border-radius: 4px;">${perf.mode}</span>
+                      <span style="display: inline-block; font-weight: 700; font-size: 13px; color: #003366;">Score: ${perf.score || 0}/${perf.totalQuestions || "?"}</span>
+                      <span style="display: inline-block; margin-left: 12px; font-weight: 700; font-size: 13px; color: #8b5cf6;">JAMB: ${perf.jambScore || 0}/400</span>
+                      <div style="margin-top: 6px; font-size: 11px; color: #64748b;">
+                        <strong>Subjects:</strong> ${(perf.subjects || []).join(", ") || "N/A"}
+                      </div>
+                      ${
+                        (perf.breakdown || []).length > 0
+                          ? `<div style="margin-top: 4px; font-size: 11px; color: #64748b;"><strong>Breakdown:</strong> ${(perf.breakdown || []).join(" | ")}</div>`
+                          : ""
+                      }
+                    </div>
+                  </div>
+                </div>
+              `,
+                      )
+                      .join("")
+                  : '<div class="empty">No completed sessions yet. Students are just getting started!</div>'
+              }
             </div>
           </div>
 
@@ -565,6 +628,7 @@ export async function POST(req: NextRequest) {
       sessionCount: 0,
       history: [],
       reports: [],
+      performances: [],
     };
 
     const redisData = await redisGet();
@@ -577,18 +641,20 @@ export async function POST(req: NextRequest) {
       } catch {}
     }
 
-    // Reset if new day (but preserve feedback and reports)
+    // Reset if new day (but preserve feedback, reports, and performances)
     if (data.date !== today) {
       const feedback = (data.history || []).filter(
         (h) => h.type === "feedback",
       );
       const reports = data.reports || [];
+      const performances = data.performances || [];
       data = {
         date: today,
         count: 0,
         sessionCount: 0,
         history: feedback, // Keep feedback
         reports: reports, // Keep reports
+        performances: performances, // Keep all performances
       };
     }
 
@@ -598,6 +664,12 @@ export async function POST(req: NextRequest) {
         { ...detail, rid, time, name: name || "Student" },
         ...(data.reports || []),
       ].slice(0, 50);
+    } else if (type === "performance") {
+      const pid = Math.random().toString(36).substring(2, 9).toUpperCase();
+      data.performances = [
+        { ...detail, pid, time, date: today, name: name || "Candidate" },
+        ...(data.performances || []),
+      ].slice(0, 100);
     } else {
       if (type === "chat") data.count = (data.count || 0) + 1;
       if (type === "session") data.sessionCount = (data.sessionCount || 0) + 1;

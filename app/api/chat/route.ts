@@ -11,10 +11,13 @@ const DAILY_CAP = 200; // max requests per day across all users
 interface RateData {
   date: string; // YYYY-MM-DD
   count: number;
-  history: { name: string; time: string; question: string } [];
+  history: { name: string; time: string; question: string }[];
 }
 
-async function checkAndIncrementUserRate(name: string, question: string): Promise<boolean> {
+async function checkAndIncrementUserRate(
+  name: string,
+  question: string,
+): Promise<boolean> {
   const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
   if (!url) return true; // No rate limit if Redis is not configured
 
@@ -24,15 +27,22 @@ async function checkAndIncrementUserRate(name: string, question: string): Promis
 
   try {
     // 1. Log to the global history list (LPOP/RPUSH pattern is best for Redis but we'll stick to a list)
-    const time = new Date().toLocaleTimeString('en-NG', { hour: '2-digit', minute: '2-digit' });
-    const logEntry = JSON.stringify({ name: name || "Unknown", time, question: question.substring(0, 100) });
+    const time = new Date().toLocaleTimeString("en-NG", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    const logEntry = JSON.stringify({
+      name: name || "Unknown",
+      time,
+      question: question.substring(0, 100),
+    });
     await redis.lpush(historyKey, logEntry);
     await redis.ltrim(historyKey, 0, 99); // Keep only last 100 entries
 
     // 2. Increment user counter
     // INCR returns the value AFTER incrementing
     const current = await redis.incr(userKey);
-    
+
     // 3. If new key (current === 1), set expiration (86400s = 1 day)
     if (current === 1) {
       await redis.expire(userKey, 86400);
@@ -50,14 +60,19 @@ async function checkAndIncrementUserRate(name: string, question: string): Promis
 export async function POST(req: NextRequest) {
   const { messages, questionContext, candidateName } = await req.json();
 
-  const userQuery = messages.length > 0 ? messages[messages.length - 1].content : "Started chat";
+  const userQuery =
+    messages.length > 0
+      ? messages[messages.length - 1].content
+      : "Started chat";
 
   // Rate limit check
-  console.log(`[Chat API] Request from ${candidateName} for query: ${userQuery.substring(0, 50)}...`);
+  console.log(
+    `[Chat API] Request from ${candidateName} for query: ${userQuery.substring(0, 50)}...`,
+  );
   if (!(await checkAndIncrementUserRate(candidateName, userQuery))) {
     return NextResponse.json(
       { error: "Daily usage limit reached. Please try again tomorrow." },
-      { status: 429 }
+      { status: 429 },
     );
   }
 
@@ -67,42 +82,55 @@ export async function POST(req: NextRequest) {
 
   const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) {
-    return NextResponse.json({ error: "AI service not configured." }, { status: 500 });
+    return NextResponse.json(
+      { error: "AI service not configured." },
+      { status: 500 },
+    );
   }
 
   // Keep only last 6 messages to limit token usage
   const recentMessages = messages.slice(-6);
 
   // Subject Extraction Logic
-  let subjectGuide = "Provide a logical breakdown and a helpful 'Speed Hack' or 'Pro Tip'.";
+  let subjectGuide =
+    "Provide a logical breakdown and a helpful 'Speed Hack' or 'Pro Tip'.";
   let subjectName = "General";
-  
+
   try {
     let context;
-    if (typeof questionContext === 'string' && questionContext.trim().startsWith('{')) {
+    if (
+      typeof questionContext === "string" &&
+      questionContext.trim().startsWith("{")
+    ) {
       context = JSON.parse(questionContext);
     } else {
-       // Handle legacy string format or simple string
-       context = { q: questionContext };
+      // Handle legacy string format or simple string
+      context = { q: questionContext };
     }
-    
+
     // Support both long and short keys: 'subject'/'s' or 'examtype'
     subjectName = context.s || context.subject || context.examtype || "General";
     const subjectLower = subjectName.toLowerCase();
-    
+
     if (subjectLower.includes("english")) {
       subjectGuide = `Focus: Phonics (IPA), Concord, Lexis. Explaining vowel/consonant symbols is high-value. Avoid 'homophone' unless identical.`;
     } else if (subjectLower.includes("math") || subjectLower.includes("phys")) {
       subjectGuide = `Focus on formula application and "Calculative Shortcuts". 
       - Show how to eliminate options by looking at the last digit or unit magnitude.
       - Keep calculation steps extremely lean.`;
-    } else if (subjectLower.includes("govt") || subjectLower.includes("history") || subjectLower.includes("crk")) {
+    } else if (
+      subjectLower.includes("govt") ||
+      subjectLower.includes("history") ||
+      subjectLower.includes("crk")
+    ) {
       subjectGuide = `Focus on historical context and "Keyword Association". 
       - Link dates/names to the core principle. 
       - Explain the 'Why' behind a policy or event simply.`;
     }
   } catch (e) {
-    console.warn("[Chat API] Failed to parse questionContext for subject awareness.");
+    console.warn(
+      "[Chat API] Failed to parse questionContext for subject awareness.",
+    );
   }
 
   const systemPrompt = `Elite JAMB Coach DNA:
@@ -129,9 +157,10 @@ export async function POST(req: NextRequest) {
          c. If candidates are unrelated, **FORCE AN AI SIMULATION** instead.
       - Validation: 
          a. When the user says "I choose option X", SEARCH the history for the most recent question you provided.
-         b. Cross-reference "X" with the specific answer 'a' and 'sol' for THAT question from the context.
-         c. **DO NOT hallucinate.** If the question says onion bulb (plant) and the user picks cell wall (C), that is CORRECT.
-         d. Provide the feedback (Correct/Incorrect), then the Speed Hack ⚡.
+         b. If that question is marked [!TIP] (verified JAMB): Cross-reference X against 'a' from context. Always state the correct answer letter explicitly (e.g., "Correct! The answer is B.").
+         c. If that question is marked [!NOTE] (AI-generated): Use reasoning to validate. If you're confident, provide feedback. If uncertain, ask the student to explain their thinking.
+         d. **DO NOT hallucinate on verified questions.** Trust the question data. If student picks C and 'a' says "C", they are correct.
+         e. Always follow format: Feedback → Correct Answer (if available) → Speed Hack ⚡. Be specific and complete.
       - Consistency: Ensure once a challenge is answered, you don't repeat it. If the user asks for "more", pick a DIFFERENT candidate or generate a new one.
   2. Truth Guardrail: If "sol" in context contradicts "a", trust "sol". 
   3. Tone: Tactical mentor. Bold key terms. Max 2 brief paragraphs. Be punchy. No filler.
@@ -142,25 +171,31 @@ export async function POST(req: NextRequest) {
     ...recentMessages,
   ];
 
-  const groqRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${apiKey}`,
+  const groqRes = await fetch(
+    "https://api.groq.com/openai/v1/chat/completions",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: "llama-3.3-70b-versatile",
+        messages: groqMessages,
+        max_tokens: 800, // Increased room for deep explanations
+        temperature: 0.5,
+        stream: true,
+      }),
     },
-    body: JSON.stringify({
-      model: "llama-3.3-70b-versatile",
-      messages: groqMessages,
-      max_tokens: 800, // Increased room for deep explanations
-      temperature: 0.5,
-      stream: true,
-    }),
-  });
+  );
 
   if (!groqRes.ok) {
     const err = await groqRes.text();
     console.error("Groq error:", err);
-    return NextResponse.json({ error: "AI service error. Please try again." }, { status: 502 });
+    return NextResponse.json(
+      { error: "AI service error. Please try again." },
+      { status: 502 },
+    );
   }
 
   // Return the raw readable stream directly to the client
@@ -168,7 +203,7 @@ export async function POST(req: NextRequest) {
     headers: {
       "Content-Type": "text/event-stream",
       "Cache-Control": "no-cache",
-      "Connection": "keep-alive"
-    }
+      Connection: "keep-alive",
+    },
   });
 }

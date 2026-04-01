@@ -22,7 +22,7 @@ import useCheckUpdate from "@/lib/hooks/useCheckUpdate";
 export default function JambReplica() {
   // Navigation State
   const [view, setView] = useState<'SETUP' | 'EXAM' | 'REVIEW'>('SETUP');
-  
+
   // Setup States
   const [examStarted, setExamStarted] = useState(false);
   const [configs, setConfigs] = useState<SubjectConfigs>(() => {
@@ -222,10 +222,10 @@ export default function JambReplica() {
         const res = await fetch("/data/manifest.json");
         if (res.ok) {
           const manifest = await res.json() as Record<string, number>;
-          
+
           const found: string[] = [];
           const counts: Record<string, number> = {};
-          
+
           SUBJECT_METADATA.forEach(m => {
             if (manifest[m.slug]) {
               found.push(m.name);
@@ -288,19 +288,19 @@ export default function JambReplica() {
         // 2. Filter out novel-based questions (prescribed texts)
         if (metadata.slug === "english" || metadata.slug === "englishlit") {
           const novelKeywords = [
-            "novel", "the life changer", "khadijat abubakar jalli", 
-            "the potter's wheel", "chukwuemeka ike", 
+            "novel", "the life changer", "khadijat abubakar jalli",
+            "the potter's wheel", "chukwuemeka ike",
             "the last days at forcados high school", "a.h. mohammed",
             "independence", "sweet sixteen", "umuchukwu"
           ];
-          
+
           allQuestions = allQuestions.filter(q => {
             if (q.hasPassage === 1) return false;
             const text = (q.question + " " + q.section).toLowerCase();
             return !novelKeywords.some(kw => text.includes(kw));
           });
         }
-        
+
         // 3. STRATIFIED RANDOMIZATION (Topic Spreading)
         const questionsByTopic: Record<string, any[]> = {};
         allQuestions.forEach(q => {
@@ -312,7 +312,7 @@ export default function JambReplica() {
         const topicNames = Object.keys(questionsByTopic);
         const targetCount = Math.min(config.count, allQuestions.length);
         const picked: any[] = [];
-        
+
         if (topicNames.length > 0 && targetCount > 0) {
           // Shuffle each topic group first
           topicNames.forEach(t => {
@@ -325,36 +325,42 @@ export default function JambReplica() {
             const t = topicNames[topicIdx % topicNames.length];
             const q = questionsByTopic[t].pop();
             if (q) picked.push(q);
-            
+
             topicIdx++;
             // Safety break if we've cycled through all and found nothing (shouldn't happen given targetCount check)
-            if (topicIdx > targetCount * 10) break; 
+            if (topicIdx > targetCount * 10) break;
           }
         }
 
         // Final shuffle of the picked set so they aren't ordered by topic
         const finalPicked = fisherYatesShuffle(picked);
 
-        newQB[subjectName] = finalPicked.map(item => ({
-          id: item.id || 0,
-          q: item.question || item.q || "",
-          options: item.options || item.option || (Array.isArray(item.opts) ? Object.fromEntries(item.opts.map((o: string) => [o.substring(0,1).toLowerCase(), o.substring(3)])) : {}),
-          a: (item.answer || "a").substring(0, 1).toUpperCase(),
-          yr: String(item.examyear || 2025),
-          topic: item.topic || "",
-          sub_topic: item.sub_topic || "",
-          difficulty: item.difficulty || "Moderate",
-          solution: item.solution || "",
-          section: item.section || "",
-          image: item.image || "",
-          hasPassage: item.hasPassage || 0,
-          questionNub: item.questionNub || null
-        }));
+        newQB[subjectName] = finalPicked.map(item => {
+          // Ensure answer is always a valid letter A-D
+          const rawAnswer = (item.answer || "a").toString().substring(0, 1).toUpperCase();
+          const validAnswer = ["A", "B", "C", "D"].includes(rawAnswer) ? rawAnswer : "A";
+
+          return {
+            id: item.id || 0,
+            q: item.question || item.q || "",
+            options: item.options || item.option || (Array.isArray(item.opts) ? Object.fromEntries(item.opts.map((o: string) => [o.substring(0, 1).toLowerCase(), o.substring(3)])) : {}),
+            a: validAnswer,
+            yr: String(item.examyear || 2025),
+            topic: item.topic || "",
+            sub_topic: item.sub_topic || "",
+            difficulty: item.difficulty || "Moderate",
+            solution: item.solution || "",
+            section: item.section || "",
+            image: item.image || "",
+            hasPassage: item.hasPassage || 0,
+            questionNub: item.questionNub || null
+          };
+        });
       }
 
       setQbState(newQB);
       setActiveSubjects(selected);
-      
+
       if (sessionMode === 'EXAM') {
         const timeToSet = typeof forcedTimeSecs === 'number' ? forcedTimeSecs : (totalQuestionsTotal * 40);
         setTotalSecs(timeToSet);
@@ -372,7 +378,7 @@ export default function JambReplica() {
 
       // Track session start
       trackEvent('session', `${sessionMode} Mode: ${selected.join(", ")}`);
-      
+
       setCurSubIdx(0);
       setCurQIdx(0);
     } catch (err: any) {
@@ -427,6 +433,26 @@ export default function JambReplica() {
       setDiagnosticJSON(JSON.stringify(diagnosticPayload, null, 2));
       setIsFinished(true);
       setResultModalOpen(true);
+
+      // Send practice session performance to admin
+      fetch("/api/admin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          type: "performance",
+          name: candidateName,
+          detail: {
+            mode: sessionMode,
+            score: correct,
+            jambScore: calculatedJamb,
+            breakdown: resBreakdown,
+            subjects: activeSubjects,
+            totalQuestions: total,
+            answeredCount: Object.keys(answers).length
+          }
+        })
+      }).catch(err => console.log("Admin perf submit skipped:", err));
+
       return;
     }
 
@@ -463,6 +489,26 @@ export default function JambReplica() {
     setBreakdown(resBreakdown);
     setDiagnosticJSON(JSON.stringify(diagnosticPayload, null, 2));
     setIsFinished(true);
+
+    // Send performance data to admin dashboard
+    fetch("/api/admin", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        type: "performance",
+        name: candidateName,
+        detail: {
+          mode: sessionMode,
+          score: correct,
+          jambScore: calculatedJamb,
+          breakdown: resBreakdown,
+          subjects: activeSubjects,
+          totalQuestions: total,
+          answeredCount: Object.keys(answers).length
+        }
+      })
+    }).catch(err => console.log("Admin perf submit skipped:", err));
+
     // Auto-enter review — no modal
     setIsReview(true);
     setReviewAnswers(answers);
@@ -531,7 +577,7 @@ export default function JambReplica() {
 
       if (!examStarted || resultModalOpen || endModalOpen || isLoading) return;
       const k = e.key.toUpperCase();
-      
+
       // Dynamic Shortcut Logic: Only allow keys for which a valid option exists
       const validOptions = Object.entries(currentQuestion?.options || {})
         .filter(([_, text]) => text && String(text).trim() !== "")
@@ -565,7 +611,7 @@ export default function JambReplica() {
 
   const copyDiagnosticData = () => {
     if (activeSubjects.length === 0) return;
-    
+
     // Step A: Session Data
     const sessionQuestions = qbState[activeSubjects[0]] || [];
     const sessionData = sessionQuestions.map((q, qIdx) => {
@@ -629,10 +675,10 @@ ${JSON.stringify(sessionData, null, 2)}`;
       const data = JSON.parse(jsonStr);
       const subject = data.subject || "AI Review";
       const route = data.route || [];
-      
+
       const qList: Question[] = [];
       const hacks: Record<number, string> = {};
-      
+
       route.forEach((step: any, idx: number) => {
         // Step Original
         const qOrig: Question = {
@@ -647,7 +693,7 @@ ${JSON.stringify(sessionData, null, 2)}`;
         qList.push(qOrig);
         hacks[qOrig.id] = step.original.hack;
       });
-      
+
       setReviewQuestions(qList);
       setReviewHacks(hacks);
       setReviewAnswers({});
@@ -740,9 +786,9 @@ ${JSON.stringify(sessionData, null, 2)}`;
           openEndModal={() => setEndModalOpen(true)}
           toggleCalc={(rect?: DOMRect) => {
             if (rect) {
-              setCalcPos({ 
-                top: rect.bottom + window.scrollY + 5, 
-                left: Math.max(10, rect.left + window.scrollX - 80) 
+              setCalcPos({
+                top: rect.bottom + window.scrollY + 5,
+                left: Math.max(10, rect.left + window.scrollX - 80)
               });
             }
             setCalcOpen(!calcOpen);
