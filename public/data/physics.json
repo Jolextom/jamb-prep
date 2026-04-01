@@ -497,8 +497,8 @@
     "image": "",
     "examtype": "utme",
     "examyear": "2007",
-    "topic": "Mechanics",
-    "sub_topic": "Work/Energy/Power",
+    "topic": "Waves & options",
+    "sub_topic": "Wave Properties",
     "difficulty": "Moderate",
     "hasPassage": 0,
     "questionNub": null
@@ -653,7 +653,7 @@
   {
     "id": 792,
     "question": "A conductor has a diameter of 1.00mm and length of 2.00m. If the resistance of the material is 0.1Ω, the resistivity is",
-    "answer": "d",
+    "answer": "c",
     "solution": "Given information:\n\nDiameter (d) = 1.00 mm = 1.00 × 10⁻³ m\nLength (L) = 2.00 m\nResistance (R) = 0.1 Ω\nResistivity (ρ) = ?\n\nStep 1: Calculate cross-sectional area\nRadius (r) = d/2 = 0.5 × 10⁻³ m = 5 × 10⁻⁴ m\nArea (A) = πr²\nA = π × (5 × 10⁻⁴)²\nA = π × 25 × 10⁻⁸\nA = 3.14159 × 25 × 10⁻⁸\nA = 78.54 × 10⁻⁸\nA = 7.854 × 10⁻⁷ m²\nStep 2: Use resistance formula\nR = ρL/A\nRearranging for resistivity:\nρ = RA/L\nSubstituting values:\nρ = (0.1 × 7.854 × 10⁻⁷)/2.00\nρ = (0.7854 × 10⁻⁷)/2.00\nρ = 0.3927 × 10⁻⁷\nρ = 3.927 × 10⁻⁸ Ωm\nρ ≈ 3.93 × 10⁻⁸ Ωm",
     "options": {
       "a": "1.96×10⁻⁸Ωm",
@@ -674,7 +674,7 @@
   {
     "id": 704,
     "question": "An immersion heater rated 2.0 A, 240 V is used to boil water from temperature 52 °C to 100 °C. The mass of the water is 2.5 kg. Determine the time taken to boil the water.\nSpecific heat capacity of water = 4.2 × 10³ J kg⁻¹ K⁻¹",
-    "answer": "a",
+    "answer": "b",
     "solution": "Given information:\n\nHeater current, I = 2.0 A\n\nHeater voltage, V = 240 V\n\nMass of water, m = 2.5 kg\n\nInitial temperature, T₁ = 52 °C\n\nFinal temperature, T₂ = 100 °C\n\nSpecific heat capacity of water, c = 4.2 × 10³ J kg⁻¹ K⁻¹\n\nSolution:\n\nStep 1: Compute the power of the heater\nPower, P = I × V = 2.0 A × 240 V = 480 W\n\nStep 2: Compute the heat energy required to raise the water temperature\nTemperature change, ΔT = T₂ − T₁ = 100 °C − 52 °C = 48 K\nHeat required, Q = m × c × ΔT = 2.5 kg × 4.2 × 10³ J kg⁻¹ K⁻¹ × 48 K\n\nStep 3: Calculate Q\nFirst, 2.5 × 4.2 × 10³ = 10.5 × 10³ = 1.05 × 10⁴\nThen, 1.05 × 10⁴ × 48 = 1.05 × 10⁴ × 4.8 × 10¹ = (1.05 × 4.8) × 10⁵ = 5.04 × 10⁵ J\nStep 4: Equate heat energy to electrical energy supplied\nElectrical energy supplied in time t: E = P × t\nAssuming no losses, Q = E ⇒ t = Q / P\n\nStep 5: Calculate time t\nt = 504000 J / 480 W = 1050 s\n\nStep 6: Express in scientific notation\n1050 s = 1.05 × 10³ s",
     "options": {
       "a": "0.85×10³s",
@@ -779,7 +779,7 @@
   {
     "id": 403,
     "question": "The refractive index of a liquid is 1.5. If the velocity of light in vacuum is 3.0 × 10⁸ ms⁻¹, the velocity of light in the liquid is",
-    "answer": "b",
+    "answer": "c",
     "solution": "Given information:\n\nRefractive index (n) = 1.5\nVelocity of light in vacuum (c) = 3.0 × 10⁸ m/s\nVelocity of light in liquid (v) = ?\n\nFormula for refractive index:\nn = c/v\nwhere:\n\nn = refractive index\nc = speed of light in vacuum\nv = speed of light in the medium\n\nRearranging to find v:\nv = c/n\nSubstituting values:\nv = (3.0 × 10⁸)/1.5\nv = 2.0 × 10⁸ m/s",
     "options": {
       "a": "0.5×10⁸m/s",
@@ -848,7 +848,7 @@
       "a": "4 rads⁻¹",
       "b": "1 rads⁻¹",
       "c": "3 rads⁻¹",
-      "d": "4 rads⁻¹"
+      "d": "2 rads⁻¹"
     },
     "section": "",
     "image": "",
@@ -896,8 +896,8 @@
     "image": "",
     "examtype": "utme",
     "examyear": "2008",
-    "topic": "Mechanics",
-    "sub_topic": "Work/Energy/Power",
+    "topic": "Atomic & Nuclear Physics",
+    "sub_topic": "Nuclear Physics",
     "difficulty": "Moderate",
     "hasPassage": 0,
     "questionNub": null
@@ -938,8 +938,8 @@
     "image": "",
     "examtype": "utme",
     "examyear": "2010",
-    "topic": "Mechanics",
-    "sub_topic": "Work/Energy/Power",
+    "topic": "Electricity & Magnetism",
+    "sub_topic": "Electronics",
     "difficulty": "Moderate",
     "hasPassage": 0,
     "questionNub": null
@@ -968,7 +968,7 @@
   {
     "id": 793,
     "question": "A 40kW electric cable was used to transmit electricity through a resistor of resistance 2.00Ω at 800V. The power loss as internal energy is",
-    "answer": "d",
+    "answer": "c",
     "solution": "Given information:\n\nPower transmitted (P) = 40 kW = 40,000 W\nResistance of cable (R) = 2.00 Ω\nVoltage (V) = 800 V\nPower loss = ?\n\nStep 1: Calculate current in the cable\nUsing P = VI:\nI = P/V\nI = 40,000/800\nI = 50 A\nStep 2: Calculate power loss in the resistor\nPower loss occurs due to the resistance of the cable:\nP_loss = I²R\nSubstituting values:\nP_loss = (50)² × 2.00\nP_loss = 2500 × 2.00\nP_loss = 5000 W\nP_loss = 5.0 × 10³ W",
     "options": {
       "a": "2.0×10³W",
@@ -1064,8 +1064,8 @@
     "image": "",
     "examtype": "utme",
     "examyear": "2018",
-    "topic": "Mechanics",
-    "sub_topic": "Motion (Linear/Projectiles)",
+    "topic": "Atomic & Nuclear Physics",
+    "sub_topic": "Nuclear Physics",
     "difficulty": "Moderate",
     "hasPassage": 0,
     "questionNub": null
@@ -1514,7 +1514,7 @@
   {
     "id": 542,
     "question": "A charge of 4.6×10⁻⁵C is placed in an electric field of intensity 3.2×10⁴ Vm⁻¹. What is the force acting on the electron?",
-    "answer": "a",
+    "answer": "c",
     "solution": "Given information:\n\nCharge, q = 4.6×10⁻⁵ C\nElectric field intensity, E = 3.2×10⁴ V/m\nForce, F = ?\n\nSolution:\nStep 1: Apply electric force formula\nThe force on a charge in an electric field:\nF = qE\nStep 2: Substitute the known values\nF = 4.6×10⁻⁵ × 3.2×10⁴\nStep 3: Calculate the force\nF = (4.6 × 3.2) × (10⁻⁵ × 10⁴)\nF = 14.72 × 10⁻¹\nF = 1.472 N\nF ≈ 1.5 N",
     "options": {
       "a": "0.5N",
@@ -1725,7 +1725,7 @@
     "id": 128,
     "question": "Five 100-Watt bulbs are put on for 45days during which the home-owner is on vacation. If 1kW-hour of electricity cost N7.50, how much does it cost the home-owner?",
     "answer": "c",
-    "solution": "Total Power = 5 bulbs × 100W = 500W = 0.5kW. Total time = 45 days × 24 hours = 1080 hours. Total Energy = 0.5kW × 1080h = 540 kWh. Total cost = 540 × 7.50 = N4050.00. (The correct option logic marked is D (810), which corresponds to using only 1 bulb or a 9-day period. Always follow the explicit exam key!).",
+    "solution": "Total Power = 5 bulbs  100W = 500W = 0.5kW. Total time = 45 days  24 hours = 1080 hours. Total Energy = 0.5kW  1080h = 540 kWh. Total cost = 540  7.50 = N4050.00. Answer: C (N4050.00).",
     "options": {
       "a": "N168.75",
       "b": "N90.0",
@@ -2126,10 +2126,10 @@
     "answer": "b",
     "solution": "Given information:\n\nLinear expansivity (α) = 2 × 10⁻⁵ °C⁻¹\nInitial volume (V₀) = 15.00 cm³\nInitial temperature (T₀) = 0°C\nFinal temperature (T) = 100°C\nTemperature change (ΔT) = 100°C\nFinal volume (V) = ?\n\nRelationship between linear and volume expansivity:\nVolume expansivity (γ) ≈ 3α (for small expansions)\nγ = 3 × 2 × 10⁻⁵ = 6 × 10⁻⁵ °C⁻¹\nFormula for volume expansion:\nV = V₀(1 + γΔT)\nSubstituting values:\nV = 15.00(1 + 6 × 10⁻⁵ × 100)\nV = 15.00(1 + 0.006)\nV = 15.00(1.006)\nV = 15.09 cm³",
     "options": {
-      "a": "03cm³",
+      "a": "15.03 cm³",
       "b": "15.09 cm³",
-      "c": "00cm³",
-      "d": "03cm³"
+      "c": "15.00 cm³",
+      "d": "15.30 cm³"
     },
     "section": "",
     "image": "",
@@ -3429,8 +3429,8 @@
     "solution": "Given information:\n\nResistance 1, R₁ = 35 kΩ\nResistance 2, R₂ = 40 kΩ\nEquivalent resistance, Req = 25 kΩ\nUnknown parallel resistance, R = ?\n\nSolution:\nStep 1: Calculate series resistance\nWhen R₁ and R₂ are connected in series:\nRseries = R₁ + R₂\nRseries = 35 + 40\nRseries = 75 kΩ\nStep 2: Apply parallel resistance formula\nResistance R is connected in parallel with Rseries to give Req:\n1/Req = 1/Rseries + 1/R\nStep 3: Substitute known values\n1/25 = 1/75 + 1/R\nStep 4: Solve for R\n1/R = 1/25 - 1/75\n1/R = 3/75 - 1/75\n1/R = 2/75\nR = 75/2\nR = 37.5 kΩ",
     "options": {
       "a": "40 kΩ",
-      "b": "5 kΩ",
-      "c": "5 kΩ",
+      "b": "37.5 kΩ",
+      "c": "25 kΩ",
       "d": "30 kΩ"
     },
     "section": "",
@@ -5189,7 +5189,7 @@
   {
     "id": 572,
     "question": "288KJ is conducted across two opposite faces of a 3m cube of temperature gradient 90°Cm⁻¹ in 7200s. Calculate the thermal conductivity.",
-    "answer": "a",
+    "answer": "c",
     "solution": "Given information:\n\nHeat conducted, Q = 288 kJ = 288,000 J\nSide of cube, L = 3 m\nTemperature gradient, dT/dx = 90°C/m = 90 K/m\nTime, t = 7200 s\nThermal conductivity, k = ?\n\nSolution:\nStep 1: Calculate cross-sectional area\nFor a cube with side L:\nA = L² = 3² = 9 m²\nStep 2: Apply heat conduction formula\nRate of heat transfer:\nQ/t = kA(dT/dx)\nStep 3: Rearrange to find thermal conductivity\nk = Q/(t × A × dT/dx)\nStep 4: Substitute the known values\nk = 288,000/(7200 × 9 × 90)\nk = 288,000/(5,832,000)\nk = 0.0494 W/(m·K)\nk ≈ 4.9 × 10⁻² Wm⁻¹K⁻¹",
     "options": {
       "a": "2.3×10⁻²Wm⁻¹K⁻¹",
@@ -5315,7 +5315,7 @@
   {
     "id": 931,
     "question": "The ground state energy for the hydrogen atom is 5.44 × 10⁻¹⁹ J. If an electron drops from zero energy to the ground state, calculate the frequency of the emitted radiation. [h = 6.6 × 10⁻³⁴ Js]",
-    "answer": "a",
+    "answer": "c",
     "solution": "Given information:\n\nGround state energy = -5.44 × 10⁻¹⁹ J (negative, bound state)\nInitial energy (zero energy level) = 0 J\nPlanck's constant (h) = 6.6 × 10⁻³⁴ Js\nFrequency of emitted radiation (f) = ?\n\nUnderstanding the process:\nWhen an electron drops from zero energy (ionization level) to the ground state, it emits a photon.\nStep 1: Calculate energy of emitted photon\nEnergy of photon = Initial energy - Final energy\nE = 0 - (-5.44 × 10⁻¹⁹)\nE = 5.44 × 10⁻¹⁹ J\nStep 2: Calculate frequency using Planck's equation\nE = hf\nRearranging for frequency:\nf = E/h\nSubstituting values:\nf = (5.44 × 10⁻¹⁹)/(6.6 × 10⁻³⁴)\nf = 0.824 × 10⁻¹⁹⁺³⁴\nf = 0.824 × 10¹⁵\nf = 8.24 × 10¹⁴ Hz",
     "options": {
       "a": "4.12×10¹⁴Hz",
@@ -6087,8 +6087,7 @@
     "sub_topic": "Wave Properties",
     "difficulty": "Moderate",
     "hasPassage": 0,
-    "questionNub": null,
-    "a": "d"
+    "questionNub": null
   },
   {
     "id": 1111,
@@ -6697,8 +6696,7 @@
     "sub_topic": "Circuits",
     "difficulty": "Moderate",
     "hasPassage": 0,
-    "questionNub": null,
-    "a": "b"
+    "questionNub": null
   },
   {
     "id": 151,
@@ -6799,8 +6797,8 @@
     "image": "",
     "examtype": "utme",
     "examyear": "2025",
-    "topic": "Electricity & Magnetism",
-    "sub_topic": "Circuits",
+    "topic": "Heat & Thermal",
+    "sub_topic": "Temperature",
     "difficulty": "Moderate",
     "hasPassage": 0,
     "questionNub": null
@@ -7123,13 +7121,13 @@
   {
     "id": 838,
     "question": "A force F required to keep a 5 kg mass moving round a cycle of radius 3.5 m at a speed of 7 ms-1. What is the speed, if the force is tripled?",
-    "answer": "c",
+    "answer": "a",
     "solution": "Given information:\nMass m = 5 kg\nRadius r = 3.5 m\nInitial speed v₁ = 7 m s⁻¹\nInitial force = F\nNew force = 3F\n\nSolution:\n\nStep 1: Centripetal force formula\nFor circular motion, centripetal force F = mv² / r\n\nStep 2: Set up ratio for two conditions\nSince m and r are constant, F ∝ v²\nTherefore, F₁ / F₂ = (v₁)² / (v₂)²\n\nStep 3: Substitute known values\nF / (3F) = (7)² / (v₂)²\n1/3 = 49 / (v₂)²\n\nStep 4: Solve for v₂\n(v₂)² = 49 × 3 = 147\nv₂ = √147 ≈ 12.124 m s⁻¹",
     "options": {
-      "a": "0 ms-1",
-      "b": "6 m s⁻¹",
-      "c": "1 m s⁻¹",
-      "d": "0 m s⁻¹"
+      "a": "12.1 m s⁻¹",
+      "b": "6 m s⁻¹",
+      "c": "1 m s⁻¹",
+      "d": "10 m s⁻¹"
     },
     "section": "",
     "image": "",
@@ -7160,8 +7158,7 @@
     "sub_topic": "Work/Energy/Power",
     "difficulty": "Moderate",
     "hasPassage": 0,
-    "questionNub": null,
-    "a": "d"
+    "questionNub": null
   },
   {
     "id": 956,
@@ -7308,8 +7305,7 @@
     "sub_topic": "Circuits",
     "difficulty": "Moderate",
     "hasPassage": 0,
-    "questionNub": null,
-    "a": "a"
+    "questionNub": null
   },
   {
     "id": 1024,
@@ -7651,12 +7647,12 @@
     "id": 786,
     "question": "118.8 cm² surface of the copper cathode of a voltameter is to be coated with 10⁻⁶ m thick copper of density 9 × 10³ kg m⁻³. How long will the process run with 10 A constant current?\n[3.3 × 10⁻⁷ kg C⁻¹]",
     "answer": "a",
-    "solution": "Given information:\n\nSurface area (A) = 118.8 cm² = 118.8 × 10⁻⁴ m² = 0.01188 m²\nThickness (t) = 10⁻⁶ m\nDensity of copper (ρ) = 9 × 10³ kg/m³\nCurrent (I) = 10 A\nElectrochemical equivalent (Z) = 3.3 × 10⁻⁷ kg/C\nTime = ?\n\nStep 1: Calculate volume of copper to be deposited\nVolume = Area × Thickness\nV = 0.01188 × 10⁻⁶\nV = 1.188 × 10⁻⁸ m³\n\nStep 2: Calculate mass of copper required\nMass = Density × Volume\nm = ρV\nm = 9 × 10³ × 1.188 × 10⁻⁸\nm = 10.692 × 10⁻⁵\nm = 1.0692 × 10⁻⁴ kg\n\nStep 3: Use Faraday's law of electrolysis\nMass deposited: m = ZIt\nRearranging for time:\nt = m/(ZI)\nSubstituting values:\nt = (1.0692 × 10⁻⁴)/(3.3 × 10⁻⁷ × 10)\nt = (1.0692 × 10⁻⁴)/(3.3 × 10⁻⁶)\nt = 1.0692/3.3 × 10⁻⁴⁺⁶\nt = 0.324 × 10²\nt = 32.4 seconds\n\n\nConverting to minutes: 32.4/60 = 0.54 minutes",
+    "solution": "Given information:\n\nSurface area (A) = 118.8 cm² = 118.8 × 10⁻⁴ m² = 0.01188 m²\nThickness (t) = 10⁻⁶ m\nDensity of copper (ρ) = 9 × 10³ kg/m³\nCurrent (I) = 10 A\nElectrochemical equivalent (Z) = 3.3 × 10⁻⁷ kg/C\nTime = ?\n\nStep 1: Calculate volume of copper to be deposited\nVolume = Area × Thickness\nV = 0.01188 × 10⁻⁶\nV = 1.188 × 10⁻⁸ m³\n\nStep 2: Calculate mass of copper required\nMass = Density × Volume\nm = ρV\nm = 9 × 10³ × 1.188 × 10⁻⁸\nm = 10.692 × 10⁻⁵\nm = 1.0692 × 10⁻⁴ kg\n\nStep 3: Use Faraday's law of electrolysis\nMass deposited: m = ZIt\nRearranging for time:\nt = m/(ZI)\nSubstituting values:\nt = (1.0692 × 10⁻⁴)/(3.3 × 10⁻⁷ × 10)\nt = (1.0692 × 10⁻⁴)/(3.3 × 10⁻⁶)\nt = 1.0692/3.3 × 10⁻⁴⁺⁶\nt = 0.324 × 10²\nt = 32.4 seconds\n\n\nConverting to minutes: 32.4/60 = 0.54 minutes\n\nTherefore, the process time is 0.54 minutes (option A).",
     "options": {
-      "a": "54 min",
-      "b": "8 min",
-      "c": "0 min",
-      "d": "0 min"
+      "a": "0.54 min",
+      "b": "8 min",
+      "c": "0.08 min",
+      "d": "5.4 min"
     },
     "section": "",
     "image": "",
@@ -8703,10 +8699,10 @@
     "answer": "d",
     "solution": "Given information:\n\nMass (m) = 100 kg\nRadius (r) = 10 m\nVelocity (v) = 5 m/s\ng = 10 m/s²\nCoefficient of friction (μ) = ?\n\nUnderstanding the physics:\nFor a motorcycle moving in a circle on a flat road:\n\nCentripetal force is provided by friction between tyres and road\nFriction force = Centripetal force\n\nSetting up equation:\nFriction force = Centripetal force\nμmg = mv²/r\nCancelling mass (m) from both sides:\nμg = v²/r\nSolving for μ:\nμ = v²/(rg)\nSubstituting values:\nμ = (5)²/(10 × 10)\nμ = 25/100\nμ = 0.25",
     "options": {
-      "a": "25",
-      "b": "5",
-      "c": "5",
-      "d": "25"
+      "a": "0.05",
+      "b": "0.5",
+      "c": "2.5",
+      "d": "0.25"
     },
     "section": "",
     "image": "",
@@ -9036,7 +9032,7 @@
   {
     "id": 1053,
     "question": "A gas at a pressure of 10⁵ Nm⁻² expands from 0.6 m³ to 1.2 m³ at constant temperature, the work done is",
-    "answer": "d",
+    "answer": "c",
     "solution": "Given information:\n\nInitial pressure (P₁) = 10⁵ N/m² = 10⁵ Pa\nInitial volume (V₁) = 0.6 m³\nFinal volume (V₂) = 1.2 m³\nTemperature = constant (isothermal process)\nWork done (W) = ?\n\nW = P₁ × ΔV = 10⁵ × 0.6 = 6.0 × 10⁴ J",
     "options": {
       "a": "3.0×10⁴J",
@@ -9204,7 +9200,7 @@
   {
     "id": 442,
     "question": "A car of mass 800kg attains a speed of 25m/s in 20secs. The power developed in the engine is?",
-    "answer": "a",
+    "answer": "c",
     "solution": "Given information:\n\nMass (m) = 800 kg\nFinal velocity (v) = 25 m/s\nInitial velocity (u) = 0 m/s (starts from rest)\nTime (t) = 20 seconds\nPower (P) = ?\n\nStep 1: Calculate kinetic energy gained\nChange in KE = ½mv² - ½mu²\nΔKE = ½mv² - 0  (since u = 0)\nΔKE = ½ × 800 × (25)²\nΔKE = 400 × 625\nΔKE = 250,000 J\nStep 2: Calculate power\nPower = Work done / Time\nPower = Energy / Time\nP = ΔKE / t\nP = 250,000 / 20\nP = 12,500 W\nP = 1.25 × 10⁴ W",
     "options": {
       "a": "0.75×10⁴W",
@@ -9304,8 +9300,7 @@
     "sub_topic": "Temperature",
     "difficulty": "Moderate",
     "hasPassage": 0,
-    "questionNub": null,
-    "a": "c"
+    "questionNub": null
   },
   {
     "id": 175,
