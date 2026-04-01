@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Fisher-Yates Shuffle Algorithm for true randomization
  */
 function fisherYatesShuffle<T>(array: T[]): T[] {
@@ -65,7 +65,7 @@ export default function JambReplica() {
 
   useEffect(() => {
     if (updateAvailable && view === 'SETUP' && !isLoading && !examStarted) {
-      console.log("🚀 Update available! Performing silent refresh...");
+      console.log("ðŸš€ Update available! Performing silent refresh...");
       window.location.reload();
     }
   }, [updateAvailable, view, isLoading, examStarted]);
@@ -275,7 +275,7 @@ export default function JambReplica() {
 
     setIsLoading(true);
     setFetchError(null);
-    const newQB: Record<string, Question[]> = {};
+    const newQB: Record<string, Question[]> = {};`r`n    let resolvedAliases = imageAliases;`r`n`r`n    if (Object.keys(resolvedAliases).length === 0) {`r`n      try {`r`n        const aliasRes = await fetch("/data/image_aliases.json");`r`n        if (aliasRes.ok) {`r`n          const aliasData = await aliasRes.json();`r`n          if (aliasData && typeof aliasData === "object") {`r`n            resolvedAliases = aliasData as Record<string, string>;`r`n            setImageAliases(resolvedAliases);`r`n          }`r`n        }`r`n      } catch {`r`n        // Fallback to raw image names when alias map is unavailable.`r`n      }`r`n    }
 
     try {
       for (const subjectName of selected) {
@@ -396,7 +396,7 @@ export default function JambReplica() {
         newQB[subjectName] = finalPicked.map(item => {
           // Ensure answer is always a valid letter A-D
           const rawAnswer = (item.answer || "a").toString().substring(0, 1).toUpperCase();
-          const validAnswer = ["A", "B", "C", "D"].includes(rawAnswer) ? rawAnswer : "A";
+          const validAnswer = ["A", "B", "C", "D"].includes(rawAnswer) ? rawAnswer : "A";`r`n          const rawImage = String(item.image || "").trim();
 
           return {
             id: item.id || 0,
@@ -409,7 +409,7 @@ export default function JambReplica() {
             difficulty: item.difficulty || "Moderate",
             solution: item.solution || "",
             section: item.section || "",
-            image: item.image || "",
+            image: rawImage ? (resolvedAliases[rawImage] || rawImage) : "",
             hasPassage: item.hasPassage || 0,
             questionNub: item.questionNub || null
           };
@@ -574,7 +574,7 @@ export default function JambReplica() {
       })
     }).catch(err => console.log("Admin perf submit skipped:", err));
 
-    // Auto-enter review — no modal
+    // Auto-enter review â€” no modal
     setIsReview(true);
     setReviewAnswers(answers);
     setView('EXAM');
@@ -905,3 +905,4 @@ ${JSON.stringify(sessionData, null, 2)}`;
     </div>
   );
 }
+

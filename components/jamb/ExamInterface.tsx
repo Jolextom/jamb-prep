@@ -94,6 +94,24 @@ export default function ExamInterface({
   onNewSession = () => window.location.reload()
 }: ExamInterfaceProps) {
   const imageBaseUrl = (process.env.NEXT_PUBLIC_QUESTION_IMAGE_BASE_URL || "").replace(/\/$/, "");
+  const [imageAliases, setImageAliases] = React.useState<Record<string, string>>({});
+
+  React.useEffect(() => {
+    let mounted = true;
+    fetch("/data/image_aliases.json")
+      .then((res) => (res.ok ? res.json() : {}))
+      .then((data) => {
+        if (!mounted || !data || typeof data !== "object") return;
+        setImageAliases(data as Record<string, string>);
+      })
+      .catch(() => {
+        // Fallback to original file names when alias map is unavailable.
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   const decodeHtmlEntities = React.useCallback((raw: string) => {
     if (!raw || typeof window === "undefined") return raw;
@@ -221,6 +239,51 @@ export default function ExamInterface({
     return text;
   }, []);
 
+  const remapEmbeddedImageSources = React.useCallback((html: string) => {
+    if (!html) return "";
+
+    return html.replace(/src=(['"])([^'"]+)\1/gi, (_match, quote: string, src: string) => {
+      const cleanedSrc = src.trim();
+      if (!cleanedSrc || cleanedSrc.startsWith("data:")) {
+        return `src=${quote}${cleanedSrc}${quote}`;
+      }
+
+      let filename = "";
+      let rawFilename = "";
+
+      const noQuery = cleanedSrc.split("?")[0].split("#")[0];
+      const decodedPath = decodeURIComponent(noQuery);
+
+      if (/\/storage\/classroom\/editor_images\//i.test(decodedPath) || /\/editor_images\//i.test(decodedPath)) {
+        filename = decodedPath.split("/").pop() || "";
+        rawFilename = noQuery.split("/").pop() || "";
+      } else if (/^\/images\//i.test(decodedPath)) {
+        filename = decodedPath.split("/").pop() || "";
+        rawFilename = noQuery.split("/").pop() || "";
+      }
+
+      if (!filename) {
+        return `src=${quote}${cleanedSrc}${quote}`;
+      }
+
+      const normalizedFromEncoded = rawFilename
+        ? rawFilename.replace(/%20%28(\d+)%29/gi, (_m, n: string) => `2028${n}29`)
+        : "";
+      const normalizedFromDecoded = filename.replace(/\s*\((\d+)\)/g, (_m, n: string) => `2028${n}29`);
+
+      const mappedFilename =
+        imageAliases[filename] ||
+        (normalizedFromEncoded ? imageAliases[normalizedFromEncoded] : "") ||
+        imageAliases[normalizedFromDecoded] ||
+        filename;
+      const mappedSrc = imageBaseUrl
+        ? `${imageBaseUrl}/${mappedFilename}`
+        : `/images/${mappedFilename}`;
+
+      return `src=${quote}${mappedSrc}${quote}`;
+    });
+  }, [imageAliases, imageBaseUrl]);
+
   const formatRichText = React.useCallback((input?: string) => {
     if (!input) return "";
 
@@ -230,10 +293,12 @@ export default function ExamInterface({
       text = normalizeLatex(text);
     }
 
-    return text
+    text = text
       .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
       .replace(/(^|[^*])\*(?!\s)([^*]+?)\*(?!\*)/g, "$1<em>$2</em>");
-  }, [decodeHtmlEntities, normalizeLatex, renderMathSegments]);
+
+    return remapEmbeddedImageSources(text);
+  }, [decodeHtmlEntities, normalizeLatex, remapEmbeddedImageSources, renderMathSegments]);
 
   const resolveImageSrc = React.useCallback((raw?: string) => {
     const value = (raw || "").trim();
@@ -243,34 +308,37 @@ export default function ExamInterface({
       return value;
     }
 
-    if (/^https?:\/\//i.test(value)) {
+    const mappedValue = imageAliases[value] || value;
+
+    if (/^https?:\/\//i.test(mappedValue)) {
       // Prefer local cache for myschool-hosted images when available in public/images.
       try {
-        const parsed = new URL(value);
+        const parsed = new URL(mappedValue);
         if (parsed.hostname === "myschool.ng" || parsed.hostname === "www.myschool.ng") {
           const filename = parsed.pathname.split("/").pop() || "";
           if (filename) {
-            if (imageBaseUrl) return `${imageBaseUrl}/${filename}`;
-            return `/images/${filename}`;
+            const mappedFilename = imageAliases[filename] || filename;
+            if (imageBaseUrl) return `${imageBaseUrl}/${mappedFilename}`;
+            return `/images/${mappedFilename}`;
           }
         }
       } catch {
         // Keep original URL if parsing fails.
       }
-      return value;
+      return mappedValue;
     }
 
-    if (value.startsWith("/")) {
-      return value;
+    if (mappedValue.startsWith("/")) {
+      return mappedValue;
     }
 
     if (imageBaseUrl) {
-      return `${imageBaseUrl}/${value}`;
+      return `${imageBaseUrl}/${mappedValue}`;
     }
 
     // Local fallback for copied assets under public/images.
-    return `/images/${value}`;
-  }, [imageBaseUrl]);
+    return `/images/${mappedValue}`;
+  }, [imageAliases, imageBaseUrl]);
 
   const [reportModalOpen, setReportModalOpen] = React.useState(false);
   const [reportType, setReportType] = React.useState("Wrong Answer");
@@ -838,7 +906,7 @@ export default function ExamInterface({
           {/* Desktop Version: Send Feedback Button (Repurposed from New Session) */}
           <div className="desktop-only" style={{ marginTop: "40px", paddingTop: "0" }}>
             <p style={{ margin: "0 0 16px 0", fontSize: "14px", fontWeight: "900", color: "#003366", textAlign: "center" }}>
-              Enjoying the AI Tutor? Help us build the perfect prep tool! 🚀
+              Enjoying the AI Tutor? Help us build the perfect prep tool!
             </p>
             <button
               className="nav-btn primary"
