@@ -149,6 +149,18 @@ export default function ExamInterface({
     text = text.replace(/\$\$([\s\S]*?)\$\$/g, (_match, expr: string) => renderLatexInline(expr, true));
     text = text.replace(/(^|[^\\])\$([^$\n]+?)\$/g, (_match, prefix: string, expr: string) => `${prefix}${renderLatexInline(expr, false)}`);
 
+    // Some records contain raw LaTeX commands without proper delimiters.
+    // Render those commands directly so users don't see \frac, \sqrt, \begin... text.
+    text = text.replace(/\\begin\{([a-zA-Z*]+)\}([\s\S]*?)\\end\{\1\}/g, (_match, env: string, body: string) => {
+      return renderLatexInline(`\\begin{${env}}${body}\\end{${env}}`, false);
+    });
+    text = text.replace(/\\(?:dfrac|tfrac|frac)\s*\{[^{}]*\}\s*\{[^{}]*\}/g, (expr: string) => {
+      return renderLatexInline(expr, false);
+    });
+    text = text.replace(/\\sqrt\s*(?:\{[^{}]*\}|[A-Za-z0-9]+)/g, (expr: string) => {
+      return renderLatexInline(expr, false);
+    });
+
     return text;
   }, [normalizeEscapedMathDelimiters, renderLatexInline]);
 
