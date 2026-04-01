@@ -322,10 +322,10 @@ export default function QuestionChat({ candidateName, questionContext, questionI
           {messages.length === 0 && (
             <div style={{ textAlign: "center", padding: "20px 0" }}>
               <p style={{ color: "#003366", fontWeight: "600", fontSize: "14px", marginBottom: "4px" }}>Master this concept</p>
-              <p style={{ color: "#64748b", fontSize: "12px", marginBottom: "16px" }}>Use AI to find similar questions or get speed hacks.</p>
+              <p style={{ color: "#64748b", fontSize: "12px", marginBottom: "16px" }}>Ask for help, then request a similar question if you want one.</p>
               <div style={{ display: "flex", flexDirection: "column", gap: "8px", alignItems: "center" }}>
                 {[
-                  "Challenge me with a similar question",
+                  "Can you give me a similar question?",
                   "Give me a speed hack for this",
                   "Explain why the others are wrong"
                 ].map(q => (
