@@ -1,4 +1,4 @@
-[
+﻿[
   {
     "id": 600,
     "question": "What was Samson’s major achievement as Israel’s leader?",
@@ -44,7 +44,7 @@
   {
     "id": 434,
     "question": "“Lord, I have heard from many about this man, how much evil he has done to thy saints at Jerusalem...” Ananias’ response above to God’s request for him to meet Saul shows that he",
-    "answer": "a",
+    "answer": "d",
     "solution": "Ananias voiced concerns about Saul because of his reputation for persecuting 'saints at Jerusalem'. This reflects his fear and initial reluctance based on Saul's notorious past (Acts 9:13).",
     "options": {
       "a": "felt that Saul should not be forgiven",
@@ -191,7 +191,7 @@
   {
     "id": 996,
     "question": "Who among the following kings was raised by God against the Israelites for going after the Canaanite gods?",
-    "answer": "c",
+    "answer": "b",
     "solution": "As a punishment for Israel's idolatry, God raised up Jabin, king of Canaan, to oppress them for twenty years before Deborah and Barak delivered them (Judges 4).",
     "options": {
       "a": "Agap",
@@ -296,7 +296,7 @@
   {
     "id": 1025,
     "question": "Paul was stoned and dragged out of the city by",
-    "answer": "a",
+    "answer": "c",
     "solution": "During Paul's first missionary journey, Jews from Antioch and Iconium came to Lystra, won over the crowds, and stoned Paul, dragging him out of the city (Acts 14:19).",
     "options": {
       "a": "the Lyconians and the Ephesians.",
@@ -317,7 +317,7 @@
   {
     "id": 295,
     "question": "Prophet Hosea named his second child Not Pitied because God would no more pity the",
-    "answer": "c",
+    "answer": "d",
     "solution": "Hosea 1:6 states that God commanded the prophet to name his second child 'Lo-ruhamah' (Not Pitied) because He would no longer have pity on the house of Israel.",
     "options": {
       "a": "kings of Judah",
@@ -527,7 +527,7 @@
   {
     "id": 192,
     "question": "The relationship between God and Israel was described by Hosea as that of a",
-    "answer": "d",
+    "answer": "a",
     "solution": "Hosea 2:2-5 uses a faithless wife (Gomer) as a metaphor for Israel's unfaithfulness to God, who is represented as a loving and forgiving husband (the bond of the covenant).",
     "options": {
       "a": "faithless wife and a loving husband",
@@ -674,7 +674,7 @@
   {
     "id": 832,
     "question": "In Corinthians, Paul cited all the following resurrection appearances of Jesus except",
-    "answer": "d",
+    "answer": "c",
     "solution": "In 1 Corinthians 15, Paul lists several of Jesus' post-resurrection appearances (Cephas, the Twelve, 500 brothers, James). Mary Magdalene is notably 'excepted' from his specific list of formal witnesses in this letter.",
     "options": {
       "a": "Cephas.",
@@ -947,7 +947,7 @@
   {
     "id": 435,
     "question": "“It is necessary to circumcise them, and to charge them to keep the law of Moses.” In response to the Pharisees’ statement above, Peter rebuked them, by saying that God has",
-    "answer": "a",
+    "answer": "c",
     "solution": "During the Council of Jerusalem, Peter argued that God had 'cleansed the hearts of the Gentiles by faith' (Acts 15:9), showing that physical circumcision was no longer the mark of God's people.",
     "options": {
       "a": "made circumcision for only those in leadership",
@@ -968,7 +968,7 @@
   {
     "id": 468,
     "question": "Which two tribes in Israel led in the rebuilding of the temple after the exile?",
-    "answer": "c",
+    "answer": "a",
     "solution": "After the decree of Cyrus, the tribes of 'Judah and Benjamin' (Ezra 1:5) alongside the priests and Levites, led the return to Jerusalem to rebuild the house of the Lord.",
     "options": {
       "a": "Judah and Benjamin",
@@ -1073,7 +1073,7 @@
   {
     "id": 171,
     "question": "Paul told the believers in Corinth that no one can say Jesus is Lord except by",
-    "answer": "a",
+    "answer": "d",
     "solution": "In 1 Corinthians 12:3, Paul teaches that no one can sincerely declare 'Jesus is Lord' except by the power and revelation of 'the Holy Spirit' working in their heart.",
     "options": {
       "a": "knowledge",
@@ -1367,7 +1367,7 @@
   {
     "id": 401,
     "question": "How did God guide Eleazar in choosing a wife for lsaac?",
-    "answer": "d",
+    "answer": "c",
     "solution": "In Genesis 24, Abraham's servant (presumably Eleazar) was guided by God's angel to Rebekah after he prayed for a specific sign involving water for himself and his camels.",
     "options": {
       "a": "He caused Rebekah to give him free accommodation",
@@ -1388,7 +1388,7 @@
   {
     "id": 975,
     "question": "The First Martyr among the apostles was",
-    "answer": "d",
+    "answer": "a",
     "solution": "While Stephen was the first martyr of the Jesus movement (Acts 7), James (the brother of John) was the first of the twelve apostles to be martyred, executed by Herod Agrippa (Acts 12:2).",
     "options": {
       "a": "James",
@@ -1409,7 +1409,7 @@
   {
     "id": 464,
     "question": "Jeremiah said the people of Judah were in a state of mourning because,",
-    "answer": "a",
+    "answer": "d",
     "solution": "Jeremiah frequently lamented that Judah's land was in mourning and their farms were destroyed because of a severe drought sent as a sign of judgment for their sins (Jeremiah 14).",
     "options": {
       "a": "they sinned against God.",
@@ -2081,7 +2081,7 @@
   {
     "id": 423,
     "question": "“Lord, if you will, you can make me clean.” The statement above was made by the",
-    "answer": "d",
+    "answer": "a",
     "solution": "In several Gospel accounts (e.g., Matthew 8:2), it was a 'leper' who approached Jesus and said, 'Lord, if you will, you can make me clean,' expressing his faith in Jesus' power.",
     "options": {
       "a": "leper",
@@ -2543,7 +2543,7 @@
   {
     "id": 420,
     "question": "According to Jeremiah, the people of Israel were in exile because of their",
-    "answer": "b",
+    "answer": "d",
     "solution": "Jeremiah and other prophets taught that Israel's exile was a direct result of their rebellion against God's covenant, though the physical cause of the 586 BC exile was their rebellion against King Nebuchadnezzar (2 Kings 24-25).",
     "options": {
       "a": "impatience and immorality",
@@ -2627,7 +2627,7 @@
   {
     "id": 397,
     "question": "The new covenant between God and the Israelites is centered on",
-    "answer": "a",
+    "answer": "d",
     "solution": "The 'New Covenant' promised in Jeremiah 31:31-34 is centered on 'individual responsibility' and the Law being written on the hearts of men, rather than on tablets of stone.",
     "options": {
       "a": "religious doctrines",
@@ -3068,7 +3068,7 @@
   {
     "id": 666,
     "question": "During the rebuilding of the temple, Zerubbabel rejected the offer of help from the",
-    "answer": "c",
+    "answer": "b",
     "solution": "During the rebuilding of the temple (Ezra 4:1-3), Zerubbabel and the leaders of Israel 'rejected the offer of help' from the people of Samaria, who were not considered true Israelites.",
     "options": {
       "a": "inhabitants of Ammon.",
@@ -3152,7 +3152,7 @@
   {
     "id": 737,
     "question": "To St Paul, Christians can prepare for the second coming of Christ by______",
-    "answer": "a",
+    "answer": "c",
     "solution": "In 1 Thessalonians 5, Paul teaches that Christians should prepare for the Lord's return by 'being prayerful and watchful' and living with sober-mindedness (righteous living).",
     "options": {
       "a": "Righteous living",
@@ -4013,7 +4013,7 @@
   {
     "id": 1024,
     "question": "Which of the following places was not visited by Paul during his first missionary journey?",
-    "answer": "a",
+    "answer": "b",
     "solution": "During his first missionary journey (Acts 13-14), Paul and Barnabas visited Cyprus (Salamis and Paphos) and parts of Galatia. Athens was visited later during the second journey.",
     "options": {
       "a": "Salamis",
@@ -4391,7 +4391,7 @@
   {
     "id": 680,
     "question": "Paul was stoned and dragged out of the city by",
-    "answer": "a",
+    "answer": "c",
     "solution": "Acts 14:19 records that 'Jews from Antioch and Iconium' came to Lystra, won over the crowds, and 'stoned Paul and dragged him out of the city' thinking he was dead.",
     "options": {
       "a": "the Lyconians and the Ephesians.",
@@ -4517,7 +4517,7 @@
   {
     "id": 387,
     "question": "Peter admonished Christians to be sober and watchful in order to avoid",
-    "answer": "a",
+    "answer": "c",
     "solution": "In 1 Peter 5:8, the apostle warns Christians to 'be sober and watchful' because their adversary, the devil, 'prowls around like a roaring lion seeking someone to devour.'",
     "options": {
       "a": "temptation",
@@ -5399,7 +5399,7 @@
   {
     "id": 692,
     "question": "James strongly condemned partiality in the Church for all the following reasons except that it",
-    "answer": "d",
+    "answer": "b",
     "solution": "James condemned partiality (James 2:1-4) because it is a 'transgression of the law of love' and makes believers 'judges with evil thoughts' (Marking D as an exception as it claims otherwise).",
     "options": {
       "a": "is contrary to Christ’s example of humility",
@@ -6470,7 +6470,7 @@
   {
     "id": 409,
     "question": "When Naboth refused to exchange his vineyard with King Ahab, Ahab reacted by",
-    "answer": "d",
+    "answer": "b",
     "solution": "In 1 Kings 21:4, when Naboth refused to sell his vineyard for religious reasons, King Ahab 'went to his house vexed and sullen' and refused to eat, showing his childish petulance.",
     "options": {
       "a": "taking to prayers and fasting",
@@ -6722,7 +6722,7 @@
   {
     "id": 671,
     "question": "The incidents that took place following Jesus’ death on the cross did not include the",
-    "answer": "b",
+    "answer": "d",
     "solution": "Matthew 27:51-54 records that following Jesus' death, the curtain of the temple was torn, the earth quaked, and tombs were opened, but there is no record of the 'conversion' of the chief priest.",
     "options": {
       "a": "tearing into two of the temple’s veil.",
@@ -6869,7 +6869,7 @@
   {
     "id": 482,
     "question": "The meeting of the Christian Council of Jerusalem was chaired by",
-    "answer": "a",
+    "answer": "c",
     "solution": "While James is the brother of Jesus who led the Jerusalem Council (Acts 15:13), some contexts identify 'Peter' as the chairperson who first presented the argument for Gentile admission (Acts 15:7) (Checking answer key 'a' for confirmation).",
     "options": {
       "a": "Peter.",
@@ -6953,7 +6953,7 @@
   {
     "id": 244,
     "question": "Paul appealed to Philemon to forgive Onesimus on the basis of",
-    "answer": "a",
+    "answer": "c",
     "solution": "In his letter to Philemon (verse 9), Paul appealed for the runaway slave Onesimus on the basis of 'love' and as an aged prisoner of Christ Jesus, rather than using his authority.",
     "options": {
       "a": "equality",
@@ -7436,7 +7436,7 @@
   {
     "id": 686,
     "question": "The New Life in Christ operates through",
-    "answer": "b",
+    "answer": "c",
     "solution": "According to Paul's teaching on the body of Christ, the 'New Life in Christ' operates through the unity of believers as 'one body' (checking 'c' or 'b' based on the específicas of the question).",
     "options": {
       "a": "humility.",
@@ -7478,7 +7478,7 @@
   {
     "id": 418,
     "question": "How did God help Jeremiah overcome his inability to speak as prophet?",
-    "answer": "d",
+    "answer": "a",
     "solution": "In Jeremiah 1:9, God helped Jeremiah overcome his feelings of inadequacy by 'reaching out His hand and touching Jeremiah's mouth,' saying He had put His words in Jeremiah's mouth.",
     "options": {
       "a": "He put out His hands and touched his mouth.",
@@ -7583,7 +7583,7 @@
   {
     "id": 651,
     "question": "Who among the following kings was raised by God against the Israelites for going after the Canaanite gods?",
-    "answer": "c",
+    "answer": "b",
     "solution": "In Judges 4:1-2, the Bible records that the Lord 'sold them into the hand of Jabin king of Canaan' as a consequence of the Israelites doing evil in the sight of the Lord.",
     "options": {
       "a": "Agap",
@@ -7604,7 +7604,7 @@
   {
     "id": 1060,
     "question": "According to Ezra, the return of the Jews from exile was prophesied by",
-    "answer": "a",
+    "answer": "d",
     "solution": "Ezra 1:1 records that the return from exile was to fulfill the word of the Lord by the mouth of 'Jeremiah' (who prophesied a 70-year period of exile).",
     "options": {
       "a": "Ezekiel",
@@ -7667,7 +7667,7 @@
   {
     "id": 414,
     "question": "When the three Hebrew men refused to worship the King’s image, he commanded that they be",
-    "answer": "c",
+    "answer": "a",
     "solution": "In Daniel 3:19-23, King Nebuchadnezzar was so furious at Shadrach, Meshach, and Abednego that he commanded they be 'thrown into a burning fiery furnace.'",
     "options": {
       "a": "thrown into a furnace",
@@ -7730,7 +7730,7 @@
   {
     "id": 487,
     "question": "According to Peter, God set up the state for the purpose of",
-    "answer": "d",
+    "answer": "c",
     "solution": "In 1 Peter 2:13-14, the apostle teaches that governors are sent by the emperor to 'punish those who do evil and to praise those who do good,' ensuring social order.",
     "options": {
       "a": "silencing the ignorance of foolish men.",
@@ -7814,7 +7814,7 @@
   {
     "id": 1016,
     "question": "The incidents that took place following Jesus’ death on the cross did not include the",
-    "answer": "b",
+    "answer": "d",
     "solution": "Following Jesus' death, the Bible records the tearing of the temple veil, an earthquake, and the opening of tombs, but 'not' the 'trembling and conversion' of the chief priest.",
     "options": {
       "a": "tearing into two of the temple’s veil.",
@@ -7877,7 +7877,7 @@
   {
     "id": 998,
     "question": "The sons of Eli were regarded as worthless men for all the",
-    "answer": "b",
+    "answer": "d",
     "solution": "1 Samuel 2:12-17 describes Eli's sons (Hophni and Phinehas) as worthless men primarily because they 'showed no respect for the Lord' and treated sacrifices with contempt.",
     "options": {
       "a": "sleeping with the women at the tent of meeting.",
@@ -8044,7 +8044,7 @@
   },
   {
     "id": 555,
-    "question": "God said to Solomon in a dream, <em>“Ask what I shall give you”</em>. What did Solomon ask for?",
+    "question": "God said to Solomon in a dream, *Ask what I shall give you*. What did Solomon ask for?",
     "answer": "d",
     "solution": "In 1 Kings 3:5-15, when God told Solomon 'Ask what I shall give you,' Solomon humbly requested 'an understanding mind' (or wisdom) to govern his people well.",
     "options": {
@@ -8828,7 +8828,7 @@
       "a": "Olive.",
       "b": "Tabor.",
       "c": "Sinai",
-      "d": "Camel."
+      "d": "Carmel."
     },
     "section": "",
     "image": "",
@@ -9158,7 +9158,7 @@
   {
     "id": 679,
     "question": "Which of the following places was not visited by Paul during his first missionary journey?",
-    "answer": "a",
+    "answer": "b",
     "solution": "Acts 13:4-14:26 records Paul's first missionary journey, which included Salamis, Paphos, and Antioch in Pisidia, but NOT 'Athens' (which he visited during the second journey).",
     "options": {
       "a": "Salamis",
@@ -9200,7 +9200,7 @@
   {
     "id": 545,
     "question": "Amos is often referred to as a prophet of",
-    "answer": "a",
+    "answer": "d",
     "solution": "Amos is primarily known as a 'prophet of justice' (and social righteousness) because of his strong message against the exploitation of the poor.",
     "options": {
       "a": "doom",
@@ -9242,7 +9242,7 @@
   {
     "id": 151,
     "question": "The prophet whose message was primarily on social justice and true religion is",
-    "answer": "d",
+    "answer": "c",
     "solution": "Amos is often called a prophet of 'social justice' (but in some JAMB contexts 'judgment/justice') because he condemned religious hypocrisy and the exploitation of the poor.",
     "options": {
       "a": "Isaiah",
@@ -9289,7 +9289,7 @@
     "options": {
       "a": "Ezra, a captive in Babylon",
       "b": "Ezekiah, an Emperor in Babylon",
-      "c": "Hanai, a captive in Babylon",
+      "c": "Hanani, a captive in Babylon",
       "d": "Zerubbabel, an Emperor in Babylon"
     },
     "section": "",
@@ -9347,7 +9347,7 @@
   {
     "id": 956,
     "question": "Jeremiah’s vision of a boiling pot represented",
-    "answer": "d",
+    "answer": "c",
     "solution": "In Jeremiah 1:13, the vision of a 'boiling pot facing away from the north' symbolized the coming 'invasion and destruction' that would be poured out from the north against Judah.",
     "options": {
       "a": "Judah’s sins.",
@@ -9515,7 +9515,7 @@
   {
     "id": 109,
     "question": "What was the sin of David that involved Bathsheba?",
-    "answer": "a",
+    "answer": "b",
     "solution": "David's grave sin involving Bathsheba (2 Samuel 11) was 'adultery' with another man's wife, which led to further sins including the murder of Uriah.",
     "options": {
       "a": "Murder",
@@ -9536,7 +9536,7 @@
   {
     "id": 277,
     "question": "According to proverbs, a son that is attentive to a father’s instruction will",
-    "answer": "b",
+    "answer": "c",
     "solution": "Proverbs 4:1-2 states that a son who is attentive to a father's instruction will 'gain insight' and acquire good precepts for life.",
     "options": {
       "a": "be rich",
@@ -9641,7 +9641,7 @@
   {
     "id": 121,
     "question": "The shema emphasizes the",
-    "answer": "c",
+    "answer": "a",
     "solution": "The 'Shema' (Deuteronomy 6:4-9)—'Hear, O Israel: The Lord our God, the Lord is one'—is the central creed of Israel that emphasizes the 'unity and oneness' of God.",
     "options": {
       "a": "unity of God",
@@ -9662,7 +9662,7 @@
   {
     "id": 637,
     "question": "According to Galatians, the death of Christ has eliminate all forms of",
-    "answer": "c",
+    "answer": "b",
     "solution": "In Galatians 3:28, Paul explains that the unity in Christ has 'eliminated all forms of differences' between Jews and Greeks, slaves and free, and male and female.",
     "options": {
       "a": "suffering",
@@ -9725,7 +9725,7 @@
   {
     "id": 442,
     "question": "Paul in Timothy urged believers to make supplications, prayers, intercession and thanksgivings for all those who",
-    "answer": "c",
+    "answer": "a",
     "solution": "In 1 Timothy 2:1, Paul urges that prayers, intercessions, and thanksgivings be made for 'all men,' and specifically those 'who are in authority' (verse 2) to live peaceful and quiet lives.",
     "options": {
       "a": "are in authority",
@@ -10019,7 +10019,7 @@
   {
     "id": 467,
     "question": "The first batch of Jewish exiles to rebuild the temple was under the leadership of",
-    "answer": "d",
+    "answer": "c",
     "solution": "Ezra 1:11 and 2:1-2 states that the first batch of exiles to return and rebuild the temple was under the leadership of 'Sheshbazzar' (the prince) and later Zerubbabel.",
     "options": {
       "a": "Joshua.",
@@ -10838,7 +10838,7 @@
   {
     "id": 1011,
     "question": "During the rebuilding of the temple, Zerubbabel rejected the offer of help from the",
-    "answer": "c",
+    "answer": "b",
     "solution": "Ezra 4:1-3 records that Zerubbabel and the leaders 'rejected the offer of help from the Samaritans' (the adversaries of Judah and Benjamin) in rebuilding the temple.",
     "options": {
       "a": "inhabitants of Ammon.",
@@ -10859,7 +10859,7 @@
   {
     "id": 440,
     "question": "In Corinthians, Paul said that one can only say Jesus is Lord by",
-    "answer": "b",
+    "answer": "d",
     "solution": "In 1 Corinthians 12:3, Paul states that 'no one can say Jesus is Lord except by the Holy Spirit.'",
     "options": {
       "a": "denouncing the law",
@@ -10964,7 +10964,7 @@
   {
     "id": 819,
     "question": "Apart from the miracles at the wedding feast, another miracle of Jesus at Cana in Galilee was",
-    "answer": "d",
+    "answer": "b",
     "solution": "John 4:46-54 records that the 'second sign' Jesus did at Cana (after the wedding) was the 'healing of the official's/noble man's son' who was sick in Capernaum.",
     "options": {
       "a": "feeding the four thousand",
@@ -11132,7 +11132,7 @@
   {
     "id": 439,
     "question": "According to Paul in his letter to Philemon, forgiveness should not be by compulsion but by",
-    "answer": "b",
+    "answer": "c",
     "solution": "In his letter to Philemon (verse 14), Paul emphasized that He wantsed Philemon's 'good deed and forgiveness to be of his own free will' rather than by necessity or compulsion.",
     "options": {
       "a": "justification",
