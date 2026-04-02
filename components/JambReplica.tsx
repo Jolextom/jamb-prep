@@ -314,8 +314,11 @@ export default function JambReplica() {
           return Number.isFinite(year) && year >= 2010;
         });
 
-        // 1. Filter out novel-based questions (prescribed texts)
-        if (metadata.slug === "english" || metadata.slug === "englishlit") {
+        const isEnglish = metadata.slug === "english";
+        const isEnglishExamBlueprint = isEnglish && sessionMode === "EXAM";
+
+        // Keep practice mode lightweight; exam mode handles English composition separately.
+        if ((isEnglish && !isEnglishExamBlueprint) || metadata.slug === "englishlit") {
           const novelKeywords = [
             "novel", "the life changer", "khadijat abubakar jalli",
             "the potter's wheel", "chukwuemeka ike",
@@ -324,6 +327,7 @@ export default function JambReplica() {
           ];
 
           allQuestions = allQuestions.filter(q => {
+            if (isEnglish && Number(q?.hasPassage || 0) === 1) return false;
             const text = (q.question + " " + q.section).toLowerCase();
             return !novelKeywords.some(kw => text.includes(kw));
           });
@@ -360,10 +364,18 @@ export default function JambReplica() {
 
         const targetCount = Math.min(config.count, allQuestions.length);
 
-        // For English, keep comprehension questions from one ref_id only.
+        // For English exam mode, include one comprehension ref group and Lekki Headmaster novel questions.
         let mandatoryComprehensionSet: any[] = [];
+        let mandatoryNovelSet: any[] = [];
         let candidatePool = allQuestions;
-        if (metadata.slug === "english" && targetCount > 0) {
+        if (isEnglishExamBlueprint && targetCount > 0) {
+          const toQuestionKey = (q: any) => `${q?.id || ""}::${q?.question || ""}`;
+          const lekkiKeywords = ["lekki headmaster"];
+          const isLekkiNovelQuestion = (q: any) => {
+            const text = `${q?.question || ""} ${q?.section || ""} ${q?.solution || ""}`.toLowerCase();
+            return lekkiKeywords.some((kw) => text.includes(kw));
+          };
+
           const comprehensionGroups = new Map<string, any[]>();
 
           allQuestions.forEach((q) => {
@@ -385,15 +397,31 @@ export default function JambReplica() {
             const refs = Array.from(comprehensionGroups.keys());
             const pickedRef = refs[Math.floor(Math.random() * refs.length)];
             mandatoryComprehensionSet = fisherYatesShuffle(comprehensionGroups.get(pickedRef) || []);
-
-            candidatePool = allQuestions.filter((q) => {
-              if (Number(q?.hasPassage || 0) !== 1) return true;
-              const refId = String(q?.ref_id ?? "").trim();
-              return refId === pickedRef;
-            });
-          } else {
-            candidatePool = allQuestions.filter((q) => Number(q?.hasPassage || 0) !== 1);
           }
+
+          const novelPool = fisherYatesShuffle(allQuestions.filter((q) => isLekkiNovelQuestion(q)));
+          const desiredNovelCount = Math.max(1, Math.round(targetCount * 0.1));
+          mandatoryNovelSet = novelPool.slice(0, Math.min(desiredNovelCount, novelPool.length));
+
+          if (mandatoryNovelSet.length > 0 && mandatoryComprehensionSet.length >= targetCount && targetCount > 1) {
+            mandatoryComprehensionSet = mandatoryComprehensionSet.slice(0, targetCount - 1);
+            mandatoryNovelSet = mandatoryNovelSet.slice(0, 1);
+          }
+
+          const allowedComprehensionKeys = new Set(mandatoryComprehensionSet.map((q) => toQuestionKey(q)));
+          const mandatoryNovelKeys = new Set(mandatoryNovelSet.map((q) => toQuestionKey(q)));
+
+          candidatePool = allQuestions.filter((q) => {
+            const qKey = toQuestionKey(q);
+            if (mandatoryNovelKeys.has(qKey)) return false;
+
+            if (Number(q?.hasPassage || 0) === 1) {
+              return allowedComprehensionKeys.has(qKey);
+            }
+
+            if (isLekkiNovelQuestion(q)) return false;
+            return true;
+          });
         }
 
         let picked: any[] = [];
@@ -455,6 +483,25 @@ export default function JambReplica() {
                 .filter((q) => !mandatoryKeys.has(`${q.id || ""}::${q.question || ""}`))
                 .slice(0, targetCount - mandatoryUnique.length);
               picked = [...mandatoryUnique, ...filler];
+            }
+          }
+
+          if (mandatoryNovelSet.length > 0) {
+            const pickedKeys = new Set(picked.map((q) => `${q.id || ""}::${q.question || ""}`));
+            const novelUnique = mandatoryNovelSet.filter(
+              (q) => !pickedKeys.has(`${q.id || ""}::${q.question || ""}`)
+            );
+
+            if (novelUnique.length > 0) {
+              if (novelUnique.length >= targetCount) {
+                picked = novelUnique.slice(0, targetCount);
+              } else {
+                const novelKeys = new Set(novelUnique.map((q) => `${q.id || ""}::${q.question || ""}`));
+                const filler = picked
+                  .filter((q) => !novelKeys.has(`${q.id || ""}::${q.question || ""}`))
+                  .slice(0, targetCount - novelUnique.length);
+                picked = [...novelUnique, ...filler];
+              }
             }
           }
         }
