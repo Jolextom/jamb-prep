@@ -407,6 +407,45 @@ function tryBuildSimilarityReply(
   return null;
 }
 
+function tryDatabaseMetadataReply(
+  context: Record<string, unknown>,
+  userQuery: string,
+): string | null {
+  const similarCandidates = Array.isArray(context.similarCandidates)
+    ? (context.similarCandidates as SimilarCandidate[])
+    : [];
+
+  if (similarCandidates.length === 0) return null;
+
+  const q = userQuery.toLowerCase();
+  const asksYear =
+    /(which year|what year|year(s)? are|year(s)? did|in what year)/.test(q);
+  const asksJambSource =
+    /(are.*jamb|is.*jamb|actual jamb|from the jamb|from jamb|jamb database)/.test(q);
+
+  if (!asksYear && !asksJambSource) return null;
+
+  const topItems = similarCandidates.slice(0, 6);
+  const lines = topItems.map((item, idx) => {
+    const text = normalizeSimilarityText(item.q).slice(0, 110);
+    const year = item.yr ? item.yr : "year not shown";
+    const topic = normalizeSimilarityText(item.topic || "");
+    const subTopic = normalizeSimilarityText(item.sub_topic || "");
+    const tail = topic ? ` | ${topic}${subTopic ? ` > ${subTopic}` : ""}` : "";
+    return `${idx + 1}. ${year}: ${text}${tail}`;
+  });
+
+  const jambAnswer = asksJambSource
+    ? "Yes. These are grounded from the loaded JAMB question bank, not invented by the AI."
+    : "";
+
+  const yearAnswer = asksYear
+    ? `The visible years for the current similar questions are:\n${lines.join("\n")}`
+    : "";
+
+  return [jambAnswer, yearAnswer].filter(Boolean).join("\n\n");
+}
+
 async function checkAndIncrementUserRate(
   name: string,
   question: string,
@@ -498,6 +537,17 @@ export async function POST(req: NextRequest) {
   const recentMessages = messages.slice(-4);
 
   const context = parseContext(questionContext);
+
+  const metadataReply = tryDatabaseMetadataReply(context, userQuery);
+  if (metadataReply) {
+    return new NextResponse(toSseStreamFromText(metadataReply), {
+      headers: {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        Connection: "keep-alive",
+      },
+    });
+  }
 
   // Try database-first challenge: use real JAMB questions
   const databaseChallenge = tryDatabaseChallenge(
