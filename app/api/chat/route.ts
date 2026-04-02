@@ -1,18 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
 import { Redis } from "@upstash/redis";
 
 const redis = Redis.fromEnv();
-
-const RATE_FILE = path.join(process.cwd(), "rate_limit.json");
-const DAILY_CAP = 200; // max requests per day across all users
-
-interface RateData {
-  date: string; // YYYY-MM-DD
-  count: number;
-  history: { name: string; time: string; question: string }[];
-}
 
 type TutorBucket =
   | "algorithmic"
@@ -188,136 +177,6 @@ function normalizeSimilarityText(value: unknown): string {
     .trim();
 }
 
-function tryDatabaseChallenge(
-  context: Record<string, unknown>,
-  userQuery: string,
-  messages: ChatMessage[],
-): string | null {
-  const q = userQuery.toLowerCase();
-
-  const asksForChallenge =
-    /(challenge|quiz|test|give me a question|ask me|practice question|try this)/.test(
-      q,
-    ) ||
-    (/(give|ask|test|practice|challenge)/.test(q) &&
-      /question|me|another/.test(q));
-
-  if (!asksForChallenge) return null;
-
-  const similarCandidates = Array.isArray(context.similarCandidates)
-    ? (context.similarCandidates as SimilarCandidate[])
-    : [];
-
-  if (similarCandidates.length === 0) {
-    return null;
-  }
-
-  // Extract question texts already mentioned in chat
-  const discussedQuestionTexts = new Set<string>();
-  messages.forEach((msg) => {
-    const normalized = String(msg.content || "")
-      .toLowerCase()
-      .replace(/<[^>]*>/g, " ")
-      .replace(/\s+/g, " ")
-      .trim();
-    if (normalized.length > 20) {
-      discussedQuestionTexts.add(normalized.slice(0, 150));
-    }
-  });
-
-  // Find first candidate not yet discussed
-  const contextTopic = normalizeSimilarityText(context.topic || "").toLowerCase();
-  const contextSubTopic = normalizeSimilarityText(context.sub_topic || "").toLowerCase();
-  const contextQuestion = normalizeSimilarityText(context.q || context.question || "").toLowerCase();
-  const contextTokens = new Set(
-    contextQuestion
-      .split(/\s+/)
-      .filter((w) => w.length >= 4),
-  );
-
-  const rankedCandidates = similarCandidates
-    .map((cand) => {
-      const qNorm = String(cand.q || "")
-        .toLowerCase()
-        .replace(/<[^>]*>/g, " ")
-        .replace(/\s+/g, " ")
-        .trim()
-        .slice(0, 150);
-
-      const isDiscussed = discussedQuestionTexts.has(qNorm);
-      const hasFullOptions =
-        Boolean(cand.o?.a) &&
-        Boolean(cand.o?.b) &&
-        Boolean(cand.o?.c) &&
-        Boolean(cand.o?.d);
-
-      const candTopic = normalizeSimilarityText(cand.topic || "").toLowerCase();
-      const candSubTopic = normalizeSimilarityText(cand.sub_topic || "").toLowerCase();
-      const candQuestion = normalizeSimilarityText(cand.q || "").toLowerCase();
-      const candTokens = new Set(
-        candQuestion
-          .split(/\s+/)
-          .filter((w) => w.length >= 4),
-      );
-
-      let overlap = 0;
-      contextTokens.forEach((token) => {
-        if (candTokens.has(token)) overlap += 1;
-      });
-
-      const union = new Set([...contextTokens, ...candTokens]).size || 1;
-      const jaccard = overlap / union;
-
-      let rank = jaccard * 100;
-      if (contextTopic && candTopic === contextTopic) rank += 18;
-      if (contextSubTopic && candSubTopic === contextSubTopic) rank += 16;
-
-      return { cand, isDiscussed, hasFullOptions, rank };
-    })
-    .filter((entry) => !entry.isDiscussed && entry.hasFullOptions)
-    .sort((a, b) => b.rank - a.rank);
-
-  const uniqueCandidate = rankedCandidates[0]?.cand;
-
-  if (!uniqueCandidate) {
-    return null; // No more unasked questions; let AI generate one
-  }
-
-  const qText = normalizeSimilarityText(uniqueCandidate.q || "");
-  const options = [
-    uniqueCandidate.o?.a,
-    uniqueCandidate.o?.b,
-    uniqueCandidate.o?.c,
-    uniqueCandidate.o?.d,
-  ]
-    .filter((opt) => opt)
-    .map((opt) => normalizeSimilarityText(String(opt || "")));
-
-  if (options.length < 4) {
-    return null; // Incomplete options; skip and let AI generate
-  }
-
-  let optionsText = "";
-  const optLetters = ["A", "B", "C", "D"];
-  options.forEach((opt, i) => {
-    optionsText += `${optLetters[i]}. ${opt}\n`;
-  });
-
-  const year = uniqueCandidate.yr ? ` [${uniqueCandidate.yr}]` : "";
-  const topic = normalizeSimilarityText(uniqueCandidate.topic || "");
-  const subTopic = normalizeSimilarityText(uniqueCandidate.sub_topic || "");
-  const categoryTail = topic
-    ? ` | ${topic}${subTopic ? ` > ${subTopic}` : ""}`
-    : "";
-
-  return (
-    `[!TIP] Challenge Question${year}${categoryTail}\n\n` +
-    `${qText}\n\n` +
-    `${optionsText}\n` +
-    `Pick A, B, C, or D.`
-  );
-}
-
 function tryBuildSimilarityReply(
   context: Record<string, unknown>,
   userQuery: string,
@@ -357,23 +216,22 @@ function tryBuildSimilarityReply(
     (/similar questions?/.test(q) && /any more|more/.test(q));
 
   const asksList =
-    ((/(list|show|give)/.test(q) &&
+    (/(list|show|give)/.test(q) &&
       /(questions|them|those|out)/.test(q) &&
       (/(similar|exact|like this|main)/.test(q) ||
         /(similar|exact|like this|main)/.test(trail))) ||
-      (/main similar questions?/.test(q)) ||
-      (/similar questions?/.test(q) && /show|list/.test(q)));
+    /main similar questions?/.test(q) ||
+    (/similar questions?/.test(q) && /show|list/.test(q));
 
   if (!asksExactCount && !asksSimilarCount && !asksList) {
     return null;
   }
 
   if (asksExactCount) {
-    const bankInfo = bankSize > 0 ? ` in the current loaded bank (${bankSize} questions)` : "";
+    const bankInfo =
+      bankSize > 0 ? ` in the current loaded bank (${bankSize} questions)` : "";
     const sourceInfo =
-      source === "full_subject_bank"
-        ? "subject-wide"
-        : "session-only";
+      source === "full_subject_bank" ? "subject-wide" : "session-only";
     return `Exact-match check (${sourceInfo})${bankInfo}: I found ${exactCount} more question(s) with the same wording. I found ${similarCount} close similar question(s) available for comparison.`;
   }
 
@@ -421,7 +279,9 @@ function tryDatabaseMetadataReply(
   const asksYear =
     /(which year|what year|year(s)? are|year(s)? did|in what year)/.test(q);
   const asksJambSource =
-    /(are.*jamb|is.*jamb|actual jamb|from the jamb|from jamb|jamb database)/.test(q);
+    /(are.*jamb|is.*jamb|actual jamb|from the jamb|from jamb|jamb database)/.test(
+      q,
+    );
 
   if (!asksYear && !asksJambSource) return null;
 
@@ -475,7 +335,7 @@ async function checkAndIncrementUserRate(
     await redis.ltrim(historyKey, 0, 99); // Keep only last 100 entries
 
     // Epoch lets admin global reset invalidate all old per-user keys instantly.
-    let epochRaw = await redis.get(epochKey);
+    const epochRaw = await redis.get(epochKey);
     let epoch = Number(epochRaw || 1);
     if (!Number.isFinite(epoch) || epoch < 1) {
       epoch = 1;
@@ -549,33 +409,6 @@ export async function POST(req: NextRequest) {
     });
   }
 
-  // Try database-first challenge: use real JAMB questions
-  const databaseChallenge = tryDatabaseChallenge(
-    context,
-    userQuery,
-    messages as ChatMessage[],
-  );
-
-  if (databaseChallenge) {
-    return new NextResponse(toSseStreamFromText(databaseChallenge), {
-      headers: {
-        "Content-Type": "text/event-stream",
-        "Cache-Control": "no-cache",
-        Connection: "keep-alive",
-      },
-    });
-  }
-
-  // Check if user is asking for a challenge but we ran out of JAMB questions
-  const q = String(userQuery || "").toLowerCase();
-  const asksForChallenge =
-    /(challenge|quiz|test|give me a question|ask me|practice question|try this)/.test(
-      q,
-    ) ||
-    (/(give|ask|test|practice|challenge)/.test(q) &&
-      /question|me|another/.test(q));
-
-  const isChallengeSought = asksForChallenge;
   const deterministicSimilarityReply = tryBuildSimilarityReply(
     context,
     userQuery,
@@ -594,10 +427,7 @@ export async function POST(req: NextRequest) {
 
   const bucket = classifyTutorBucket(context, userQuery);
   const bucketInstruction = buildBucketInstruction(bucket);
-
-  const challengeInstruction = isChallengeSought
-    ? `CHALLENGE MODE (fallback): Only if you've exhausted the database questions, generate a new, original quiz question on the topic: "${String(context.topic || "General")}". Format it exactly like this:\n[!TIP] Challenge Question\n\nQUESTION TEXT (realistic JAMB-style)\n\nA. option text\nB. option text\nC. option text\nD. option text\n\nMake it test specific knowledge. Do not repeat the current question.`
-    : "";
+  const challengeInstruction = `If the user's latest message asks for a quiz, challenge, similar question, practice question, or to be tested, use the provided similarCandidates first. Prefer real JAMB items and keep them in A-D format. If no suitable database question remains, generate a new practice question and clearly label it as not from the JAMB database.`;
 
   const systemPrompt = `Elite JAMB Coach DNA:
 - Acc: 99.9% | Speed: 2x | Tone: Expert Mentor.
@@ -606,7 +436,7 @@ export async function POST(req: NextRequest) {
   1. Truth Guardrail: If "sol" in context contradicts "a", trust "sol". 
   2. Tone: Tactical mentor. Bold key terms. Max 2 short paragraphs unless user asks for deeper detail.
   3. Cost Discipline: Keep output concise, avoid repetition, and avoid unnecessary examples.
-  4. Scope: ${isChallengeSought ? "Prioritize real JAMB questions from database. Only generate new questions if the database is exhausted." : "Answer the current question only; do not create extra practice questions unless user asks."}
+  4. Scope: Answer the current question only; do not create extra practice questions unless the user asks.
   5. Mode: ${bucketInstruction}${challengeInstruction ? `\n  6. ${challengeInstruction}` : ""}`;
 
   const groqMessages = [
