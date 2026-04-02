@@ -463,7 +463,14 @@ export default function ExamInterface({
     });
 
     return scored
-      .filter(({ score }) => score >= 10)
+      .filter(({ q, score }) => {
+        const qTopic = String(q.topic || "").toLowerCase();
+        const qSubTopic = String(q.sub_topic || "").toLowerCase();
+
+        if (currentSubTopic && qSubTopic === currentSubTopic) return true;
+        if (currentTopic && qTopic === currentTopic && score >= 12) return true;
+        return score >= 32;
+      })
       .sort((a, b) => b.score - a.score)
       .slice(0, 8)
       .map(({ q }) => ({
@@ -477,7 +484,7 @@ export default function ExamInterface({
         sub_topic: q.sub_topic || "",
         image: q.image || ""
       }));
-  }, [qbState, subjectQuestionBanks, currentSubject, currentQuestion]);
+  }, [qbState, subjectQuestionBanks, currentSubject, currentQuestion, chatHistories]);
 
   const similarStats = React.useMemo(() => {
     const pool = subjectQuestionBanks[currentSubject] || qbState[currentSubject] || [];

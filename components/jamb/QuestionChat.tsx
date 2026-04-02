@@ -384,13 +384,21 @@ export default function QuestionChat({ candidateName, questionContext, questionI
   const isLatestChallengeResolved = (() => {
     if (latestChallengeIndex < 0) return true;
     let userSelectedOption = false;
+    let userMovedOn = false;
 
     for (let i = latestChallengeIndex + 1; i < messages.length; i++) {
       const msg = messages[i];
-      if (msg.role === "user" && isOptionSelectionMessage(msg.content)) {
-        userSelectedOption = true;
+      if (msg.role === "user") {
+        if (isOptionSelectionMessage(msg.content)) {
+          userSelectedOption = true;
+        } else {
+          userMovedOn = true;
+        }
       }
       if (msg.role === "assistant" && userSelectedOption) {
+        return true;
+      }
+      if (msg.role === "assistant" && userMovedOn) {
         return true;
       }
     }

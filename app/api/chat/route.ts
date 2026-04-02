@@ -226,16 +226,58 @@ function tryDatabaseChallenge(
   });
 
   // Find first candidate not yet discussed
-  const uniqueCandidate = similarCandidates.find((cand) => {
-    const qNorm = String(cand.q || "")
-      .toLowerCase()
-      .replace(/<[^>]*>/g, " ")
-      .replace(/\s+/g, " ")
-      .trim()
-      .slice(0, 150);
+  const contextTopic = normalizeSimilarityText(context.topic || "").toLowerCase();
+  const contextSubTopic = normalizeSimilarityText(context.sub_topic || "").toLowerCase();
+  const contextQuestion = normalizeSimilarityText(context.q || context.question || "").toLowerCase();
+  const contextTokens = new Set(
+    contextQuestion
+      .split(/\s+/)
+      .filter((w) => w.length >= 4),
+  );
 
-    return !discussedQuestionTexts.has(qNorm);
-  });
+  const rankedCandidates = similarCandidates
+    .map((cand) => {
+      const qNorm = String(cand.q || "")
+        .toLowerCase()
+        .replace(/<[^>]*>/g, " ")
+        .replace(/\s+/g, " ")
+        .trim()
+        .slice(0, 150);
+
+      const isDiscussed = discussedQuestionTexts.has(qNorm);
+      const hasFullOptions =
+        Boolean(cand.o?.a) &&
+        Boolean(cand.o?.b) &&
+        Boolean(cand.o?.c) &&
+        Boolean(cand.o?.d);
+
+      const candTopic = normalizeSimilarityText(cand.topic || "").toLowerCase();
+      const candSubTopic = normalizeSimilarityText(cand.sub_topic || "").toLowerCase();
+      const candQuestion = normalizeSimilarityText(cand.q || "").toLowerCase();
+      const candTokens = new Set(
+        candQuestion
+          .split(/\s+/)
+          .filter((w) => w.length >= 4),
+      );
+
+      let overlap = 0;
+      contextTokens.forEach((token) => {
+        if (candTokens.has(token)) overlap += 1;
+      });
+
+      const union = new Set([...contextTokens, ...candTokens]).size || 1;
+      const jaccard = overlap / union;
+
+      let rank = jaccard * 100;
+      if (contextTopic && candTopic === contextTopic) rank += 18;
+      if (contextSubTopic && candSubTopic === contextSubTopic) rank += 16;
+
+      return { cand, isDiscussed, hasFullOptions, rank };
+    })
+    .filter((entry) => !entry.isDiscussed && entry.hasFullOptions)
+    .sort((a, b) => b.rank - a.rank);
+
+  const uniqueCandidate = rankedCandidates[0]?.cand;
 
   if (!uniqueCandidate) {
     return null; // No more unasked questions; let AI generate one
@@ -309,15 +351,18 @@ function tryBuildSimilarityReply(
     /question/.test(q);
 
   const asksSimilarCount =
-    /how many|number of/.test(q) &&
-    /(similar|related|like this)/.test(q) &&
-    /question/.test(q);
+    ((/how many|number of/.test(q) || /any more|more/.test(q)) &&
+      /(similar|related|like this)/.test(q) &&
+      /question/.test(q)) ||
+    (/similar questions?/.test(q) && /any more|more/.test(q));
 
   const asksList =
-    /(list|show|give)/.test(q) &&
-    /(questions|them|those|out)/.test(q) &&
-    (/(similar|exact|like this)/.test(q) ||
-      /(similar|exact|like this)/.test(trail));
+    ((/(list|show|give)/.test(q) &&
+      /(questions|them|those|out)/.test(q) &&
+      (/(similar|exact|like this|main)/.test(q) ||
+        /(similar|exact|like this|main)/.test(trail))) ||
+      (/main similar questions?/.test(q)) ||
+      (/similar questions?/.test(q) && /show|list/.test(q)));
 
   if (!asksExactCount && !asksSimilarCount && !asksList) {
     return null;
