@@ -132,12 +132,6 @@ export default function QuestionChat({ candidateName, questionContext, questionI
     ];
   };
 
-  const quickChipLabel = gotItRight
-    ? "Try these next"
-    : missedIt
-      ? "Fix this fast"
-      : "Quick actions";
-
   const updateWeakTopicStorage = (reason: "wrong_option" | "confusion") => {
     try {
       const key = "jamb_weak_topics_v1";
@@ -484,6 +478,35 @@ export default function QuestionChat({ candidateName, questionContext, questionI
             background: "#f0f4f8"
           }}
         >
+          {messages.length === 0 && (
+            <div style={{ textAlign: "center", padding: "20px 0" }}>
+              <p style={{ color: "#003366", fontWeight: "600", fontSize: "14px", marginBottom: "4px" }}>Ask for help</p>
+              <p style={{ color: "#64748b", fontSize: "12px", marginBottom: "16px" }}>Questions about this concept?</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px", alignItems: "center" }}>
+                {getQuickChips().map((q) => (
+                  <button
+                    key={q}
+                    onClick={() => sendSpecificMessage(q)}
+                    style={{
+                      background: "white",
+                      border: "1px solid #c8d8f0",
+                      padding: "8px 16px",
+                      borderRadius: "20px",
+                      fontSize: "12px",
+                      color: "#003366",
+                      fontWeight: "600",
+                      width: "fit-content",
+                      cursor: "pointer",
+                      boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                    }}
+                  >
+                    {q}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
           {messages.map((m, i) => {
             const isAssistant = m.role === "assistant";
             const parsedChallenge = isAssistant && isChallengeMessage(m.content)
@@ -601,43 +624,6 @@ export default function QuestionChat({ candidateName, questionContext, questionI
           {error && (
             <div style={{ padding: "10px 16px", background: "#fee2e2", color: "#b91c1c", borderRadius: "12px", fontSize: "12px" }}>
               {error}
-            </div>
-          )}
-
-          {!isAtLimit && (
-            <div
-              style={{
-                border: "1px solid #dbeafe",
-                background: "#eff6ff",
-                borderRadius: "14px",
-                padding: "10px 12px",
-              }}
-            >
-              <div style={{ fontSize: "11px", fontWeight: 800, color: "#1d4ed8", marginBottom: "8px", letterSpacing: "0.3px" }}>
-                {quickChipLabel}
-              </div>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
-                {getQuickChips().map((q) => (
-                  <button
-                    key={q}
-                    onClick={() => sendSpecificMessage(q)}
-                    style={{
-                      background: "white",
-                      border: "1px solid #c8d8f0",
-                      padding: "8px 14px",
-                      borderRadius: "999px",
-                      fontSize: "12px",
-                      color: "#003366",
-                      fontWeight: "700",
-                      cursor: "pointer",
-                      boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    {q}
-                  </button>
-                ))}
-              </div>
             </div>
           )}
 
