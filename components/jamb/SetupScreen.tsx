@@ -98,14 +98,14 @@ export default function SetupScreen({
     }));
   };
 
-  const updateCountDraft = (name: string, rawValue: string) => {
-    setCountDrafts((prev) => ({
-      ...prev,
-      [name]: rawValue,
-    }));
+  const getMaxCount = (name: string) => Math.min(availableCounts[name] || 60, 60);
 
-    const parsed = Number.parseInt(rawValue, 10);
+  const updateCountDraft = (name: string, rawValue: string) => {
     if (rawValue.trim() === "") {
+      setCountDrafts((prev) => ({
+        ...prev,
+        [name]: rawValue,
+      }));
       setConfigs((prev) => ({
         ...prev,
         [name]: { ...prev[name], count: 0 },
@@ -113,8 +113,14 @@ export default function SetupScreen({
       return;
     }
 
-    const maxVal = Math.min(availableCounts[name] || 60, 60);
+    const parsed = Number.parseInt(rawValue, 10);
+    const maxVal = getMaxCount(name);
     const safeCount = Number.isFinite(parsed) ? Math.max(1, Math.min(parsed, maxVal)) : 1;
+
+    setCountDrafts((prev) => ({
+      ...prev,
+      [name]: String(safeCount),
+    }));
     updateCount(name, safeCount);
   };
 
@@ -292,7 +298,7 @@ export default function SetupScreen({
                           <input
                             type="number"
                             min={1}
-                            max={Math.min(availableCounts[s.name] || 60, 60)}
+                            max={getMaxCount(s.name)}
                             value={countDrafts[s.name] ?? String(conf.count)}
                             disabled={sessionMode === 'EXAM'}
                             onFocus={(e) => e.currentTarget.select()}
@@ -308,8 +314,11 @@ export default function SetupScreen({
                               fontWeight: "bold"
                             }}
                             aria-label={`${s.name} question count`}
-                            title="Tap or click to replace the number"
+                            title={`Max allowed: ${getMaxCount(s.name)}`}
                           />
+                          <span style={{ fontSize: "11px", color: "#64748b", fontWeight: "700" }}>
+                            Max: {getMaxCount(s.name)}
+                          </span>
                         </div>
                       )}
                     </div>
