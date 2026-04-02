@@ -46,9 +46,15 @@ function classifyTutorBucket(
     context.s || context.subject || context.examtype || "",
   ).toLowerCase();
   const topic = String(context.topic || context.tp || "").toLowerCase();
-  const subTopic = String(context.sub_topic || context.subTopic || "").toLowerCase();
-  const questionText = String(context.q || context.question || "").toLowerCase();
-  const solutionText = String(context.sol || context.solution || "").toLowerCase();
+  const subTopic = String(
+    context.sub_topic || context.subTopic || "",
+  ).toLowerCase();
+  const questionText = String(
+    context.q || context.question || "",
+  ).toLowerCase();
+  const solutionText = String(
+    context.sol || context.solution || "",
+  ).toLowerCase();
   const corpus = `${subject} ${topic} ${subTopic} ${questionText} ${solutionText} ${userQuery.toLowerCase()}`;
 
   const hasPassage =
@@ -95,7 +101,8 @@ function classifyTutorBucket(
     return "algorithmic";
   }
   if (hasLanguageRule) return "rule_based_language";
-  if (hasCalculationSignals && !subject.includes("government")) return "algorithmic";
+  if (hasCalculationSignals && !subject.includes("government"))
+    return "algorithmic";
   return "factual";
 }
 

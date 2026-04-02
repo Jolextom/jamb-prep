@@ -268,10 +268,10 @@ export default function QuestionChat({ candidateName, questionContext, questionI
     }
   };
 
-  const optionLineRegex = /^\s*([A-D])[\)\.]\s+(.+?)\s*$/;
+  const optionLineRegex = /^\s*[-*]?\s*\*{0,2}([A-D])\*{0,2}\s*[\)\.:-]\s+(.+?)\s*$/;
 
   const isChallengeMessage = (content: string) =>
-    (content.includes("[!TIP]") || content.includes("[!NOTE]")) && /\bA[\)\.]\s+/m.test(content);
+    (content.includes("[!TIP]") || content.includes("[!NOTE]")) && /\b\*{0,2}A\*{0,2}\s*[\)\.:-]\s+/m.test(content);
 
   const parseChallengeMessage = (content: string): ParsedChallenge => {
     const lines = content.split(/\r?\n/);
@@ -509,6 +509,40 @@ export default function QuestionChat({ candidateName, questionContext, questionI
                     )}
                   </div>
 
+                  {isAssistant && optionsMatches.length > 0 && (
+                    <div
+                      style={{
+                        marginTop: "8px",
+                        display: "grid",
+                        gap: "8px",
+                        width: "100%",
+                      }}
+                    >
+                      {optionsMatches.map((opt) => (
+                        <button
+                          key={`${i}-${opt.letter}`}
+                          type="button"
+                          onClick={() => sendSpecificMessage(`I choose option ${opt.letter}`)}
+                          disabled={isLoading}
+                          style={{
+                            textAlign: "left",
+                            border: "1px solid #c8d8f0",
+                            borderRadius: "12px",
+                            padding: "10px 12px",
+                            background: "#ffffff",
+                            color: "#003366",
+                            fontSize: "13px",
+                            fontWeight: 700,
+                            cursor: isLoading ? "not-allowed" : "pointer",
+                          }}
+                        >
+                          <span style={{ marginRight: "8px" }}>{opt.letter}.</span>
+                          <span style={{ fontWeight: 600 }}>{opt.text}</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+
 
                 </div>
               </div>
@@ -526,6 +560,48 @@ export default function QuestionChat({ candidateName, questionContext, questionI
               {error}
             </div>
           )}
+
+          {shouldShowStickyChallengeOptions && (
+            <div
+              style={{
+                alignSelf: "stretch",
+                marginTop: "4px",
+                border: "1px solid #dbeafe",
+                background: "#eff6ff",
+                borderRadius: "12px",
+                padding: "10px",
+              }}
+            >
+              <div style={{ fontSize: "11px", fontWeight: 800, color: "#1d4ed8", marginBottom: "8px", letterSpacing: "0.3px" }}>
+                QUICK ANSWER PICKER
+              </div>
+              <div style={{ display: "grid", gap: "8px" }}>
+                {latestChallengeOptions.map((opt) => (
+                  <button
+                    key={`sticky-${opt.letter}`}
+                    type="button"
+                    onClick={() => sendSpecificMessage(`I choose option ${opt.letter}`)}
+                    disabled={isLoading}
+                    style={{
+                      textAlign: "left",
+                      border: "1px solid #93c5fd",
+                      borderRadius: "10px",
+                      padding: "8px 10px",
+                      background: "#ffffff",
+                      color: "#1e3a8a",
+                      fontSize: "12px",
+                      fontWeight: 700,
+                      cursor: isLoading ? "not-allowed" : "pointer",
+                    }}
+                  >
+                    <span style={{ marginRight: "6px" }}>{opt.letter}.</span>
+                    <span style={{ fontWeight: 600 }}>{opt.text}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
           <div ref={bottomRef} />
         </div>
 
