@@ -500,12 +500,25 @@ export default function ExamInterface({
   const sectionPromptText = normalizePromptText(currentQuestion.section || "");
   const questionPromptText = normalizePromptText(currentQuestion.q || "");
   const combinedPromptText = `${sectionPromptText} ${questionPromptText}`.trim();
+  const cleanDisplayText = React.useCallback((value: string) => {
+    return decodeHtmlEntities(String(value || ""))
+      .replace(/\u00A0/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  }, [decodeHtmlEntities]);
 
-  const isNovelPromptQuestion = /this question is based on|prescribed text|recommended (text|novel)/.test(combinedPromptText)
+  const resolvedNovelTitle = cleanDisplayText(currentQuestion.novel_title || "");
+  const normalizedNovelTitle = normalizePromptText(resolvedNovelTitle);
+  const hasNovelId = Number(currentQuestion.novel_id || 0) > 0;
+
+  const isNovelPromptQuestion = hasNovelId
+    || normalizedNovelTitle.length > 0
+    || /this question is based on|prescribed text|recommended (text|novel)/.test(combinedPromptText)
     || /lekki headmaster|life changer|potter'?s wheel|forcados high school|sweet sixteen|in dependence/.test(combinedPromptText);
 
   const novelSourceMatch = combinedPromptText.match(/this question is based on\s+([^.?]+)/i);
-  const novelSource = novelSourceMatch?.[1]?.trim() || "the prescribed text";
+  const extractedNovelSource = cleanDisplayText(novelSourceMatch?.[1] || "");
+  const novelSource = resolvedNovelTitle || extractedNovelSource || "the prescribed text";
 
   const isPassageStyleQuestion = Number(currentQuestion.hasPassage || 0) === 1
     || (!isNovelPromptQuestion && (

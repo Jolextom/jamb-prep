@@ -93,6 +93,8 @@ export interface Question {
   image?: string;
   hasPassage?: number;
   questionNub?: number | null;
+  novel_id?: number | null;
+  novel_title?: string;
   isChallenge?: boolean;
   isReviewable?: boolean;
 }

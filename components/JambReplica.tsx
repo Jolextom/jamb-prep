@@ -388,6 +388,12 @@ export default function JambReplica() {
           ];
 
           const isNovelBasedQuestion = (q: any) => {
+            const novelId = Number(q?.novel_id || q?.novelId || 0);
+            if (Number.isFinite(novelId) && novelId > 0) return true;
+
+            const novelTitle = normalizeExamText(q?.novel_title || q?.novelTitle || "");
+            if (novelTitle.length > 0) return true;
+
             const text = normalizeExamText(`${q?.question || ""} ${q?.section || ""} ${q?.solution || ""}`);
             if (!text) return false;
 
@@ -399,6 +405,12 @@ export default function JambReplica() {
           };
 
           const isLekkiNovelQuestion = (q: any) => {
+            const novelId = Number(q?.novel_id || q?.novelId || 0);
+            if (Number.isFinite(novelId) && novelId === 1) return true;
+
+            const novelTitle = normalizeExamText(q?.novel_title || q?.novelTitle || "");
+            if (novelTitle.includes("lekki headmaster")) return true;
+
             const text = normalizeExamText(`${q?.question || ""} ${q?.section || ""} ${q?.solution || ""}`);
             return text.includes("lekki headmaster");
           };
@@ -569,7 +581,9 @@ export default function JambReplica() {
             section: item.section || "",
             image: rawImage ? (resolvedAliases[rawImage] || rawImage) : "",
             hasPassage: item.hasPassage || 0,
-            questionNub: item.questionNub || null
+            questionNub: item.questionNub || null,
+            novel_id: item.novel_id ? Number(item.novel_id) : null,
+            novel_title: String(item.novel_title || "").trim(),
           };
         });
       }
