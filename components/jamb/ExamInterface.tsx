@@ -486,6 +486,8 @@ export default function ExamInterface({
 
   const showSolutionNow = isReview || (isPracticeMode && !!answers[currentKey]) || currentQuestion.isReviewable;
   const resolvedImageSrc = resolveImageSrc(currentQuestion.image);
+  const isLiteratureQuestion = /literature/i.test(currentSubject);
+  const isStandaloneLiteratureQuestion = isLiteratureQuestion && currentQuestion.hasPassage !== 1;
 
 
   // Ref to AI chat section for smooth scrolling
@@ -736,6 +738,25 @@ export default function ExamInterface({
                   }}
                   dangerouslySetInnerHTML={{ __html: formatRichText(currentQuestion.section) }}
                 />
+              )}
+
+              {isStandaloneLiteratureQuestion && (
+                <div
+                  style={{
+                    marginBottom: "16px",
+                    padding: "12px 14px",
+                    borderRadius: "12px",
+                    border: "1px solid #f59e0b33",
+                    background: "#fff8e6",
+                    color: "#92400e",
+                    fontSize: "13px",
+                    lineHeight: "1.6",
+                    fontWeight: 600,
+                  }}
+                >
+                  <strong style={{ display: "block", marginBottom: "4px" }}>Literature question</strong>
+                  This is a prescribed-text or recall question. If you have not read the text, skip it and review the explanation after the attempt.
+                </div>
               )}
 
               <div

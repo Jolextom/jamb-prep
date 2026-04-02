@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Fisher-Yates Shuffle Algorithm for true randomization
  */
 function fisherYatesShuffle<T>(array: T[]): T[] {
@@ -102,6 +102,7 @@ export default function JambReplica() {
   const [reviewHacks, setReviewHacks] = useState<Record<number, string>>({});
 
   const [isDataReady, setIsDataReady] = useState(false);
+  const [imageAliases, setImageAliases] = useState<Record<string, string>>({});
   const [calcOpen, setCalcOpen] = useState(false);
   const [calcExpr, setCalcExpr] = useState("0");
   const [calcPos, setCalcPos] = useState({ top: 0, left: 0 });
@@ -275,7 +276,23 @@ export default function JambReplica() {
 
     setIsLoading(true);
     setFetchError(null);
-    const newQB: Record<string, Question[]> = {};`r`n    let resolvedAliases = imageAliases;`r`n`r`n    if (Object.keys(resolvedAliases).length === 0) {`r`n      try {`r`n        const aliasRes = await fetch("/data/image_aliases.json");`r`n        if (aliasRes.ok) {`r`n          const aliasData = await aliasRes.json();`r`n          if (aliasData && typeof aliasData === "object") {`r`n            resolvedAliases = aliasData as Record<string, string>;`r`n            setImageAliases(resolvedAliases);`r`n          }`r`n        }`r`n      } catch {`r`n        // Fallback to raw image names when alias map is unavailable.`r`n      }`r`n    }
+    const newQB: Record<string, Question[]> = {};
+    let resolvedAliases = imageAliases;
+
+    if (Object.keys(resolvedAliases).length === 0) {
+      try {
+        const aliasRes = await fetch("/data/image_aliases.json");
+        if (aliasRes.ok) {
+          const aliasData = await aliasRes.json();
+          if (aliasData && typeof aliasData === "object") {
+            resolvedAliases = aliasData as Record<string, string>;
+            setImageAliases(resolvedAliases);
+          }
+        }
+      } catch {
+        // Fallback to raw image names when alias map is unavailable.
+      }
+    }
 
     try {
       for (const subjectName of selected) {
@@ -396,7 +413,8 @@ export default function JambReplica() {
         newQB[subjectName] = finalPicked.map(item => {
           // Ensure answer is always a valid letter A-D
           const rawAnswer = (item.answer || "a").toString().substring(0, 1).toUpperCase();
-          const validAnswer = ["A", "B", "C", "D"].includes(rawAnswer) ? rawAnswer : "A";`r`n          const rawImage = String(item.image || "").trim();
+          const validAnswer = ["A", "B", "C", "D"].includes(rawAnswer) ? rawAnswer : "A";
+          const rawImage = String(item.image || "").trim();
 
           return {
             id: item.id || 0,
