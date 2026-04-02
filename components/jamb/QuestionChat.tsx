@@ -17,6 +17,7 @@ interface ContextPayload {
   sub_topic?: string;
   a?: string;
   answer?: string;
+  selected_main_option?: string;
 }
 
 interface WeakTopicStats {
@@ -68,6 +69,44 @@ export default function QuestionChat({ candidateName, questionContext, questionI
   const contextTopic = String(parsedContext.topic || "Unknown Topic").trim() || "Unknown Topic";
   const contextSubTopic = String(parsedContext.sub_topic || "Unknown Subtopic").trim() || "Unknown Subtopic";
   const correctAnswer = String(parsedContext.a || parsedContext.answer || "").trim().toLowerCase();
+  const selectedMainOption = String(parsedContext.selected_main_option || "").trim().toLowerCase();
+  const hasSelectedOption = selectedMainOption.length > 0;
+  const gotItRight = hasSelectedOption && correctAnswer && selectedMainOption === correctAnswer;
+  const missedIt = hasSelectedOption && correctAnswer && selectedMainOption !== correctAnswer;
+
+  const placeholderSeed = (questionId % 7 + 7) % 7;
+
+  const getPlaceholder = () => {
+    if (isAtLimit) return "Limit reached.";
+
+    if (gotItRight) {
+      const rightPlaceholders = [
+        "Ask why this answer is correct",
+        "What is the shortcut for this one?",
+        "Show me a quick memory hook",
+        "Why is this the right option?",
+      ];
+      return rightPlaceholders[placeholderSeed % rightPlaceholders.length];
+    }
+
+    if (missedIt) {
+      const wrongPlaceholders = [
+        "Explain where I went wrong",
+        "Why is my choice incorrect?",
+        "Break down the correct option",
+        "Help me spot the trap here",
+      ];
+      return wrongPlaceholders[placeholderSeed % wrongPlaceholders.length];
+    }
+
+    const neutralPlaceholders = [
+      "Ask a question about this item",
+      "What should I notice first?",
+      "Explain this question simply",
+      "Give me a quick hint",
+    ];
+    return neutralPlaceholders[placeholderSeed % neutralPlaceholders.length];
+  };
 
   const updateWeakTopicStorage = (reason: "wrong_option" | "confusion") => {
     try {
@@ -358,12 +397,6 @@ export default function QuestionChat({ candidateName, questionContext, questionI
     !isLatestChallengeResolved &&
     latestChallengeIndex !== messages.length - 1 &&
     latestChallengeOptions.length > 0;
-
-  const getPlaceholder = () => {
-    if (isAtLimit) return "Limit reached.";
-    if (messages.length === 0) return "Have a question about this question?";
-    return "Any other question?";
-  };
 
   return (
     <div style={{ marginTop: "16px", width: "100%" }}>
