@@ -95,6 +95,7 @@ export default function ExamInterface({
 }: ExamInterfaceProps) {
   const imageBaseUrl = (process.env.NEXT_PUBLIC_QUESTION_IMAGE_BASE_URL || "").replace(/\/$/, "");
   const [imageAliases, setImageAliases] = React.useState<Record<string, string>>({});
+  const [isImageLoading, setIsImageLoading] = React.useState(false);
 
   React.useEffect(() => {
     let mounted = true;
@@ -489,6 +490,10 @@ export default function ExamInterface({
   const isLiteratureQuestion = /literature/i.test(currentSubject);
   const isStandaloneLiteratureQuestion = isLiteratureQuestion && currentQuestion.hasPassage !== 1;
 
+  React.useEffect(() => {
+    setIsImageLoading(!!resolvedImageSrc);
+  }, [resolvedImageSrc, currentQuestion.id]);
+
 
   // Ref to AI chat section for smooth scrolling
   const aiSectionRef = React.useRef<HTMLDivElement>(null);
@@ -769,13 +774,46 @@ export default function ExamInterface({
 
               {resolvedImageSrc && (
                 <div style={{ marginBottom: "20px", position: "relative", width: "100%", height: "auto" }}>
+                  {isImageLoading && (
+                    <div
+                      aria-busy="true"
+                      aria-live="polite"
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "10px",
+                        padding: "12px 14px",
+                        marginBottom: "10px",
+                        borderRadius: "10px",
+                        border: "1px solid #dbe4f0",
+                        background: "linear-gradient(90deg, #f7fafc 0%, #eef4fb 50%, #f7fafc 100%)",
+                        color: "#334155",
+                        fontSize: "12px",
+                        fontWeight: 700
+                      }}
+                    >
+                      <span
+                        style={{
+                          width: "10px",
+                          height: "10px",
+                          borderRadius: "999px",
+                          background: "#003366",
+                          display: "inline-block",
+                          animation: "jambPulse 1s ease-in-out infinite"
+                        }}
+                      />
+                      Loading image...
+                    </div>
+                  )}
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={resolvedImageSrc}
                     alt="Question visual"
                     className="max-w-full h-auto my-4 rounded border"
                     style={{ display: "block", maxWidth: "100%", height: "auto" }}
+                    onLoad={() => setIsImageLoading(false)}
                     onError={(e) => {
+                      setIsImageLoading(false);
                       const img = e.currentTarget as HTMLImageElement;
                       if (img.dataset.fallbackTried === "1") {
                         img.style.display = "none";

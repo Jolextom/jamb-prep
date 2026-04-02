@@ -42,6 +42,13 @@ export default function SetupScreen({
 }: SetupScreenProps) {
 
   const [timeModifier, setTimeModifier] = React.useState(1.0); // 1.0 = 100% time
+  const [countDrafts, setCountDrafts] = React.useState<Record<string, string>>(() => {
+    const initial: Record<string, string> = {};
+    SUBJECT_METADATA.forEach((m) => {
+      initial[m.name] = String(Math.min(10, m.fixedExamCount || 60));
+    });
+    return initial;
+  });
 
   // Sync counts when mode is toggled
   React.useEffect(() => {
@@ -54,6 +61,17 @@ export default function SetupScreen({
           } else if (sessionMode === 'PRACTICE') {
             next[m.name] = { ...next[m.name], count: Math.min(10, m.fixedExamCount || 60) };
           }
+        }
+      });
+      return next;
+    });
+    setCountDrafts(prev => {
+      const next = { ...prev };
+      SUBJECT_METADATA.forEach(m => {
+        if (sessionMode === 'EXAM' && m.fixedExamCount) {
+          next[m.name] = String(m.fixedExamCount);
+        } else if (sessionMode === 'PRACTICE') {
+          next[m.name] = String(Math.min(10, m.fixedExamCount || 60));
         }
       });
       return next;
@@ -78,6 +96,41 @@ export default function SetupScreen({
       ...prev,
       [name]: { ...prev[name], count: safeCount },
     }));
+  };
+
+  const updateCountDraft = (name: string, rawValue: string) => {
+    setCountDrafts((prev) => ({
+      ...prev,
+      [name]: rawValue,
+    }));
+
+    const parsed = Number.parseInt(rawValue, 10);
+    if (rawValue.trim() === "") {
+      setConfigs((prev) => ({
+        ...prev,
+        [name]: { ...prev[name], count: 0 },
+      }));
+      return;
+    }
+
+    const maxVal = Math.min(availableCounts[name] || 60, 60);
+    const safeCount = Number.isFinite(parsed) ? Math.max(1, Math.min(parsed, maxVal)) : 1;
+    updateCount(name, safeCount);
+  };
+
+  const commitCountDraft = (name: string) => {
+    setCountDrafts((prev) => {
+      const rawValue = prev[name] ?? "";
+      if (rawValue.trim() !== "") {
+        return prev;
+      }
+
+      updateCount(name, 1);
+      return {
+        ...prev,
+        [name]: "1",
+      };
+    });
   };
 
   // Time Calculation
@@ -240,15 +293,12 @@ export default function SetupScreen({
                             type="number"
                             min={1}
                             max={Math.min(availableCounts[s.name] || 60, 60)}
-                            value={conf.count}
+                            value={countDrafts[s.name] ?? String(conf.count)}
                             disabled={sessionMode === 'EXAM'}
                             onFocus={(e) => e.currentTarget.select()}
                             onClick={(e) => e.currentTarget.select()}
-                            onChange={(e) => {
-                              const maxVal = Math.min(availableCounts[s.name] || 60, 60);
-                              const val = Math.max(1, Math.min(parseInt(e.target.value) || 1, maxVal));
-                              updateCount(s.name, val);
-                            }}
+                            onBlur={() => commitCountDraft(s.name)}
+                            onChange={(e) => updateCountDraft(s.name, e.target.value)}
                             style={{
                               width: "60px",
                               padding: "4px",
