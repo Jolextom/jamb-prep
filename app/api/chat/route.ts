@@ -30,6 +30,8 @@ interface SimilarCandidate {
   yr?: string;
   topic?: string;
   sub_topic?: string;
+  o?: Record<string, string>;
+  a?: string;
 }
 
 function parseContext(questionContext: unknown): Record<string, unknown> {
@@ -184,6 +186,82 @@ function normalizeSimilarityText(value: unknown): string {
     .replace(/&nbsp;|&#160;/gi, " ")
     .replace(/\s+/g, " ")
     .trim();
+}
+
+function tryChallengeMode(
+  context: Record<string, unknown>,
+  userQuery: string,
+  messages: ChatMessage[],
+): string | null {
+  const q = userQuery.toLowerCase();
+  const trail = messages
+    .slice(-6)
+    .map((m) => String(m.content || "").toLowerCase())
+    .join(" ");
+
+  const asksForChallenge =
+    /(challenge|quiz|test|give me a question|ask me|practice question|try this)/.test(q) ||
+    (/(give|ask|test|practice|challenge)/.test(q) &&
+      /question|me|another/.test(q));
+
+  if (!asksForChallenge) return null;
+
+  const similarCandidates = Array.isArray(context.similarCandidates)
+    ? (context.similarCandidates as SimilarCandidate[])
+    : [];
+
+  if (similarCandidates.length === 0) {
+    return "I don't have similar questions readily available. Try asking about this question first, or check your loaded subjects.";
+  }
+
+  const recentQuestionTexts = new Set(
+    messages
+      .map((m) => String(m.content || "").toLowerCase())
+      .filter((content) => content.length > 20),
+  );
+
+  const uniqueCandidate = similarCandidates.find(
+    (cand) =>
+      !recentQuestionTexts.has(
+        String(cand.q || "").toLowerCase().slice(0, 100),
+      ),
+  );
+
+  if (!uniqueCandidate) {
+    return "All nearby questions have already been discussed in this session. Load another subject or open a fresh question.";
+  }
+
+  const qText = normalizeSimilarityText(uniqueCandidate.q || "");
+  const options = [
+    uniqueCandidate.o?.a,
+    uniqueCandidate.o?.b,
+    uniqueCandidate.o?.c,
+    uniqueCandidate.o?.d,
+  ]
+    .filter((opt) => opt)
+    .map((opt) => normalizeSimilarityText(String(opt || "")));
+
+  if (options.length === 0) {
+    return "The question I want to quiz you on doesn't have full options. Try another.";
+  }
+
+  let optionsText = "";
+  const optLetters = ["A", "B", "C", "D"];
+  options.forEach((opt, i) => {
+    optionsText += `${optLetters[i]}. ${opt}\n`;
+  });
+
+  const year = uniqueCandidate.yr ? ` [${uniqueCandidate.yr}]` : "";
+  const topic = normalizeSimilarityText(uniqueCandidate.topic || "");
+  const subTopic = normalizeSimilarityText(uniqueCandidate.sub_topic || "");
+  const categoryTail = topic
+    ? ` | ${topic}${subTopic ? ` > ${subTopic}` : ""}`
+    : "";
+
+  return (`[!TIP] Challenge Question${year}${categoryTail}\n\n` +
+    `${qText}\n\n` +
+    `${optionsText}\n\n` +
+    `Pick A, B, C, or D.`);
 }
 
 function tryBuildSimilarityReply(
@@ -350,6 +428,23 @@ export async function POST(req: NextRequest) {
   const recentMessages = messages.slice(-4);
 
   const context = parseContext(questionContext);
+
+  const challengeReply = tryChallengeMode(
+    context,
+    userQuery,
+    messages as ChatMessage[],
+  );
+
+  if (challengeReply) {
+    return new NextResponse(toSseStreamFromText(challengeReply), {
+      headers: {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        Connection: "keep-alive",
+      },
+    });
+  }
+
   const deterministicSimilarityReply = tryBuildSimilarityReply(
     context,
     userQuery,

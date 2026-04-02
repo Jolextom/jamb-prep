@@ -380,7 +380,35 @@ export default function ExamInterface({
   // Challenge Me: Find similar questions from the subject bank with deterministic scoring
   const similarCandidates = React.useMemo(() => {
     const pool = subjectQuestionBanks[currentSubject] || qbState[currentSubject] || [];
-    const others = pool.filter((q) => q.id !== currentQuestion.id);
+    
+    // Extract question texts already mentioned in chat to exclude
+    const discussedQuestionTexts = new Set<string>();
+    const allChatMessages = [
+      ...(Array.isArray(chatHistories[currentQuestion.id]) ? chatHistories[currentQuestion.id] : []),
+    ];
+    allChatMessages.forEach((msg) => {
+      const normalized = String(msg.content || "")
+        .toLowerCase()
+        .replace(/<[^>]*>/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+      if (normalized.length > 20) {
+        discussedQuestionTexts.add(normalized.slice(0, 150));
+      }
+    });
+    
+    const others = pool.filter((q) => {
+      if (q.id === currentQuestion.id) return false;
+      
+      const qNorm = String(q.q || "")
+        .toLowerCase()
+        .replace(/<[^>]*>/g, " ")
+        .replace(/\s+/g, " ")
+        .trim()
+        .slice(0, 150);
+      
+      return !discussedQuestionTexts.has(qNorm);
+    });
 
     const normalizeForSimilarity = (value: string) =>
       String(value || "")
