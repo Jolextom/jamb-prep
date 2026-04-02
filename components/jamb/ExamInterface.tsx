@@ -801,6 +801,28 @@ export default function ExamInterface({
                 </div>
               )}
 
+              {(currentQuestion.image || resolvedImageSrc) && (
+                <div
+                  style={{
+                    marginTop: "-10px",
+                    marginBottom: "16px",
+                    padding: "10px 12px",
+                    borderRadius: "8px",
+                    background: "#f8fafc",
+                    border: "1px dashed #cbd5e1",
+                    fontSize: "11px",
+                    color: "#334155",
+                    lineHeight: "1.5",
+                    wordBreak: "break-all",
+                    fontFamily: "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
+                  }}
+                >
+                  <div><strong>Image debug (production)</strong></div>
+                  <div>Raw: {String(currentQuestion.image || "") || "(empty)"}</div>
+                  <div>Resolved: {resolvedImageSrc || "(empty)"}</div>
+                </div>
+              )}
+
               <div className="options">
                 {Object.entries(currentQuestion.options || {})
                   .filter(([, text]) => text && String(text).trim() !== "")
