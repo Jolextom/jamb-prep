@@ -188,80 +188,23 @@ function normalizeSimilarityText(value: unknown): string {
     .trim();
 }
 
-function tryChallengeMode(
-  context: Record<string, unknown>,
+function shouldGenerateChallenge(
   userQuery: string,
   messages: ChatMessage[],
-): string | null {
+): boolean {
   const q = userQuery.toLowerCase();
   const trail = messages
     .slice(-6)
     .map((m) => String(m.content || "").toLowerCase())
     .join(" ");
 
-  const asksForChallenge =
-    /(challenge|quiz|test|give me a question|ask me|practice question|try this)/.test(q) ||
+  return (
+    /(challenge|quiz|test|give me a question|ask me|practice question|try this)/.test(
+      q,
+    ) ||
     (/(give|ask|test|practice|challenge)/.test(q) &&
-      /question|me|another/.test(q));
-
-  if (!asksForChallenge) return null;
-
-  const similarCandidates = Array.isArray(context.similarCandidates)
-    ? (context.similarCandidates as SimilarCandidate[])
-    : [];
-
-  if (similarCandidates.length === 0) {
-    return "I don't have similar questions readily available. Try asking about this question first, or check your loaded subjects.";
-  }
-
-  const recentQuestionTexts = new Set(
-    messages
-      .map((m) => String(m.content || "").toLowerCase())
-      .filter((content) => content.length > 20),
+      /question|me|another/.test(q))
   );
-
-  const uniqueCandidate = similarCandidates.find(
-    (cand) =>
-      !recentQuestionTexts.has(
-        String(cand.q || "").toLowerCase().slice(0, 100),
-      ),
-  );
-
-  if (!uniqueCandidate) {
-    return "All nearby questions have already been discussed in this session. Load another subject or open a fresh question.";
-  }
-
-  const qText = normalizeSimilarityText(uniqueCandidate.q || "");
-  const options = [
-    uniqueCandidate.o?.a,
-    uniqueCandidate.o?.b,
-    uniqueCandidate.o?.c,
-    uniqueCandidate.o?.d,
-  ]
-    .filter((opt) => opt)
-    .map((opt) => normalizeSimilarityText(String(opt || "")));
-
-  if (options.length === 0) {
-    return "The question I want to quiz you on doesn't have full options. Try another.";
-  }
-
-  let optionsText = "";
-  const optLetters = ["A", "B", "C", "D"];
-  options.forEach((opt, i) => {
-    optionsText += `${optLetters[i]}. ${opt}\n`;
-  });
-
-  const year = uniqueCandidate.yr ? ` [${uniqueCandidate.yr}]` : "";
-  const topic = normalizeSimilarityText(uniqueCandidate.topic || "");
-  const subTopic = normalizeSimilarityText(uniqueCandidate.sub_topic || "");
-  const categoryTail = topic
-    ? ` | ${topic}${subTopic ? ` > ${subTopic}` : ""}`
-    : "";
-
-  return (`[!TIP] Challenge Question${year}${categoryTail}\n\n` +
-    `${qText}\n\n` +
-    `${optionsText}\n\n` +
-    `Pick A, B, C, or D.`);
 }
 
 function tryBuildSimilarityReply(
@@ -428,23 +371,7 @@ export async function POST(req: NextRequest) {
   const recentMessages = messages.slice(-4);
 
   const context = parseContext(questionContext);
-
-  const challengeReply = tryChallengeMode(
-    context,
-    userQuery,
-    messages as ChatMessage[],
-  );
-
-  if (challengeReply) {
-    return new NextResponse(toSseStreamFromText(challengeReply), {
-      headers: {
-        "Content-Type": "text/event-stream",
-        "Cache-Control": "no-cache",
-        Connection: "keep-alive",
-      },
-    });
-  }
-
+  const isChallengeSought = shouldGenerateChallenge(userQuery, messages as ChatMessage[]);
   const deterministicSimilarityReply = tryBuildSimilarityReply(
     context,
     userQuery,
@@ -464,6 +391,10 @@ export async function POST(req: NextRequest) {
   const bucket = classifyTutorBucket(context, userQuery);
   const bucketInstruction = buildBucketInstruction(bucket);
 
+  const challengeInstruction = isChallengeSought
+    ? `CHALLENGE MODE: Generate a new, original quiz question on the topic: "${String(context.topic || "General")}". Format it exactly like this, with real plausible options:\n[!TIP] Challenge Question\n\nQUESTION TEXT HERE (make it realistic for JAMB)\n\nA. option text\nB. option text\nC. option text\nD. option text\n\nMake the question educational and test specific knowledge. Do not repeat the current question being discussed.`
+    : "";
+
   const systemPrompt = `Elite JAMB Coach DNA:
 - Acc: 99.9% | Speed: 2x | Tone: Expert Mentor.
 - Context: ${questionContext}
@@ -471,8 +402,8 @@ export async function POST(req: NextRequest) {
   1. Truth Guardrail: If "sol" in context contradicts "a", trust "sol". 
   2. Tone: Tactical mentor. Bold key terms. Max 2 short paragraphs unless user asks for deeper detail.
   3. Cost Discipline: Keep output concise, avoid repetition, and avoid unnecessary examples.
-  4. Scope: Answer the current question only; do not create extra practice questions unless user asks.
-  5. Mode: ${bucketInstruction}`;
+  4. Scope: ${isChallengeSought ? "Generate a new challenge question as specified below." : "Answer the current question only; do not create extra practice questions unless user asks."}
+  5. Mode: ${bucketInstruction}${challengeInstruction ? `\n  6. ${challengeInstruction}` : ""}`;
 
   const groqMessages = [
     { role: "system", content: systemPrompt },
