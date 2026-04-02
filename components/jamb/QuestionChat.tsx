@@ -108,6 +108,30 @@ export default function QuestionChat({ candidateName, questionContext, questionI
     return neutralPlaceholders[placeholderSeed % neutralPlaceholders.length];
   };
 
+  const getQuickChips = () => {
+    if (gotItRight) {
+      return [
+        "Give me a harder one",
+        "Show me the shortcut",
+        "Ask a similar question",
+      ];
+    }
+
+    if (missedIt) {
+      return [
+        "Explain the correct answer",
+        "Quiz me again on this",
+        "Show me the trap",
+      ];
+    }
+
+    return [
+      "Give me a speed hack",
+      "Quiz me on this",
+      "Explain this simply",
+    ];
+  };
+
   const updateWeakTopicStorage = (reason: "wrong_option" | "confusion") => {
     try {
       const key = "jamb_weak_topics_v1";
@@ -460,10 +484,7 @@ export default function QuestionChat({ candidateName, questionContext, questionI
               <p style={{ color: "#003366", fontWeight: "600", fontSize: "14px", marginBottom: "4px" }}>Ask for help</p>
               <p style={{ color: "#64748b", fontSize: "12px", marginBottom: "16px" }}>Questions about this concept?</p>
               <div style={{ display: "flex", flexDirection: "column", gap: "8px", alignItems: "center" }}>
-                {[
-                  "Give me a speed hack for this",
-                  "Explain why the others are wrong"
-                ].map(q => (
+                {getQuickChips().map((q) => (
                   <button
                     key={q}
                     onClick={() => sendSpecificMessage(q)}
