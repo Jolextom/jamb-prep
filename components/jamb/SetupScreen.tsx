@@ -235,13 +235,15 @@ export default function SetupScreen({
 
                       {isReady && (
                         <div style={{ display: "flex", alignItems: "center", gap: "10px", paddingLeft: "28px" }}>
-                          <span style={{ fontSize: "12px", color: "#666" }}>Items:</span>
+                          <span style={{ fontSize: "12px", color: "#666" }}>Questions:</span>
                           <input
                             type="number"
                             min={1}
                             max={Math.min(availableCounts[s.name] || 60, 60)}
                             value={conf.count}
                             disabled={sessionMode === 'EXAM'}
+                            onFocus={(e) => e.currentTarget.select()}
+                            onClick={(e) => e.currentTarget.select()}
                             onChange={(e) => {
                               const maxVal = Math.min(availableCounts[s.name] || 60, 60);
                               const val = Math.max(1, Math.min(parseInt(e.target.value) || 1, maxVal));
@@ -255,6 +257,8 @@ export default function SetupScreen({
                               background: sessionMode === 'EXAM' ? "#eee" : "#fff",
                               fontWeight: "bold"
                             }}
+                            aria-label={`${s.name} question count`}
+                            title="Tap or click to replace the number"
                           />
                         </div>
                       )}

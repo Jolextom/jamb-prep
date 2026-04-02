@@ -15,6 +15,7 @@ interface RateData {
   count: number; // AI requests count
   sessionCount: number; // Usage starts count
   history: HistoryItem[];
+  userResets?: Record<string, string>;
   reports?: ReportItem[];
   performances?: PerformanceItem[];
 }
@@ -33,6 +34,27 @@ interface HistoryItem {
   name: string;
   time: string;
   detail: HistoryDetail;
+  createdAt?: string;
+}
+
+function normalizeUserKey(name: string) {
+  return (name || "Unknown")
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, "_");
+}
+
+function getUserChatCountSinceReset(data: RateData, userName: string) {
+  const userKey = normalizeUserKey(userName);
+  const resetAt = data.userResets?.[userKey];
+
+  return (data.history || []).filter((h) => {
+    if (h.type !== "chat") return false;
+    if (normalizeUserKey(h.name) !== userKey) return false;
+    if (!resetAt) return true;
+    if (!h.createdAt) return false;
+    return h.createdAt > resetAt;
+  }).length;
 }
 
 interface ReportItem {
@@ -97,6 +119,7 @@ export async function GET(req: NextRequest) {
     count: 0,
     sessionCount: 0,
     history: [],
+    userResets: {},
     reports: [],
     performances: [],
   };
@@ -136,17 +159,14 @@ export async function GET(req: NextRequest) {
 
   // Handle Reset Individual User (Only reset limits, keep history/name)
   if (resetUser) {
-    // Count user's chat requests and deduct from global count
-    const userChatCount = (data.history || []).filter(
-      (h) => h.type === "chat" && h.name === resetUser,
-    ).length;
-    if (userChatCount > 0) {
-      data.count = Math.max(0, (data.count || 0) - userChatCount);
-    }
+    const cleanName = normalizeUserKey(resetUser);
+    data.userResets = {
+      ...(data.userResets || {}),
+      [cleanName]: new Date().toISOString(),
+    };
 
     // Clean Redis Counter if it exists
     if (isRedis) {
-      const cleanName = resetUser.trim().replace(/[^a-zA-Z0-9]/g, "_");
       await redis.del(`jolextom_rate_limit_${cleanName}`);
       await redisSet(data);
     } else {
@@ -170,6 +190,7 @@ export async function GET(req: NextRequest) {
         date: data.date,
         count: 0,
         sessionCount: 0,
+        userResets: {},
         history: (data.history || []).filter((h) => h.type === "feedback"),
         reports: data.reports || [],
       };
@@ -421,18 +442,27 @@ export async function GET(req: NextRequest) {
                   </thead>
                   <tbody>
                     ${(() => {
-                      const users: Record<string, number> = {};
+                      const users: Record<string, { name: string; count: number }> = {};
                       data.history?.forEach((h) => {
-                        if (h.type === "chat")
-                          users[h.name] = (users[h.name] || 0) + 1;
+                        if (h.type !== "chat") return;
+                        const key = normalizeUserKey(h.name);
+                        const current = users[key] || {
+                          name: h.name || "Unknown",
+                          count: 0,
+                        };
+                        const resetAt = data.userResets?.[key];
+                        if (!resetAt || (h.createdAt && h.createdAt > resetAt)) {
+                          current.count += 1;
+                        }
+                        users[key] = current;
                       });
-                      const sorted = Object.entries(users).sort(
-                        (a, b) => b[1] - a[1],
+                      const sorted = Object.values(users).sort(
+                        (a, b) => b.count - a.count,
                       );
                       return sorted.length > 0
                         ? sorted
                             .map(
-                              ([name, count]) => `
+                              ({ name, count }) => `
                         <tr style="border-bottom: 1px solid #f1f5f9;">
                           <td style="padding: 12px; font-weight: 700;">${name}</td>
                           <td style="padding: 12px;"><span class="badge" style="background: #eff6ff; color: #3b82f6;">${count} requests</span></td>
@@ -449,7 +479,7 @@ export async function GET(req: NextRequest) {
                     })()}
                   </tbody>
                 </table>
-                <p style="font-size: 11px; color: var(--muted); margin-top: 15px; font-weight: 600;">* Individual limits are cached for 24hrs; Resetting clears their usage count immediately.</p>
+                <p style="font-size: 11px; color: var(--muted); margin-top: 15px; font-weight: 600;">* Resetting a user starts their visible daily count from zero while keeping the chat audit trail.</p>
               </div>
             </div>
           </div>
@@ -626,6 +656,7 @@ export async function POST(req: NextRequest) {
       date: today,
       count: 0,
       sessionCount: 0,
+      userResets: {},
       history: [],
       reports: [],
       performances: [],
@@ -652,6 +683,7 @@ export async function POST(req: NextRequest) {
         date: today,
         count: 0,
         sessionCount: 0,
+        userResets: data.userResets || {},
         history: feedback, // Keep feedback
         reports: reports, // Keep reports
         performances: performances, // Keep all performances
@@ -674,7 +706,7 @@ export async function POST(req: NextRequest) {
       if (type === "chat") data.count = (data.count || 0) + 1;
       if (type === "session") data.sessionCount = (data.sessionCount || 0) + 1;
       data.history = [
-        { type, name: name || "Unknown", time, detail: detail || "" },
+        { type, name: name || "Unknown", time, detail: detail || "", createdAt: new Date().toISOString() },
         ...(data.history || []),
       ].slice(0, 100);
     }

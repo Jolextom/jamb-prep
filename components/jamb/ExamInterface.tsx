@@ -969,7 +969,7 @@ export default function ExamInterface({
         {/* Mobile Version: Extreme Bottom Feedback Button */}
         <div className="mobile-only" style={{ width: "100%", background: "#f0f7ff", padding: "20px 16px", borderTop: "2px dashed #00336633", marginTop: "auto" }}>
           <p style={{ margin: "0 0 15px 0", fontSize: "13px", fontWeight: "800", color: "#003366", textAlign: "center" }}>
-            Enjoying the AI Tutor? Help us build the perfect prep tool! 🚀
+            Enjoying the AI Tutor? Help us build the perfect prep tool!
           </p>
           <button
             className="nav-btn primary"
