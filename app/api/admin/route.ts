@@ -167,7 +167,16 @@ export async function GET(req: NextRequest) {
 
     // Clean Redis Counter if it exists
     if (isRedis) {
+      const epochRaw = await redis.get("jolextom_rate_limit_epoch");
+      const epoch = Number(epochRaw || 1);
+      const fallbackLegacyName = (resetUser || "Unknown")
+        .trim()
+        .replace(/[^a-zA-Z0-9]/g, "_");
+
+      // Remove current epoch key and legacy key variants.
+      await redis.del(`jolextom_rate_limit_v${Number.isFinite(epoch) && epoch > 0 ? epoch : 1}_${cleanName}`);
       await redis.del(`jolextom_rate_limit_${cleanName}`);
+      await redis.del(`jolextom_rate_limit_${fallbackLegacyName}`);
       await redisSet(data);
     } else {
       try {
@@ -196,6 +205,8 @@ export async function GET(req: NextRequest) {
       };
 
       if (isRedis) {
+        // Bump epoch so all per-user counters are invalidated without key scan.
+        await redis.incr("jolextom_rate_limit_epoch");
         await redisSet(resetData);
       } else {
         fs.writeFileSync(RATE_FILE, JSON.stringify(resetData, null, 2));

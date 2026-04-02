@@ -186,31 +186,32 @@ export default function QuestionChat({ candidateName, questionContext, questionI
 
     maybeTrackWeakTopic(text);
 
-    // Clear draft for this question upon sending
-    try {
-      const draftsState = localStorage.getItem("jamb_chat_drafts");
-      if (draftsState) {
-        const drafts = JSON.parse(draftsState);
-        delete drafts[questionId];
-        localStorage.setItem("jamb_chat_drafts", JSON.stringify(drafts));
-      }
-    } catch (e) { }
-
     const newMessages: Message[] = [...messages, { role: "user", content: text }];
     setMessages(newMessages);
     setInput("");
     setIsLoading(true);
     setError(null);
 
-    // Clear draft on send
-    try {
-      const stored = localStorage.getItem("jamb_chat_drafts");
-      if (stored) {
+    const restoreDraft = () => {
+      if (overrideText) return;
+      setInput(text);
+      try {
+        const stored = localStorage.getItem("jamb_chat_drafts");
+        const drafts = stored ? JSON.parse(stored) : {};
+        drafts[questionId] = text;
+        localStorage.setItem("jamb_chat_drafts", JSON.stringify(drafts));
+      } catch (e) { }
+    };
+
+    const clearDraft = () => {
+      try {
+        const stored = localStorage.getItem("jamb_chat_drafts");
+        if (!stored) return;
         const drafts = JSON.parse(stored);
         delete drafts[questionId];
         localStorage.setItem("jamb_chat_drafts", JSON.stringify(drafts));
-      }
-    } catch (e) { }
+      } catch (e) { }
+    };
 
     try {
       const res = await fetch("/api/chat", {
@@ -250,8 +251,11 @@ export default function QuestionChat({ candidateName, questionContext, questionI
         setError(errText);
         setMessages(newMessages.slice(0, -1)); // remove the user message on error
         setIsLoading(false);
+        restoreDraft();
         return;
       }
+
+      clearDraft();
 
       setIsLoading(false); // Stop loading animation since we are receiving stream
       if (!res.body) throw new Error("No response body");
@@ -295,6 +299,7 @@ export default function QuestionChat({ candidateName, questionContext, questionI
       setError("Network error. Please check your connection.");
       setMessages(newMessages.slice(0, -1));
       setIsLoading(false);
+      restoreDraft();
     }
   };
 

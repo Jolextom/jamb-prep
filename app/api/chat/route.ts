@@ -369,8 +369,11 @@ async function checkAndIncrementUserRate(
   const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
   if (!url) return true; // No rate limit if Redis is not configured
 
-  const cleanName = (name || "Unknown").trim().replace(/[^a-zA-Z0-9]/g, "_");
-  const userKey = `jolextom_rate_limit_${cleanName}`;
+  const cleanName = (name || "Unknown")
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, "_");
+  const epochKey = "jolextom_rate_limit_epoch";
   const historyKey = "jolextom_chat_history_v2";
 
   try {
@@ -386,6 +389,16 @@ async function checkAndIncrementUserRate(
     });
     await redis.lpush(historyKey, logEntry);
     await redis.ltrim(historyKey, 0, 99); // Keep only last 100 entries
+
+    // Epoch lets admin global reset invalidate all old per-user keys instantly.
+    let epochRaw = await redis.get(epochKey);
+    let epoch = Number(epochRaw || 1);
+    if (!Number.isFinite(epoch) || epoch < 1) {
+      epoch = 1;
+      await redis.set(epochKey, epoch);
+    }
+
+    const userKey = `jolextom_rate_limit_v${epoch}_${cleanName}`;
 
     // 2. Increment user counter
     // INCR returns the value AFTER incrementing
