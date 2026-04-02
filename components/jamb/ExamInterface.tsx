@@ -325,6 +325,22 @@ export default function ExamInterface({
     return remapEmbeddedImageSources(text);
   }, [decodeHtmlEntities, normalizeLatex, normalizePlainMathInTextNodes, remapEmbeddedImageSources, renderMathSegments]);
 
+  const normalizeStoredExplanation = React.useCallback((raw?: string) => {
+    if (!raw) return "No explanation provided.";
+
+    // Keep paragraph intent, but flatten accidental hard wraps from source JSON.
+    const normalized = raw
+      .replace(/\r\n?/g, "\n")
+      .replace(/[ \t]+\n/g, "\n")
+      .replace(/\n[ \t]+/g, "\n")
+      .split(/\n{2,}/)
+      .map((paragraph) => paragraph.replace(/\n+/g, " ").replace(/\s{2,}/g, " ").trim())
+      .filter(Boolean)
+      .join("\n\n");
+
+    return normalized || "No explanation provided.";
+  }, []);
+
   const resolveImageSrc = React.useCallback((raw?: string) => {
     const value = (raw || "").trim();
     if (!value) return "";
@@ -1024,7 +1040,15 @@ export default function ExamInterface({
                   <div
                     className="whitespace-pre-wrap"
                     style={{ fontSize: "15px", lineHeight: "1.6", color: "#003366", fontWeight: "600" }}
-                    dangerouslySetInnerHTML={{ __html: formatRichText(stripEmojis(hacks[currentQuestion.id] || currentQuestion.solution || "No explanation provided.")) }}
+                    dangerouslySetInnerHTML={{
+                      __html: formatRichText(
+                        stripEmojis(
+                          hacks[currentQuestion.id]
+                            ? hacks[currentQuestion.id]
+                            : normalizeStoredExplanation(currentQuestion.solution),
+                        ),
+                      ),
+                    }}
                   />
                 </div>
               )}

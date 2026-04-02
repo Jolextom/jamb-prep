@@ -580,16 +580,16 @@ export default function QuestionChat({ candidateName, questionContext, questionI
             const optionsMatches = parsedChallenge.options;
             const assistantContent = isAssistant
               ? renderMathSegments(
-                  (isChallengeMessage(m.content)
-                    ? parsedChallenge.cleanedContent
-                        .replace(/\[!TIP\]/g, "💡")
-                        .replace(/\[!NOTE\]/g, "📝")
-                        .replace(/\[!IMPORTANT\]/g, "🚨")
-                        .replace(/\[!WARNING\]/g, "⚠️")
-                    : m.content
-                        .replace(/\[!IMPORTANT\]/g, "🚨")
-                        .replace(/\[!WARNING\]/g, "⚠️"))
-                )
+                (isChallengeMessage(m.content)
+                  ? parsedChallenge.cleanedContent
+                    .replace(/\[!TIP\]/g, "💡")
+                    .replace(/\[!NOTE\]/g, "📝")
+                    .replace(/\[!IMPORTANT\]/g, "🚨")
+                    .replace(/\[!WARNING\]/g, "⚠️")
+                  : m.content
+                    .replace(/\[!IMPORTANT\]/g, "🚨")
+                    .replace(/\[!WARNING\]/g, "⚠️"))
+              )
               : m.content;
 
             return (
