@@ -108,8 +108,29 @@ export default function JambReplica() {
   const [calcPos, setCalcPos] = useState({ top: 0, left: 0 });
   const [aiModalOpen, setAiModalOpen] = useState(false);
   const calcRef = useRef<HTMLDivElement>(null);
+  const subjectDataCacheRef = useRef<Record<string, any[]>>({});
 
   const key = useCallback((sIdx: number, qIdx: number) => `${sIdx}-${qIdx}`, []);
+
+  const loadSubjectData = useCallback(async (slug: string) => {
+    const cached = subjectDataCacheRef.current[slug];
+    if (cached) return cached;
+
+    const res = await fetch(`/data/${slug}.json`);
+    if (!res.ok) {
+      throw new Error(`Could not load local data for ${slug}`);
+    }
+
+    const loaded: any[] = await res.json();
+    const filtered = loaded.filter((q) => {
+      const rawYear = q.examyear ?? q.yr;
+      const year = Number(String(rawYear ?? "").trim());
+      return Number.isFinite(year) && year >= 2010;
+    });
+
+    subjectDataCacheRef.current[slug] = filtered;
+    return filtered;
+  }, []);
 
   // Tracking Helper
   const trackEvent = async (type: 'chat' | 'session', detail: string) => {
@@ -295,24 +316,22 @@ export default function JambReplica() {
     }
 
     try {
-      for (const subjectName of selected) {
-        const metadata = SUBJECT_METADATA.find(m => m.name === subjectName);
-        const config = configs[subjectName];
-        if (!metadata || !config) continue;
+      const selectedWithMeta = selected
+        .map((subjectName) => ({
+          subjectName,
+          metadata: SUBJECT_METADATA.find((m) => m.name === subjectName),
+          config: configs[subjectName],
+        }))
+        .filter((item): item is { subjectName: string; metadata: (typeof SUBJECT_METADATA)[number]; config: SubjectConfig } =>
+          Boolean(item.metadata && item.config)
+        );
 
-        const res = await fetch(`/data/${metadata.slug}.json`);
-        if (!res.ok) {
-          throw new Error(`Could not load local data for ${subjectName}`);
-        }
+      await Promise.all(
+        selectedWithMeta.map(({ metadata }) => loadSubjectData(metadata.slug))
+      );
 
-        let allQuestions: any[] = await res.json();
-
-        // 0. Golden CBT range: serve 2010+ only.
-        allQuestions = allQuestions.filter((q) => {
-          const rawYear = q.examyear ?? q.yr;
-          const year = Number(String(rawYear ?? "").trim());
-          return Number.isFinite(year) && year >= 2010;
-        });
+      for (const { subjectName, metadata, config } of selectedWithMeta) {
+        let allQuestions: any[] = [...(subjectDataCacheRef.current[metadata.slug] || [])];
 
         const isEnglish = metadata.slug === "english";
         const isEnglishExamBlueprint = isEnglish && sessionMode === "EXAM";
