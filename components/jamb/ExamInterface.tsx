@@ -44,6 +44,7 @@ interface ExamInterfaceProps {
 
   // Scoring
   qbState: Record<string, Question[]>;
+  subjectQuestionBanks?: Record<string, Question[]>;
 
   // Chat Persistence
   chatHistories: Record<number, Array<{ role: "user" | "assistant"; content: string }>>;
@@ -84,6 +85,7 @@ export default function ExamInterface({
   openEndModal,
   toggleCalc,
   qbState,
+  subjectQuestionBanks = {},
   chatHistories,
   setChatHistories,
   isReview = false,
@@ -375,49 +377,67 @@ export default function ExamInterface({
   const [reportComment, setReportComment] = React.useState("");
   const [isReporting, setIsReporting] = React.useState(false);
 
-  // Challenge Me: Find similar questions from the pool using keyword matching
+  // Challenge Me: Find similar questions from the subject bank with deterministic scoring
   const similarCandidates = React.useMemo(() => {
-    const pool = qbState[currentSubject] || [];
-    const others = pool.filter(q => q.id !== currentQuestion.id);
+    const pool = subjectQuestionBanks[currentSubject] || qbState[currentSubject] || [];
+    const others = pool.filter((q) => q.id !== currentQuestion.id);
 
-    // 1. Extract keywords from current question
-    const stopwords = new Set(["the", "a", "an", "is", "of", "to", "in", "and", "by", "for", "with", "from", "on", "at", "it", "that", "this", "which", "are", "causes", "causes", "decrease", "size", "increase", "size"]);
-    const currentWords = (currentQuestion.q?.toLowerCase() || "")
-      .replace(/[^\w\s]/g, "")
-      .split(/\s+/)
-      .filter(w => w.length > 3 && !stopwords.has(w));
+    const normalizeForSimilarity = (value: string) =>
+      String(value || "")
+        .replace(/<[^>]*>/g, " ")
+        .replace(/&nbsp;|&#160;/gi, " ")
+        .replace(/[^a-zA-Z0-9\s]/g, " ")
+        .replace(/\s+/g, " ")
+        .trim()
+        .toLowerCase();
 
-    const currentTopic = currentQuestion.topic?.toLowerCase() || "";
-    const currentSubTopic = currentQuestion.sub_topic?.toLowerCase() || "";
+    const stopwords = new Set([
+      "the", "a", "an", "is", "of", "to", "in", "and", "by", "for", "with", "from", "on", "at", "it", "that",
+      "this", "which", "are", "was", "were", "be", "as", "or", "if", "into", "than", "then", "their", "its",
+      "what", "who", "when", "where", "why", "how", "following", "correct", "option", "question", "best", "most",
+      "least", "not", "except"
+    ]);
 
-    const scored = others.map(q => {
-      let score = 0;
-      const qText = q.q?.toLowerCase() || "";
-      const qTopic = q.topic?.toLowerCase() || "";
-      const qSubTopic = q.sub_topic?.toLowerCase() || "";
+    const toTokenSet = (value: string) =>
+      new Set(
+        normalizeForSimilarity(value)
+          .split(" ")
+          .filter((w) => w.length >= 4 && !stopwords.has(w))
+      );
 
-      // Topic match (high weight)
-      if (qTopic && qTopic === currentTopic) score += 8;
-      if (currentSubTopic && qSubTopic === currentSubTopic) score += 6;
+    const currentNormQ = normalizeForSimilarity(currentQuestion.q || "");
+    const currentTokens = toTokenSet(currentQuestion.q || "");
+    const currentTopic = String(currentQuestion.topic || "").toLowerCase();
+    const currentSubTopic = String(currentQuestion.sub_topic || "").toLowerCase();
 
-      // Keyword overlaps
-      currentWords.forEach(word => {
-        if (qText.includes(word)) score += 2;
-        if (qTopic.includes(word)) score += 3;
-        if (qSubTopic.includes(word)) score += 2;
+    const exactMatches = others.filter((q) => normalizeForSimilarity(q.q || "") === currentNormQ);
+
+    const scored = others.map((q) => {
+      const qNorm = normalizeForSimilarity(q.q || "");
+      const qTokens = toTokenSet(q.q || "");
+      const qTopic = String(q.topic || "").toLowerCase();
+      const qSubTopic = String(q.sub_topic || "").toLowerCase();
+
+      let overlap = 0;
+      currentTokens.forEach((token) => {
+        if (qTokens.has(token)) overlap += 1;
       });
+
+      const union = new Set([...currentTokens, ...qTokens]).size || 1;
+      const jaccard = overlap / union;
+
+      let score = jaccard * 100;
+      if (currentTopic && qTopic === currentTopic) score += 14;
+      if (currentSubTopic && qSubTopic === currentSubTopic) score += 12;
+      if (qNorm.includes(currentNormQ) || currentNormQ.includes(qNorm)) score += 20;
 
       return { q, score };
     });
 
-    // Sort by score descending, then random for ties
-    const sorted = scored.sort((a, b) => {
-      if (b.score !== a.score) return b.score - a.score;
-      return Math.random() - 0.5;
-    });
-
-    return sorted
-      .slice(0, 8) // Keep compact for token efficiency
+    return scored
+      .filter(({ score }) => score >= 10)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 8)
       .map(({ q }) => ({
         q: (q.q || "").slice(0, 280),
         o: Object.fromEntries(
@@ -429,7 +449,31 @@ export default function ExamInterface({
         sub_topic: q.sub_topic || "",
         image: q.image || ""
       }));
-  }, [qbState, currentSubject, currentQuestion]);
+  }, [qbState, subjectQuestionBanks, currentSubject, currentQuestion]);
+
+  const similarStats = React.useMemo(() => {
+    const pool = subjectQuestionBanks[currentSubject] || qbState[currentSubject] || [];
+    const others = pool.filter((q) => q.id !== currentQuestion.id);
+
+    const normalizeForSimilarity = (value: string) =>
+      String(value || "")
+        .replace(/<[^>]*>/g, " ")
+        .replace(/&nbsp;|&#160;/gi, " ")
+        .replace(/[^a-zA-Z0-9\s]/g, " ")
+        .replace(/\s+/g, " ")
+        .trim()
+        .toLowerCase();
+
+    const currentNorm = normalizeForSimilarity(currentQuestion.q || "");
+    const exactCount = others.filter((q) => normalizeForSimilarity(q.q || "") === currentNorm).length;
+
+    return {
+      bankSize: pool.length,
+      exactCount,
+      similarCandidateCount: similarCandidates.length,
+      source: subjectQuestionBanks[currentSubject] ? "full_subject_bank" : "session_subset"
+    };
+  }, [qbState, subjectQuestionBanks, currentSubject, currentQuestion, similarCandidates]);
 
   const handleReportSubmit = async () => {
     setIsReporting(true);
@@ -965,6 +1009,7 @@ export default function ExamInterface({
                       a: currentQuestion.a,
                       selected_main_option: answers[currentKey] || "",
                       sol: currentQuestion.solution,
+                      similarStats,
                       similarCandidates // Injecting the candidates for "Challenge Me"
                     })}
                     history={chatHistories[currentQuestion.id] || []}

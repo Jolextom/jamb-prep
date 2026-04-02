@@ -20,6 +20,18 @@ type TutorBucket =
   | "rule_based_language"
   | "inference";
 
+interface ChatMessage {
+  role: "user" | "assistant" | string;
+  content: string;
+}
+
+interface SimilarCandidate {
+  q?: string;
+  yr?: string;
+  topic?: string;
+  sub_topic?: string;
+}
+
 function parseContext(questionContext: unknown): Record<string, unknown> {
   if (typeof questionContext === "string") {
     const trimmed = questionContext.trim();
@@ -152,6 +164,114 @@ function buildBucketInstruction(bucket: TutorBucket): string {
   ].join(" ");
 }
 
+function toSseStreamFromText(text: string): ReadableStream<Uint8Array> {
+  const encoder = new TextEncoder();
+  const payload =
+    `data: ${JSON.stringify({ choices: [{ delta: { content: text } }] })}\n\n` +
+    "data: [DONE]\n\n";
+
+  return new ReadableStream<Uint8Array>({
+    start(controller) {
+      controller.enqueue(encoder.encode(payload));
+      controller.close();
+    },
+  });
+}
+
+function normalizeSimilarityText(value: unknown): string {
+  return String(value || "")
+    .replace(/<[^>]*>/g, " ")
+    .replace(/&nbsp;|&#160;/gi, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function tryBuildSimilarityReply(
+  context: Record<string, unknown>,
+  userQuery: string,
+  messages: ChatMessage[],
+): string | null {
+  const similarCandidates = Array.isArray(context.similarCandidates)
+    ? (context.similarCandidates as SimilarCandidate[])
+    : [];
+
+  const stats =
+    context.similarStats && typeof context.similarStats === "object"
+      ? (context.similarStats as Record<string, unknown>)
+      : {};
+
+  const exactCount = Number(stats.exactCount || 0);
+  const similarCount = Number(
+    stats.similarCandidateCount || similarCandidates.length,
+  );
+  const bankSize = Number(stats.bankSize || 0);
+  const source = String(stats.source || "session_subset");
+
+  const q = userQuery.toLowerCase();
+  const trail = messages
+    .slice(-8)
+    .map((m) => String(m.content || "").toLowerCase())
+    .join(" ");
+
+  const asksExactCount =
+    /how many|number of/.test(q) &&
+    /(exact|same)/.test(q) &&
+    /question/.test(q);
+
+  const asksSimilarCount =
+    /how many|number of/.test(q) &&
+    /(similar|related|like this)/.test(q) &&
+    /question/.test(q);
+
+  const asksList =
+    /(list|show|give)/.test(q) &&
+    /(questions|them|those|out)/.test(q) &&
+    (/(similar|exact|like this)/.test(q) ||
+      /(similar|exact|like this)/.test(trail));
+
+  if (!asksExactCount && !asksSimilarCount && !asksList) {
+    return null;
+  }
+
+  if (asksExactCount) {
+    const bankInfo = bankSize > 0 ? ` in the current loaded bank (${bankSize} questions)` : "";
+    const sourceInfo =
+      source === "full_subject_bank"
+        ? "subject-wide"
+        : "session-only";
+    return `Exact-match check (${sourceInfo})${bankInfo}: I found ${exactCount} more question(s) with the same wording. I found ${similarCount} close similar question(s) available for comparison.`;
+  }
+
+  if (asksSimilarCount) {
+    const sourceInfo =
+      source === "full_subject_bank"
+        ? "from the full loaded subject bank"
+        : "from your current session subset";
+    return `I found ${similarCount} close similar question(s) ${sourceInfo}. Exact same-wording matches: ${exactCount}.`;
+  }
+
+  if (asksList) {
+    if (similarCandidates.length === 0) {
+      return "I could not find grounded similar questions in the current context. Try asking from a subject with a loaded full bank or open another question first.";
+    }
+
+    const lines = similarCandidates.slice(0, 8).map((item, idx) => {
+      const text = normalizeSimilarityText(item.q).slice(0, 140);
+      const year = item.yr ? ` [${item.yr}]` : "";
+      const topic = normalizeSimilarityText(item.topic || "");
+      const subTopic = normalizeSimilarityText(item.sub_topic || "");
+      const tail = topic
+        ? ` (${topic}${subTopic ? ` > ${subTopic}` : ""})`
+        : "";
+      return `${idx + 1}. ${text}${year}${tail}`;
+    });
+
+    return `Here are the nearest grounded similar questions from the loaded bank:\n${lines.join("\n")}`;
+  }
+
+  return null;
+}
+
 async function checkAndIncrementUserRate(
   name: string,
   question: string,
@@ -230,6 +350,22 @@ export async function POST(req: NextRequest) {
   const recentMessages = messages.slice(-4);
 
   const context = parseContext(questionContext);
+  const deterministicSimilarityReply = tryBuildSimilarityReply(
+    context,
+    userQuery,
+    messages as ChatMessage[],
+  );
+
+  if (deterministicSimilarityReply) {
+    return new NextResponse(toSseStreamFromText(deterministicSimilarityReply), {
+      headers: {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        Connection: "keep-alive",
+      },
+    });
+  }
+
   const bucket = classifyTutorBucket(context, userQuery);
   const bucketInstruction = buildBucketInstruction(bucket);
 

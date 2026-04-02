@@ -662,6 +662,13 @@ export default function JambReplica() {
   const currentQuestions = qbState[currentSubject] || [];
   const currentQuestion = currentQuestions[curQIdx];
   const currentKey = key(curSubIdx, curQIdx);
+  const subjectQuestionBanks: Record<string, Question[]> = SUBJECT_METADATA.reduce((acc, meta) => {
+    const bank = subjectDataCacheRef.current[meta.slug];
+    if (Array.isArray(bank) && bank.length > 0) {
+      acc[meta.name] = bank as Question[];
+    }
+    return acc;
+  }, {} as Record<string, Question[]>);
 
   // Submit Logic
   const submitExam = useCallback(() => {
@@ -1065,6 +1072,7 @@ ${JSON.stringify(sessionData, null, 2)}`;
             setCalcOpen(!calcOpen);
           }}
           qbState={qbState}
+          subjectQuestionBanks={subjectQuestionBanks}
           isReview={isReview}
           reviewAnswers={reviewAnswers}
           showSolutions={isReview || sessionMode === 'PRACTICE'}
