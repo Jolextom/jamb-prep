@@ -364,22 +364,63 @@ export default function JambReplica() {
 
         const targetCount = Math.min(config.count, allQuestions.length);
 
-        // For English exam mode, include one comprehension ref group and Lekki Headmaster novel questions.
+        // For English exam mode, include one comprehension ref group and only Lekki Headmaster novel questions.
         let mandatoryComprehensionSet: any[] = [];
         let mandatoryNovelSet: any[] = [];
         let candidatePool = allQuestions;
         if (isEnglishExamBlueprint && targetCount > 0) {
           const toQuestionKey = (q: any) => `${q?.id || ""}::${q?.question || ""}`;
-          const lekkiKeywords = ["lekki headmaster"];
+          const normalizeExamText = (value: unknown) => String(value || "")
+            .replace(/<[^>]*>/g, " ")
+            .replace(/&nbsp;|&#160;/gi, " ")
+            .replace(/\s+/g, " ")
+            .trim()
+            .toLowerCase();
+
+          const prescribedTextTitles = [
+            "lekki headmaster",
+            "life changer",
+            "potter's wheel",
+            "potters wheel",
+            "last days at forcados high school",
+            "sweet sixteen",
+            "in dependence",
+          ];
+
+          const isNovelBasedQuestion = (q: any) => {
+            const text = normalizeExamText(`${q?.question || ""} ${q?.section || ""} ${q?.solution || ""}`);
+            if (!text) return false;
+
+            if (/this question is based on|prescribed text|recommended (text|novel)|from the novel/.test(text)) {
+              return true;
+            }
+
+            return prescribedTextTitles.some((title) => text.includes(title));
+          };
+
           const isLekkiNovelQuestion = (q: any) => {
-            const text = `${q?.question || ""} ${q?.section || ""} ${q?.solution || ""}`.toLowerCase();
-            return lekkiKeywords.some((kw) => text.includes(kw));
+            const text = normalizeExamText(`${q?.question || ""} ${q?.section || ""} ${q?.solution || ""}`);
+            return text.includes("lekki headmaster");
+          };
+
+          const isComprehensionQuestion = (q: any) => {
+            const sectionText = normalizeExamText(q?.section || "");
+            const questionText = normalizeExamText(q?.question || "");
+
+            if (isNovelBasedQuestion(q)) return false;
+            if (Number(q?.hasPassage || 0) === 1) return true;
+
+            if (/\b(read|study|refer to)\b[^.]{0,60}\bpassage\b/.test(sectionText)) return true;
+            if (/\bfrom the passage\b|\bin the passage\b|\baccording to the passage\b/.test(questionText)) return true;
+
+            // Many legacy comprehension records miss hasPassage but still carry full passage text in section.
+            return sectionText.length >= 280;
           };
 
           const comprehensionGroups = new Map<string, any[]>();
 
           allQuestions.forEach((q) => {
-            if (Number(q?.hasPassage || 0) !== 1) return;
+            if (!isComprehensionQuestion(q)) return;
             const refIdRaw = q?.ref_id;
             if (refIdRaw === null || refIdRaw === undefined || refIdRaw === "") return;
             const refId = String(refIdRaw).trim();
@@ -415,11 +456,11 @@ export default function JambReplica() {
             const qKey = toQuestionKey(q);
             if (mandatoryNovelKeys.has(qKey)) return false;
 
-            if (Number(q?.hasPassage || 0) === 1) {
+            if (isComprehensionQuestion(q)) {
               return allowedComprehensionKeys.has(qKey);
             }
 
-            if (isLekkiNovelQuestion(q)) return false;
+            if (isNovelBasedQuestion(q)) return false;
             return true;
           });
         }

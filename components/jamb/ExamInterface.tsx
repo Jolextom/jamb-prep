@@ -487,8 +487,42 @@ export default function ExamInterface({
 
   const showSolutionNow = isReview || (isPracticeMode && !!answers[currentKey]) || currentQuestion.isReviewable;
   const resolvedImageSrc = resolveImageSrc(currentQuestion.image);
-  const isLiteratureQuestion = /literature/i.test(currentSubject);
-  const isStandaloneLiteratureQuestion = isLiteratureQuestion && currentQuestion.hasPassage !== 1;
+
+  const normalizePromptText = React.useCallback((value: string) => {
+    return value
+      .replace(/<[^>]*>/g, " ")
+      .replace(/&nbsp;|&#160;/gi, " ")
+      .replace(/\s+/g, " ")
+      .trim()
+      .toLowerCase();
+  }, []);
+
+  const sectionPromptText = normalizePromptText(currentQuestion.section || "");
+  const questionPromptText = normalizePromptText(currentQuestion.q || "");
+  const combinedPromptText = `${sectionPromptText} ${questionPromptText}`.trim();
+
+  const isNovelPromptQuestion = /this question is based on|prescribed text|recommended (text|novel)/.test(combinedPromptText)
+    || /lekki headmaster|life changer|potter'?s wheel|forcados high school|sweet sixteen|in dependence/.test(combinedPromptText);
+
+  const novelSourceMatch = combinedPromptText.match(/this question is based on\s+([^.?]+)/i);
+  const novelSource = novelSourceMatch?.[1]?.trim() || "the prescribed text";
+
+  const isPassageStyleQuestion = Number(currentQuestion.hasPassage || 0) === 1
+    || (!isNovelPromptQuestion && (
+      /\b(read|study|refer to)\b[^.]{0,60}\bpassage\b/.test(sectionPromptText)
+      || /\bfrom the passage\b|\bin the passage\b|\baccording to the passage\b/.test(questionPromptText)
+      || sectionPromptText.length >= 280
+    ));
+
+  const displayQuestionHtml = React.useMemo(() => {
+    const base = currentQuestion.q || (isPassageStyleQuestion ? "" : currentQuestion.section) || "No question text available.";
+    if (!isNovelPromptQuestion) return base;
+
+    return base
+      .replace(/^\s*<p>\s*this question is based on[\s\S]*?(?:<br\s*\/?>(\s|&nbsp;|&#160;)*)+/i, "<p>")
+      .replace(/^\s*this question is based on[\s\S]*?(?:<br\s*\/?>(\s|&nbsp;|&#160;)*)+/i, "")
+      .replace(/^\s*this question is based on[^.]*\.\s*/i, "");
+  }, [currentQuestion.q, currentQuestion.section, isPassageStyleQuestion, isNovelPromptQuestion]);
 
   React.useEffect(() => {
     setImageLoadError(false);
@@ -715,8 +749,8 @@ export default function ExamInterface({
             </div>
           </div>
 
-          <div className={currentQuestion.hasPassage === 1 ? "split-screen" : "single-column"}>
-            {currentQuestion.hasPassage === 1 && (
+          <div className={isPassageStyleQuestion ? "split-screen" : "single-column"}>
+            {isPassageStyleQuestion && (
               <div className="passage-container">
                 <div className="passage-header">Reading Passage</div>
                 <div
@@ -726,9 +760,9 @@ export default function ExamInterface({
               </div>
             )}
 
-            <div className={currentQuestion.hasPassage === 1 ? "question-content" : "q-body-container"}>
+            <div className={isPassageStyleQuestion ? "question-content" : "q-body-container"}>
               {/* Context/Section Header (Only if not split-screen and section exists) */}
-              {currentQuestion.hasPassage !== 1 && currentQuestion.section && currentQuestion.section !== currentQuestion.q && (
+              {!isPassageStyleQuestion && !isNovelPromptQuestion && currentQuestion.section && currentQuestion.section !== currentQuestion.q && (
                 <div
                   className="section-header whitespace-pre-wrap"
                   style={{
@@ -745,22 +779,22 @@ export default function ExamInterface({
                 />
               )}
 
-              {isStandaloneLiteratureQuestion && (
+              {isNovelPromptQuestion && !isPassageStyleQuestion && (
                 <div
                   style={{
                     marginBottom: "16px",
                     padding: "12px 14px",
                     borderRadius: "12px",
-                    border: "1px solid #f59e0b33",
-                    background: "#fff8e6",
-                    color: "#92400e",
+                    border: "1px solid #bfdbfe",
+                    background: "#eff6ff",
+                    color: "#1e3a8a",
                     fontSize: "13px",
                     lineHeight: "1.6",
                     fontWeight: 600,
                   }}
                 >
-                  <strong style={{ display: "block", marginBottom: "4px" }}>Literature question</strong>
-                  This is a prescribed-text or recall question. If you have not read the text, skip it and review the explanation after the attempt.
+                  <strong style={{ display: "block", marginBottom: "4px" }}>Prescribed Text</strong>
+                  This question is based on {novelSource}.
                 </div>
               )}
 
@@ -768,7 +802,7 @@ export default function ExamInterface({
                 className="q-text whitespace-pre-wrap"
                 style={{ fontWeight: "600", marginBottom: "20px", fontSize: "17px", lineHeight: "1.6" }}
                 dangerouslySetInnerHTML={{
-                  __html: formatRichText(currentQuestion.q || (currentQuestion.hasPassage === 1 ? "" : currentQuestion.section) || "No question text available.")
+                  __html: formatRichText(displayQuestionHtml)
                 }}
               />
 
