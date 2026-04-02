@@ -12,15 +12,3 @@ body {
   font-family: var(--font-outfit), Arial, Helvetica, sans-serif;
 }
 
-@keyframes jambPulse {
-  0%,
-  100% {
-    transform: scale(0.95);
-    opacity: 0.55;
-  }
-
-  50% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
