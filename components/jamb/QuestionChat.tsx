@@ -121,7 +121,7 @@ export default function QuestionChat({ candidateName, questionContext, questionI
     if (missedIt) {
       return [
         "Explain the correct answer",
-        "Quiz me again on this",
+        "Test me with a new one",
         "Show me the trap",
       ];
     }
