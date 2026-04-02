@@ -65,7 +65,7 @@ export default function JambReplica() {
 
   useEffect(() => {
     if (updateAvailable && view === 'SETUP' && !isLoading && !examStarted) {
-      console.log("ðŸš€ Update available! Performing silent refresh...");
+      console.log("Update available! Performing silent refresh...");
       window.location.reload();
     }
   }, [updateAvailable, view, isLoading, examStarted]);
@@ -314,8 +314,7 @@ export default function JambReplica() {
           return Number.isFinite(year) && year >= 2010;
         });
 
-        // 1. Filter out questions with passages for English (too long/time consuming)
-        // 2. Filter out novel-based questions (prescribed texts)
+        // 1. Filter out novel-based questions (prescribed texts)
         if (metadata.slug === "english" || metadata.slug === "englishlit") {
           const novelKeywords = [
             "novel", "the life changer", "khadijat abubakar jalli",
@@ -325,13 +324,12 @@ export default function JambReplica() {
           ];
 
           allQuestions = allQuestions.filter(q => {
-            if (q.hasPassage === 1) return false;
             const text = (q.question + " " + q.section).toLowerCase();
             return !novelKeywords.some(kw => text.includes(kw));
           });
         }
 
-        // 3. High-yield sampling: 70% from heavy repeated topics, 30% from minor topics.
+        // 2. High-yield sampling: 70% from heavy repeated topics, 30% from minor topics.
         const pickStratifiedByTopic = (pool: any[], count: number): any[] => {
           if (count <= 0 || pool.length === 0) return [];
 
@@ -361,11 +359,48 @@ export default function JambReplica() {
         };
 
         const targetCount = Math.min(config.count, allQuestions.length);
+
+        // For English, keep comprehension questions from one ref_id only.
+        let mandatoryComprehensionSet: any[] = [];
+        let candidatePool = allQuestions;
+        if (metadata.slug === "english" && targetCount > 0) {
+          const comprehensionGroups = new Map<string, any[]>();
+
+          allQuestions.forEach((q) => {
+            if (Number(q?.hasPassage || 0) !== 1) return;
+            const refIdRaw = q?.ref_id;
+            if (refIdRaw === null || refIdRaw === undefined || refIdRaw === "") return;
+            const refId = String(refIdRaw).trim();
+            if (!refId) return;
+
+            const existing = comprehensionGroups.get(refId);
+            if (existing) {
+              existing.push(q);
+            } else {
+              comprehensionGroups.set(refId, [q]);
+            }
+          });
+
+          if (comprehensionGroups.size > 0) {
+            const refs = Array.from(comprehensionGroups.keys());
+            const pickedRef = refs[Math.floor(Math.random() * refs.length)];
+            mandatoryComprehensionSet = fisherYatesShuffle(comprehensionGroups.get(pickedRef) || []);
+
+            candidatePool = allQuestions.filter((q) => {
+              if (Number(q?.hasPassage || 0) !== 1) return true;
+              const refId = String(q?.ref_id ?? "").trim();
+              return refId === pickedRef;
+            });
+          } else {
+            candidatePool = allQuestions.filter((q) => Number(q?.hasPassage || 0) !== 1);
+          }
+        }
+
         let picked: any[] = [];
 
         if (targetCount > 0) {
           const topicCounts: Record<string, number> = {};
-          allQuestions.forEach((q) => {
+          candidatePool.forEach((q) => {
             const t = (q.topic || "").toString().trim();
             if (!t) return;
             topicCounts[t] = (topicCounts[t] || 0) + 1;
@@ -380,11 +415,11 @@ export default function JambReplica() {
           );
 
           const topicKey = (q: { topic?: unknown }) => (q.topic || "").toString().trim();
-          const highYieldPool = allQuestions.filter((q) => {
+          const highYieldPool = candidatePool.filter((q) => {
             const t = topicKey(q);
             return t && highYieldTopics.has(t);
           });
-          const minorPool = allQuestions.filter((q) => {
+          const minorPool = candidatePool.filter((q) => {
             const t = topicKey(q);
             return !t || !highYieldTopics.has(t);
           });
@@ -401,9 +436,26 @@ export default function JambReplica() {
           if (picked.length < targetCount) {
             const pickedKeys = new Set(picked.map((q) => `${q.id || ""}::${q.question || ""}`));
             const leftovers = fisherYatesShuffle(
-              allQuestions.filter((q) => !pickedKeys.has(`${q.id || ""}::${q.question || ""}`))
+              candidatePool.filter((q) => !pickedKeys.has(`${q.id || ""}::${q.question || ""}`))
             );
             picked = [...picked, ...leftovers.slice(0, targetCount - picked.length)];
+          }
+
+          if (mandatoryComprehensionSet.length > 0) {
+            const pickedKeys = new Set(picked.map((q) => `${q.id || ""}::${q.question || ""}`));
+            const mandatoryUnique = mandatoryComprehensionSet.filter(
+              (q) => !pickedKeys.has(`${q.id || ""}::${q.question || ""}`)
+            );
+
+            if (mandatoryUnique.length >= targetCount) {
+              picked = mandatoryUnique.slice(0, targetCount);
+            } else {
+              const mandatoryKeys = new Set(mandatoryUnique.map((q) => `${q.id || ""}::${q.question || ""}`));
+              const filler = picked
+                .filter((q) => !mandatoryKeys.has(`${q.id || ""}::${q.question || ""}`))
+                .slice(0, targetCount - mandatoryUnique.length);
+              picked = [...mandatoryUnique, ...filler];
+            }
           }
         }
 
@@ -592,7 +644,7 @@ export default function JambReplica() {
       })
     }).catch(err => console.log("Admin perf submit skipped:", err));
 
-    // Auto-enter review â€” no modal
+    // Auto-enter review - no modal
     setIsReview(true);
     setReviewAnswers(answers);
     setView('EXAM');
@@ -923,4 +975,5 @@ ${JSON.stringify(sessionData, null, 2)}`;
     </div>
   );
 }
+
 

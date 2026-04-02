@@ -463,7 +463,6 @@ export default function SetupScreen({
             alignItems: "center",
             gap: "12px"
           }}>
-            <div style={{ fontSize: "24px" }}>🚀</div>
             <h3 style={{ margin: 0, fontSize: "16px", fontWeight: "900", color: "#003366" }}>
               Help us build the #1 JAMB tool!
             </h3>
@@ -495,7 +494,7 @@ export default function SetupScreen({
         <div className="modal-bg open">
           <div className="modal-box" style={{ textAlign: "left" }}>
             <h3>Share Your Experience</h3>
-            <p>Your feedback helps us build the best JAMB Prep tool for Nigerian students. What's on your mind?</p>
+            <p>Your feedback helps us build the best JAMB Prep tool for Nigerian students. What&apos;s on your mind?</p>
 
             <div style={{ marginBottom: "16px" }}>
               <label style={{ display: "block", fontSize: "11px", fontWeight: "900", color: "#64748b", textTransform: "uppercase", marginBottom: "8px" }}>Feedback Category</label>
