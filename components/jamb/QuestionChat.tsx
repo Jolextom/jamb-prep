@@ -321,11 +321,10 @@ export default function QuestionChat({ candidateName, questionContext, questionI
           {/* Quick Chips if no messages */}
           {messages.length === 0 && (
             <div style={{ textAlign: "center", padding: "20px 0" }}>
-              <p style={{ color: "#003366", fontWeight: "600", fontSize: "14px", marginBottom: "4px" }}>Master this concept</p>
-              <p style={{ color: "#64748b", fontSize: "12px", marginBottom: "16px" }}>Ask for help, then request a similar question if you want one.</p>
+              <p style={{ color: "#003366", fontWeight: "600", fontSize: "14px", marginBottom: "4px" }}>Ask for help</p>
+              <p style={{ color: "#64748b", fontSize: "12px", marginBottom: "16px" }}>Questions about this concept?</p>
               <div style={{ display: "flex", flexDirection: "column", gap: "8px", alignItems: "center" }}>
                 {[
-                  "Can you give me a similar question?",
                   "Give me a speed hack for this",
                   "Explain why the others are wrong"
                 ].map(q => (
@@ -420,53 +419,7 @@ export default function QuestionChat({ candidateName, questionContext, questionI
                     )}
                   </div>
 
-                  {/* Keep options visible for the latest unresolved challenge, even after follow-up user text. */}
-                  {isAssistant && i === latestChallengeIndex && optionsMatches.length > 0 && !isLoading && !isLatestChallengeResolved && (
-                    <div style={{
-                      display: "grid",
-                      gridTemplateColumns: optionsMatches.length > 2 ? "repeat(auto-fit, minmax(200px, 1fr))" : "1fr",
-                      gap: "8px",
-                      marginTop: "10px",
-                      width: "100%"
-                    }}>
-                      {optionsMatches.map((match, idx) => {
-                        const letter = match.letter;
-                        const text = match.text;
-                        return (
-                          <button
-                            key={idx}
-                            onClick={() => sendSpecificMessage(`I choose option ${letter}`)}
-                            style={{
-                              padding: "10px 12px",
-                              background: "#fff",
-                              border: "1.5px solid #00336615",
-                              borderRadius: "10px",
-                              fontSize: "13px",
-                              color: "#003366",
-                              fontWeight: "600",
-                              textAlign: "left",
-                              cursor: "pointer",
-                              display: "flex",
-                              gap: "10px",
-                              alignItems: "center",
-                              transition: "all 0.2s"
-                            }}
-                            onMouseEnter={(e) => {
-                              e.currentTarget.style.borderColor = "#003366";
-                              e.currentTarget.style.background = "#f0f7ff";
-                            }}
-                            onMouseLeave={(e) => {
-                              e.currentTarget.style.borderColor = "#00336615";
-                              e.currentTarget.style.background = "#fff";
-                            }}
-                          >
-                            <span style={{ background: "#003366", color: "white", width: "20px", height: "20px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "10px", flexShrink: 0 }}>{letter}</span>
-                            <span>{text}</span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  )}
+
                 </div>
               </div>
             );
@@ -486,49 +439,7 @@ export default function QuestionChat({ candidateName, questionContext, questionI
           <div ref={bottomRef} />
         </div>
 
-        {shouldShowStickyChallengeOptions && (
-          <div
-            style={{
-              padding: "10px 12px",
-              background: "#f8fafc",
-              borderTop: "1px solid #e2e8f0",
-              display: "flex",
-              flexDirection: "column",
-              gap: "8px"
-            }}
-          >
-            <span style={{ fontSize: "12px", color: "#003366", fontWeight: 700 }}>
-              Still on the last challenge? Pick an option quickly:
-            </span>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
-              {latestChallengeOptions.map((match, idx) => {
-                const letter = match.letter;
-                const text = match.text;
-                return (
-                  <button
-                    key={`sticky-${idx}`}
-                    onClick={() => sendSpecificMessage(`I choose option ${letter}`)}
-                    disabled={isLoading}
-                    style={{
-                      padding: "8px 10px",
-                      background: "white",
-                      border: "1px solid #c8d8f0",
-                      borderRadius: "999px",
-                      fontSize: "12px",
-                      color: "#003366",
-                      fontWeight: "600",
-                      cursor: isLoading ? "not-allowed" : "pointer",
-                      opacity: isLoading ? 0.7 : 1
-                    }}
-                    title={text}
-                  >
-                    {letter}) {text.length > 42 ? `${text.slice(0, 42)}...` : text}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        )}
+
 
         {/* Input Area */}
         <div style={{ padding: "12px", background: "#fff", borderTop: "1px solid #eef2ff", display: "flex", gap: "8px" }}>

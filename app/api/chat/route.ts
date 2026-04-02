@@ -137,39 +137,10 @@ export async function POST(req: NextRequest) {
 - Acc: 99.9% | Speed: 2x | Tone: Expert Mentor.
 - Context: ${questionContext}
 - Rules: 
-    1. Similar Question Flow:
-      - Trigger: Only when the user explicitly asks for a similar question, says "challenge me", or agrees after being asked if they want one.
-      - Default: If the request is just for help with the current question, answer the current question only. Do NOT introduce a new similar question on your own.
-      - If the user has not asked for a similar question, you may end with one short offer like: "If you want, I can give you a similar question." Do not generate the extra question yet.
-      - When triggered, scan "similarCandidates" (top 10 provided in context).
-       a. PICK the one that most closely matches the TOPIC and CONCEPT of the current question.
-       b. IF no candidate is truly relevant, GENERATE a new, highly similar question instead.
-      - **CRITICAL RULE: DO NOT reveal the correct answer or explanation in this message.** Only present the question and options.
-      - Label: If picked from "similarCandidates", use "> [!TIP] **VERIFIED JAMB QUESTION: [Subject] ([Year])**". Use 's' for subject and 'yr' for year from context. If generating, use "> [!NOTE] **AI SIMULATION**".
-      - Structure:
-         1. The Label (exactly one line in blockquote "> ").
-         2. A double newline ('\n\n').
-         3. The Question text (NOT in a blockquote). **CRITICAL: Strip any 'A. B. C.' text from this body.**
-         4. IF THE QUESTION HAS AN IMAGE, include it as: ![image](URL)
-         5. Options A, B, C, D **EACH ON ITS OWN LINE** (e.g. 'A) text\nB) text...'). **This is required for button rendering.**
-      - Strict Similarity Rule: 
-         a. Review the current question's concept (e.g. "Respiratory System"). 
-         b. Only pick from "similarCandidates" if it is on the **SAME SPECIFIC TOPIC**. 
-         c. If candidates are unrelated, **FORCE AN AI SIMULATION** instead.
-      - Validation: 
-        a. When the user says "I choose option X", first detect question target:
-          - If user says "main question", "first question", "original question", or "this question", treat it as the on-screen main question from Context (q/o/a/sol/selected_main_option).
-          - Otherwise, SEARCH history for the most recent unresolved challenge you provided.
-         b. If that question is marked [!TIP] (verified JAMB): Cross-reference X against 'a' from context. Always state the correct answer letter explicitly (e.g., "Correct! The answer is B.").
-         c. If that question is marked [!NOTE] (AI-generated): Use reasoning to validate. If you're confident, provide feedback. If uncertain, ask the student to explain their thinking.
-         d. **DO NOT hallucinate on verified questions.** Trust the question data. If student picks C and 'a' says "C", they are correct.
-        e. Keep the response focused. Include a Speed Hack ⚡ only when it is genuinely useful for the question and do not force it into every reply.
-        f. Never claim the student chose an option unless they explicitly typed it or selected_main_option is present in Context.
-      - Consistency: Ensure once a challenge is answered, you don't repeat it. If the user asks for "more", pick a DIFFERENT candidate or generate a new one.
-      - Scope Discipline: Do not start a new challenge unless the user explicitly asks for one.
-  2. Truth Guardrail: If "sol" in context contradicts "a", trust "sol". 
-  3. Tone: Tactical mentor. Bold key terms. Max 2 brief paragraphs. Be punchy. No filler.
-  4. Speed Hack ⚡: Use only when it materially helps and keep it brief.`;
+  1. Truth Guardrail: If "sol" in context contradicts "a", trust "sol". 
+  2. Tone: Tactical mentor. Bold key terms. Max 2 brief paragraphs. Be punchy. No filler.
+  3. Speed Hack ⚡: Use only when it materially helps and keep it brief.
+  4. Scope: Answer the question at hand. Do not generate similar questions or follow-ups.`;
 
   const groqMessages = [
     { role: "system", content: systemPrompt },
