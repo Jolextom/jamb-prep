@@ -316,6 +316,14 @@ export default function JambReplica() {
 
         const isEnglish = metadata.slug === "english";
         const isEnglishExamBlueprint = isEnglish && sessionMode === "EXAM";
+        const normalizeExamText = (value: unknown) => String(value || "")
+          .replace(/<[^>]*>/g, " ")
+          .replace(/&nbsp;|&#160;/gi, " ")
+          .replace(/&#39;|&apos;/gi, "'")
+          .replace(/&quot;/gi, '"')
+          .replace(/\s+/g, " ")
+          .trim()
+          .toLowerCase();
 
         // Keep practice mode lightweight; exam mode handles English composition separately.
         if ((isEnglish && !isEnglishExamBlueprint) || metadata.slug === "englishlit") {
@@ -323,13 +331,26 @@ export default function JambReplica() {
             "novel", "the life changer", "khadijat abubakar jalli",
             "the potter's wheel", "chukwuemeka ike",
             "the last days at forcados high school", "a.h. mohammed",
-            "independence", "sweet sixteen", "umuchukwu"
+            "independence", "in dependence", "sweet sixteen", "umuchukwu", "lekki headmaster"
           ];
 
           allQuestions = allQuestions.filter(q => {
             if (isEnglish && Number(q?.hasPassage || 0) === 1) return false;
-            const text = (q.question + " " + q.section).toLowerCase();
-            return !novelKeywords.some(kw => text.includes(kw));
+
+            const novelId = Number(q?.novel_id || q?.novelId || 0);
+            if (Number.isFinite(novelId) && novelId > 0) return false;
+
+            const novelTitle = normalizeExamText(q?.novel_title || q?.novelTitle || "");
+            if (novelTitle.length > 0) return false;
+
+            const text = normalizeExamText(`${q?.question || ""} ${q?.section || ""} ${q?.solution || ""}`);
+            if (!text) return true;
+
+            if (/this question is based on|prescribed text|recommended (text|novel)|from the novel/.test(text)) {
+              return false;
+            }
+
+            return !novelKeywords.some((kw) => text.includes(kw));
           });
         }
 
@@ -370,12 +391,6 @@ export default function JambReplica() {
         let candidatePool = allQuestions;
         if (isEnglishExamBlueprint && targetCount > 0) {
           const toQuestionKey = (q: any) => `${q?.id || ""}::${q?.question || ""}`;
-          const normalizeExamText = (value: unknown) => String(value || "")
-            .replace(/<[^>]*>/g, " ")
-            .replace(/&nbsp;|&#160;/gi, " ")
-            .replace(/\s+/g, " ")
-            .trim()
-            .toLowerCase();
 
           const prescribedTextTitles = [
             "lekki headmaster",
