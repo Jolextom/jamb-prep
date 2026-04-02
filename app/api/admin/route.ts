@@ -442,7 +442,10 @@ export async function GET(req: NextRequest) {
                   </thead>
                   <tbody>
                     ${(() => {
-                      const users: Record<string, { name: string; count: number }> = {};
+                      const users: Record<
+                        string,
+                        { name: string; count: number }
+                      > = {};
                       data.history?.forEach((h) => {
                         if (h.type !== "chat") return;
                         const key = normalizeUserKey(h.name);
@@ -451,7 +454,10 @@ export async function GET(req: NextRequest) {
                           count: 0,
                         };
                         const resetAt = data.userResets?.[key];
-                        if (!resetAt || (h.createdAt && h.createdAt > resetAt)) {
+                        if (
+                          !resetAt ||
+                          (h.createdAt && h.createdAt > resetAt)
+                        ) {
                           current.count += 1;
                         }
                         users[key] = current;
@@ -706,7 +712,13 @@ export async function POST(req: NextRequest) {
       if (type === "chat") data.count = (data.count || 0) + 1;
       if (type === "session") data.sessionCount = (data.sessionCount || 0) + 1;
       data.history = [
-        { type, name: name || "Unknown", time, detail: detail || "", createdAt: new Date().toISOString() },
+        {
+          type,
+          name: name || "Unknown",
+          time,
+          detail: detail || "",
+          createdAt: new Date().toISOString(),
+        },
         ...(data.history || []),
       ].slice(0, 100);
     }
