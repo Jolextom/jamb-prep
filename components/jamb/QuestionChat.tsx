@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import katex from "katex";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
@@ -130,6 +131,70 @@ export default function QuestionChat({ candidateName, questionContext, questionI
       "Quiz me on this",
       "Explain this simply",
     ];
+  };
+
+  const normalizeEscapedMathDelimiters = (raw: string) => {
+    if (!raw) return "";
+    return raw
+      .replace(/\\\\\(/g, "\\(")
+      .replace(/\\\\\)/g, "\\)")
+      .replace(/\\\\\[/g, "\\[")
+      .replace(/\\\\\]/g, "\\]");
+  };
+
+  const cleanLatexExpression = (expr: string) => {
+    return expr
+      .replace(/&nbsp;|&#160;|\u00A0/g, " ")
+      .replace(/\s+/g, " ")
+      .replace(/\\(frac|dfrac|tfrac)\s*\{/g, "\\$1{")
+      .replace(/\\sqrt\s*\{/g, "\\sqrt{")
+      .replace(/\\sqrt\s+([A-Za-z0-9]+)/g, "\\sqrt{$1}")
+      .replace(/\\times(?!\s)/g, "\\times ")
+      .trim();
+  };
+
+  const renderLatexInline = (expr: string, displayMode: boolean) => {
+    const cleaned = cleanLatexExpression(expr);
+    if (!cleaned) return "";
+
+    return katex.renderToString(cleaned, {
+      throwOnError: false,
+      strict: "ignore",
+      displayMode,
+      output: "html",
+    });
+  };
+
+  const renderMathSegments = (raw: string) => {
+    if (!raw) return "";
+
+    let text = normalizeEscapedMathDelimiters(raw);
+
+    text = text.replace(/\\\[([\s\S]*?)\\\]/g, (_match, expr: string) => {
+      return renderLatexInline(expr, true);
+    });
+
+    text = text.replace(/\\\(([\s\S]*?)\\\)/g, (_match, expr: string) => {
+      return renderLatexInline(expr, false);
+    });
+
+    text = text.replace(/\$\$([\s\S]*?)\$\$/g, (_match, expr: string) => {
+      return renderLatexInline(expr, true);
+    });
+
+    text = text.replace(/(^|[^\\])\$([^$\n]+?)\$/g, (_match, prefix: string, expr: string) => {
+      return `${prefix}${renderLatexInline(expr, false)}`;
+    });
+
+    text = text.replace(/\\(?:dfrac|tfrac|frac)\s*\{[^{}]*\}\s*\{[^{}]*\}/g, (expr: string) => {
+      return renderLatexInline(expr, false);
+    });
+
+    text = text.replace(/\\sqrt\s*(?:\{[^{}]*\}|[A-Za-z0-9]+)/g, (expr: string) => {
+      return renderLatexInline(expr, false);
+    });
+
+    return text;
   };
 
   const updateWeakTopicStorage = (reason: "wrong_option" | "confusion") => {
@@ -513,6 +578,19 @@ export default function QuestionChat({ candidateName, questionContext, questionI
               ? parseChallengeMessage(m.content)
               : { options: [], cleanedContent: m.content };
             const optionsMatches = parsedChallenge.options;
+            const assistantContent = isAssistant
+              ? renderMathSegments(
+                  (isChallengeMessage(m.content)
+                    ? parsedChallenge.cleanedContent
+                        .replace(/\[!TIP\]/g, "💡")
+                        .replace(/\[!NOTE\]/g, "📝")
+                        .replace(/\[!IMPORTANT\]/g, "🚨")
+                        .replace(/\[!WARNING\]/g, "⚠️")
+                    : m.content
+                        .replace(/\[!IMPORTANT\]/g, "🚨")
+                        .replace(/\[!WARNING\]/g, "⚠️"))
+                )
+              : m.content;
 
             return (
               <div
@@ -557,17 +635,7 @@ export default function QuestionChat({ candidateName, questionContext, questionI
                             )
                           }}
                         >
-                          {/* Only strip options from challenge messages; leave regular responses intact */}
-                          {isChallengeMessage(m.content)
-                            ? parsedChallenge.cleanedContent
-                              .replace(/\[!TIP\]/g, "💡")
-                              .replace(/\[!NOTE\]/g, "📝")
-                              .replace(/\[!IMPORTANT\]/g, "🚨")
-                              .replace(/\[!WARNING\]/g, "⚠️")
-                            : m.content
-                              .replace(/\[!IMPORTANT\]/g, "🚨")
-                              .replace(/\[!WARNING\]/g, "⚠️")
-                          }
+                          {assistantContent}
                         </ReactMarkdown>
                       </div>
                     ) : (
