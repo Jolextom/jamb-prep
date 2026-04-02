@@ -14,6 +14,137 @@ interface RateData {
   history: { name: string; time: string; question: string }[];
 }
 
+type TutorBucket =
+  | "algorithmic"
+  | "factual"
+  | "rule_based_language"
+  | "inference";
+
+function parseContext(questionContext: unknown): Record<string, unknown> {
+  if (typeof questionContext === "string") {
+    const trimmed = questionContext.trim();
+    if (trimmed.startsWith("{")) {
+      try {
+        return JSON.parse(trimmed) as Record<string, unknown>;
+      } catch {
+        return { q: questionContext };
+      }
+    }
+    return { q: questionContext };
+  }
+  if (questionContext && typeof questionContext === "object") {
+    return questionContext as Record<string, unknown>;
+  }
+  return {};
+}
+
+function classifyTutorBucket(
+  context: Record<string, unknown>,
+  userQuery: string,
+): TutorBucket {
+  const subject = String(
+    context.s || context.subject || context.examtype || "",
+  ).toLowerCase();
+  const topic = String(context.topic || context.tp || "").toLowerCase();
+  const subTopic = String(context.sub_topic || context.subTopic || "").toLowerCase();
+  const questionText = String(context.q || context.question || "").toLowerCase();
+  const solutionText = String(context.sol || context.solution || "").toLowerCase();
+  const corpus = `${subject} ${topic} ${subTopic} ${questionText} ${solutionText} ${userQuery.toLowerCase()}`;
+
+  const hasPassage =
+    corpus.includes("passage") ||
+    corpus.includes("paragraph") ||
+    corpus.includes("infer") ||
+    corpus.includes("theme") ||
+    corpus.includes("author") ||
+    corpus.includes("tone") ||
+    corpus.includes("character") ||
+    corpus.includes("plot");
+
+  const hasLanguageRule =
+    corpus.includes("grammar") ||
+    corpus.includes("concord") ||
+    corpus.includes("syntax") ||
+    corpus.includes("tense") ||
+    corpus.includes("punctuation") ||
+    corpus.includes("question tag") ||
+    corpus.includes("reported speech") ||
+    corpus.includes("subject verb agreement");
+
+  const hasCalculationSignals =
+    /[0-9]/.test(corpus) ||
+    corpus.includes("calculate") ||
+    corpus.includes("solve") ||
+    corpus.includes("find the value") ||
+    corpus.includes("equation") ||
+    corpus.includes("formula") ||
+    corpus.includes("simplify") ||
+    corpus.includes("substitute") ||
+    corpus.includes("stoichiometry") ||
+    corpus.includes("kinematics");
+
+  if (hasPassage || subject.includes("literature")) return "inference";
+  if (subject.includes("english") && hasLanguageRule)
+    return "rule_based_language";
+  if (
+    (subject.includes("math") ||
+      subject.includes("physics") ||
+      subject.includes("chemistry")) &&
+    hasCalculationSignals
+  ) {
+    return "algorithmic";
+  }
+  if (hasLanguageRule) return "rule_based_language";
+  if (hasCalculationSignals && !subject.includes("government")) return "algorithmic";
+  return "factual";
+}
+
+function buildBucketInstruction(bucket: TutorBucket): string {
+  if (bucket === "algorithmic") {
+    return [
+      "Tutor Mode: Algorithmic/Calculation.",
+      "Output format:",
+      "1) Known values",
+      "2) Formula or governing rule",
+      "3) Substitution and compact steps",
+      "4) Final answer and quick verification",
+      "Keep steps lean and avoid long derivations unless user asks.",
+    ].join(" ");
+  }
+
+  if (bucket === "rule_based_language") {
+    return [
+      "Tutor Mode: Rule-Based Language.",
+      "Output format:",
+      "1) Name the exact rule",
+      "2) Show why the correct option fits the rule",
+      "3) Explain why alternatives violate the rule",
+      "4) Give up to 2 short everyday examples",
+      "Keep examples compact.",
+    ].join(" ");
+  }
+
+  if (bucket === "inference") {
+    return [
+      "Tutor Mode: Inference/Comprehension.",
+      "Output format:",
+      "1) Point to textual evidence",
+      "2) Explain reasoning chain",
+      "3) Eliminate traps in wrong options",
+      "Do not invent evidence not present in context.",
+    ].join(" ");
+  }
+
+  return [
+    "Tutor Mode: Factual Recall.",
+    "Output format:",
+    "1) State correct fact",
+    "2) Eliminate wrong options clearly",
+    "3) Give one brief memory hook",
+    "Keep to high-signal facts only.",
+  ].join(" ");
+}
+
 async function checkAndIncrementUserRate(
   name: string,
   question: string,
@@ -88,59 +219,22 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Keep only last 6 messages to limit token usage
-  const recentMessages = messages.slice(-6);
+  // Keep a short window to control token cost.
+  const recentMessages = messages.slice(-4);
 
-  // Subject Extraction Logic
-  let subjectGuide =
-    "Provide a logical breakdown and a helpful 'Speed Hack' or 'Pro Tip'.";
-  let subjectName = "General";
-
-  try {
-    let context;
-    if (
-      typeof questionContext === "string" &&
-      questionContext.trim().startsWith("{")
-    ) {
-      context = JSON.parse(questionContext);
-    } else {
-      // Handle legacy string format or simple string
-      context = { q: questionContext };
-    }
-
-    // Support both long and short keys: 'subject'/'s' or 'examtype'
-    subjectName = context.s || context.subject || context.examtype || "General";
-    const subjectLower = subjectName.toLowerCase();
-
-    if (subjectLower.includes("english")) {
-      subjectGuide = `Focus: Phonics (IPA), Concord, Lexis. Explaining vowel/consonant symbols is high-value. Avoid 'homophone' unless identical.`;
-    } else if (subjectLower.includes("math") || subjectLower.includes("phys")) {
-      subjectGuide = `Focus on formula application and "Calculative Shortcuts". 
-      - Show how to eliminate options by looking at the last digit or unit magnitude.
-      - Keep calculation steps extremely lean.`;
-    } else if (
-      subjectLower.includes("govt") ||
-      subjectLower.includes("history") ||
-      subjectLower.includes("crk")
-    ) {
-      subjectGuide = `Focus on historical context and "Keyword Association". 
-      - Link dates/names to the core principle. 
-      - Explain the 'Why' behind a policy or event simply.`;
-    }
-  } catch (e) {
-    console.warn(
-      "[Chat API] Failed to parse questionContext for subject awareness.",
-    );
-  }
+  const context = parseContext(questionContext);
+  const bucket = classifyTutorBucket(context, userQuery);
+  const bucketInstruction = buildBucketInstruction(bucket);
 
   const systemPrompt = `Elite JAMB Coach DNA:
 - Acc: 99.9% | Speed: 2x | Tone: Expert Mentor.
 - Context: ${questionContext}
 - Rules: 
   1. Truth Guardrail: If "sol" in context contradicts "a", trust "sol". 
-  2. Tone: Tactical mentor. Bold key terms. Max 2 brief paragraphs. Be punchy. No filler.
-  3. Speed Hack ⚡: Use only when it materially helps and keep it brief.
-  4. Scope: Answer the question at hand. Do not generate similar questions or follow-ups.`;
+  2. Tone: Tactical mentor. Bold key terms. Max 2 short paragraphs unless user asks for deeper detail.
+  3. Cost Discipline: Keep output concise, avoid repetition, and avoid unnecessary examples.
+  4. Scope: Answer the current question only; do not create extra practice questions unless user asks.
+  5. Mode: ${bucketInstruction}`;
 
   const groqMessages = [
     { role: "system", content: systemPrompt },
@@ -158,8 +252,8 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({
         model: "llama-3.3-70b-versatile",
         messages: groqMessages,
-        max_tokens: 800, // Increased room for deep explanations
-        temperature: 0.5,
+        max_tokens: 500,
+        temperature: 0.35,
         stream: true,
       }),
     },

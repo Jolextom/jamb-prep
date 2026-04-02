@@ -10,6 +10,23 @@ interface Message {
   content: string;
 }
 
+interface ContextPayload {
+  s?: string;
+  subject?: string;
+  topic?: string;
+  sub_topic?: string;
+  a?: string;
+  answer?: string;
+}
+
+interface WeakTopicStats {
+  count: number;
+  wrongAnswerCount: number;
+  confusionCount: number;
+  lastQuestionId: number;
+  lastSeenAt: string;
+}
+
 interface ChallengeOption {
   letter: "A" | "B" | "C" | "D";
   text: string;
@@ -38,6 +55,72 @@ export default function QuestionChat({ candidateName, questionContext, questionI
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const parsedContext: ContextPayload = (() => {
+    try {
+      if (typeof questionContext === "string" && questionContext.trim().startsWith("{")) {
+        return JSON.parse(questionContext) as ContextPayload;
+      }
+    } catch (e) { }
+    return {};
+  })();
+
+  const contextSubject = String(parsedContext.s || parsedContext.subject || "General").trim() || "General";
+  const contextTopic = String(parsedContext.topic || "Unknown Topic").trim() || "Unknown Topic";
+  const contextSubTopic = String(parsedContext.sub_topic || "Unknown Subtopic").trim() || "Unknown Subtopic";
+  const correctAnswer = String(parsedContext.a || parsedContext.answer || "").trim().toLowerCase();
+
+  const updateWeakTopicStorage = (reason: "wrong_option" | "confusion") => {
+    try {
+      const key = "jamb_weak_topics_v1";
+      const raw = localStorage.getItem(key);
+      const data: Record<string, WeakTopicStats> = raw ? JSON.parse(raw) : {};
+      const topicKey = `${contextSubject}::${contextTopic}::${contextSubTopic}`;
+      const previous = data[topicKey] || {
+        count: 0,
+        wrongAnswerCount: 0,
+        confusionCount: 0,
+        lastQuestionId: questionId,
+        lastSeenAt: new Date().toISOString(),
+      };
+
+      data[topicKey] = {
+        count: previous.count + 1,
+        wrongAnswerCount: previous.wrongAnswerCount + (reason === "wrong_option" ? 1 : 0),
+        confusionCount: previous.confusionCount + (reason === "confusion" ? 1 : 0),
+        lastQuestionId: questionId,
+        lastSeenAt: new Date().toISOString(),
+      };
+      localStorage.setItem(key, JSON.stringify(data));
+    } catch (e) { }
+  };
+
+  const maybeTrackWeakTopic = (text: string) => {
+    const normalized = text.toLowerCase();
+    const confusionSignals = [
+      "i don't understand",
+      "i dont understand",
+      "confused",
+      "explain again",
+      "still don't get",
+      "still dont get",
+      "hard for me",
+      "i am lost",
+      "why is",
+    ];
+
+    if (confusionSignals.some((signal) => normalized.includes(signal))) {
+      updateWeakTopicStorage("confusion");
+      return;
+    }
+
+    const optionMatch = normalized.match(/\b(option\s*)?([a-d])\b/);
+    if (!optionMatch || !correctAnswer) return;
+    const picked = optionMatch[2];
+    if (picked && picked !== correctAnswer) {
+      updateWeakTopicStorage("wrong_option");
+    }
+  };
+
   // Load history and draft when the question changes
   useEffect(() => {
     setMessages(history);
@@ -61,6 +144,8 @@ export default function QuestionChat({ candidateName, questionContext, questionI
   const sendSpecificMessage = async (overrideText?: string) => {
     const text = overrideText || input.trim();
     if (!text || isLoading || isAtLimit) return;
+
+    maybeTrackWeakTopic(text);
 
     // Clear draft for this question upon sending
     try {
@@ -96,6 +181,11 @@ export default function QuestionChat({ candidateName, questionContext, questionI
           messages: newMessages,
           questionContext,
           candidateName,
+          topicMeta: {
+            subject: contextSubject,
+            topic: contextTopic,
+            subTopic: contextSubTopic,
+          },
         }),
       });
 
