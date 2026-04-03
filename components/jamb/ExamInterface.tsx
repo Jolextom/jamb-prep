@@ -396,7 +396,7 @@ export default function ExamInterface({
   // Challenge Me: Find similar questions from the subject bank with deterministic scoring
   const similarCandidates = React.useMemo(() => {
     const pool = subjectQuestionBanks[currentSubject] || qbState[currentSubject] || [];
-    
+
     // Extract question texts already mentioned in chat to exclude
     const discussedQuestionTexts = new Set<string>();
     const allChatMessages = [
@@ -412,17 +412,17 @@ export default function ExamInterface({
         discussedQuestionTexts.add(normalized.slice(0, 150));
       }
     });
-    
+
     const others = pool.filter((q) => {
       if (q.id === currentQuestion.id) return false;
-      
+
       const qNorm = String(q.q || "")
         .toLowerCase()
         .replace(/<[^>]*>/g, " ")
         .replace(/\s+/g, " ")
         .trim()
         .slice(0, 150);
-      
+
       return !discussedQuestionTexts.has(qNorm);
     });
 
@@ -1063,6 +1063,7 @@ export default function ExamInterface({
                       s: currentSubject,
                       topic: currentQuestion.topic || "",
                       sub_topic: currentQuestion.sub_topic || "",
+                      yr: currentQuestion.yr || "",
                       q: currentQuestion.q,
                       o: currentQuestion.options,
                       a: currentQuestion.a,
