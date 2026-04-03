@@ -3,6 +3,24 @@ body { font-family: var(--font-outfit), Arial, Helvetica, sans-serif; font-size:
 
 .jamb-replica-root { min-height: 100vh; background: #e8e8e8; position: relative; }
 
+.tool-credit {
+  text-align: center;
+  padding: 10px 12px 14px;
+  color: #5f6b76;
+  font-size: 11px;
+  letter-spacing: 0.2px;
+}
+
+.tool-credit a {
+  color: #003366;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.tool-credit a:hover {
+  text-decoration: underline;
+}
+
 .jamb-header {
   background: #003366;
   color: white;

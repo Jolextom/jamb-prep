@@ -1116,6 +1116,13 @@ ${JSON.stringify(sessionData, null, 2)}`;
         aiModalOpen={aiModalOpen}
         closeAiModal={() => setAiModalOpen(false)}
       />
+
+      <div className="tool-credit" aria-label="Builder credit">
+        Built by Jolextom • {" "}
+        <a href="https://jolextom.com" target="_blank" rel="noopener noreferrer">
+          jolextom.com
+        </a>
+      </div>
     </div>
   );
 }
