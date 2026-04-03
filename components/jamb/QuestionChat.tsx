@@ -269,8 +269,22 @@ export default function QuestionChat({ candidateName, questionContext, questionI
   const userMessageCount = messages.filter((m) => m.role === "user").length;
   const isAtLimit = userMessageCount >= MAX_MESSAGES;
 
+  const resolveQuickChipIntent = (text: string) => {
+    const normalized = text.trim().toLowerCase();
+
+    if (normalized === "show me the trap") {
+      return "Explain the trap in this question: why my selected option is wrong, why the correct option is right, and how to avoid this trap next time. Do not ask me to choose an option again.";
+    }
+
+    if (normalized === "explain the correct answer") {
+      return "Explain the correct answer clearly using this exact question context. Do not convert this into a new quiz question.";
+    }
+
+    return text;
+  };
+
   const sendSpecificMessage = async (overrideText?: string) => {
-    const text = overrideText || input.trim();
+    const text = overrideText ? resolveQuickChipIntent(overrideText) : input.trim();
     if (!text || isLoading || isAtLimit) return;
 
     maybeTrackWeakTopic(text);
