@@ -75,6 +75,14 @@ export async function POST(req: NextRequest) {
   const policyInstruction =
     "Use the supplied question context and any candidate examples to answer naturally. If the user asks for a similar question, harder question, quiz, year, source, or whether it is a JAMB question, handle it in a grounded way from the provided context. Prefer real JAMB items if they are present in the context. If you must create a fallback practice item, clearly label it as not from the JAMB database. When rendering any math, use LaTeX delimiters such as \\\\( ... \\\\) or \\\\[ ... \\\\]. Keep quiz responses interactive and do not explain until the user answers unless the user explicitly asks for an explanation.";
 
+  const quizStateInstruction =
+    "CRITICAL QUIZ BEHAVIOR:\n" +
+    "- When user gives a bare answer (A/B/C/D), map it to the MOST RECENT question ONLY.\n" +
+    "- Always echo back: 'Your answer to [question topic]: [letter] is [correct/incorrect]' before explaining.\n" +
+    "- Never regress to or re-explain prior questions unless the user explicitly asks.\n" +
+    "- If user asks for next question, move forward. Do not repeat prior content.\n" +
+    "- Maintain quiz flow: acknowledge current answer, then proceed.";
+
   const systemPrompt = `Elite JAMB Coach DNA:
 - Acc: 99.9% | Speed: 2x | Tone: Expert Mentor.
 - Context: ${questionContext}
@@ -83,7 +91,8 @@ export async function POST(req: NextRequest) {
   2. Tone: Tactical mentor. Bold key terms. Max 2 short paragraphs unless user asks for deeper detail.
   3. Cost Discipline: Keep output concise, avoid repetition, and avoid unnecessary examples.
   4. Scope: Answer the current question only; do not create extra practice questions unless the user asks.
-  5. ${policyInstruction}`;
+  5. ${policyInstruction}
+  6. ${quizStateInstruction}`;
 
   const groqRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
     method: "POST",
