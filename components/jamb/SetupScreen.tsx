@@ -306,6 +306,25 @@ export default function SetupScreen({
                   boxShadow: "inset 0 2px 4px rgba(0,0,0,0.02)"
                 }}
               />
+              {candidateName.trim().length > 0 && (
+                <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "10px" }}>
+                  <button
+                    onClick={handleOpenSessionHistory}
+                    style={{
+                      background: "white",
+                      color: "#003366",
+                      border: "2px solid #00336655",
+                      padding: "10px 18px",
+                      borderRadius: "30px",
+                      fontSize: "12px",
+                      fontWeight: "900",
+                      cursor: "pointer"
+                    }}
+                  >
+                    {hasSessionHistory ? "Check My Session History" : "Check Session History"}
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -565,23 +584,6 @@ export default function SetupScreen({
             >
               Help us improve! Send feedback or request a feature
             </button>
-            {hasSessionHistory && (
-              <button
-                onClick={handleOpenSessionHistory}
-                style={{
-                  background: "white",
-                  color: "#003366",
-                  border: "2px solid #00336655",
-                  padding: "12px 24px",
-                  borderRadius: "30px",
-                  fontSize: "13px",
-                  fontWeight: "900",
-                  cursor: "pointer"
-                }}
-              >
-                Check My Session History
-              </button>
-            )}
           </div>
         </div>
       </div>
