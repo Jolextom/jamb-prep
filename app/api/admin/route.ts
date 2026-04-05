@@ -70,6 +70,7 @@ interface ReportItem {
 interface PerformanceItem {
   name: string;
   mode: "EXAM" | "PRACTICE";
+  status?: "COMPLETED" | "INCOMPLETE";
   score: number;
   jambScore: number;
   breakdown: string[];
@@ -78,6 +79,8 @@ interface PerformanceItem {
   date: string;
   totalQuestions?: number;
   answeredCount?: number;
+  candidateId?: string;
+  clientSessionId?: string;
   pid?: string;
 }
 
@@ -174,7 +177,9 @@ export async function GET(req: NextRequest) {
         .replace(/[^a-zA-Z0-9]/g, "_");
 
       // Remove current epoch key and legacy key variants.
-      await redis.del(`jolextom_rate_limit_v${Number.isFinite(epoch) && epoch > 0 ? epoch : 1}_${cleanName}`);
+      await redis.del(
+        `jolextom_rate_limit_v${Number.isFinite(epoch) && epoch > 0 ? epoch : 1}_${cleanName}`,
+      );
       await redis.del(`jolextom_rate_limit_${cleanName}`);
       await redis.del(`jolextom_rate_limit_${fallbackLegacyName}`);
       await redisSet(data);

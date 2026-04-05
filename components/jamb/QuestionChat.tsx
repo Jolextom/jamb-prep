@@ -197,6 +197,12 @@ export default function QuestionChat({ candidateName, questionContext, questionI
     return text;
   };
 
+  const normalizePlainCdot = (raw: string) => {
+    if (!raw) return "";
+    // Fallback for malformed model output like "pcdotq" or "qcdotp".
+    return raw.replace(/([A-Za-z0-9)\]])\s*\\?cdot\s*([A-Za-z0-9(\[])/g, "$1 · $2");
+  };
+
   const updateWeakTopicStorage = (reason: "wrong_option" | "confusion") => {
     try {
       const key = "jamb_weak_topics_v1";
@@ -593,7 +599,7 @@ export default function QuestionChat({ candidateName, questionContext, questionI
               : { options: [], cleanedContent: m.content };
             const optionsMatches = parsedChallenge.options;
             const assistantContent = isAssistant
-              ? renderMathSegments(
+              ? normalizePlainCdot(renderMathSegments(
                 (isChallengeMessage(m.content)
                   ? parsedChallenge.cleanedContent
                     .replace(/\[!TIP\]/g, "💡")
@@ -603,7 +609,7 @@ export default function QuestionChat({ candidateName, questionContext, questionI
                   : m.content
                     .replace(/\[!IMPORTANT\]/g, "🚨")
                     .replace(/\[!WARNING\]/g, "⚠️"))
-              )
+              ))
               : m.content;
 
             return (

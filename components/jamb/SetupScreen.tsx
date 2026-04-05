@@ -10,7 +10,6 @@ interface SetupScreenProps {
   setSessionMode: (v: 'EXAM' | 'PRACTICE') => void;
   startExam: () => void;
   resumeExam: () => void;
-  enterReview: () => void;
   hasSavedSession: boolean;
   isLoading: boolean;
   fetchError: string | null;
@@ -18,6 +17,8 @@ interface SetupScreenProps {
   availableCounts: Record<string, number>;
   isDataReady: boolean;
   candidateName: string;
+  candidateId: string;
+  onOpenSessionFromHistory?: (sessionId: string) => void;
   setCandidateName: (v: string) => void;
   startExamWithTime?: (timeSecs: number) => void;
 }
@@ -29,7 +30,6 @@ export default function SetupScreen({
   setSessionMode,
   startExam,
   resumeExam,
-  enterReview,
   hasSavedSession,
   isLoading,
   fetchError,
@@ -37,6 +37,8 @@ export default function SetupScreen({
   availableCounts,
   isDataReady,
   candidateName,
+  candidateId,
+  onOpenSessionFromHistory,
   setCandidateName,
   startExamWithTime
 }: SetupScreenProps) {
@@ -174,6 +176,42 @@ export default function SetupScreen({
   const [feedbackType, setFeedbackType] = React.useState("Feature Request");
   const [feedbackComment, setFeedbackComment] = React.useState("");
   const [isSending, setIsSending] = React.useState(false);
+  const [sessionHistoryOpen, setSessionHistoryOpen] = React.useState(false);
+  const [isLoadingSessionHistory, setIsLoadingSessionHistory] = React.useState(false);
+  const [sessionHistoryError, setSessionHistoryError] = React.useState("");
+  const [sessionHistorySummary, setSessionHistorySummary] = React.useState({
+    totalItems: 0,
+    sessionResults: 0,
+    sessionStarts: 0,
+    examResults: 0,
+    practiceResults: 0,
+  });
+  const [sessionHistory, setSessionHistory] = React.useState<Array<{ title: string; summary: string; timestamp: string; subjects: string[]; sessionId?: string; status?: string }>>([]);
+  const [hasSessionHistory, setHasSessionHistory] = React.useState(false);
+
+  React.useEffect(() => {
+    const cleanName = candidateName.trim();
+    if (!cleanName) {
+      setHasSessionHistory(false);
+      return;
+    }
+
+    const timer = window.setTimeout(async () => {
+      try {
+        const res = await fetch(`/api/session-history?name=${encodeURIComponent(cleanName)}&cid=${encodeURIComponent(candidateId)}&summaryOnly=1`);
+        if (!res.ok) {
+          setHasSessionHistory(false);
+          return;
+        }
+        const data = await res.json();
+        setHasSessionHistory(Number(data?.summary?.totalItems || 0) > 0);
+      } catch {
+        setHasSessionHistory(false);
+      }
+    }, 400);
+
+    return () => window.clearTimeout(timer);
+  }, [candidateName, candidateId]);
 
   const handleFeedbackSubmit = async () => {
     setIsSending(true);
@@ -190,10 +228,43 @@ export default function SetupScreen({
       alert("Feedback received! Thank you for your support.");
       setFeedbackOpen(false);
       setFeedbackComment("");
-    } catch (e) {
+    } catch {
       alert("Failed to send. Please try again.");
     } finally {
       setIsSending(false);
+    }
+  };
+
+  const handleOpenSessionHistory = async () => {
+    const cleanName = candidateName.trim();
+    if (!cleanName) {
+      alert("Please enter your candidate name first.");
+      return;
+    }
+
+    setSessionHistoryOpen(true);
+    setSessionHistoryError("");
+    setIsLoadingSessionHistory(true);
+
+    try {
+      const res = await fetch(`/api/session-history?name=${encodeURIComponent(cleanName)}&cid=${encodeURIComponent(candidateId)}`);
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data?.error || "Could not load session history.");
+      }
+      setSessionHistorySummary({
+        totalItems: Number(data?.summary?.totalItems || 0),
+        sessionResults: Number(data?.summary?.sessionResults || 0),
+        sessionStarts: Number(data?.summary?.sessionStarts || 0),
+        examResults: Number(data?.summary?.examResults || 0),
+        practiceResults: Number(data?.summary?.practiceResults || 0),
+      });
+      setSessionHistory(Array.isArray(data?.items) ? data.items : []);
+    } catch (e) {
+      setSessionHistory([]);
+      setSessionHistoryError(e instanceof Error ? e.message : "Could not load session history.");
+    } finally {
+      setIsLoadingSessionHistory(false);
     }
   };
 
@@ -494,6 +565,23 @@ export default function SetupScreen({
             >
               Help us improve! Send feedback or request a feature
             </button>
+            {hasSessionHistory && (
+              <button
+                onClick={handleOpenSessionHistory}
+                style={{
+                  background: "white",
+                  color: "#003366",
+                  border: "2px solid #00336655",
+                  padding: "12px 24px",
+                  borderRadius: "30px",
+                  fontSize: "13px",
+                  fontWeight: "900",
+                  cursor: "pointer"
+                }}
+              >
+                Check My Session History
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -539,6 +627,79 @@ export default function SetupScreen({
                 disabled={isSending || !feedbackComment.trim()}
               >
                 {isSending ? "Sending..." : "Submit Feedback"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {sessionHistoryOpen && (
+        <div className="modal-bg open">
+          <div className="modal-box" style={{ textAlign: "left" }}>
+            <h3>My JAMB Session History</h3>
+            <p>Recent score records for {candidateName.trim() || "your candidate name"}.</p>
+
+            {!isLoadingSessionHistory && !sessionHistoryError && (
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: "8px", marginBottom: "10px" }}>
+                <div style={{ padding: "8px", border: "1px solid #e2e8f0", borderRadius: "8px", fontSize: "12px", fontWeight: "700" }}>Results: {sessionHistorySummary.sessionResults}</div>
+                <div style={{ padding: "8px", border: "1px solid #e2e8f0", borderRadius: "8px", fontSize: "12px", fontWeight: "700" }}>Exam: {sessionHistorySummary.examResults}</div>
+                <div style={{ padding: "8px", border: "1px solid #e2e8f0", borderRadius: "8px", fontSize: "12px", fontWeight: "700" }}>Practice: {sessionHistorySummary.practiceResults}</div>
+              </div>
+            )}
+
+            {isLoadingSessionHistory && (
+              <div style={{ padding: "12px", borderRadius: "8px", background: "#f8fafc", border: "1px solid #e2e8f0", fontWeight: "700" }}>
+                Loading your session history...
+              </div>
+            )}
+
+            {!isLoadingSessionHistory && sessionHistoryError && (
+              <div style={{ padding: "12px", borderRadius: "8px", background: "#fef2f2", border: "1px solid #fecaca", color: "#b91c1c", fontWeight: "700" }}>
+                {sessionHistoryError}
+              </div>
+            )}
+
+            {!isLoadingSessionHistory && !sessionHistoryError && sessionHistory.length === 0 && (
+              <div style={{ padding: "12px", borderRadius: "8px", background: "#f8fafc", border: "1px solid #e2e8f0", color: "#475569", fontWeight: "600" }}>
+                No session history found for this name yet.
+              </div>
+            )}
+
+            {!isLoadingSessionHistory && !sessionHistoryError && sessionHistory.length > 0 && (
+              <div style={{ display: "grid", gap: "10px", maxHeight: "320px", overflowY: "auto", marginTop: "8px" }}>
+                {sessionHistory.map((item, idx) => (
+                  <div key={`${item.timestamp}-${idx}`} style={{ border: "1px solid #e2e8f0", borderRadius: "10px", padding: "12px", background: "#ffffff" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "10px", marginBottom: "8px" }}>
+                      <strong style={{ fontSize: "12px", color: "#003366" }}>{item.title}</strong>
+                      <span style={{ fontSize: "11px", color: "#64748b", fontWeight: "700" }}>{item.timestamp || "Unknown time"}</span>
+                    </div>
+                    <p style={{ margin: 0, color: "#1e293b", fontSize: "13px", lineHeight: 1.45 }}>{item.summary || "(No details available)"}</p>
+                    {item.subjects && item.subjects.length > 0 && (
+                      <p style={{ margin: "6px 0 0", color: "#64748b", fontSize: "12px", lineHeight: 1.35 }}>
+                        Subjects: {item.subjects.join(", ")}
+                      </p>
+                    )}
+                    {item.sessionId && onOpenSessionFromHistory && (
+                      <button
+                        className="nav-btn"
+                        onClick={() => {
+                          onOpenSessionFromHistory(item.sessionId || "");
+                          setSessionHistoryOpen(false);
+                        }}
+                        style={{ marginTop: "8px", padding: "8px 12px", fontSize: "12px", fontWeight: "800", textTransform: "uppercase", border: "1px solid #00336644", color: "#003366", background: "#ffffff" }}
+                      >
+                        Open Session
+                      </button>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <div className="modal-btns" style={{ marginTop: "16px" }}>
+              <button className="modal-cancel" onClick={() => setSessionHistoryOpen(false)}>Close</button>
+              <button className="modal-confirm" style={{ background: "#003366" }} onClick={handleOpenSessionHistory}>
+                Refresh
               </button>
             </div>
           </div>

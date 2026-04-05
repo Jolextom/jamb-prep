@@ -3,7 +3,7 @@ import { Redis } from "@upstash/redis";
 
 const redis = Redis.fromEnv();
 
-async function checkAndIncrementUserRate(name: string, question: string): Promise<boolean> {
+async function checkAndIncrementUserRate(name: string): Promise<boolean> {
   const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
   if (!url) return true;
 
@@ -12,24 +12,8 @@ async function checkAndIncrementUserRate(name: string, question: string): Promis
     .toLowerCase()
     .replace(/[^a-z0-9]/g, "_");
   const epochKey = "jolextom_rate_limit_epoch";
-  const historyKey = "jolextom_chat_history_v2";
 
   try {
-    const time = new Date().toLocaleTimeString("en-NG", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-
-    await redis.lpush(
-      historyKey,
-      JSON.stringify({
-        name: name || "Unknown",
-        time,
-        question: question.substring(0, 100),
-      }),
-    );
-    await redis.ltrim(historyKey, 0, 99);
-
     const epochRaw = await redis.get(epochKey);
     let epoch = Number(epochRaw || 1);
     if (!Number.isFinite(epoch) || epoch < 1) {
@@ -57,9 +41,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  const userQuery = messages.length > 0 ? messages[messages.length - 1].content : "Started chat";
-
-  if (!(await checkAndIncrementUserRate(candidateName, userQuery))) {
+  if (!(await checkAndIncrementUserRate(candidateName))) {
     return NextResponse.json(
       { error: "Daily usage limit reached. Please try again tomorrow." },
       { status: 429 },
@@ -68,7 +50,10 @@ export async function POST(req: NextRequest) {
 
   const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) {
-    return NextResponse.json({ error: "AI service not configured." }, { status: 500 });
+    return NextResponse.json(
+      { error: "AI service not configured." },
+      { status: 500 },
+    );
   }
 
   const recentMessages = messages.slice(-4);
@@ -94,25 +79,34 @@ export async function POST(req: NextRequest) {
   5. ${policyInstruction}
   6. ${quizStateInstruction}`;
 
-  const groqRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${apiKey}`,
+  const groqRes = await fetch(
+    "https://api.groq.com/openai/v1/chat/completions",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: "llama-3.3-70b-versatile",
+        messages: [
+          { role: "system", content: systemPrompt },
+          ...recentMessages,
+        ],
+        max_tokens: 500,
+        temperature: 0.35,
+        stream: true,
+      }),
     },
-    body: JSON.stringify({
-      model: "llama-3.3-70b-versatile",
-      messages: [{ role: "system", content: systemPrompt }, ...recentMessages],
-      max_tokens: 500,
-      temperature: 0.35,
-      stream: true,
-    }),
-  });
+  );
 
   if (!groqRes.ok) {
     const err = await groqRes.text();
     console.error("Groq error:", err);
-    return NextResponse.json({ error: "AI service error. Please try again." }, { status: 502 });
+    return NextResponse.json(
+      { error: "AI service error. Please try again." },
+      { status: 502 },
+    );
   }
 
   return new NextResponse(groqRes.body, {

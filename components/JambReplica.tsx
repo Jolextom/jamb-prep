@@ -19,6 +19,38 @@ import Modals from "./jamb/Modals";
 import "./jamb-replica.css";
 import useCheckUpdate from "@/lib/hooks/useCheckUpdate";
 
+function generateStableId(prefix: string) {
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    return `${prefix}_${crypto.randomUUID()}`;
+  }
+  return `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
+}
+
+const SESSION_ARCHIVE_KEY = "jamb_session_archive_v1";
+const MAX_ARCHIVED_SESSIONS = 30;
+
+type SessionSnapshotStatus = "IN_PROGRESS" | "INCOMPLETE" | "COMPLETED";
+
+interface ArchivedSessionSnapshot {
+  qbState: Record<string, Question[]>;
+  activeSubjects: string[];
+  answers: Record<string, string>;
+  totalSecs: number;
+  curSubIdx: number;
+  curQIdx: number;
+  sessionMode: "EXAM" | "PRACTICE";
+  configs: SubjectConfigs;
+  candidateName: string;
+  candidateId: string;
+  currentSessionId: string;
+  status: SessionSnapshotStatus;
+  updatedAt: string;
+  finalScore?: number;
+  jambScore?: number;
+  breakdown?: string[];
+  reviewAnswers?: Record<string, string>;
+}
+
 export default function JambReplica() {
   // Navigation State
   const [view, setView] = useState<'SETUP' | 'EXAM' | 'REVIEW'>('SETUP');
@@ -39,11 +71,26 @@ export default function JambReplica() {
     }
     return "";
   });
+  const [candidateId, setCandidateId] = useState(() => {
+    if (typeof window !== "undefined") {
+      const existing = localStorage.getItem("jamb_candidate_id");
+      if (existing) return existing;
+      const created = generateStableId("cand");
+      localStorage.setItem("jamb_candidate_id", created);
+      return created;
+    }
+    return "";
+  });
 
   // Sync name to local storage
   useEffect(() => {
     localStorage.setItem("jamb_candidate_name", candidateName);
   }, [candidateName]);
+
+  useEffect(() => {
+    if (!candidateId) return;
+    localStorage.setItem("jamb_candidate_id", candidateId);
+  }, [candidateId]);
 
   // Exam States
   const [activeSubjects, setActiveSubjects] = useState<string[]>([]);
@@ -53,6 +100,7 @@ export default function JambReplica() {
   const [fullPool, setFullPool] = useState<Question[]>([]); // For context injection
   const [totalSecs, setTotalSecs] = useState(0);
   const [timerRunning, setTimerRunning] = useState(false);
+  const [currentSessionId, setCurrentSessionId] = useState("");
 
   // API State
   const [isLoading, setIsLoading] = useState(false);
@@ -112,6 +160,115 @@ export default function JambReplica() {
 
   const key = useCallback((sIdx: number, qIdx: number) => `${sIdx}-${qIdx}`, []);
 
+  const readSessionArchive = useCallback((): Record<string, ArchivedSessionSnapshot> => {
+    if (typeof window === "undefined") return {};
+    try {
+      const raw = localStorage.getItem(SESSION_ARCHIVE_KEY);
+      if (!raw) return {};
+      const parsed = JSON.parse(raw);
+      if (!parsed || typeof parsed !== "object") return {};
+      return parsed as Record<string, ArchivedSessionSnapshot>;
+    } catch {
+      return {};
+    }
+  }, []);
+
+  const writeSessionArchive = useCallback((archive: Record<string, ArchivedSessionSnapshot>) => {
+    if (typeof window === "undefined") return;
+    const prunedEntries = Object.entries(archive)
+      .sort((a, b) => {
+        const aTime = Date.parse(a[1]?.updatedAt || "");
+        const bTime = Date.parse(b[1]?.updatedAt || "");
+        if (Number.isNaN(aTime) || Number.isNaN(bTime)) return 0;
+        return bTime - aTime;
+      })
+      .slice(0, MAX_ARCHIVED_SESSIONS);
+    localStorage.setItem(SESSION_ARCHIVE_KEY, JSON.stringify(Object.fromEntries(prunedEntries)));
+  }, []);
+
+  const persistSessionSnapshot = useCallback((status: SessionSnapshotStatus, overrides?: Partial<ArchivedSessionSnapshot>) => {
+    if (!currentSessionId || typeof window === "undefined") return;
+    const archive = readSessionArchive();
+    archive[currentSessionId] = {
+      qbState,
+      activeSubjects,
+      answers,
+      totalSecs,
+      curSubIdx,
+      curQIdx,
+      sessionMode,
+      configs,
+      candidateName,
+      candidateId,
+      currentSessionId,
+      status,
+      updatedAt: new Date().toISOString(),
+      ...(overrides || {}),
+    };
+    writeSessionArchive(archive);
+  }, [
+    currentSessionId,
+    qbState,
+    activeSubjects,
+    answers,
+    totalSecs,
+    curSubIdx,
+    curQIdx,
+    sessionMode,
+    configs,
+    candidateName,
+    candidateId,
+    readSessionArchive,
+    writeSessionArchive,
+  ]);
+
+  const openSessionFromHistory = useCallback((sessionId: string) => {
+    const cleanSessionId = (sessionId || "").trim();
+    if (!cleanSessionId) {
+      alert("This session cannot be opened because its ID is missing.");
+      return;
+    }
+
+    const archive = readSessionArchive();
+    const snapshot = archive[cleanSessionId];
+    if (!snapshot) {
+      alert("This session cannot be reopened on this device yet.");
+      return;
+    }
+
+    if (snapshot.candidateId && candidateId && snapshot.candidateId !== candidateId) {
+      alert("This session belongs to a different candidate profile on this device.");
+      return;
+    }
+
+    setQbState(snapshot.qbState || {});
+    setActiveSubjects(snapshot.activeSubjects || []);
+    setAnswers(snapshot.answers || {});
+    setTotalSecs(Number(snapshot.totalSecs || 0));
+    setCurSubIdx(snapshot.curSubIdx ?? 0);
+    setCurQIdx(snapshot.curQIdx ?? 0);
+    setSessionMode(snapshot.sessionMode || "PRACTICE");
+    setConfigs(snapshot.configs || configs);
+    setCandidateName(snapshot.candidateName || candidateName || "");
+    setCandidateId(snapshot.candidateId || candidateId || generateStableId("cand"));
+    setCurrentSessionId(snapshot.currentSessionId || cleanSessionId);
+    setFinalScore(Number(snapshot.finalScore || 0));
+    setJambScore(Number(snapshot.jambScore || 0));
+    setBreakdown(Array.isArray(snapshot.breakdown) ? snapshot.breakdown : []);
+
+    const isCompleted = snapshot.status === "COMPLETED";
+    setIsFinished(isCompleted);
+    setIsReview(isCompleted);
+    setReviewAnswers(isCompleted ? (snapshot.reviewAnswers || snapshot.answers || {}) : {});
+    setResultModalOpen(false);
+    setEndModalOpen(false);
+    setResumePromptOpen(false);
+    setHasSavedSession(false);
+    setExamStarted(true);
+    setView("EXAM");
+    setTimerRunning(!isCompleted && snapshot.sessionMode === "EXAM" && Number(snapshot.totalSecs || 0) > 0);
+  }, [candidateId, candidateName, configs, readSessionArchive]);
+
   const loadSubjectData = useCallback(async (slug: string) => {
     const cached = subjectDataCacheRef.current[slug];
     if (cached) return cached;
@@ -138,7 +295,11 @@ export default function JambReplica() {
       await fetch("/api/admin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type, name: candidateName, detail }),
+        body: JSON.stringify({
+          type,
+          name: candidateName,
+          detail,
+        }),
       });
     } catch (e) {
       console.warn("Tracking failed", e);
@@ -165,11 +326,14 @@ export default function JambReplica() {
         curQIdx,
         sessionMode,
         configs,
-        candidateName
+        candidateName,
+        candidateId,
+        currentSessionId,
       };
       localStorage.setItem("jamb_prep_session", JSON.stringify(session));
+      persistSessionSnapshot("IN_PROGRESS");
     }
-  }, [examStarted, isFinished, qbState, activeSubjects, answers, totalSecs, curSubIdx, curQIdx, sessionMode, configs]);
+  }, [examStarted, isFinished, qbState, activeSubjects, answers, totalSecs, curSubIdx, curQIdx, sessionMode, configs, candidateName, candidateId, currentSessionId, persistSessionSnapshot]);
 
   // Load Full Pool for context injection (Mastery Mode)
   useEffect(() => {
@@ -189,13 +353,40 @@ export default function JambReplica() {
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       if (examStarted && !isFinished) {
+        const incompleteDetail = {
+          mode: sessionMode,
+          status: "INCOMPLETE" as const,
+          score: 0,
+          jambScore: 0,
+          breakdown: [],
+          subjects: activeSubjects,
+          totalQuestions: Object.values(qbState).reduce((acc, qs) => acc + qs.length, 0),
+          answeredCount: Object.keys(answers).length,
+          candidateId,
+          clientSessionId: currentSessionId,
+          quitReason: "reload_or_exit",
+        };
+
+        persistSessionSnapshot("INCOMPLETE");
+
+        try {
+          const payload = JSON.stringify({
+            type: "performance",
+            name: candidateName,
+            detail: incompleteDetail,
+          });
+          navigator.sendBeacon("/api/admin", new Blob([payload], { type: "application/json" }));
+        } catch {
+          // Ignore send-beacon failure during unload.
+        }
+
         e.preventDefault();
         e.returnValue = "";
       }
     };
     window.addEventListener("beforeunload", handleBeforeUnload);
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
-  }, [examStarted, isFinished]);
+  }, [examStarted, isFinished, sessionMode, activeSubjects, qbState, answers, candidateName, candidateId, currentSessionId, persistSessionSnapshot]);
 
   // Check for saved session on mount
   useEffect(() => {
@@ -218,6 +409,8 @@ export default function JambReplica() {
         setSessionMode(session.sessionMode || (session.isExamMode ? 'EXAM' : 'PRACTICE'));
         setConfigs(session.configs);
         setCandidateName(session.candidateName || localStorage.getItem("jamb_candidate_name") || "");
+        setCandidateId(session.candidateId || localStorage.getItem("jamb_candidate_id") || generateStableId("cand"));
+        setCurrentSessionId(session.currentSessionId || generateStableId("sess"));
         setCurSubIdx(session.curSubIdx ?? 0);
         setCurQIdx(session.curQIdx ?? 0);
         setExamStarted(true);
@@ -641,6 +834,9 @@ export default function JambReplica() {
         setTimerRunning(false);
       }
 
+      const newSessionId = generateStableId("sess");
+      setCurrentSessionId(newSessionId);
+
       setFetchError(null);
       setView('EXAM');
       setExamStarted(true);
@@ -711,6 +907,12 @@ export default function JambReplica() {
       setDiagnosticJSON(JSON.stringify(diagnosticPayload, null, 2));
       setIsFinished(true);
       setResultModalOpen(true);
+      persistSessionSnapshot("COMPLETED", {
+        finalScore: correct,
+        jambScore: calculatedJamb,
+        breakdown: resBreakdown,
+        reviewAnswers: answers,
+      });
 
       // Send practice session performance to admin
       fetch("/api/admin", {
@@ -721,12 +923,15 @@ export default function JambReplica() {
           name: candidateName,
           detail: {
             mode: sessionMode,
+            status: "COMPLETED",
             score: correct,
             jambScore: calculatedJamb,
             breakdown: resBreakdown,
             subjects: activeSubjects,
             totalQuestions: total,
-            answeredCount: Object.keys(answers).length
+            answeredCount: Object.keys(answers).length,
+            candidateId,
+            clientSessionId: currentSessionId,
           }
         })
       }).catch(err => console.log("Admin perf submit skipped:", err));
@@ -767,6 +972,12 @@ export default function JambReplica() {
     setBreakdown(resBreakdown);
     setDiagnosticJSON(JSON.stringify(diagnosticPayload, null, 2));
     setIsFinished(true);
+    persistSessionSnapshot("COMPLETED", {
+      finalScore: correct,
+      jambScore: calculatedJamb,
+      breakdown: resBreakdown,
+      reviewAnswers: answers,
+    });
 
     // Send performance data to admin dashboard
     fetch("/api/admin", {
@@ -777,12 +988,15 @@ export default function JambReplica() {
         name: candidateName,
         detail: {
           mode: sessionMode,
+          status: "COMPLETED",
           score: correct,
           jambScore: calculatedJamb,
           breakdown: resBreakdown,
           subjects: activeSubjects,
           totalQuestions: total,
-          answeredCount: Object.keys(answers).length
+          answeredCount: Object.keys(answers).length,
+          candidateId,
+          clientSessionId: currentSessionId,
         }
       })
     }).catch(err => console.log("Admin perf submit skipped:", err));
@@ -795,7 +1009,7 @@ export default function JambReplica() {
     setCurQIdx(0);
     localStorage.removeItem("jamb_prep_session");
     localStorage.removeItem("jamb_prep_chats"); // Clear chats on finish
-  }, [answers, qbState, activeSubjects, key]);
+  }, [answers, qbState, activeSubjects, key, sessionMode, candidateName, candidateId, currentSessionId, persistSessionSnapshot]);
 
   // Timer
   useEffect(() => {
@@ -1009,6 +1223,7 @@ ${JSON.stringify(sessionData, null, 2)}`;
     setCurQIdx(0);
     setIsReview(false);
     setReviewAnswers({});
+    setCurrentSessionId("");
     setView('SETUP');
   };
 
@@ -1024,7 +1239,6 @@ ${JSON.stringify(sessionData, null, 2)}`;
             startExam={() => startExam()}
             startExamWithTime={(t) => startExam(t)}
             resumeExam={resumeExam}
-            enterReview={() => setAiModalOpen(true)}
             hasSavedSession={hasSavedSession}
             isLoading={isLoading}
             fetchError={fetchError}
@@ -1032,6 +1246,8 @@ ${JSON.stringify(sessionData, null, 2)}`;
             availableCounts={availableCounts}
             isDataReady={isDataReady}
             candidateName={candidateName}
+            candidateId={candidateId}
+            onOpenSessionFromHistory={openSessionFromHistory}
             setCandidateName={setCandidateName}
           />
         </div>

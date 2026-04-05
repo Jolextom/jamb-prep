@@ -454,8 +454,6 @@ export default function ExamInterface({
     const currentTopic = String(currentQuestion.topic || "").toLowerCase();
     const currentSubTopic = String(currentQuestion.sub_topic || "").toLowerCase();
 
-    const exactMatches = others.filter((q) => normalizeForSimilarity(q.q || "") === currentNormQ);
-
     const scored = others.map((q) => {
       const qNorm = normalizeForSimilarity(q.q || "");
       const qTokens = toTokenSet(q.q || "");
