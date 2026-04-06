@@ -1,11 +1,27 @@
 {
+  "accounting": 885,
+  "agric": 631,
+  "arabic": 80,
   "biology": 1018,
   "chemistry": 1009,
+  "commerce": 963,
+  "computerstudies": 293,
   "crk": 973,
   "economics": 986,
   "english": 1685,
   "englishlit": 843,
+  "finearts": 130,
+  "french": 261,
+  "geography": 954,
   "government": 889,
+  "hausa": 400,
+  "history": 641,
+  "homeeconomics": 400,
+  "igbo": 285,
+  "irk": 857,
   "mathematics": 841,
-  "physics": 989
+  "music": 83,
+  "physicaleducation": 333,
+  "physics": 989,
+  "yoruba": 79
 }
