@@ -84,6 +84,12 @@ interface PerformanceItem {
   pid?: string;
 }
 
+function performanceTimestamp(item: Partial<PerformanceItem>) {
+  const value = `${item.date || ""} ${item.time || ""}`.trim();
+  const parsed = Date.parse(value);
+  return Number.isNaN(parsed) ? 0 : parsed;
+}
+
 async function redisGet(): Promise<RateData | null> {
   const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
   if (!url) return null;
@@ -720,10 +726,48 @@ export async function POST(req: NextRequest) {
       ].slice(0, 50);
     } else if (type === "performance") {
       const pid = Math.random().toString(36).substring(2, 9).toUpperCase();
-      data.performances = [
-        { ...detail, pid, time, date: today, name: name || "Candidate" },
-        ...(data.performances || []),
-      ].slice(0, 100);
+      const incoming: PerformanceItem = {
+        ...(detail as PerformanceItem),
+        pid,
+        time,
+        date: today,
+        name: name || "Candidate",
+      };
+      const existingPerformances = data.performances || [];
+      const incomingName = normalizeUserKey(incoming.name || "");
+      const incomingSessionId = (incoming.clientSessionId || "").trim();
+      const incomingCandidateId = (incoming.candidateId || "").trim();
+
+      const existingIdx = existingPerformances.findIndex((entry) => {
+        const sameName = normalizeUserKey(entry.name || "") === incomingName;
+        if (!sameName) return false;
+
+        const entrySessionId = (entry.clientSessionId || "").trim();
+        if (!incomingSessionId || !entrySessionId) return false;
+        if (entrySessionId !== incomingSessionId) return false;
+
+        const entryCandidateId = (entry.candidateId || "").trim();
+        if (incomingCandidateId && entryCandidateId) {
+          return entryCandidateId === incomingCandidateId;
+        }
+        return true;
+      });
+
+      if (existingIdx >= 0) {
+        const existing = existingPerformances[existingIdx];
+        const merged = {
+          ...existing,
+          ...incoming,
+          status: incoming.status || existing.status,
+        };
+
+        existingPerformances[existingIdx] = merged;
+        data.performances = [...existingPerformances]
+          .sort((a, b) => performanceTimestamp(b) - performanceTimestamp(a))
+          .slice(0, 100);
+      } else {
+        data.performances = [incoming, ...existingPerformances].slice(0, 100);
+      }
     } else {
       if (type === "chat") data.count = (data.count || 0) + 1;
       if (type === "session") data.sessionCount = (data.sessionCount || 0) + 1;

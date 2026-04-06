@@ -40,6 +40,22 @@ function normalizeUserKey(name: string) {
     .replace(/[^a-z0-9]/g, "_");
 }
 
+function parsePerformanceTime(item: Pick<PerformanceItem, "date" | "time">) {
+  const ts = Date.parse(`${item.date || ""} ${item.time || ""}`.trim());
+  return Number.isNaN(ts) ? 0 : ts;
+}
+
+function shouldReplacePerformance(current: PerformanceItem, candidate: PerformanceItem) {
+  const currentStatus = current.status || "COMPLETED";
+  const candidateStatus = candidate.status || "COMPLETED";
+
+  // If a session moved from incomplete to completed, keep the completed record.
+  if (currentStatus !== "COMPLETED" && candidateStatus === "COMPLETED") return true;
+  if (currentStatus === "COMPLETED" && candidateStatus !== "COMPLETED") return false;
+
+  return parsePerformanceTime(candidate) >= parsePerformanceTime(current);
+}
+
 async function readRateData(): Promise<RateData> {
   const hasRedis = !!(
     process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL
@@ -97,11 +113,30 @@ export async function GET(req: NextRequest) {
 
   const normalizedName = normalizeUserKey(name);
 
-  const performances = (data.performances || [])
+  const filteredPerformances = (data.performances || [])
     .filter((p) => {
       if (normalizeUserKey(p.name || "") !== normalizedName) return false;
       return (p.candidateId || "") === candidateId;
-    })
+    });
+
+  const dedupedPerformances: PerformanceItem[] = [];
+  const bySessionId = new Map<string, PerformanceItem>();
+
+  for (const p of filteredPerformances) {
+    const sessionId = (p.clientSessionId || "").trim();
+    if (!sessionId) {
+      dedupedPerformances.push(p);
+      continue;
+    }
+
+    const existing = bySessionId.get(sessionId);
+    if (!existing || shouldReplacePerformance(existing, p)) {
+      bySessionId.set(sessionId, p);
+    }
+  }
+
+  const performances = [...Array.from(bySessionId.values()), ...dedupedPerformances]
+    .sort((a, b) => parsePerformanceTime(b) - parsePerformanceTime(a))
     .slice(0, 30)
     .map((p) => {
       const total = typeof p.totalQuestions === "number" ? p.totalQuestions : 0;
