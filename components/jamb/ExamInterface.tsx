@@ -98,6 +98,7 @@ export default function ExamInterface({
   const imageBaseUrl = (process.env.NEXT_PUBLIC_QUESTION_IMAGE_BASE_URL || "").replace(/\/$/, "");
   const [imageAliases, setImageAliases] = React.useState<Record<string, string>>({});
   const [imageLoadError, setImageLoadError] = React.useState(false);
+  const questionContentRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     let mounted = true;
@@ -663,6 +664,28 @@ export default function ExamInterface({
   // Options are interactive only if not reviewing AND (not practice mode OR hasn't answered yet)
   const areOptionsInteractive = !isReview && !currentQuestion.isReviewable && !(isPracticeMode && hasAnsweredCurrent);
 
+  const handleOptionPick = React.useCallback((upperLetter: string) => {
+    if (!areOptionsInteractive) return;
+
+    const shouldPreserveScroll = isPracticeMode && !answers[currentKey];
+    const scrollTopBefore = shouldPreserveScroll
+      ? (questionContentRef.current?.scrollTop || 0)
+      : 0;
+
+    setAnswers((prev) => ({ ...prev, [currentKey]: upperLetter }));
+
+    if (shouldPreserveScroll) {
+      // Run after layout commits so first-answer expansion doesn't pull the panel.
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          if (questionContentRef.current) {
+            questionContentRef.current.scrollTop = scrollTopBefore;
+          }
+        });
+      });
+    }
+  }, [areOptionsInteractive, isPracticeMode, answers, currentKey, setAnswers]);
+
   return (
     <div className="jamb-replica-root">
       <div className="jamb-header">
@@ -866,7 +889,7 @@ export default function ExamInterface({
               </div>
             )}
 
-            <div className={isPassageStyleQuestion ? "question-content" : "q-body-container"}>
+            <div className={isPassageStyleQuestion ? "question-content" : "q-body-container"} ref={questionContentRef}>
               {/* Context/Section Header (Only if not split-screen and section exists) */}
               {!isPassageStyleQuestion && !isNovelPromptQuestion && currentQuestion.section && currentQuestion.section !== currentQuestion.q && (
                 <div
@@ -986,7 +1009,7 @@ export default function ExamInterface({
                       <div
                         key={letter}
                         className={`option-row ${statusClass}`}
-                        onClick={() => areOptionsInteractive && setAnswers((prev) => ({ ...prev, [currentKey]: upperLetter }))}
+                        onClick={() => handleOptionPick(upperLetter)}
                         style={{
                           cursor: areOptionsInteractive ? "pointer" : "default",
                           alignItems: "center",
