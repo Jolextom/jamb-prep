@@ -288,9 +288,9 @@
   {
     "id": 14305,
     "question_id": 14305,
-    "question": "<p>Heat is radiated by hot objects in the form?</p>",
+    "question": "<p>Heat is radiated by hot objects in the form of?</p>",
     "answer": "c",
-    "solution": "<p>Infrared rays falling on the skin causes the skin causes the sensation of warmth. since the objects are hot, the correct option is informed.</p>",
+    "solution": "<p>Hot objects radiate heat mainly as infrared rays, which produce a sensation of warmth when absorbed by the skin.</p>",
     "options": {
       "a": "x-rays",
       "b": "light energy",
