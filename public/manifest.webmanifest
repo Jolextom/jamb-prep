@@ -1,0 +1,22 @@
+{
+  "name": "JAMB Prep 2026",
+  "short_name": "JAMB Prep",
+  "description": "Fast, low-data JAMB CBT practice with offline-friendly question access.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

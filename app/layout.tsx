@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import "katex/dist/katex.min.css";
 import "./globals.css";
+import OfflineBootstrap from "@/components/OfflineBootstrap";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -15,6 +16,7 @@ export const metadata: Metadata = {
   description:
     "Nigeria's smartest JAMB CBT prep. Practice with real past questions, get instant AI explanations, and boost your score before exam day.",
   metadataBase: new URL(APP_URL),
+  manifest: "/manifest.webmanifest",
   openGraph: {
     title: "JAMB Prep 2026 — Crack JAMB with AI",
     description:
@@ -45,6 +47,10 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport = {
+  themeColor: "#0f172a",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -55,7 +61,10 @@ export default function RootLayout({
       lang="en"
       className={`${outfit.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-sans">{children}</body>
+      <body className="min-h-full flex flex-col font-sans">
+        <OfflineBootstrap />
+        {children}
+      </body>
     </html>
   );
 }
