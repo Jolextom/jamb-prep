@@ -51,6 +51,59 @@ interface ArchivedSessionSnapshot {
   reviewAnswers?: Record<string, string>;
 }
 
+type ChatHistoryEntry = { role: "user" | "assistant"; content: string };
+
+type LocalQuestionRecord = {
+  id?: number;
+  question_id?: number;
+  question?: string;
+  q?: string;
+  answer?: string;
+  options?: Record<string, string>;
+  option?: Record<string, string>;
+  opts?: string[];
+  examyear?: string | number;
+  yr?: string | number;
+  topic?: string;
+  sub_topic?: string;
+  difficulty?: string;
+  solution?: string;
+  section?: string;
+  image?: string;
+  hasPassage?: number;
+  questionNub?: number | null;
+  ref_id?: string | number | null;
+  novel_id?: number | string | null;
+  novelId?: number | string | null;
+  novel_title?: string;
+  novelTitle?: string;
+};
+
+type DiagnosticEntry = {
+  subject: string;
+  question: string;
+  options: Record<string, string>;
+  chosen_option: string;
+  correct_option: string;
+};
+
+type ReviewRouteStep = {
+  topic?: string;
+  sub_topic?: string;
+  original: {
+    id: number;
+    question: string;
+    options: Record<string, string>;
+    correct_answer?: string;
+    hack?: string;
+  };
+};
+
+type ReviewImportPayload = {
+  subject?: string;
+  route?: ReviewRouteStep[];
+};
+
 export default function JambReplica() {
   // Navigation State
   const [view, setView] = useState<'SETUP' | 'EXAM' | 'REVIEW'>('SETUP');
@@ -97,14 +150,12 @@ export default function JambReplica() {
   const [curSubIdx, setCurSubIdx] = useState(0);
   const [curQIdx, setCurQIdx] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
-  const [fullPool, setFullPool] = useState<Question[]>([]); // For context injection
   const [totalSecs, setTotalSecs] = useState(0);
   const [timerRunning, setTimerRunning] = useState(false);
   const [currentSessionId, setCurrentSessionId] = useState("");
 
   // API State
   const [isLoading, setIsLoading] = useState(false);
-  const [isBooting, setIsBooting] = useState(false);
   const [qbState, setQbState] = useState<Record<string, Question[]>>({});
   const [fetchError, setFetchError] = useState<string | null>(null);
 
@@ -119,10 +170,10 @@ export default function JambReplica() {
   }, [updateAvailable, view, isLoading, examStarted]);
 
   // Chat Persistence State
-  const [chatHistories, setChatHistories] = useState<Record<number, any[]>>(() => {
+  const [chatHistories, setChatHistories] = useState<Record<number, ChatHistoryEntry[]>>(() => {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem("jamb_prep_chats");
-      return saved ? JSON.parse(saved) : {};
+      return saved ? (JSON.parse(saved) as Record<number, ChatHistoryEntry[]>) : {};
     }
     return {};
   });
@@ -140,13 +191,13 @@ export default function JambReplica() {
   const [finalScore, setFinalScore] = useState(0);
   const [jambScore, setJambScore] = useState(0);
   const [breakdown, setBreakdown] = useState<string[]>([]);
-  const [diagnosticJSON, setDiagnosticJSON] = useState("");
+  const [, setDiagnosticJSON] = useState("");
   const [isFinished, setIsFinished] = useState(false);
 
   // Review states
   const [isReview, setIsReview] = useState(false);
   const [reviewAnswers, setReviewAnswers] = useState<Record<string, string>>({});
-  const [reviewQuestions, setReviewQuestions] = useState<Question[]>([]);
+  const [, setReviewQuestions] = useState<Question[]>([]);
   const [reviewHacks, setReviewHacks] = useState<Record<number, string>>({});
 
   const [isDataReady, setIsDataReady] = useState(false);
@@ -156,7 +207,7 @@ export default function JambReplica() {
   const [calcPos, setCalcPos] = useState({ top: 0, left: 0 });
   const [aiModalOpen, setAiModalOpen] = useState(false);
   const calcRef = useRef<HTMLDivElement>(null);
-  const subjectDataCacheRef = useRef<Record<string, any[]>>({});
+  const subjectDataCacheRef = useRef<Record<string, LocalQuestionRecord[]>>({});
 
   const key = useCallback((sIdx: number, qIdx: number) => `${sIdx}-${qIdx}`, []);
 
@@ -278,8 +329,9 @@ export default function JambReplica() {
       throw new Error(`Could not load local data for ${slug}`);
     }
 
-    const loaded: any[] = await res.json();
-    const filtered = loaded.filter((q) => {
+    const loaded = await res.json();
+    const loadedList: LocalQuestionRecord[] = Array.isArray(loaded) ? loaded as LocalQuestionRecord[] : [];
+    const filtered = loadedList.filter((q) => {
       const rawYear = q.examyear ?? q.yr;
       const year = Number(String(rawYear ?? "").trim());
       return Number.isFinite(year) && year >= 2010;
@@ -307,8 +359,8 @@ export default function JambReplica() {
   };
 
   const totalQuestionsTotal = Object.entries(configs)
-    .filter(([_, c]) => c.selected)
-    .reduce((acc, [_, c]) => acc + c.count, 0);
+    .filter(([, c]) => c.selected)
+    .reduce((acc, [, c]) => acc + c.count, 0);
 
   const [availableSubjects, setAvailableSubjects] = useState<string[]>([]);
   const [availableCounts, setAvailableCounts] = useState<Record<string, number>>({});
@@ -334,20 +386,6 @@ export default function JambReplica() {
       persistSessionSnapshot("IN_PROGRESS");
     }
   }, [examStarted, isFinished, qbState, activeSubjects, answers, totalSecs, curSubIdx, curQIdx, sessionMode, configs, candidateName, candidateId, currentSessionId, persistSessionSnapshot]);
-
-  // Load Full Pool for context injection (Mastery Mode)
-  useEffect(() => {
-    if (activeSubjects.length === 1 && sessionMode === 'PRACTICE') {
-      const sub = activeSubjects[0];
-      const metadata = SUBJECT_METADATA.find(m => m.name === sub);
-      if (metadata) {
-        fetch(`/data/${metadata.slug}.json`)
-          .then(r => r.json())
-          .then(data => setFullPool(data))
-          .catch(err => console.error("Failed to load pool for context:", err));
-      }
-    }
-  }, [activeSubjects, sessionMode]);
 
   // Warning before unload
   useEffect(() => {
@@ -524,7 +562,7 @@ export default function JambReplica() {
       );
 
       for (const { subjectName, metadata, config } of selectedWithMeta) {
-        let allQuestions: any[] = [...(subjectDataCacheRef.current[metadata.slug] || [])];
+        let allQuestions: LocalQuestionRecord[] = [...(subjectDataCacheRef.current[metadata.slug] || [])];
 
         const isEnglish = metadata.slug === "english";
         const isEnglishExamBlueprint = isEnglish && sessionMode === "EXAM";
@@ -567,10 +605,10 @@ export default function JambReplica() {
         }
 
         // 2. High-yield sampling: 70% from heavy repeated topics, 30% from minor topics.
-        const pickStratifiedByTopic = (pool: any[], count: number): any[] => {
+        const pickStratifiedByTopic = (pool: LocalQuestionRecord[], count: number): LocalQuestionRecord[] => {
           if (count <= 0 || pool.length === 0) return [];
 
-          const grouped: Record<string, any[]> = {};
+          const grouped: Record<string, LocalQuestionRecord[]> = {};
           pool.forEach((q) => {
             const t = q.topic || "General";
             if (!grouped[t]) grouped[t] = [];
@@ -582,7 +620,7 @@ export default function JambReplica() {
             grouped[t] = fisherYatesShuffle(grouped[t]);
           });
 
-          const out: any[] = [];
+          const out: LocalQuestionRecord[] = [];
           let topicIdx = 0;
           while (out.length < count) {
             const t = topicNames[topicIdx % topicNames.length];
@@ -598,11 +636,11 @@ export default function JambReplica() {
         const targetCount = Math.min(config.count, allQuestions.length);
 
         // For English exam mode, include one comprehension ref group and only Lekki Headmaster novel questions.
-        let mandatoryComprehensionSet: any[] = [];
-        let mandatoryNovelSet: any[] = [];
+        let mandatoryComprehensionSet: LocalQuestionRecord[] = [];
+        let mandatoryNovelSet: LocalQuestionRecord[] = [];
         let candidatePool = allQuestions;
         if (isEnglishExamBlueprint && targetCount > 0) {
-          const toQuestionKey = (q: any) => `${q?.id || ""}::${q?.question || ""}`;
+          const toQuestionKey = (q: LocalQuestionRecord) => `${q?.id || ""}::${q?.question || ""}`;
 
           const prescribedTextTitles = [
             "lekki headmaster",
@@ -614,7 +652,7 @@ export default function JambReplica() {
             "in dependence",
           ];
 
-          const isNovelBasedQuestion = (q: any) => {
+          const isNovelBasedQuestion = (q: LocalQuestionRecord) => {
             const novelId = Number(q?.novel_id || q?.novelId || 0);
             if (Number.isFinite(novelId) && novelId > 0) return true;
 
@@ -631,7 +669,7 @@ export default function JambReplica() {
             return prescribedTextTitles.some((title) => text.includes(title));
           };
 
-          const isLekkiNovelQuestion = (q: any) => {
+          const isLekkiNovelQuestion = (q: LocalQuestionRecord) => {
             const novelId = Number(q?.novel_id || q?.novelId || 0);
             if (Number.isFinite(novelId) && novelId === 1) return true;
 
@@ -642,7 +680,7 @@ export default function JambReplica() {
             return text.includes("lekki headmaster");
           };
 
-          const isComprehensionQuestion = (q: any) => {
+          const isComprehensionQuestion = (q: LocalQuestionRecord) => {
             const sectionText = normalizeExamText(q?.section || "");
             const questionText = normalizeExamText(q?.question || "");
 
@@ -656,7 +694,7 @@ export default function JambReplica() {
             return sectionText.length >= 280;
           };
 
-          const comprehensionGroups = new Map<string, any[]>();
+          const comprehensionGroups = new Map<string, LocalQuestionRecord[]>();
 
           allQuestions.forEach((q) => {
             if (!isComprehensionQuestion(q)) return;
@@ -704,7 +742,7 @@ export default function JambReplica() {
           });
         }
 
-        let picked: any[] = [];
+        let picked: LocalQuestionRecord[] = [];
 
         if (targetCount > 0) {
           const topicCounts: Record<string, number> = {};
@@ -790,15 +828,22 @@ export default function JambReplica() {
         const finalPicked = fisherYatesShuffle(picked);
 
         newQB[subjectName] = finalPicked.map(item => {
-          // Ensure answer is always a valid letter A-D
+          const normalizedOptions = item.options || item.option || (Array.isArray(item.opts)
+            ? Object.fromEntries(item.opts.map((o: string) => [o.substring(0, 1).toLowerCase(), o.substring(3)]))
+            : {});
+          const optionLetters = Object.keys(normalizedOptions)
+            .map((letter) => letter.toString().trim().substring(0, 1).toUpperCase())
+            .filter(Boolean);
+
           const rawAnswer = (item.answer || "a").toString().substring(0, 1).toUpperCase();
-          const validAnswer = ["A", "B", "C", "D"].includes(rawAnswer) ? rawAnswer : "A";
+          const fallbackAnswer = optionLetters[0] || "A";
+          const validAnswer = optionLetters.includes(rawAnswer) ? rawAnswer : fallbackAnswer;
           const rawImage = String(item.image || "").trim();
 
           return {
             id: item.id || 0,
             q: item.question || item.q || "",
-            options: item.options || item.option || (Array.isArray(item.opts) ? Object.fromEntries(item.opts.map((o: string) => [o.substring(0, 1).toLowerCase(), o.substring(3)])) : {}),
+            options: normalizedOptions,
             a: validAnswer,
             yr: String(item.examyear || 2025),
             topic: item.topic || "",
@@ -848,8 +893,8 @@ export default function JambReplica() {
 
       setCurSubIdx(0);
       setCurQIdx(0);
-    } catch (err: any) {
-      setFetchError(err.message || "Data Load Error");
+    } catch (err: unknown) {
+      setFetchError(err instanceof Error ? err.message : "Data Load Error");
       setIsLoading(false);
     }
   };
@@ -880,7 +925,7 @@ export default function JambReplica() {
       let total = 0;
       let correct = 0;
       const resBreakdown: string[] = [];
-      const diagnosticPayload: any[] = [];
+      const diagnosticPayload: DiagnosticEntry[] = [];
 
       activeSubjects.forEach((s, sIdx) => {
         const qList = qbState[s] || [];
@@ -942,7 +987,7 @@ export default function JambReplica() {
     let total = 0;
     let correct = 0;
     const resBreakdown: string[] = [];
-    const diagnosticPayload: any[] = [];
+    const diagnosticPayload: DiagnosticEntry[] = [];
 
     activeSubjects.forEach((s, sIdx) => {
       const qList = qbState[s] || [];
@@ -1052,7 +1097,7 @@ export default function JambReplica() {
         setCurQIdx((qbState[activeSubjects[prevIdx]] || []).length - 1);
       }
     }
-  }, [curQIdx, currentQuestions.length, curSubIdx, activeSubjects.length, qbState, activeSubjects]);
+  }, [curQIdx, currentQuestions.length, curSubIdx, qbState, activeSubjects]);
 
   const jumpTo = (qi: number) => setCurQIdx(qi);
   const switchSubject = (i: number) => {
@@ -1072,7 +1117,7 @@ export default function JambReplica() {
 
       // Dynamic Shortcut Logic: Only allow keys for which a valid option exists
       const validOptions = Object.entries(currentQuestion?.options || {})
-        .filter(([_, text]) => text && String(text).trim() !== "")
+        .filter(([, text]) => text && String(text).trim() !== "")
         .map(([letter]) => letter.toUpperCase());
 
       if (validOptions.includes(k)) {
@@ -1164,14 +1209,14 @@ ${JSON.stringify(sessionData, null, 2)}`;
 
   const importAIReview = (jsonStr: string) => {
     try {
-      const data = JSON.parse(jsonStr);
+      const data = JSON.parse(jsonStr) as ReviewImportPayload;
       const subject = data.subject || "AI Review";
-      const route = data.route || [];
+      const route = Array.isArray(data.route) ? data.route : [];
 
       const qList: Question[] = [];
       const hacks: Record<number, string> = {};
 
-      route.forEach((step: any, idx: number) => {
+      route.forEach((step, idx: number) => {
         // Step Original
         const qOrig: Question = {
           id: step.original.id,
@@ -1179,11 +1224,11 @@ ${JSON.stringify(sessionData, null, 2)}`;
           options: step.original.options,
           a: step.original.correct_answer?.toUpperCase() || "A",
           yr: String(new Date().getFullYear()),
-          section: `Mastery Step ${idx + 1}: ${step.topic} (${step.sub_topic || ''})`,
+          section: `Mastery Step ${idx + 1}: ${step.topic || ""} (${step.sub_topic || ''})`,
           isReviewable: true
         };
         qList.push(qOrig);
-        hacks[qOrig.id] = step.original.hack;
+        hacks[qOrig.id] = step.original.hack || "";
       });
 
       setReviewQuestions(qList);
@@ -1196,7 +1241,7 @@ ${JSON.stringify(sessionData, null, 2)}`;
       setCurQIdx(0);
       setView('EXAM');
       setAiModalOpen(false);
-    } catch (e) {
+    } catch {
       alert("Failed to parse AI Review JSON. Please check the format.");
     }
   };

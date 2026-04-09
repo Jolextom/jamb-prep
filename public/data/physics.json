@@ -811,13 +811,13 @@
     "question_id": 14345,
     "question": "<p>The ground state energy for the hydrogen atom is 5.44 x 10\\(^{-19}\\)J. If an electron drops from zero energy to the ground state, calculate the frequency of the emitted radiation. [h = 6.6 x 10\\(^{-34}\\) Js]</p>",
     "answer": "e",
-    "solution": "<p>\u2206E = hf<br />\r\nf = (\u2206E)/h = (5.44 x 10-19)/6.6 x 10-34 = 8.24 x 1014</p>",
+    "solution": "<p>\u2206E = hf<br />\r\n\r\nf = (\u2206E)/h = (5.44 x 10<sup>-19</sup>)/(6.6 x 10<sup>-34</sup>)<br />\r\n\r\n= 8.24 x 10<sup>14</sup> Hz</p>",
     "options": {
       "a": "5.0 x 10<sup>16</sup> Hz",
       "b": "2.0 x 10<sup>16</sup> Hz",
       "c": "5.0  x 10<sup>15</sup> Hz",
       "d": "2.0 x 10<sup>15</sup> Hz",
-      "e": "No correct option"
+      "e": "8.24 x 10<sup>14</sup> Hz"
     },
     "image": "",
     "examtype": "jamb",

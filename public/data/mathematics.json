@@ -6374,7 +6374,7 @@
     "question_id": 40622,
     "question": "<p>Find the total surface area of a cylinder of base radius 5cm and length 7cm ( &pi; = 3.14)</p>",
     "answer": "e",
-    "solution": "<p>The total surface area of a cylinder = 2&pi;rl + 2&pi;r2<br />\r\n<br />\r\n= 2&pi;r(l + r)<br />\r\n<br />\r\n= 2 &times; 3.14 x 5(7+5)<br />\r\n<br />\r\n2 &times; 3.14 &times; 12 x 5<br />\r\n<br />\r\n= 377.1cm (1DP)</p>",
+    "solution": "<p>The total surface area of a cylinder = 2&pi;rl + 2&pi;r<sup>2</sup><br />\r\n<br />\r\n= 2&pi;r(l + r)<br />\r\n<br />\r\n= 2 &times; 3.14 &times; 5(7+5)<br />\r\n<br />\r\n= 2 &times; 3.14 &times; 5 &times; 12<br />\r\n<br />\r\n= 376.8cm<sup>2</sup> \\approx 377.0cm<sup>2</sup></p>",
     "options": {
       "a": "17.8cm<sup>2</sup>",
       "b": "15.8cm<sup>2</sup>",
